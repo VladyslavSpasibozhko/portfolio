@@ -1,6 +1,6 @@
 interface IconProps {
   name: 'chevron-down' | 'send' | 'close' | 'menu' | 'external-link' | 'ai-chat';
-  size?: 'sm' | 'md' | 'lg';
+  size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
   className?: string;
 }
 
@@ -8,6 +8,11 @@ const sizeClasses = {
   sm: 'w-4 h-4',
   md: 'w-5 h-5',
   lg: 'w-6 h-6',
+  xl: 'w-8 h-8',
+  '2xl': 'w-10 h-10',
+  '3xl': 'w-12 h-12',
+  '4xl': 'w-14 h-14',
+  '5xl': 'w-16 h-16',
 };
 
 const icons = {

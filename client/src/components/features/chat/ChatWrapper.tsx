@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import type { WsMessage } from "@types";
 import { config } from "@config";
-import { Icon } from "@components/atoms/Icon";
-import { Button } from "@components/atoms/Button";
+import { IconButton } from "@components/molecules/IconButton";
 import { ChatWindow } from "./ChatWindow";
 import { useChatConnection } from "./hooks/useChatConnection";
 import { messageFactory } from "./utils/messageFactory";
@@ -60,13 +59,14 @@ export function ChatWrapper({}: ChatWrapperProps) {
 
   return (
     <>
-      <Button
+      <IconButton
+        icon="ai-chat"
+        variant="primary"
+        size="4xl"
         className="fixed z-10 bottom-5 right-5"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open chat"
-      >
-        <Icon name="ai-chat" size="lg" />
-      </Button>
+      />
 
       {isOpen && (
         <div className="fixed z-40 top-0 left-0 right-0 bottom-0 bg-black/20 backdrop-blur-sm">

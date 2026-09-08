@@ -1,8 +1,7 @@
 import { useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { useClickOutside } from "@hooks/useClickOutside";
-import { Button } from "@components/atoms/Button";
-import { Icon } from "@components/atoms/Icon";
+import { IconButton } from "@components/molecules/IconButton";
 import { Typography } from "@components/atoms/Typography";
 
 const sizeClasses = {
@@ -51,15 +50,13 @@ export function Modal({
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
           <Typography tag="h2" className="text-2xl">{title}</Typography>
-          <Button
+          <IconButton
+            icon="close"
             variant="ghost"
             size="sm"
             onClick={onClose}
-            className="p-1"
             aria-label="Close modal"
-          >
-            <Icon name="close" size="md" />
-          </Button>
+          />
         </div>
 
         {/* Content */}

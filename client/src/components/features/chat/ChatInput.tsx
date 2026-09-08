@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Button } from "@components/atoms/Button";
-import { Icon } from "@components/atoms/Icon";
+import { IconButton } from "@components/molecules/IconButton";
 import { Textarea } from "@components/atoms/Textarea";
 
 interface ChatInputProps {
@@ -48,15 +47,14 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
         autoFocus
         maxHeight={200}
       />
-      <Button
+      <IconButton
+        icon="send"
         variant="primary"
-        size="md"
+        size="lg"
         type="submit"
         disabled={disabled || !input.trim()}
         aria-label="Send message"
-      >
-        <Icon name="send" size="md" />
-      </Button>
+      />
     </form>
   );
 }

@@ -1,6 +1,5 @@
 import { useRef, type ReactNode } from "react";
-import { Button } from "@components/atoms/Button";
-import { Icon } from "@components/atoms/Icon";
+import { IconButton } from "@components/molecules/IconButton";
 import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
@@ -38,15 +37,13 @@ export function ChatWindow({
         <Typography tag="h3" className="font-semibold text-lg text-white">
           AI Assistance
         </Typography>
-        <Button
+        <IconButton
+          icon="close"
           variant="ghost"
-          size="sm"
+          size="md"
           onClick={closeWindow}
-          className="p-1"
           aria-label="Close chat"
-        >
-          <Icon name="close" size="md" />
-        </Button>
+        />
       </div>
 
       {/* Messages */}

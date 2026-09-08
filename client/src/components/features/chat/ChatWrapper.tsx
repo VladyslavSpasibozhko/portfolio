@@ -1,32 +1,37 @@
 import { useEffect, useState } from "react";
 import type { WsMessage } from "@types";
-import { config } from "@lib/config";
+import { config } from "@config";
 import { Icon } from "@components/atoms/Icon";
 import { Button } from "@components/atoms/Button";
 import { ChatWindow } from "./ChatWindow";
 import { useChatConnection } from "./hooks/useChatConnection";
+import { messageFactory } from "./utils/messageFactory";
 
 interface ChatWrapperProps {
   avatarUrl?: string;
   username?: string;
 }
 
-const messageFactory = (content: string): WsMessage => {
-  return {
-    role: "user",
-    content,
-  };
-};
-
 export function ChatWrapper({}: ChatWrapperProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isResponding, setIsResponding] = useState(false);
   const [messages, setMessages] = useState<WsMessage[]>([]);
   const connection = useChatConnection({ url: config.wsUrl });
+
+  const handleSending = () => {
+    setIsResponding(true);
+
+    const unsubscribe = connection.subscribe(() => {
+      setIsResponding(false);
+      unsubscribe();
+    });
+  };
 
   const handleSendMessage = (content: string) => {
     const success = connection.send(content);
     if (success) {
       setMessages((state) => state.concat(messageFactory(content)));
+      handleSending();
     }
   };
 
@@ -71,6 +76,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
               closeWindow={() => setIsOpen(false)}
               sendMessage={handleSendMessage}
               emptyMessage="Start a conversation"
+              isLoading={isResponding}
             />
           </div>
         </div>

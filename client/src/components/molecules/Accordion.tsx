@@ -1,5 +1,7 @@
 import { useState, type ReactNode } from 'react';
-import { Icon } from '../atoms/Icon';
+import { Icon } from '@components/atoms/Icon';
+import { Button } from '@components/atoms/Button';
+import { Typography } from '@components/atoms/Typography';
 
 interface AccordionItemProps {
   title: ReactNode;
@@ -12,17 +14,18 @@ function AccordionItem({ title, children, defaultOpen = false }: AccordionItemPr
 
   return (
     <div className="border-b border-gray-700">
-      <button
+      <Button
+        variant="ghost"
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full flex items-center justify-between py-4 px-4 hover:bg-gray-900 transition-colors"
+        className="w-full flex items-center justify-between py-4 px-4 rounded-none"
       >
-        <span className="font-medium text-white">{title}</span>
+        <Typography tag="span" className="font-medium text-white">{title}</Typography>
         <Icon
           name="chevron-down"
           size="md"
           className={`transition-transform text-gray-400 ${isOpen ? 'rotate-180' : ''}`}
         />
-      </button>
+      </Button>
 
       {isOpen && <div className="px-4 py-4 bg-gray-900">{children}</div>}
     </div>

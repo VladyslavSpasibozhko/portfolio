@@ -1,5 +1,6 @@
 import { Badge } from "@components/atoms/Badge";
 import { Icon } from "@components/atoms/Icon";
+import { Link } from "@components/atoms/Link";
 import { Typography } from "@components/atoms/Typography";
 import { Modal } from "@components/molecules/Modal";
 import { getProfileData } from "@lib/api";
@@ -35,20 +36,19 @@ export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
       isOpen={Boolean(companyName)}
       onClose={onClose}
       title={
-        <span className="inline-flex items-center gap-2">
+        <Typography tag="span" className="inline-flex items-center gap-2">
           {selectedCompany.company}
           {selectedCompany.companyUrl && (
-            <a
+            <Link
               href={selectedCompany.companyUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 hover:text-white"
               aria-label={`Visit ${selectedCompany.company} website`}
             >
               <Icon name="external-link" size="lg" />
-            </a>
+            </Link>
           )}
-        </span>
+        </Typography>
       }
       size="4xl"
     >

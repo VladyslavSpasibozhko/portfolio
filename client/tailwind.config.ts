@@ -35,6 +35,9 @@ export default {
       fontFamily: {
         sans: ['system-ui', 'sans-serif'],
       },
+      boxShadow: {
+        glow: '0 0 16px -2px rgba(255, 255, 255, 0.5)',
+      },
     },
   },
   plugins: [],

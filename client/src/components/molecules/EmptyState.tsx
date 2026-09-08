@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Typography } from '../atoms/Typography';
+import { Typography } from '@components/atoms/Typography';
 
 interface EmptyStateProps {
   children: ReactNode;

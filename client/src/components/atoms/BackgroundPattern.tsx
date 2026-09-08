@@ -1,13 +1,6 @@
 import { useEffect, useRef } from 'react';
-import tailwindConfig from '../../../tailwind.config';
-
-function hexToRgb(hex: string): string {
-  const value = hex.replace('#', '');
-  const r = parseInt(value.slice(0, 2), 16);
-  const g = parseInt(value.slice(2, 4), 16);
-  const b = parseInt(value.slice(4, 6), 16);
-  return `${r}, ${g}, ${b}`;
-}
+import tailwindConfig from '@tailwind-config';
+import { hexToRgb } from '@utils/hexToRgb';
 
 const patternColors = tailwindConfig.theme.extend.colors.pattern;
 
@@ -195,7 +188,7 @@ export function BackgroundPattern() {
   }, []);
 
   return (
-    <div ref={containerRef} className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+    <div ref={containerRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   );

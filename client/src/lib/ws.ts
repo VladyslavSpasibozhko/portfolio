@@ -1,10 +1,5 @@
 import type { WsRequestPayload, WsResponsePayload } from '@types';
 
-// function getWsUrl(baseUrl: string = window.location.origin): string {
-//   const protocol = baseUrl.startsWith('https') ? 'wss' : 'ws';
-//   const host = baseUrl.replace(/^https?:\/\//, '');
-//   return `${protocol}://${host}/ws/chat`;
-// }
 
 export interface ChatWebSocketOptions {
   url: string;

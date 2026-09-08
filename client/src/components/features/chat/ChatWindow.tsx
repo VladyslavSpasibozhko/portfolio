@@ -26,7 +26,7 @@ export function ChatWindow({
   emptyMessage,
 }: ChatWindowProps) {
   const ref = useRef(null);
-  useClickOutside(ref.current, closeWindow);
+  useClickOutside(ref, closeWindow);
 
   return (
     <div

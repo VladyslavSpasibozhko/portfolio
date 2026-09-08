@@ -1,18 +1,25 @@
-import { useEffect } from "react";
+import { useEffect, type RefObject } from "react";
 
 export function useClickOutside(
-  element: HTMLElement | null,
+  ref: RefObject<HTMLElement | null>,
   onClickOutside: () => void,
 ) {
   useEffect(() => {
-    if (!element) return;
-
     const handleClick = (event: MouseEvent) => {
-      if (element.contains(event.target as Node)) return;
+      const element = ref.current;
+      if (!element || element.contains(event.target as Node)) return;
       onClickOutside();
     };
 
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClickOutside();
+    };
+
     document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, [element, onClickOutside]);
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [ref, onClickOutside]);
 }

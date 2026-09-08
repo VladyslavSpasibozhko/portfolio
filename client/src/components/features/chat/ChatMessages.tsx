@@ -1,6 +1,7 @@
 import { useEffect, useRef, type ReactNode } from "react";
-import { ChatMessage } from "./ChatMessage";
-import { Loader } from "@components/atoms/Loader";
+import { ChatUserMessage } from "./ChatUserMessage";
+import { ChatAssistantMessage } from "./ChatAssistantMessage";
+import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
 import type { WsMessage } from "@types";
 
@@ -27,20 +28,29 @@ export function ChatMessages({
 
   return (
     <div className="space-y-4">
-      {messages.map((msg, idx) => (
-        <ChatMessage
-          key={idx}
-          content={msg.content}
-          username={msg.role}
-          className={
-            msg.role === "user"
-              ? "flex-row-reverse justify-self-end"
-              : "justify-self-start"
-          }
-        />
-      ))}
+      {messages.map((msg, idx) =>
+        msg.role === "user" ? (
+          <ChatUserMessage
+            key={idx}
+            content={msg.content}
+            username={msg.role}
+            className="flex-row-reverse justify-self-end"
+          />
+        ) : (
+          <ChatAssistantMessage
+            key={idx}
+            content={msg.content}
+            username={msg.role}
+            className="justify-self-start"
+          />
+        )
+      )}
 
-      {isLoading && <Loader />}
+      {isLoading && (
+        <div className="justify-self-start">
+          <ChatMessageLoading  />
+        </div>
+      )}
 
       <div ref={messagesEndRef} />
     </div>

@@ -53,3 +53,43 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
+
+## Client (`client/`)
+
+### Components (`client/src/components/`)
+
+- `atoms/` — single, smallest components (button, input, etc.). Can't reuse other atoms.
+- `molecules/` — more complex components, built by composing atoms into a ready-to-use component.
+- `features/` — components tied to a specific feature (e.g. `chat`, `profile`). May include hooks and utils scoped to that feature (e.g. `features/chat/hooks`, `features/chat/utils`).
+
+Rules:
+
+- A component should have a separate type/interface for its props, if props exist.
+- Keep components clean and simple — decompose to keep each one clear and maintainable.
+- Always use the existing atoms instead of raw HTML elements — e.g. `Button` instead of `button`, `Typography` instead of `span`/`p`/`h1`/`h2`/etc.
+
+### Styling
+
+- Components must use properties defined in `tailwind.config.ts` (colors, fonts, etc.) — don't make up ad hoc styles/values.
+- Before creating a custom class or one-off style, check whether it's worth adding to the Tailwind config instead.
+
+### Imports
+
+- Use the configured aliases (`@components`, `@lib`, `@hooks`, `@utils`, `@types`, `@config`, `@data`, `@tailwind-config` — see `client/tsconfig.json` and `client/vite.config.ts`) instead of relative traversal like `../../`.
+- Exception: a component under a `features/*` folder may import other components local to that same feature folder using relative paths.
+
+### Hooks (`client/src/hooks/`)
+
+Common, reusable hooks — not tied to a specific feature. Place a hook here if it might be reused later in other components (e.g. `useClickOutside`). A hook tied to one feature belongs under that feature's own `hooks/` folder instead (e.g. `features/chat/hooks`).
+
+### Utils (`client/src/utils/`)
+
+Common, reusable utility functions (e.g. `hexToRgb`) not tied to React or a specific component.
+
+### Types
+
+Function parameters and component props must use a separate, named interface — not an inline object type.
+
+### Config (`client/src/config.ts`)
+
+Single place holding all env vars (`import.meta.env.VITE_*`). Don't read `import.meta.env` directly elsewhere — import and use vars from `config` instead.

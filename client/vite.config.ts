@@ -14,6 +14,10 @@ export default defineConfig({
       '@lib': path.resolve(__dirname, './src/lib'),
       '@components': path.resolve(__dirname, './src/components'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@config': path.resolve(__dirname, './src/config.ts'),
+      '@data': path.resolve(__dirname, '../data'),
+      '@tailwind-config': path.resolve(__dirname, './tailwind.config.ts'),
     },
   },
   server: {

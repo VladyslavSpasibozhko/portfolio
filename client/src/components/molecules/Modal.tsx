@@ -1,8 +1,9 @@
-import { useEffect, useState, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { createPortal } from "react-dom";
-import { useOnClickOutside } from "@hooks/useOnClickOutside";
-import { Button } from "../atoms/Button";
-import { Icon } from "../atoms/Icon";
+import { useClickOutside } from "@hooks/useClickOutside";
+import { Button } from "@components/atoms/Button";
+import { Icon } from "@components/atoms/Icon";
+import { Typography } from "@components/atoms/Typography";
 
 const sizeClasses = {
   sm: "max-w-sm",
@@ -31,34 +32,25 @@ export function Modal({
   children,
   size = "md",
 }: ModalProps) {
-  useEffect(() => {
-    if (!isOpen) return;
+  const modalRef = useRef<HTMLDivElement>(null);
 
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
+  useClickOutside(modalRef, onClose);
 
   if (!isOpen) return null;
 
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div
-        className="absolute inset-0 bg-black/40 backdrop-blur-sm"
-        onClick={onClose}
-      />
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
+        ref={modalRef}
         className={`relative bg-black border border-white/10 rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
-          <h2 className="text-2xl font-bold text-white">{title}</h2>
+          <Typography tag="h2" className="text-2xl">{title}</Typography>
           <Button
             variant="ghost"
             size="sm"

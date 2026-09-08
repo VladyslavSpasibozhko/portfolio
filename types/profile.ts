@@ -17,6 +17,33 @@ export interface TechStackItem {
     weight: number;
 }
 
+export interface UseCase {
+    title: string;
+    description: string;
+}
+
+export interface WorkExperience {
+    position: string;
+    company: string;
+    companyUrl?: string;
+    companyType?: string;
+    domain?: string;
+    duration: string;
+    location: string;
+    companyDescription: string;
+    companyInfo: {
+        keyProducts?: string[];
+        keyFeatures?: string[];
+        companyStats?: string[];
+        services?: string[];
+    } | null;
+    technicalDetails: string | null;
+    responsibilities: string[];
+    techStack: string[];
+    useCases: UseCase[] | null;
+    keyDecisions: string[];
+}
+
 export interface ProfileData {
     techStack: TechStackItem[];
     personal: {
@@ -50,30 +77,7 @@ export interface ProfileData {
             exchangeRate: string;
         };
     };
-    workExperience: Array<{
-        position: string;
-        company: string;
-        companyUrl?: string;
-        companyType?: string;
-        domain?: string;
-        duration: string;
-        location: string;
-        companyDescription: string;
-        companyInfo: {
-            keyProducts?: string[];
-            keyFeatures?: string[];
-            companyStats?: string[];
-            services?: string[];
-        } | null;
-        technicalDetails: string | null;
-        responsibilities: string[];
-        techStack: string[];
-        useCases: Array<{
-            title: string;
-            description: string;
-        }> | null;
-        keyDecisions: string[];
-    }>;
+    workExperience: WorkExperience[];
     education: Array<{
         institution: string;
         degree: string;

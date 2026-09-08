@@ -19,7 +19,11 @@
       "@types": ["../types"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],
-      "@hooks/*": ["./src/hooks/*"]
+      "@hooks/*": ["./src/hooks/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@config": ["./src/config.ts"],
+      "@data/*": ["../data/*"],
+      "@tailwind-config": ["./tailwind.config.ts"]
     }
   },
   "include": ["src"],

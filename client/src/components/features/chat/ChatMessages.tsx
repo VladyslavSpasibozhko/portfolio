@@ -3,7 +3,7 @@ import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
-import type { WsMessage } from "@types";
+import type { WsMessage, WsMessageRole } from "@types";
 
 interface ChatMessagesProps {
   messages: WsMessage[];
@@ -18,6 +18,11 @@ export function ChatMessages({
 }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const NAMES: Record<WsMessageRole, string> = {
+    assistant: "AI Assistant",
+    user: "User",
+  };
+
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, isLoading]);
@@ -27,32 +32,32 @@ export function ChatMessages({
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       {messages.map((msg, idx) =>
         msg.role === "user" ? (
           <ChatUserMessage
             key={idx}
             content={msg.content}
-            username={msg.role}
+            username={NAMES[msg.role]}
             className="flex-row-reverse justify-self-end"
           />
         ) : (
           <ChatAssistantMessage
             key={idx}
             content={msg.content}
-            username={msg.role}
+            username={NAMES[msg.role]}
             className="justify-self-start"
           />
-        )
+        ),
       )}
 
       {isLoading && (
         <div className="justify-self-start">
-          <ChatMessageLoading  />
+          <ChatMessageLoading />
         </div>
       )}
 
-      <div ref={messagesEndRef} />
+      <div className="p-4" ref={messagesEndRef} />
     </div>
   );
 }

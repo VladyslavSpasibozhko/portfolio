@@ -188,7 +188,7 @@ export function BackgroundPattern() {
   }, []);
 
   return (
-    <div ref={containerRef} className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+    <div ref={containerRef} className="fixed inset-0 -z-10 pointer-events-none overflow-hidden">
       <canvas ref={canvasRef} className="h-full w-full" />
     </div>
   );

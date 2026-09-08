@@ -1,8 +1,8 @@
-import type { WsMessage } from "@types";
+import type { WsMessageRole, WsMessage } from "@types";
 
 export function messageFactory(
   content: string,
-  role: WsMessage["role"] = "user",
+  role: WsMessageRole = "user",
 ): WsMessage {
   return {
     role,

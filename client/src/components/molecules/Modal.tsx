@@ -40,12 +40,12 @@ export function Modal({
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative bg-black border border-white/10 rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
+        className={`relative bg-dark-950 border border-white/10 rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-white/10">
@@ -53,7 +53,7 @@ export function Modal({
           <IconButton
             icon="close"
             variant="ghost"
-            size="sm"
+            size="md"
             onClick={onClose}
             aria-label="Close modal"
           />

@@ -1,5 +1,7 @@
+export type WsMessageRole = 'user' | 'assistant'
+
 export interface WsMessage {
-    role: 'user' | 'assistant';
+    role: WsMessageRole;
     content: string;
 }
 

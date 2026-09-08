@@ -17,6 +17,7 @@ export interface CompanyModalProps {
   onClose: () => void;
 }
 
+// TODO: update CompanyModal
 export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
   const { workExperience } = getProfileData();
   const selectedCompany = workExperience.find(

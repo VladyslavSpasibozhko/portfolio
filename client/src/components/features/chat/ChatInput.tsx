@@ -49,7 +49,7 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
       />
       <IconButton
         icon="send"
-        variant="primary"
+        variant="ghost"
         size="xl"
         type="submit"
         disabled={disabled || !input.trim()}

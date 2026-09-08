@@ -11,12 +11,7 @@ interface SliderProps {
   slides: Slide[];
 }
 
-interface SlideProps extends React.PropsWithChildren, Slide {
-  className?: string;
-  onAppear: (id: Slide["id"]) => void;
-}
-
-function Slide({ id, content, className = '', onAppear }: SlideProps) {
+function Slide({ id, content, className = "", onAppear }: SlideProps) {
   const ref = useRef<HTMLElement | null>(null);
   useIntersectionObserver({
     ref,
@@ -36,6 +31,10 @@ function Slide({ id, content, className = '', onAppear }: SlideProps) {
   );
 }
 
+interface SlideProps extends React.PropsWithChildren, Slide {
+  className?: string;
+  onAppear: (id: Slide["id"]) => void;
+}
 export function Slider({ slides, className = "" }: SliderProps) {
   const [visible, setVisible] = useState<Slide["id"] | null>(null);
 

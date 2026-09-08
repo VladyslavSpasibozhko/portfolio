@@ -7,7 +7,7 @@ interface UseCaseCardProps {
 
 export function UseCaseCard({ useCase }: UseCaseCardProps) {
   return (
-    <div className="space-y-1">
+    <div className="space-y-2">
       <Typography tag="p" className="font-semibold">
         {useCase.title}
       </Typography>

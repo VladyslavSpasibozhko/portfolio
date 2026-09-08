@@ -11,7 +11,7 @@ import { UseCaseCard } from "@components/features/profile/experience/UseCaseCard
 function Section(props: React.PropsWithChildren) {
   return (
     <div className={"h-full w-full flex items-center justify-center"}>
-      <div className="w-1/2 p-20 rounded-2xl border border-gray-500">
+      <div className="w-1/2 p-20 rounded-2xl bg-dark-950/70 border border-gray-500">
         {props.children}
       </div>
     </div>
@@ -36,9 +36,11 @@ export function MainPage() {
           id: "use-cases-" + experience.company,
           content: (
             <Section>
-              {experience.useCases.map((useCase) => (
-                <UseCaseCard key={useCase.title} useCase={useCase} />
-              ))}
+              <div className="space-y-6">
+                {experience.useCases.map((useCase) => (
+                  <UseCaseCard key={useCase.title} useCase={useCase} />
+                ))}
+              </div>
             </Section>
           ),
         }

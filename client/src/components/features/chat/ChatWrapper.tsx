@@ -11,10 +11,15 @@ interface ChatWrapperProps {
   username?: string;
 }
 
+const defaultMessage = messageFactory(
+  "Hey there! 👋 Thanks for stopping by — feel free to ask me anything about my work, experience, or projects.",
+  "assistant",
+);
+
 export function ChatWrapper({}: ChatWrapperProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
-  const [messages, setMessages] = useState<WsMessage[]>([]);
+  const [messages, setMessages] = useState<WsMessage[]>([defaultMessage]);
   const connection = useChatConnection({ url: config.wsUrl });
 
   const handleSending = () => {
@@ -63,7 +68,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
         icon="ai-chat"
         variant="primary"
         size="4xl"
-        className="fixed z-10 bottom-5 right-5"
+        className="fixed z-10 bottom-5 right-5 hover:bg-black/0! animate-pulse hover:animate-none"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open chat"
       />

@@ -50,7 +50,7 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
       <IconButton
         icon="send"
         variant="primary"
-        size="lg"
+        size="xl"
         type="submit"
         disabled={disabled || !input.trim()}
         aria-label="Send message"

@@ -350,7 +350,7 @@ export function LibraryPage() {
         <Example label="Variants">
           <Button variant="primary">Primary</Button>
           <Button variant="secondary">Secondary</Button>
-          <Button variant="inline">Inline</Button>
+          <Button variant="ghost">Ghost</Button>
         </Example>
         <Example label="Sizes">
           <Button size="sm">Small</Button>

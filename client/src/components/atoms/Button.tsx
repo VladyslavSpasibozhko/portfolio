@@ -2,7 +2,7 @@ import type { ReactNode } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: "primary" | "secondary" | "inline";
+  variant?: "primary" | "secondary" | "ghost";
   size?: "sm" | "md" | "lg";
 }
 
@@ -11,7 +11,7 @@ const variantClasses = {
     "border border-border-highlight text-text-blue hover:border-border-focus hover:text-accent-sky",
   secondary:
     "border border-border-strong text-text-200 hover:border-border-DEFAULT hover:text-text-300",
-  inline: "text-text-blue hover:text-accent-sky",
+  ghost: "text-text-blue hover:text-accent-sky",
 };
 
 const sizeClasses = {

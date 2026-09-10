@@ -68,6 +68,7 @@ Rules:
 - A component should have a separate type/interface for its props, if props exist.
 - Keep components clean and simple — decompose to keep each one clear and maintainable.
 - Always use the existing atoms instead of raw HTML elements — e.g. `Button` instead of `button`, `Typography` instead of `span`/`p`/`h1`/`h2`/etc.
+- Naming convention for any component's `size` prop: `sm`, `md`, `xl`, `2xl`, `3xl` (no numeric or ad hoc size names). Apply this consistently across every component that supports sizing.
 
 ### Styling
 

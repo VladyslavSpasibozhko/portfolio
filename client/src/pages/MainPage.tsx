@@ -1,4 +1,3 @@
-import { BackgroundPattern } from "@components/atoms/BackgroundPattern";
 import { Slider, type Slide } from "@components/molecules/Slider";
 import journeyData from "@data/journey.json";
 import type { JourneySection } from "@types";
@@ -73,7 +72,6 @@ export function MainPage() {
   return (
     <>
       <Slider slides={slides} />
-      <BackgroundPattern />
     </>
   );
 }

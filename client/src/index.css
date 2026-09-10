@@ -1,29 +1,40 @@
 @import "tailwindcss";
 
 @theme {
-  --color-dark-50: #f9fafb;
-  --color-dark-100: #f3f4f6;
-  --color-dark-200: #e5e7eb;
-  --color-dark-300: #d1d5db;
-  --color-dark-400: #9ca3af;
-  --color-dark-500: #6b7280;
-  --color-dark-600: #4b5563;
-  --color-dark-700: #374151;
-  --color-dark-800: #1f2937;
-  --color-dark-900: #111827;
-  --color-dark-950: #030712;
+  --color-text-white: #f8fafc;
+  --color-text-100: #f8fafc;
+  --color-text-200: #e2e8f0;
+  --color-text-300: #cbd5e1;
+  --color-text-400: #94a3b8;
+  --color-text-500: #64748b;
+  --color-text-600: #475569;
+  --color-text-700: #334155;
 
-  --color-navy-950: #0f172a;
-  --color-navy-900: #1a1f3a;
-  --color-navy-800: #1e293b;
+  --color-background-950: #02040a;
+  --color-background-900: #050810;
+  --color-background-850: #080d16;
+  --color-background-800: #0b111c;
+  --color-background-700: #111827;
+  --color-background-glass: rgba(8, 13, 22, 0.72);
+  --color-background-glassStrong: rgba(5, 8, 16, 0.88);
 
-  --color-pattern-particle: #9ca3af;
-  --color-pattern-line: #ffffff;
-  --color-pattern-pulse: #60a5fa;
+  --color-border-subtle: #172033;
+  --color-border-DEFAULT: #263247;
+  --color-border-strong: #3a4963;
+  --color-border-focus: #38bdf8;
+
+  --color-accent-cyan: #22d3ee;
+  --color-accent-blue: #60a5fa;
+  --color-accent-violet: #8b5cf6;
+  --color-accent-green: #34d399;
 
   --font-sans: system-ui, sans-serif;
 
-  --shadow-glow: 0 0 16px -2px rgba(255, 255, 255, 0.5);
+  --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 12px 40px rgba(0, 0, 0, 0.36);
+  --shadow-lg: 0 24px 80px rgba(0, 0, 0, 0.52);
+  --shadow-glowCyan: 0 0 32px rgba(34, 211, 238, 0.16);
+  --shadow-glowViolet: 0 0 40px rgba(139, 92, 246, 0.14);
 }
 
 *,
@@ -42,8 +53,10 @@ body {
   margin: 0;
   background-color: #000000;
   color: #e5e7eb;
-  font-family: system-ui, -apple-system, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-

@@ -1,3 +1,4 @@
+import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Slider, type Slide } from "@components/molecules/Slider";
 import journeyData from "@data/journey.json";
 import type { JourneySection } from "@types";
@@ -7,9 +8,9 @@ const journey = journeyData as JourneySection[];
 function Section(props: React.PropsWithChildren) {
   return (
     <div className={"h-full w-full flex items-center justify-center"}>
-      <div className="w-1/2 p-20 rounded-2xl bg-dark-950/70 border">
+      <BorderedContainer className="w-1/2 p-20 rounded-2xl bg-dark-950/70 border">
         {props.children}
-      </div>
+      </BorderedContainer>
     </div>
   );
 }
@@ -20,9 +21,7 @@ function JourneySectionContent({ section }: { section: JourneySection }) {
       <span className="text-14">{section.index}</span>
       <h2 className="text-30 font-bold mt-2">{section.title}</h2>
       <p className="text-18 mt-1">{section.tagline}</p>
-      {section.subtitle && (
-        <p className="text-14 mt-2">{section.subtitle}</p>
-      )}
+      {section.subtitle && <p className="text-14 mt-2">{section.subtitle}</p>}
 
       <div className="mt-6 flex flex-col gap-4">
         {section.body.map((block, i) => (
@@ -63,15 +62,13 @@ function JourneySectionContent({ section }: { section: JourneySection }) {
   );
 }
 
-const slides: Slide[] = journey.map((section) => ({
-  id: section.id,
-  content: <JourneySectionContent section={section} />,
-}));
+// const slides: Slide[] = journey.map((section) => ({
+//   id: section.id,
+//   content: <JourneySectionContent section={section} />,
+// }));
+
+
 
 export function MainPage() {
-  return (
-    <>
-      <Slider slides={slides} />
-    </>
-  );
+  return <></>;
 }

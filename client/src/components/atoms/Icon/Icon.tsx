@@ -63,7 +63,7 @@ const sizeClasses = {
 
 type SvgComponent = FC<SVGProps<SVGSVGElement>>;
 
-const iconModules = import.meta.glob<SvgComponent>('../../icons/*.svg', {
+const iconModules = import.meta.glob<SvgComponent>('./icons/*.svg', {
   eager: true,
   query: '?react',
   import: 'default',

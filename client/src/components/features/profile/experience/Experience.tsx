@@ -49,7 +49,7 @@ export function Experience({ experience }: ExperienceProps) {
                   <li key={idx}>
                     <Typography
                       tag="p"
-                      className="inline-block text-sm text-gray-300"
+                      className="inline-block text-sm"
                     >
                       {responsibility}
                     </Typography>

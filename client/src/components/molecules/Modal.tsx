@@ -45,10 +45,10 @@ export function Modal({
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative bg-dark-950 border border-white/10 rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
+        className={`relative bg-dark-950 border rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-white/10">
+        <div className="flex items-center justify-between p-6 border-b">
           <Typography tag="h2" className="text-2xl">{title}</Typography>
           <IconButton
             icon="close"

@@ -15,7 +15,7 @@ export function TechStackRowWithLabel({
     <div>
       <Typography
         tag="small"
-        className="mb-3 block uppercase tracking-wide text-gray-400"
+        className="mb-3 block uppercase tracking-wide"
       >
         {label}
       </Typography>

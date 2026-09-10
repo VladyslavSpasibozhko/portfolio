@@ -58,7 +58,7 @@ export function ChatMessageLoading({ className }: ChatMessageLoadingProps) {
 
   return (
     <div
-      className={`px-4 rounded-lg flex justify-center items-center space-x-2 bg-gray-600/40 ${className}`}
+      className={`px-4 rounded-lg flex justify-center items-center space-x-2 ${className}`}
     >
       <Typography>{text}</Typography>
     </div>

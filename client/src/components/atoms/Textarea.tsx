@@ -23,15 +23,8 @@ export function Textarea({
     "px-2",
     "py-1",
     "border",
-    "border-white/20",
     "rounded-lg",
-    "text-white",
-    "placeholder-gray-400",
     "focus:outline-none",
-    "focus:ring-white",
-    "focus:border-white",
-    "disabled:bg-gray-800",
-    "disabled:text-gray-500",
     className,
   ];
 

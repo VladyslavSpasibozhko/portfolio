@@ -9,12 +9,12 @@ interface MarkdownProps {
 
 export function Markdown({ content }: MarkdownProps) {
   return (
-    <div className="text-base text-gray-100 leading-relaxed space-y-3 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="text-base leading-relaxed space-y-3 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
           p: ({ children }) => (
-            <Typography tag="p" className="mb-3 text-gray-100">
+            <Typography tag="p" className="mb-3">
               {children}
             </Typography>
           ),
@@ -26,11 +26,11 @@ export function Markdown({ content }: MarkdownProps) {
           ),
           li: ({ children }) => <li>{children}</li>,
           a: ({ children, href }) => (
-            <Link href={href} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 underline">
+            <Link href={href} target="_blank" rel="noopener noreferrer" className="underline">
               {children}
             </Link>
           ),
-          strong: ({ children }) => <strong className="font-semibold text-white">{children}</strong>,
+          strong: ({ children }) => <strong className="font-semibold">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
           h1: ({ children }) => (
             <Typography tag="h4" className="mb-2">
@@ -48,7 +48,7 @@ export function Markdown({ content }: MarkdownProps) {
             </Typography>
           ),
           blockquote: ({ children }) => (
-            <blockquote className="border-l-2 border-white/20 pl-3 text-gray-300 italic">
+            <blockquote className="border-l-2 pl-3 italic">
               {children}
             </blockquote>
           ),
@@ -57,7 +57,7 @@ export function Markdown({ content }: MarkdownProps) {
             if (isBlock) {
               return (
                 <code
-                  className={`block bg-black/40 border border-white/10 rounded-md p-3 overflow-x-auto text-sm font-mono text-gray-100 ${className ?? ""}`}
+                  className={`block border rounded-md p-3 overflow-x-auto text-sm font-mono ${className ?? ""}`}
                   {...props}
                 >
                   {children}
@@ -66,7 +66,7 @@ export function Markdown({ content }: MarkdownProps) {
             }
             return (
               <code
-                className="bg-black/40 border border-white/10 rounded px-1 py-0.5 text-sm font-mono text-gray-100"
+                className="border rounded px-1 py-0.5 text-sm font-mono"
                 {...props}
               >
                 {children}
@@ -74,7 +74,7 @@ export function Markdown({ content }: MarkdownProps) {
             );
           },
           pre: ({ children }) => <pre className="mb-3 overflow-x-auto">{children}</pre>,
-          hr: () => <hr className="border-white/10 my-3" />,
+          hr: () => <hr className="my-3" />,
         }}
       >
         {content}

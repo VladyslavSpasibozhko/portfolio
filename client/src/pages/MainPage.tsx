@@ -7,7 +7,7 @@ const journey = journeyData as JourneySection[];
 function Section(props: React.PropsWithChildren) {
   return (
     <div className={"h-full w-full flex items-center justify-center"}>
-      <div className="w-1/2 p-20 rounded-2xl bg-dark-950/70 border border-gray-500">
+      <div className="w-1/2 p-20 rounded-2xl bg-dark-950/70 border">
         {props.children}
       </div>
     </div>
@@ -17,11 +17,11 @@ function Section(props: React.PropsWithChildren) {
 function JourneySectionContent({ section }: { section: JourneySection }) {
   return (
     <Section>
-      <span className="text-sm text-gray-500">{section.index}</span>
+      <span className="text-sm">{section.index}</span>
       <h2 className="text-3xl font-bold mt-2">{section.title}</h2>
-      <p className="text-lg text-gray-300 mt-1">{section.tagline}</p>
+      <p className="text-lg mt-1">{section.tagline}</p>
       {section.subtitle && (
-        <p className="text-sm text-gray-500 mt-2">{section.subtitle}</p>
+        <p className="text-sm mt-2">{section.subtitle}</p>
       )}
 
       <div className="mt-6 flex flex-col gap-4">
@@ -31,24 +31,24 @@ function JourneySectionContent({ section }: { section: JourneySection }) {
               <h3 className="text-xl font-semibold mb-2">{block.heading}</h3>
             )}
             {block.paragraphs.map((paragraph, j) => (
-              <p key={j} className="text-gray-300 mb-2">
+              <p key={j} className="mb-2">
                 {paragraph}
               </p>
             ))}
             {block.list && (
-              <ul className="list-disc list-inside text-gray-300 mb-2">
+              <ul className="list-disc list-inside mb-2">
                 {block.list.map((item, k) => (
                   <li key={k}>{item}</li>
                 ))}
               </ul>
             )}
             {block.diagram && (
-              <pre className="text-gray-400 text-sm bg-black/30 rounded-lg p-4 overflow-x-auto mb-2">
+              <pre className="text-sm rounded-lg p-4 overflow-x-auto mb-2">
                 {block.diagram}
               </pre>
             )}
             {block.quote && (
-              <blockquote className="border-l-2 border-gray-500 pl-4 italic text-gray-200 mt-2">
+              <blockquote className="border-l-2 pl-4 italic mt-2">
                 {block.quote}
               </blockquote>
             )}
@@ -57,7 +57,7 @@ function JourneySectionContent({ section }: { section: JourneySection }) {
       </div>
 
       {section.transition && (
-        <p className="mt-6 italic text-gray-400">{section.transition}</p>
+        <p className="mt-6 italic">{section.transition}</p>
       )}
     </Section>
   );

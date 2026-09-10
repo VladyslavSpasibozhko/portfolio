@@ -65,12 +65,12 @@ export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
           </div>
         )}
 
-        <Typography tag="p" className="text-sm text-gray-300">
+        <Typography tag="p" className="text-sm">
           {selectedCompany.companyDescription}
         </Typography>
 
         {selectedCompany.technicalDetails && (
-          <Typography tag="p" className="text-sm text-gray-400">
+          <Typography tag="p" className="text-sm">
             {selectedCompany.technicalDetails}
           </Typography>
         )}
@@ -82,7 +82,7 @@ export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
                 <div key={key}>
                   <Typography
                     tag="small"
-                    className="mb-1 block uppercase tracking-wide text-gray-400"
+                    className="mb-1 block uppercase tracking-wide"
                   >
                     {COMPANY_INFO_LABELS[key] ?? key}
                   </Typography>

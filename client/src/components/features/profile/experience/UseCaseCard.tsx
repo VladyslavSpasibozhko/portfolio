@@ -11,7 +11,7 @@ export function UseCaseCard({ useCase }: UseCaseCardProps) {
       <Typography tag="p" className="font-semibold">
         {useCase.title}
       </Typography>
-      <Typography tag="p" className="text-sm text-gray-300">
+      <Typography tag="p" className="text-sm">
         {useCase.description}
       </Typography>
     </div>

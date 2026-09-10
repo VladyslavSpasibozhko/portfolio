@@ -7,7 +7,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 export function Link({ children, className = '', ...props }: LinkProps) {
   return (
     <a
-      className={`text-gray-400 hover:text-white transition-colors duration-200 ${className}`}
+      className={`transition-colors duration-200 ${className}`}
       {...props}
     >
       {children}

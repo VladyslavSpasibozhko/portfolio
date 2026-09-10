@@ -30,11 +30,11 @@ export function ChatWindow({
   return (
     <div
       ref={ref}
-      className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-dark-950 border border-white/10"
+      className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-dark-950 border"
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-gray-600/30">
-        <Typography tag="h3" className="font-semibold text-lg text-white">
+      <div className="flex items-center justify-between p-4">
+        <Typography tag="h3" className="font-semibold text-lg">
           AI Assistance
         </Typography>
         <IconButton
@@ -57,7 +57,7 @@ export function ChatWindow({
 
       {/* Error */}
       {error && (
-        <div className="px-4 py-2 bg-red-900/60 text-red-200 border-t border-red-700/60">
+        <div className="px-4 py-2 bg-background-error text-text-danger border-t border-red-700/60">
           <Typography tag="small">{error}</Typography>
         </div>
       )}

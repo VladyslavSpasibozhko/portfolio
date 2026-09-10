@@ -9,13 +9,13 @@ interface TypographyProps {
 }
 
 const variantClasses: Record<TypographyVariant, string> = {
-  h1: "text-5xl font-bold tracking-tight text-white",
-  h2: "text-3xl font-bold text-white",
-  h3: "text-2xl font-semibold text-white",
-  h4: "text-xl font-semibold text-white",
-  p: "text-base leading-relaxed text-gray-300",
-  span: "text-base text-gray-300",
-  small: "text-sm text-gray-400",
+  h1: "text-5xl font-bold tracking-tight",
+  h2: "text-3xl font-bold",
+  h3: "text-2xl font-semibold",
+  h4: "text-xl font-semibold",
+  p: "text-base leading-relaxed",
+  span: "text-base",
+  small: "text-sm",
 };
 
 export function Typography({

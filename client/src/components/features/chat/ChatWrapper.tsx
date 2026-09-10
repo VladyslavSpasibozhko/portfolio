@@ -74,7 +74,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
       />
 
       {isOpen && (
-        <div className="fixed z-40 top-0 left-0 right-0 bottom-0 bg-black/20 backdrop-blur-sm">
+        <div className="fixed z-40 top-0 left-0 right-0 bottom-0 backdrop-blur-sm">
           <div className="fixed bottom-5 right-5 z-50 w-full h-screen max-h-200 sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
             <ChatWindow
               messages={messages}

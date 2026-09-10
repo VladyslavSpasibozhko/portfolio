@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="JavaScript">
+  <title>JavaScript</title>
+  <rect width="120" height="120" rx="28" fill="none"/>
+  
+  <rect x="15" y="15" width="90" height="90" rx="10" fill="#F7DF1E"/>
+  <text x="92" y="91" text-anchor="end" font-family="Arial, sans-serif" font-size="42" font-weight="800" fill="#111">JS</text>
+
+</svg>

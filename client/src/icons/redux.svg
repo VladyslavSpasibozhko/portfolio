@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Redux">
+  <title>Redux</title>
+  <rect width="120" height="120" rx="28" fill="none"/>
+  
+  <circle cx="60" cy="60" r="40" fill="none" stroke="#764ABC" stroke-width="7" stroke-dasharray="70 24 32 18"/>
+  <circle cx="60" cy="60" r="7" fill="#764ABC"/>
+  <circle cx="30" cy="42" r="6" fill="#764ABC"/><circle cx="90" cy="43" r="6" fill="#764ABC"/><circle cx="72" cy="92" r="6" fill="#764ABC"/>
+
+</svg>

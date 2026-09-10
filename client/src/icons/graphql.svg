@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="GraphQL">
+  <title>GraphQL</title>
+  <rect width="120" height="120" rx="28" fill="none"/>
+  
+  <g fill="#E10098">
+    <circle cx="60" cy="18" r="5"/><circle cx="95" cy="38" r="5"/><circle cx="95" cy="82" r="5"/><circle cx="60" cy="102" r="5"/>
+    <circle cx="25" cy="82" r="5"/><circle cx="25" cy="38" r="5"/>
+  </g>
+  <path d="M60 18 95 38 95 82 60 102 25 82 25 38Z" fill="none" stroke="#E10098" stroke-width="5"/>
+  <path d="M25 38 95 82M95 38 25 82M60 18v84" stroke="#E10098" stroke-width="3" fill="none"/>
+
+</svg>

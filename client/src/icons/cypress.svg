@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="Cypress">
+  <title>Cypress</title>
+  <rect width="120" height="120" rx="28" fill="none"/>
+  
+  <circle cx="60" cy="60" r="42" fill="#17211E" stroke="#69D3A7" stroke-width="5"/>
+  <text x="60" y="74" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="800" fill="#69D3A7">C</text>
+
+</svg>

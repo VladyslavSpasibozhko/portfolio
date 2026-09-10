@@ -23,7 +23,7 @@ export function Experience({ experience }: ExperienceProps) {
       <div className="rounded-2xl p-8 space-y-10">
         <div className="space-y-4">
           <div>
-            <Typography tag="h3" className="text-base font-semibold">
+            <Typography tag="h3" className="text-16 font-semibold">
               {experience.position} at{" "}
               <Button
                 variant="inline"
@@ -49,7 +49,7 @@ export function Experience({ experience }: ExperienceProps) {
                   <li key={idx}>
                     <Typography
                       tag="p"
-                      className="inline-block text-sm"
+                      className="inline-block text-14"
                     >
                       {responsibility}
                     </Typography>

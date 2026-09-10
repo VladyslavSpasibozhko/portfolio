@@ -95,13 +95,13 @@ function ColorSwatch({
   kind?: "bg" | "text" | "border";
 }) {
   return (
-    <div className="flex flex-col items-start gap-2 w-28">
+    <div className="flex flex-col items-start gap-2">
       {kind === "bg" && (
         <div className={`w-full h-14 rounded-lg border border-white/10 ${className}`} />
       )}
       {kind === "text" && (
         <div className="w-full h-14 rounded-lg border border-white/10 bg-background-950 flex items-center justify-center">
-          <span className={`text-lg font-semibold ${className}`}>Aa</span>
+          <span className={`text-18 font-semibold ${className}`}>Aa</span>
         </div>
       )}
       {kind === "border" && (
@@ -142,11 +142,11 @@ export function LibraryPage() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <div className="relative z-10  mx-auto px-6 py-16 bg-background-700">
+    <div className="relative z-10  mx-auto px-6 py-16 bg-background-950">
       <Typography tag="h1" className="mb-2">
         Component Library
       </Typography>
-      <Typography tag="p" className="mb-12 text-gray-400">
+      <Typography tag="p" className="mb-12 ">
         Every component with its prop variations, for quick visual reference.
       </Typography>
 
@@ -187,9 +187,43 @@ export function LibraryPage() {
           <ColorSwatch label="accent-sky" value="#0d95d1" className="bg-accent-sky" />
         </Example>
 
+        <Example label="Grays in use (bg)">
+          <ColorSwatch label="gray-800" value="bg-gray-800" className="bg-gray-800" />
+          <ColorSwatch label="gray-900" value="bg-gray-900" className="bg-gray-900" />
+          <ColorSwatch label="gray-600/30" value="bg-gray-600/30" className="bg-gray-600/30" />
+          <ColorSwatch label="gray-600/40" value="bg-gray-600/40" className="bg-gray-600/40" />
+        </Example>
+
+        <Example label="Grays in use (text)">
+          <ColorSwatch kind="text" label="gray-100" value="text-gray-100" className="text-gray-100" />
+          <ColorSwatch kind="text" label="gray-200" value="text-gray-200" className="text-gray-200" />
+          <ColorSwatch kind="text" label="gray-300" value="text-gray-300" className="text-gray-300" />
+          <ColorSwatch kind="text" label="gray-400" value="text-gray-400" className="text-gray-400" />
+          <ColorSwatch kind="text" label="gray-500" value="text-gray-500" className="text-gray-500" />
+          <ColorSwatch kind="text" label="blue-300" value="text-blue-300" className="text-blue-300" />
+          <ColorSwatch kind="text" label="blue-400" value="text-blue-400" className="text-blue-400" />
+          <ColorSwatch kind="text" label="white" value="text-white" className="text-white" />
+        </Example>
+
         <Example label="Status colors (bg / text)">
           <ColorSwatch label="background-error" value="#82181a" className="bg-background-error" />
           <ColorSwatch kind="text" label="text-danger" value="#ff5256" className="text-text-danger" />
+        </Example>
+
+        <Example label="White / black overlays">
+          <ColorSwatch label="white/5" value="bg-white/5" className="bg-white/5" />
+          <ColorSwatch label="white/10" value="bg-white/10" className="bg-white/10" />
+          <ColorSwatch label="white/20" value="bg-white/20" className="bg-white/20" />
+          <ColorSwatch label="black/20" value="bg-black/20" className="bg-black/20" />
+          <ColorSwatch label="black/30" value="bg-black/30" className="bg-black/30" />
+          <ColorSwatch label="black/40" value="bg-black/40" className="bg-black/40" />
+        </Example>
+
+        <Example label="Borders in use">
+          <ColorSwatch kind="border" label="white/10" value="border-white/10" className="border-white/10" />
+          <ColorSwatch kind="border" label="white/20" value="border-white/20" className="border-white/20" />
+          <ColorSwatch kind="border" label="white/50" value="border-white/50" className="border-white/50" />
+          <ColorSwatch kind="border" label="gray-500" value="border-gray-500" className="border-gray-500" />
         </Example>
       </Section>
 

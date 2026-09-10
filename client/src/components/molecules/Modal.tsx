@@ -49,7 +49,7 @@ export function Modal({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b">
-          <Typography tag="h2" className="text-2xl">{title}</Typography>
+          <Typography tag="h2" className="text-24">{title}</Typography>
           <IconButton
             icon="close"
             variant="ghost"

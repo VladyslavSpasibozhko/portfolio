@@ -18,9 +18,9 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: 'p-3 text-sm',
-  md: 'p-4 text-base',
-  lg: 'p-6 text-lg',
+  sm: 'p-3 text-14',
+  md: 'p-4 text-16',
+  lg: 'p-6 text-18',
 };
 
 export function Button({

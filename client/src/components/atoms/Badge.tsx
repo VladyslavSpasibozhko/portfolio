@@ -14,7 +14,7 @@ const variantClasses = {
 export function Badge({ children, variant = 'default', className = '' }: BadgeProps) {
   return (
     <span
-      className={`inline-block px-2.5 py-0.5 rounded-full text-sm font-medium backdrop-blur-sm transition-all duration-200 ${variantClasses[variant]} ${className}`}
+      className={`inline-block px-2.5 py-0.5 rounded-full text-14 font-medium backdrop-blur-sm transition-all duration-200 ${variantClasses[variant]} ${className}`}
     >
       {children}
     </span>

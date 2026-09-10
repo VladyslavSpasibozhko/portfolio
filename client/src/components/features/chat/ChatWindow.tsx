@@ -34,7 +34,7 @@ export function ChatWindow({
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4">
-        <Typography tag="h3" className="font-semibold text-lg">
+        <Typography tag="h3" className="font-semibold text-18">
           AI Assistance
         </Typography>
         <IconButton

@@ -9,7 +9,7 @@ interface MarkdownProps {
 
 export function Markdown({ content }: MarkdownProps) {
   return (
-    <div className="text-base leading-relaxed space-y-3 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+    <div className="text-16 leading-relaxed space-y-3 [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         components={{
@@ -57,7 +57,7 @@ export function Markdown({ content }: MarkdownProps) {
             if (isBlock) {
               return (
                 <code
-                  className={`block border rounded-md p-3 overflow-x-auto text-sm font-mono ${className ?? ""}`}
+                  className={`block border rounded-md p-3 overflow-x-auto text-14 font-mono ${className ?? ""}`}
                   {...props}
                 >
                   {children}
@@ -66,7 +66,7 @@ export function Markdown({ content }: MarkdownProps) {
             }
             return (
               <code
-                className="border rounded px-1 py-0.5 text-sm font-mono"
+                className="border rounded px-1 py-0.5 text-14 font-mono"
                 {...props}
               >
                 {children}

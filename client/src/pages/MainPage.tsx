@@ -17,18 +17,18 @@ function Section(props: React.PropsWithChildren) {
 function JourneySectionContent({ section }: { section: JourneySection }) {
   return (
     <Section>
-      <span className="text-sm">{section.index}</span>
-      <h2 className="text-3xl font-bold mt-2">{section.title}</h2>
-      <p className="text-lg mt-1">{section.tagline}</p>
+      <span className="text-14">{section.index}</span>
+      <h2 className="text-30 font-bold mt-2">{section.title}</h2>
+      <p className="text-18 mt-1">{section.tagline}</p>
       {section.subtitle && (
-        <p className="text-sm mt-2">{section.subtitle}</p>
+        <p className="text-14 mt-2">{section.subtitle}</p>
       )}
 
       <div className="mt-6 flex flex-col gap-4">
         {section.body.map((block, i) => (
           <div key={i}>
             {block.heading && (
-              <h3 className="text-xl font-semibold mb-2">{block.heading}</h3>
+              <h3 className="text-20 font-semibold mb-2">{block.heading}</h3>
             )}
             {block.paragraphs.map((paragraph, j) => (
               <p key={j} className="mb-2">
@@ -43,7 +43,7 @@ function JourneySectionContent({ section }: { section: JourneySection }) {
               </ul>
             )}
             {block.diagram && (
-              <pre className="text-sm rounded-lg p-4 overflow-x-auto mb-2">
+              <pre className="text-14 rounded-lg p-4 overflow-x-auto mb-2">
                 {block.diagram}
               </pre>
             )}

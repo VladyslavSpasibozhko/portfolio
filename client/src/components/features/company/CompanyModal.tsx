@@ -65,12 +65,12 @@ export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
           </div>
         )}
 
-        <Typography tag="p" className="text-sm">
+        <Typography tag="p" className="text-14">
           {selectedCompany.companyDescription}
         </Typography>
 
         {selectedCompany.technicalDetails && (
-          <Typography tag="p" className="text-sm">
+          <Typography tag="p" className="text-14">
             {selectedCompany.technicalDetails}
           </Typography>
         )}
@@ -91,7 +91,7 @@ export function CompanyModal({ companyName, onClose }: CompanyModalProps) {
                       <Typography
                         key={idx}
                         tag="span"
-                        className="block text-sm"
+                        className="block text-14"
                       >
                         {value}
                       </Typography>

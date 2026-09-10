@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Badge } from "@components/atoms/Badge";
+import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Button } from "@components/atoms/Button";
 import { Icon, type IconName } from "@components/atoms/Icon";
 import { Link } from "@components/atoms/Link";
@@ -10,6 +11,7 @@ import { EmptyState } from "@components/molecules/EmptyState";
 import { IconButton } from "@components/molecules/IconButton";
 import { Markdown } from "@components/molecules/Markdown";
 import { Modal } from "@components/molecules/Modal";
+import { Timeline } from "@components/molecules/Timeline";
 
 const ICON_NAMES: IconName[] = [
   "ai-chat",
@@ -413,6 +415,69 @@ export function LibraryPage() {
         </Example>
       </Section>
 
+      <Section title="Link">
+        <Example label="Default">
+          <Link href="#">Inline link</Link>
+          <Link href="#" target="_blank" rel="noopener noreferrer">
+            External link
+          </Link>
+        </Example>
+      </Section>
+
+      <Section title="BorderedContainer">
+        <Example label="Default">
+          <BorderedContainer className="w-full">
+            <Typography tag="p">This is a bordered container.</Typography>
+          </BorderedContainer>
+        </Example>
+      </Section>
+
+      <Section title="Timeline">
+        <Example label="Default">
+          <div className="w-full">
+            <Timeline
+              items={[
+                {
+                  year: "2019",
+                  title: "Capital Holding",
+                  description: "Learned to build",
+                },
+                {
+                  year: "2020",
+                  title: "DataMix",
+                  description: "Learned to own",
+                },
+                {
+                  year: "2021",
+                  title: "REMED",
+                  description: "Learned to design",
+                },
+                {
+                  year: "2024",
+                  title: "WorkJam",
+                  description: "Learned to scale",
+                },
+                {
+                  year: "Today",
+                  title: "Looking ahead",
+                  description: "Building what's next",
+                },
+              ]}
+            />
+          </div>
+        </Example>
+      </Section>
+
+      {/* COMPONENTS WHICH ARE DISPLAYED BELOW DELAYED IN THEIR DEVELOPMENT */}
+
+      <Section title="Textarea">
+        <Example label="Default / auto-resize / disabled">
+          <Textarea placeholder="Type something..." rows={2} />
+          <Textarea placeholder="Auto-resize" autoResize maxHeight={500} />
+          <Textarea placeholder="Disabled" disabled />
+        </Example>
+      </Section>
+
       <Section title="Tooltip">
         <Example label="Sides">
           <Tooltip content="Top tooltip" side="top">
@@ -427,23 +492,6 @@ export function LibraryPage() {
           <Tooltip content="Right tooltip" side="right">
             <Button variant="secondary">Right</Button>
           </Tooltip>
-        </Example>
-      </Section>
-
-      <Section title="Link">
-        <Example label="Default">
-          <Link href="#">Inline link</Link>
-          <Link href="#" target="_blank" rel="noopener noreferrer">
-            External link
-          </Link>
-        </Example>
-      </Section>
-
-      <Section title="Textarea">
-        <Example label="Default / auto-resize / disabled">
-          <Textarea placeholder="Type something..." rows={2} />
-          <Textarea placeholder="Auto-resize" autoResize maxHeight={500} />
-          <Textarea placeholder="Disabled" disabled />
         </Example>
       </Section>
 

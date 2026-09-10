@@ -12,6 +12,7 @@
   --color-text-blue: #7ab6ff;
   --color-text-sky: #a7e4ff;
 
+  --color-background-white: #f8fafc;
   --color-background-950: #081125;
   --color-background-900: #0b152b;
   --color-background-850: #0e1a31;
@@ -21,6 +22,7 @@
   --color-background-glassStrong: rgba(5, 8, 16, 0.88);
   --color-background-error: #82181a;
 
+  --color-border-white: #f8fafc;
   --color-border-subtle: #172033;
   --color-border-DEFAULT: #263247;
   --color-border-strong: #3a4963;
@@ -166,9 +168,9 @@
   --border-width-5: 5px;
   --border-width-6: 6px;
 
-  --shadow-sm: 0 4px 16px;
-  --shadow-md: 0 12px 40px;
-  --shadow-lg: 0 24px 80px;
+  --shadow-sm: 0 0 2px;
+  --shadow-md: 0 0 4px;
+  --shadow-lg: 0 0 6px;
 }
 
 *,
@@ -191,4 +193,22 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+@keyframes pulse-scale {
+  0% {
+    transform: scale(1);
+    box-shadow: none;
+  }
+  50% {
+    transform: scale(2);
+    box-shadow: var(--shadow-sm) var(--color-accent-sky);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@utility animate-pulse-scale {
+  animation: pulse-scale 2s ease-in-out infinite;
 }

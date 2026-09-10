@@ -1,38 +1,35 @@
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
-  variant?: 'primary' | 'secondary' | 'ghost' | 'inline';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "inline";
+  size?: "sm" | "md" | "lg";
 }
 
 const variantClasses = {
   primary:
-    "rounded-lg cursor-pointer bg-dark-500 transition-all duration-200",
+    "border border-border-highlight text-text-blue hover:border-border-focus hover:text-accent-sky",
   secondary:
-    "rounded-lg cursor-pointer border backdrop-blur-sm transition-all duration-200",
-  ghost:
-    "rounded-lg cursor-pointer transition-all duration-200",
-  inline:
-    "cursor-pointer border-b transition-all duration-200 ",
+    "border border-border-strong text-text-200 hover:border-border-DEFAULT hover:text-text-300",
+  inline: "text-text-blue hover:text-accent-sky",
 };
 
 const sizeClasses = {
-  sm: 'p-3 text-14',
-  md: 'p-4 text-16',
-  lg: 'p-6 text-18',
+  sm: "p-3 text-14",
+  md: "p-4 text-16",
+  lg: "px-5 py-4 text-18",
 };
 
 export function Button({
   children,
-  variant = 'primary',
-  size = 'md',
-  className = '',
+  variant = "primary",
+  size = "md",
+  className = "",
   ...props
 }: ButtonProps) {
   return (
     <button
-      className={`inline-flex items-center justify-center ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`rounded-lg cursor-pointer inline-flex items-center justify-center ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
       {...props}
     >
       {children}

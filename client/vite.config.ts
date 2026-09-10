@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
+import svgr from 'vite-plugin-svgr';
 import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [tailwindcss(), react()],
+  plugins: [tailwindcss(), react(), svgr()],
   publicDir: '../data',
   envDir: './src',
   resolve: {
@@ -18,6 +19,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config.ts'),
       '@data': path.resolve(__dirname, '../data'),
       '@tailwind-config': path.resolve(__dirname, './tailwind.config.ts'),
+      '@icons': path.resolve(__dirname, './src/icons'),
     },
   },
   server: {

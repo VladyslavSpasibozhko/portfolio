@@ -18,7 +18,6 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
       '@config': path.resolve(__dirname, './src/config.ts'),
       '@data': path.resolve(__dirname, '../data'),
-      '@tailwind-config': path.resolve(__dirname, './tailwind.config.ts'),
       '@icons': path.resolve(__dirname, './src/icons'),
     },
   },

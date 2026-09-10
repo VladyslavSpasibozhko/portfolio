@@ -74,6 +74,12 @@ Rules:
 
 - Theme tokens (colors, fonts, sizes, etc.) are defined via `@theme` in `client/src/index.css`, not `tailwind.config.ts`. Components must use those tokens — don't make up ad hoc styles/values.
 - Before creating a custom class or one-off style, check whether it's worth adding to `@theme` in `index.css` instead.
+- Color tokens are grouped by the CSS property they're meant for — use each group only for that property:
+  - `--color-text-*` — text color only (e.g. `text-text-200`).
+  - `--color-background-*` — backgrounds only (e.g. `bg-background-900`).
+  - `--color-border-*` — borders only (e.g. `border-border-subtle`).
+  - `--color-accent-*` — the exception: not tied to one property, reusable anywhere (text, background, border, shadow, etc.).
+  - Shadows use the `--shadow-*` size tokens (`shadow-sm`/`md`/`lg`) for spread, colored via an accent token, e.g. `shadow-accent-cyan`.
 
 ### Imports
 

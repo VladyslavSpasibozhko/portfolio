@@ -27,8 +27,6 @@ export function Typography({
   const baseClass = variantClasses[tag];
 
   return (
-    <Tag className={`${baseClass} ${className}`}>
-      {children}
-    </Tag>
+    <Tag className={`text-white ${baseClass} ${className}`}>{children}</Tag>
   );
 }

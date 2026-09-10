@@ -68,7 +68,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
         icon="ai-chat"
         variant="ghost"
         size="4xl"
-        className="fixed z-10 bottom-5 right-5 hover:bg-black/0! animate-pulse hover:animate-none"
+        className="fixed z-10 bottom-5 right-5 animate-pulse hover:animate-none"
         onClick={() => setIsOpen(!isOpen)}
         aria-label="Open chat"
       />

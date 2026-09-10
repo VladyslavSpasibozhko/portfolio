@@ -1,12 +1,9 @@
-import { getProfileData } from "@lib/api";
-import { Typography } from "@components/atoms/Typography";
-import { Badge } from "@components/atoms/Badge";
-import { ChatWrapper } from "@components/features/chat/ChatWrapper";
 import { BackgroundPattern } from "@components/atoms/BackgroundPattern";
 import { Slider, type Slide } from "@components/molecules/Slider";
-import { TechStack } from "@components/features/profile/technical-stack/TechStack";
-import { Experience } from "@components/features/profile/experience/Experience";
-import { UseCaseCard } from "@components/features/profile/experience/UseCaseCard";
+import journeyData from "@data/journey.json";
+import type { JourneySection } from "@types";
+
+const journey = journeyData as JourneySection[];
 
 function Section(props: React.PropsWithChildren) {
   return (
@@ -18,97 +15,65 @@ function Section(props: React.PropsWithChildren) {
   );
 }
 
-export function MainPage() {
-  const { personal, workExperience } = getProfileData();
-
-  const builtSections = workExperience.map((experience) => {
-    const experienceSection: Slide = {
-      id: "experience-" + experience.company,
-      content: (
-        <Section>
-          <Experience experience={experience} />
-        </Section>
-      ),
-    };
-
-    const useCasesSection: Slide | null = experience.useCases
-      ? {
-          id: "use-cases-" + experience.company,
-          content: (
-            <Section>
-              <div className="space-y-6">
-                {experience.useCases.map((useCase) => (
-                  <UseCaseCard key={useCase.title} useCase={useCase} />
-                ))}
-              </div>
-            </Section>
-          ),
-        }
-      : null;
-
-    return [experienceSection, useCasesSection].filter(
-      (section): section is Slide => Boolean(section),
-    );
-  });
-
+function JourneySectionContent({ section }: { section: JourneySection }) {
   return (
-    <main className="relative min-h-screen">
+    <Section>
+      <span className="text-sm text-gray-500">{section.index}</span>
+      <h2 className="text-3xl font-bold mt-2">{section.title}</h2>
+      <p className="text-lg text-gray-300 mt-1">{section.tagline}</p>
+      {section.subtitle && (
+        <p className="text-sm text-gray-500 mt-2">{section.subtitle}</p>
+      )}
+
+      <div className="mt-6 flex flex-col gap-4">
+        {section.body.map((block, i) => (
+          <div key={i}>
+            {block.heading && (
+              <h3 className="text-xl font-semibold mb-2">{block.heading}</h3>
+            )}
+            {block.paragraphs.map((paragraph, j) => (
+              <p key={j} className="text-gray-300 mb-2">
+                {paragraph}
+              </p>
+            ))}
+            {block.list && (
+              <ul className="list-disc list-inside text-gray-300 mb-2">
+                {block.list.map((item, k) => (
+                  <li key={k}>{item}</li>
+                ))}
+              </ul>
+            )}
+            {block.diagram && (
+              <pre className="text-gray-400 text-sm bg-black/30 rounded-lg p-4 overflow-x-auto mb-2">
+                {block.diagram}
+              </pre>
+            )}
+            {block.quote && (
+              <blockquote className="border-l-2 border-gray-500 pl-4 italic text-gray-200 mt-2">
+                {block.quote}
+              </blockquote>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {section.transition && (
+        <p className="mt-6 italic text-gray-400">{section.transition}</p>
+      )}
+    </Section>
+  );
+}
+
+const slides: Slide[] = journey.map((section) => ({
+  id: section.id,
+  content: <JourneySectionContent section={section} />,
+}));
+
+export function MainPage() {
+  return (
+    <>
+      <Slider slides={slides} />
       <BackgroundPattern />
-
-      <Slider
-        slides={[
-          {
-            id: "intro",
-            content: (
-              <Section>
-                <div>
-                  <div className="flex items-center gap-6 mb-8">
-                    <div>
-                      <Typography tag="h1" className="mb-2">
-                        {personal.name}
-                      </Typography>
-                      <Typography
-                        tag="span"
-                        className="text-lg text-gray-300 block mb-2"
-                      >
-                        {personal.title}
-                      </Typography>
-                      <div className="flex items-center gap-4">
-                        <Typography tag="span" className="text-gray-400">
-                          {personal.currentLocation}
-                        </Typography>
-                        <Badge variant="success" className="px-2 py-1 text-sm">
-                          Open to work
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Typography tag="p" className="text-lg mb-8">
-                    {personal.intro}
-                  </Typography>
-                </div>
-              </Section>
-            ),
-          },
-          ...builtSections.flat(),
-          {
-            id: "tech-stack",
-            content: (
-              <Section>
-                <Typography tag="h2" className="mb-8">
-                  Tech stack
-                </Typography>
-
-                <TechStack />
-              </Section>
-            ),
-          },
-        ]}
-      ></Slider>
-
-      {/* Chat Widget */}
-      <ChatWrapper avatarUrl="/avatar.png" username="Assistant" />
-    </main>
+    </>
   );
 }

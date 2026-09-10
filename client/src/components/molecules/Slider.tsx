@@ -24,7 +24,7 @@ function Slide({ id, content, className = "", onAppear }: SlideProps) {
   return (
     <div
       ref={ref}
-      className={`h-screen w-full transition-all duration-700 ease-out ${className}`}
+      className={`w-full transition-all duration-700 ease-out ${className}`}
     >
       {content}
     </div>

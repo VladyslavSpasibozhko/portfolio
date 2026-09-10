@@ -6,6 +6,7 @@ Reference notes for agents working in this repo.
 
 - `message.ts` — WebSocket contract for communication between the user and the LLM (single WS path). Defines `WsMessage`, `WsRequestPayload`, `WsSuccessResponse`, `WsErrorResponse`, `WsResponsePayload`.
 - `profile.ts` — describes the structure of the profile JSON file (`ProfileData`, tech stack, work experience, education, etc.).
+- `journey.ts` — describes the structure of the journey JSON file (`JourneyData`).
 - `index.ts` — re-exports the above.
 
 Follow DRY: don't create new types/interfaces on your own. Ask for approval first — once approved, feel free to create the new type.
@@ -70,12 +71,12 @@ Rules:
 
 ### Styling
 
-- Components must use properties defined in `tailwind.config.ts` (colors, fonts, etc.) — don't make up ad hoc styles/values.
-- Before creating a custom class or one-off style, check whether it's worth adding to the Tailwind config instead.
+- Theme tokens (colors, fonts, sizes, etc.) are defined via `@theme` in `client/src/index.css`, not `tailwind.config.ts`. Components must use those tokens — don't make up ad hoc styles/values.
+- Before creating a custom class or one-off style, check whether it's worth adding to `@theme` in `index.css` instead.
 
 ### Imports
 
-- Use the configured aliases (`@components`, `@lib`, `@hooks`, `@utils`, `@types`, `@config`, `@data`, `@tailwind-config` — see `client/tsconfig.json` and `client/vite.config.ts`) instead of relative traversal like `../../`.
+- Use path aliases instead of relative or absolute traversal like `../../`. Before importing, check `client/tsconfig.json` and `client/vite.config.ts` for the current set of configured aliases — don't assume or hardcode a list, as it changes over time.
 - Exception: a component under a `features/*` folder may import other components local to that same feature folder using relative paths.
 
 ### Hooks (`client/src/hooks/`)

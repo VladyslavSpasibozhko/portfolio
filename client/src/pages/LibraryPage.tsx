@@ -390,6 +390,13 @@ export function LibraryPage() {
           <Badge variant="default">Default</Badge>
           <Badge variant="primary">Primary</Badge>
         </Example>
+        <Example label="Sizes">
+          {(["sm", "md", "lg", "xl", "2xl"] as const).map((size) => (
+            <Badge key={size} variant="primary" size={size}>
+              {size}
+            </Badge>
+          ))}
+        </Example>
       </Section>
 
       <Section title="Icon">

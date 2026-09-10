@@ -51,14 +51,14 @@ interface IconProps {
 }
 
 const sizeClasses = {
-  sm: 'w-4 h-4',
-  md: 'w-5 h-5',
-  lg: 'w-6 h-6',
-  xl: 'w-8 h-8',
-  '2xl': 'w-10 h-10',
-  '3xl': 'w-12 h-12',
-  '4xl': 'w-14 h-14',
-  '5xl': 'w-16 h-16',
+  sm: "w-20 h-20",
+  md: "w-24 h-24",
+  lg: "w-28 h-28",
+  xl: "w-32 h-32",
+  "2xl": "w-36 h-36",
+  "3xl": "w-40 h-40",
+  "4xl": "w-44 h-44",
+  "5xl": "w-48 h-48",
 };
 
 type SvgComponent = FC<SVGProps<SVGSVGElement>>;

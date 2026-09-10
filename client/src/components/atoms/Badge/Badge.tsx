@@ -1,10 +1,10 @@
 import { useRef, type ReactNode } from "react";
-import { BadgeGlow } from "./BadgeGlow";
+import { BadgeGlow, type BadgeGlowConfig } from "./BadgeGlow";
 
 interface BadgeProps {
   children: ReactNode;
   variant?: "default" | "primary";
-  size?: "sm" | "md" | "xl" | "2xl" | "3xl";
+  size?: "sm" | "md" | "lg" | "xl" | "2xl";
   className?: string;
 }
 
@@ -14,11 +14,22 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: "px-2 py-0.5 text-10",
-  md: "px-2.5 py-0.5 text-12",
-  xl: "px-3 py-1 text-14",
-  "2xl": "px-3.5 py-1.5 text-16",
-  "3xl": "px-4 py-2 text-18",
+  sm: "px-4 py-2 text-10",
+  md: "px-4 py-2 text-12",
+  lg: "px-4 py-2 text-14",
+  xl: "px-4 py-2 text-16",
+  "2xl": "px-4 py-2 text-18",
+};
+
+const sizeGlowConfig: Record<
+  NonNullable<BadgeProps["size"]>,
+  Partial<BadgeGlowConfig>
+> = {
+  sm: { strokeWidth: 2, segmentLength: 30, blurStdDeviation: 4 },
+  md: { strokeWidth: 3, segmentLength: 26, blurStdDeviation: 4 },
+  lg: { strokeWidth: 3, segmentLength: 24, blurStdDeviation: 4 },
+  xl: { strokeWidth: 3, segmentLength: 24, blurStdDeviation: 4 },
+  "2xl": { strokeWidth: 4, segmentLength: 24, blurStdDeviation: 4.5 },
 };
 
 export function Badge({
@@ -34,7 +45,9 @@ export function Badge({
       ref={ref}
       className={`relative inline-block rounded-full ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
-      {variant === "primary" && <BadgeGlow containerRef={ref} />}
+      {variant === "primary" && (
+        <BadgeGlow containerRef={ref} {...sizeGlowConfig[size]} />
+      )}
       {children}
     </span>
   );

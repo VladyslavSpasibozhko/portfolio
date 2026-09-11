@@ -1,8 +1,8 @@
 import { Timeline, type TimelineItem } from "@components/molecules/Timeline";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 
 const timelineItems: TimelineItem[] = [
   { year: "2019", title: "Capital Holding", description: "Learned to build" },

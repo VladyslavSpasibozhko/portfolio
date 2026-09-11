@@ -1,8 +1,8 @@
 import { Badge } from "@components/atoms/Badge";
-import { JourneySection, JourneySectionBackground } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { JourneySection, JourneySectionBackground } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 import laptop from "@static/laptop_coding.png";
 
 const badges = [

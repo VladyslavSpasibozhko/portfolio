@@ -1,10 +1,10 @@
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
-import { FlowDiagram } from "./FlowDiagram";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { FlowDiagram } from "../FlowDiagram";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 
 const stats = [
   "+10 apps & modules",

@@ -1,9 +1,9 @@
 import { Badge } from "@components/atoms/Badge";
-import { InfoCard } from "./InfoCard";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { InfoCard } from "../InfoCard";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 import { Typography } from "@components/atoms/Typography";
 
 const badges = ["JavaScript", "React", "Redux"];

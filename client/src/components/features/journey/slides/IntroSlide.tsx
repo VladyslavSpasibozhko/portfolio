@@ -1,7 +1,7 @@
 import { Typography } from "@components/atoms/Typography";
-import { JourneySection, JourneySectionBackground } from "./JourneySection";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { JourneySection, JourneySectionBackground } from "../JourneySection";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 import card from "@static/code_card_1.png";
 
 export function IntroSlide() {

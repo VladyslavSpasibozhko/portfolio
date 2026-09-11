@@ -1,7 +1,7 @@
-import { InfoCard } from "./InfoCard";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { BadgeRow } from "./BadgeRow";
+import { InfoCard } from "../InfoCard";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { BadgeRow } from "../BadgeRow";
 
 export function WorkJamProblemsSlide() {
   return (

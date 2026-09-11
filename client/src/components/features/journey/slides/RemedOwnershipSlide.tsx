@@ -1,7 +1,7 @@
-import { InfoCard } from "./InfoCard";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
+import { InfoCard } from "../InfoCard";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
 
 export function RemedOwnershipSlide() {
   return (

@@ -1,10 +1,10 @@
 import { Typography } from "@components/atoms/Typography";
 import { Badge } from "@components/atoms/Badge";
 import { Icon, type IconName } from "@components/atoms/Icon";
-import { JourneySection, JourneySectionBackground } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { JourneySection, JourneySectionBackground } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 import team_collaboration from "@static/team_collaboration_2.png";
 
 interface DomainItem {

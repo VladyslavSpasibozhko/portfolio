@@ -1,10 +1,10 @@
 import { Typography } from "@components/atoms/Typography";
 import { Icon, type IconName } from "@components/atoms/Icon";
 import { Badge } from "@components/atoms/Badge";
-import { JourneySection, JourneySectionBackground } from "./JourneySection";
-import { Title } from "./Title";
-import { SubTitle } from "./SubTitle";
-import { Story } from "./Story";
+import { JourneySection, JourneySectionBackground } from "../JourneySection";
+import { Title } from "../Title";
+import { SubTitle } from "../SubTitle";
+import { Story } from "../Story";
 import crm_dashboard from "@static/crm_dashboard.png";
 
 interface FeatureItem {

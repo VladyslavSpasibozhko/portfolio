@@ -1,9 +1,9 @@
 import { Typography } from "@components/atoms/Typography";
 import { Icon } from "@components/atoms/Icon";
-import { InfoCard } from "./InfoCard";
-import { JourneySection } from "./JourneySection";
-import { Title } from "./Title";
-import { BadgeRow } from "./BadgeRow";
+import { InfoCard } from "../InfoCard";
+import { JourneySection } from "../JourneySection";
+import { Title } from "../Title";
+import { BadgeRow } from "../BadgeRow";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 
 export function DataMixProjectsSlide() {

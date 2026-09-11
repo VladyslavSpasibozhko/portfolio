@@ -23,6 +23,7 @@ interface ShootingStar {
 const STAR_COLOR = '248, 250, 252';
 const SHOOTING_STAR_CHANCE_PER_MS = 0.00006;
 
+// TODO: rename component
 export function StarField() {
   const containerRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);

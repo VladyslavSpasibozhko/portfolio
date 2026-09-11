@@ -19,6 +19,7 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config.ts'),
       '@data': path.resolve(__dirname, '../data'),
       '@icons': path.resolve(__dirname, './src/icons'),
+      '@static': path.resolve(__dirname, './static'),
     },
   },
   server: {

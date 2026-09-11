@@ -19,14 +19,12 @@ const variantClasses: Record<TypographyVariant, string> = {
 };
 
 export function Typography({
-  tag = 'p',
+  tag = "p",
   children,
-  className = '',
+  className = "text-white",
 }: TypographyProps) {
   const Tag = tag as keyof JSX.IntrinsicElements;
   const baseClass = variantClasses[tag];
 
-  return (
-    <Tag className={`text-white ${baseClass} ${className}`}>{children}</Tag>
-  );
+  return <Tag className={`${baseClass} ${className}`}>{children}</Tag>;
 }

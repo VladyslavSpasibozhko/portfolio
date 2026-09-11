@@ -23,7 +23,8 @@
       "@utils/*": ["./src/utils/*"],
       "@config": ["./src/config.ts"],
       "@data/*": ["../data/*"],
-      "@icons/*": ["./src/icons/*"]
+      "@icons/*": ["./src/icons/*"],
+      "@static/*": ["./static/*"]
     }
   },
   "include": ["src"],

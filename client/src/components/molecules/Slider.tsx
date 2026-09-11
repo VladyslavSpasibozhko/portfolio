@@ -32,6 +32,8 @@ interface SlideProps extends React.PropsWithChildren, Slide {
   className?: string;
   onAppear: (id: Slide["id"]) => void;
 }
+
+// TODO: renamr component
 export function Slider({ slides, className = "" }: SliderProps) {
   const [visible, setVisible] = useState<Slide["id"] | null>(null);
 

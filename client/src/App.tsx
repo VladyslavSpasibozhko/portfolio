@@ -5,10 +5,10 @@ import { LibraryPage } from "./pages/LibraryPage";
 export default function App() {
   return (
     <>
-      {/* <StarField />
-      <MainPage /> */}
+      <StarField />
+      <MainPage />
 
-      <LibraryPage />
+      {/* <LibraryPage /> */}
     </>
   );
 }

@@ -2,46 +2,44 @@ import type { ReactNode } from "react";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
 import { Icon, type IconName } from "@components/atoms/Icon";
-import { Badge } from "@components/atoms/Badge";
+
+type IconSize = NonNullable<Parameters<typeof Icon>[0]["size"]>;
 
 interface InfoCardProps {
   icon?: IconName;
+  iconSize?: IconSize;
+  iconClassName?: string;
   title: string;
   description?: string;
-  badges?: string[];
   children?: ReactNode;
   className?: string;
 }
 
 export function InfoCard({
   icon,
+  iconSize = "4xl",
+  iconClassName = "text-text-white",
   title,
   description,
-  badges,
   children,
   className = "",
 }: InfoCardProps) {
   return (
-    <BorderedContainer className={`flex flex-col gap-3 ${className}`}>
+    <BorderedContainer className={`w-full flex flex-col gap-6 ${className}`}>
       {icon && (
-        <div className="w-32 h-32 rounded-lg flex items-center justify-center border border-border-focus text-text-sky">
-          <Icon name={icon} size="sm" />
+        <div className="rounded-lg flex items-center justify-start">
+          <Icon name={icon} size={iconSize} className={iconClassName} />
         </div>
       )}
-      <Typography tag="h4">{title}</Typography>
+      <Typography tag="h4" className="text-26 text-text-100">
+        {title}
+      </Typography>
       {description && (
-        <Typography tag="small" className="text-text-400">
+        <Typography tag="p" className="text-18 text-text-sky">
           {description}
         </Typography>
       )}
       {children}
-      {badges && badges.length > 0 && (
-        <div className="flex flex-wrap gap-2 mt-1">
-          {badges.map((badge) => (
-            <Badge key={badge}>{badge}</Badge>
-          ))}
-        </div>
-      )}
     </BorderedContainer>
   );
 }

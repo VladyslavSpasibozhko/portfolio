@@ -1,34 +1,35 @@
-import { Typography } from "@components/atoms/Typography";
 import { Badge } from "@components/atoms/Badge";
-import { InfoCard } from "./InfoCard";
-import { JourneySection } from "./JourneySection";
+import { JourneySection, JourneySectionBackground } from "./JourneySection";
+import { Title } from "./Title";
+import { SubTitle } from "./SubTitle";
+import { Story } from "./Story";
+import laptop from "@static/laptop_coding.png";
+
+const badges = [
+  "JavaScript",
+  "React",
+  "More projects",
+  "More questions",
+];
 
 export function CapitalHoldingLearningSlide() {
   return (
     <JourneySection title="Capital Holding" current={5}>
-      <div className="w-2/3 space-y-4">
-        <Typography tag="h1">I wanted to understand more.</Typography>
-        <Typography tag="p" className="text-text-300">
-          This was the time when I spent a lot of time learning — courses,
-          new technologies, and digging deeper into how things actually
-          worked.
-        </Typography>
+      <div className="w-1/2">
+        <Title content="I wanted to understand more." />
+        <SubTitle
+          className="pt-14"
+          content="This was the time when I spent a lot of time learning — courses, new technologies, and digging deeper into how things actually worked."
+        />
       </div>
 
-      <div className="mt-8 space-y-3">
-        <Typography tag="h4" className="text-text-blue">
-          Courses & learning
-        </Typography>
-        <div className="flex gap-3">
-          <Badge>JavaScript Advanced</Badge>
-          <Badge>React.js</Badge>
-        </div>
+      <Story className="pt-20" content="Courses & learning" />
+      <div className="pt-12 grid grid-cols-2 grid-rows-2 gap-6 w-fit">
+        {badges.map((badge) => (
+          <Badge variant="primary" size="2xl" className="px-12" key={badge}>{badge}</Badge>
+        ))}
       </div>
-
-      <div className="grid grid-cols-2 gap-6 mt-10 w-2/3">
-        <InfoCard icon="bookmark" title="More projects" />
-        <InfoCard icon="info" title="More questions" />
-      </div>
+      <JourneySectionBackground src={laptop} />
     </JourneySection>
   );
 }

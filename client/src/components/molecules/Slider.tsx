@@ -17,12 +17,17 @@ function Slide({ id, content, className = "", onAppear }: SlideProps) {
     ref,
     threshold: 0.5,
     onIntersect: (isIntersecting) => {
-      if (isIntersecting) onAppear(id);
+      if (isIntersecting) {
+        onAppear(id);
+      }
     },
   });
 
   return (
-    <div ref={ref} className={`w-full ${className}`}>
+    <div
+      ref={ref}
+      className={`w-full transition-all duration-200 ${className}`}
+    >
       {content}
     </div>
   );
@@ -33,7 +38,7 @@ interface SlideProps extends React.PropsWithChildren, Slide {
   onAppear: (id: Slide["id"]) => void;
 }
 
-// TODO: renamr component
+// TODO: rename component
 export function Slider({ slides, className = "" }: SliderProps) {
   const [visible, setVisible] = useState<Slide["id"] | null>(null);
 

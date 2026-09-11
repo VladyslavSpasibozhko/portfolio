@@ -1,6 +1,11 @@
 import { Typography } from "@components/atoms/Typography";
 import { Icon, type IconName } from "@components/atoms/Icon";
-import { JourneySection } from "./JourneySection";
+import { Badge } from "@components/atoms/Badge";
+import { JourneySection, JourneySectionBackground } from "./JourneySection";
+import { Title } from "./Title";
+import { SubTitle } from "./SubTitle";
+import { Story } from "./Story";
+import crm_dashboard from "@static/crm_dashboard.png";
 
 interface FeatureItem {
   icon: IconName;
@@ -17,29 +22,38 @@ const features: FeatureItem[] = [
 export function RemedIntroSlide() {
   return (
     <JourneySection title="REMED" current={8}>
-      <div className="w-2/3 space-y-4">
-        <Typography tag="h1">When the frontend became a system.</Typography>
-        <Typography tag="small" className="text-text-400">
-          Frontend Engineer · December 2021 – August 2024
-        </Typography>
-        <Typography tag="p" className="text-text-300">
-          REMED was a healthcare CRM with integration into Ukraine's national
-          eHealth system and Helsi. I owned some of the most heavily used
-          modules and worked closely with designers and backend developers.
-        </Typography>
+      <div className="w-1/2">
+        <Title content="When the frontend became a system." />
+        <SubTitle
+          className="mt-8"
+          content=" Frontend Engineer · December 2021 – August 2024"
+        />
+        <Story
+          className="mt-16"
+          content="REMED was a healthcare CRM with integration into Ukraine's national eHealth system and Helsi. I owned some of the most heavily used modules and worked closely with designers and backend developers."
+        />
       </div>
 
       <div className="mt-10 space-y-3 w-1/2">
-        <Typography tag="h4" className="text-text-blue">
+        <Typography tag="h4" className="uppercase text-20 text-text-blue">
           Key features
         </Typography>
-        {features.map((feature) => (
-          <div key={feature.label} className="flex items-center gap-3">
-            <Icon name={feature.icon} size="sm" className="text-text-sky" />
-            <Typography tag="span">{feature.label}</Typography>
-          </div>
-        ))}
+        <div className="mt-12 flex flex-col justify-start items-start gap-6">
+          {features.map((feature) => (
+            <Badge key={feature.label} variant="primary" size="lg">
+              <div className="flex items-center">
+                <Icon
+                  name={feature.icon}
+                  size="lg"
+                  className="pr-2 text-text-white"
+                />
+                {feature.label}
+              </div>
+            </Badge>
+          ))}
+        </div>
       </div>
+      <JourneySectionBackground src={crm_dashboard} />
     </JourneySection>
   );
 }

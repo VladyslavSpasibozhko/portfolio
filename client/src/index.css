@@ -64,6 +64,26 @@
   --text-56: 56px;
   --text-58: 58px;
   --text-60: 60px;
+  --text-62: 62px;
+  --text-64: 64px;
+  --text-66: 66px;
+  --text-68: 68px;
+  --text-70: 70px;
+  --text-72: 72px;
+  --text-74: 74px;
+  --text-76: 76px;
+  --text-78: 78px;
+  --text-80: 80px;
+  --text-82: 82px;
+  --text-84: 84px;
+  --text-86: 86px;
+  --text-88: 88px;
+  --text-90: 90px;
+  --text-92: 92px;
+  --text-94: 94px;
+  --text-96: 96px;
+  --text-98: 98px;
+  --text-100: 100px;
 
   --font-weight-0: 0;
   --font-weight-100: 100;
@@ -211,4 +231,17 @@ body {
 
 @utility animate-pulse-scale {
   animation: pulse-scale 2s ease-in-out infinite;
+}
+
+@keyframes line-sweep {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(400%);
+  }
+}
+
+@utility animate-line-sweep {
+  animation: line-sweep 2s linear infinite;
 }

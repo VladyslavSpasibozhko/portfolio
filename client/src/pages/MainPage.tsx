@@ -2,7 +2,7 @@ import { Slider, type Slide } from "@components/molecules/Slider";
 import { IntroSlide } from "@components/features/journey/IntroSlide";
 import { JourneyTimelineSlide } from "@components/features/journey/JourneyTimelineSlide";
 import { CapitalHoldingProjectsSlide } from "@components/features/journey/CapitalHoldingProjectsSlide";
-import { CapitalHoldingBeginningSlide } from "@components/features/journey/CapitalHoldingBeginningSlide";
+// import { CapitalHoldingBeginningSlide } from "@components/features/journey/CapitalHoldingBeginningSlide";
 import { CapitalHoldingLearningSlide } from "@components/features/journey/CapitalHoldingLearningSlide";
 import { DataMixIntroSlide } from "@components/features/journey/DataMixIntroSlide";
 import { DataMixProjectsSlide } from "@components/features/journey/DataMixProjectsSlide";
@@ -16,7 +16,7 @@ const slides: Slide[] = [
   { id: "intro", content: <IntroSlide /> },
   { id: "journey-timeline", content: <JourneyTimelineSlide /> },
   { id: "capital-holding-projects", content: <CapitalHoldingProjectsSlide /> },
-  { id: "capital-holding-beginning", content: <CapitalHoldingBeginningSlide /> },
+  // { id: "capital-holding-beginning", content: <CapitalHoldingBeginningSlide /> },
   { id: "capital-holding-learning", content: <CapitalHoldingLearningSlide /> },
   { id: "datamix-intro", content: <DataMixIntroSlide /> },
   { id: "datamix-projects", content: <DataMixProjectsSlide /> },

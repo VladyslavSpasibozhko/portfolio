@@ -14,17 +14,22 @@ interface FlowDiagramProps {
 
 export function FlowDiagram({ steps, className = "" }: FlowDiagramProps) {
   return (
-    <div className={`flex items-center gap-4 flex-wrap ${className}`}>
+    <div className={`flex items-center gap-4 w-full ${className}`}>
       {steps.map((step, index) => (
-        <div key={step.label} className="flex items-center gap-4">
-          <BorderedContainer className="flex items-center gap-2">
+        <div
+          key={step.label}
+          className="flex flex-1 justify-center items-center gap-6"
+        >
+          <BorderedContainer className="bg-transparent flex-1 flex flex-col justify-center items-center gap-2">
             {step.icon && (
-              <Icon name={step.icon} size="sm" className="text-text-sky" />
+              <Icon name={step.icon} size="5xl" className="text-text-white" />
             )}
-            <Typography tag="span">{step.label}</Typography>
+            <Typography tag="p" className="text-20 text-text-white">
+              {step.label}
+            </Typography>
           </BorderedContainer>
           {index < steps.length - 1 && (
-            <Icon name="arrow-right" size="sm" className="text-text-blue" />
+            <Icon name="arrow-right" size="5xl" className="text-text-white" />
           )}
         </div>
       ))}

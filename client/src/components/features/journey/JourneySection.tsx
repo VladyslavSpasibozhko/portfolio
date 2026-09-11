@@ -28,18 +28,33 @@ function JourneySectionHeader({
 
 function JourneySectionFooter() {
   return (
-    <div className="p-8 fixed bottom-0 left-0 right-0">
+    <div className="py-16 px-24 absolute bottom-0 left-0 right-0">
       <div className="flex items-center animate-bounce">
         <div className="pr-2">
           <Icon
             size="xl"
             name="arrow-right-circle"
-            className="text-text-sky"
+            className=" rotate-90 text-text-sky"
           />
         </div>
         <Typography className="text-text-sky text-20">
           Scroll to explore
         </Typography>
+      </div>
+    </div>
+  );
+}
+
+interface JourneySectionBackgroundProps {
+  src: string;
+}
+
+// TODO: improve accessability
+export function JourneySectionBackground({ src }: JourneySectionBackgroundProps) {
+  return (
+    <div className="absolute bottom-0 top-0 left-0 right-0 -z-10">
+      <div className="h-full w-full">
+        <img className="full w-full transform-[translate(40%,20%)]" src={src} />
       </div>
     </div>
   );
@@ -61,7 +76,7 @@ export function JourneySection({
   children,
 }: JourneySectionProps) {
   return (
-    <div className="relative p-8 min-h-screen flex flex-col">
+    <div className="overflow-hidden relative py-16 px-24 min-h-screen flex flex-col">
       <JourneySectionHeader title={title} max={max} current={current} />
       <div className="flex-1 pt-12">{children}</div>
       {showFooter && <JourneySectionFooter />}

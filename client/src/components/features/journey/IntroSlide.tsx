@@ -1,5 +1,8 @@
 import { Typography } from "@components/atoms/Typography";
-import { JourneySection } from "./JourneySection";
+import { JourneySection, JourneySectionBackground } from "./JourneySection";
+import { SubTitle } from "./SubTitle";
+import { Story } from "./Story";
+import card from "@static/code_card_1.png";
 
 export function IntroSlide() {
   return (
@@ -8,21 +11,22 @@ export function IntroSlide() {
         <Typography className="uppercase text-30 font-500 text-text-sky">
           Frontend Engineer
         </Typography>
-        <Typography className="text-60 font-500 text-text-100">
+        <Typography className="text-70 font-700 text-text-100">
+          {/* TODO: use Typography */}
           Hi, I'm <span className="text-accent-violet">Vlad</span>.
         </Typography>
-        <Typography className="text-32 text-text-100">
-          I build frontend systems for products where things get complicated.
-        </Typography>
-        <Typography className="text-24 text-text-sky">
-          Over the last 7+ years, I've worked across healthcare, fintech,
-          social platforms and enterprise software — solving problems around
-          architecture, state, performance, integrations and scale.
-        </Typography>
-        <Typography className="pt-20 text-32 text-text-100">
-          This is the story behind the code.
-        </Typography>
+        <SubTitle content="I build frontend systems for products where things get complicated." />
+        <Story
+          content="  Over the last 7+ years, I've worked across healthcare, fintech, social
+          platforms and enterprise software — solving problems around
+          architecture, state, performance, integrations and scale."
+        />
+        <SubTitle
+          className="pt-20"
+          content="This is the story behind the code."
+        />
       </div>
+      <JourneySectionBackground src={card} />
     </JourneySection>
   );
 }

@@ -1,15 +1,16 @@
-import { Typography } from "@components/atoms/Typography";
 import { InfoCard } from "./InfoCard";
 import { JourneySection } from "./JourneySection";
+import { Title } from "./Title";
+import { SubTitle } from "./SubTitle";
 
 export function RemedOwnershipSlide() {
   return (
     <JourneySection title="REMED" current={9}>
-      <Typography tag="h1">Ownership, architecture, and stability.</Typography>
+      <Title content="Ownership, architecture, and stability." />
 
-      <div className="grid grid-cols-2 gap-6 mt-10 w-2/3">
+      <div className="grid grid-cols-2 gap-6 mt-10">
         <InfoCard
-          icon="user"
+          icon="education"
           title="High-load modules"
           description="Doctor Workplace, Cashier Workplace and Calendar."
         />
@@ -19,19 +20,17 @@ export function RemedOwnershipSlide() {
           description="Services, components, data storage and API layers per business entity."
         />
         <InfoCard
-          icon="cypress"
+          icon="lock-module"
           title="Cypress E2E testing"
           description="Focused on critical user journeys and high-load pages."
         />
         <InfoCard
-          icon="lock-module"
+          icon="code"
           title="Token refresh mechanism"
           description="Handled across multiple API clients with interceptors."
         />
-      </div>
-
-      <div className="mt-6 w-2/3">
         <InfoCard
+          className="col-span-2"
           icon="shield-heart"
           title="Helsi integration"
           description="Connecting with Ukraine's national eHealth system."

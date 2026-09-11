@@ -45,20 +45,22 @@ function TimelineEntry({ item, isLast }: TimelineEntryProps) {
     <div className="relative flex flex-1 flex-col items-start gap-3">
       <div
         ref={dotRef}
-        className="relative z-10 h-12 w-12 rounded-full bg-background-white after:absolute after:w-full after:h-full after:z-20 after:border after:border-border-focus after:rounded-lg after:animate-pulse-scale"
+        className="relative z-10 h-12 w-12 rounded-full bg-background-white animate-pulse after:absolute after:w-full after:h-full after:z-20 after:border after:border-border-focus after:rounded-lg after:animate-pulse-scale"
       />
       {!isLast && (
         <div
           ref={lineRef}
-          className="absolute w-full -translate-y-1/2 border-t border-border-highlight"
-        />
+          className="absolute w-full h-px -translate-y-1/2 bg-border-focus overflow-x-hidden"
+        >
+          <div className="absolute -top-3 left-0 h-6 w-1/4 bg-linear-to-r from-transparent via-accent-cyan to-transparent blur-[3px] animate-line-sweep" />
+        </div>
       )}
       <div className="flex flex-col gap-1">
-        <Typography tag="h4">{item.year}</Typography>
-        <Typography tag="span" className="text-text-blue">
+        <Typography tag="h4" className="text-30 text-text-200">{item.year}</Typography>
+        <Typography tag="p" className="text-24 text-text-300">
           {item.title}
         </Typography>
-        <Typography tag="small" className="text-text-400">
+        <Typography tag="p" className="text-20 text-text-sky">
           {item.description}
         </Typography>
       </div>

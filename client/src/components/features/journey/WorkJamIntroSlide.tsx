@@ -1,36 +1,42 @@
+import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
-import { Badge } from "@components/atoms/Badge";
 import { FlowDiagram } from "./FlowDiagram";
 import { JourneySection } from "./JourneySection";
+import { Title } from "./Title";
+import { SubTitle } from "./SubTitle";
+import { Story } from "./Story";
+
+const stats = [
+  "+10 apps & modules",
+  "Nx monorepo",
+  "React + Angular — legacy + modern",
+  "Global users — enterprise scale",
+];
 
 export function WorkJamIntroSlide() {
   return (
     <JourneySection title="WorkJam" current={10}>
-      <div className="w-2/3 space-y-4">
-        <Typography tag="h1">When scale changes the rules.</Typography>
-        <Typography tag="small" className="text-text-400">
-          Frontend Engineer · March 2024 – July 2026
-        </Typography>
-        <Typography tag="p" className="text-text-300">
-          Global workforce platform for enterprise clients. Multiple apps,
-          legacy Angular, modern React & Next.js, shared packages,
-          micro-frontends, monorepo and multiple teams.
-        </Typography>
+      <div className="w-1/2">
+        <Title content="When scale changes the rules." />
+        <SubTitle className="mt-10" content="Frontend Engineer · March 2024 – July 2026" />
+        <Story className="mt-20" content="Global workforce platform for enterprise clients. Multiple apps, legacy Angular, modern React & Next.js, shared packages, micro-frontends, monorepo and multiple teams." />
       </div>
 
-      <div className="flex gap-3 mt-8 flex-wrap">
-        <Badge size="lg">+10 apps & modules</Badge>
-        <Badge size="lg">Nx monorepo</Badge>
-        <Badge size="lg">React + Angular — legacy + modern</Badge>
-        <Badge size="lg">Global users — enterprise scale</Badge>
+      <div className="grid grid-cols-4 gap-6 mt-12 w-full">
+        {stats.map((stat) => (
+          <BorderedContainer className="bg-transparent" key={stat}>
+            <Typography tag="p" className="text-18 text-text-white">{stat}</Typography>
+          </BorderedContainer>
+        ))}
       </div>
 
       <FlowDiagram
-        className="mt-16"
+        className="mt-12"
         steps={[
-          { label: "Legacy Angular", icon: "angular" },
+          { label: "Angular", icon: "angular" },
           { label: "Shared Packages", icon: "layers" },
-          { label: "Modern Next.js", icon: "react" },
+          // TODO: add next js
+          { label: "Next.js", icon: "react" },
         ]}
       />
     </JourneySection>

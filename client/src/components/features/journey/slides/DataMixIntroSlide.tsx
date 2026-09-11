@@ -18,9 +18,13 @@ const domains: DomainItem[] = [
   { icon: "modular-book", label: "Company products" },
 ];
 
-export function DataMixIntroSlide() {
+interface DataMixIntroSlideProps {
+  pageIndex: number;
+}
+
+export function DataMixIntroSlide({ pageIndex }: DataMixIntroSlideProps) {
   return (
-    <JourneySection title="DataMix" current={6}>
+    <JourneySection title="DataMix" current={pageIndex}>
       <div className="pt-20 w-1/2">
         <Title content="The first time I understood that engineering is a team sport." />
         <SubTitle

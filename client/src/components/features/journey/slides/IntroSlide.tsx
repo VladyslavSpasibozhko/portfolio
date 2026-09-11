@@ -4,9 +4,13 @@ import { SubTitle } from "../SubTitle";
 import { Story } from "../Story";
 import card from "@static/code_card_1.png";
 
-export function IntroSlide() {
+interface IntroSlideProps {
+  pageIndex: number;
+}
+
+export function IntroSlide({ pageIndex }: IntroSlideProps) {
   return (
-    <JourneySection title="" current={1}>
+    <JourneySection title="" current={pageIndex}>
       <div className="pt-24 w-1/2 space-y-20">
         <Typography className="uppercase text-30 font-500 text-text-sky">
           Frontend Engineer

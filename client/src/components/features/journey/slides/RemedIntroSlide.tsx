@@ -19,9 +19,13 @@ const features: FeatureItem[] = [
   { icon: "clipboard-check", label: "Medical documentation" },
 ];
 
-export function RemedIntroSlide() {
+interface RemedIntroSlideProps {
+  pageIndex: number;
+}
+
+export function RemedIntroSlide({ pageIndex }: RemedIntroSlideProps) {
   return (
-    <JourneySection title="REMED" current={8}>
+    <JourneySection title="REMED" current={pageIndex}>
       <div className="w-1/2">
         <Title content="When the frontend became a system." />
         <SubTitle

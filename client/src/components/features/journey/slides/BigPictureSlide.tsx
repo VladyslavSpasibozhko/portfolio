@@ -34,9 +34,13 @@ const toolbox: IconName[] = [
   "cypress",
 ];
 
-export function BigPictureSlide() {
+interface BigPictureSlideProps {
+  pageIndex: number;
+}
+
+export function BigPictureSlide({ pageIndex }: BigPictureSlideProps) {
   return (
-    <JourneySection title="The Big Picture" current={12} showFooter={false}>
+    <JourneySection title="The Big Picture" current={pageIndex} showFooter={false}>
       <Title content="Looking back, the questions changed." />
 
       <Timeline items={timelineItems} className="mt-16" />

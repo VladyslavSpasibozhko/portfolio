@@ -8,9 +8,13 @@ import { Typography } from "@components/atoms/Typography";
 
 const badges = ["JavaScript", "React", "Redux"];
 
-export function CapitalHoldingProjectsSlide() {
+interface CapitalHoldingProjectsSlideProps {
+  pageIndex: number;
+}
+
+export function CapitalHoldingProjectsSlide({ pageIndex }: CapitalHoldingProjectsSlideProps) {
   return (
-    <JourneySection title="Capital Holding" current={3}>
+    <JourneySection title="Capital Holding" current={pageIndex}>
       <div className="w-1/2">
         <Title content="Where it all started." />
         <SubTitle

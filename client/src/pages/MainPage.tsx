@@ -11,19 +11,29 @@ import { WorkJamIntroSlide } from "@components/features/journey/slides/WorkJamIn
 import { WorkJamProblemsSlide } from "@components/features/journey/slides/WorkJamProblemsSlide";
 import { BigPictureSlide } from "@components/features/journey/slides/BigPictureSlide";
 
-const slides: Slide[] = [
-  { id: "intro", content: <IntroSlide /> },
-  { id: "journey-timeline", content: <JourneyTimelineSlide /> },
-  { id: "capital-holding-projects", content: <CapitalHoldingProjectsSlide /> },
-  { id: "capital-holding-learning", content: <CapitalHoldingLearningSlide /> },
-  { id: "datamix-intro", content: <DataMixIntroSlide /> },
-  { id: "datamix-projects", content: <DataMixProjectsSlide /> },
-  { id: "remed-intro", content: <RemedIntroSlide /> },
-  { id: "remed-ownership", content: <RemedOwnershipSlide /> },
-  { id: "workjam-intro", content: <WorkJamIntroSlide /> },
-  { id: "workjam-problems", content: <WorkJamProblemsSlide /> },
-  { id: "big-picture", content: <BigPictureSlide /> },
+interface JourneySlideDefinition {
+  id: string;
+  Component: (props: { pageIndex: number }) => React.ReactElement;
+}
+
+const slideDefinitions: JourneySlideDefinition[] = [
+  { id: "intro", Component: IntroSlide },
+  { id: "journey-timeline", Component: JourneyTimelineSlide },
+  { id: "capital-holding-projects", Component: CapitalHoldingProjectsSlide },
+  { id: "capital-holding-learning", Component: CapitalHoldingLearningSlide },
+  { id: "datamix-intro", Component: DataMixIntroSlide },
+  { id: "datamix-projects", Component: DataMixProjectsSlide },
+  { id: "remed-intro", Component: RemedIntroSlide },
+  { id: "remed-ownership", Component: RemedOwnershipSlide },
+  { id: "workjam-intro", Component: WorkJamIntroSlide },
+  { id: "workjam-problems", Component: WorkJamProblemsSlide },
+  { id: "big-picture", Component: BigPictureSlide },
 ];
+
+const slides: Slide[] = slideDefinitions.map(({ id, Component }, index) => ({
+  id,
+  content: <Component pageIndex={index + 1} />,
+}));
 
 export function MainPage() {
   return <Slider slides={slides} />;

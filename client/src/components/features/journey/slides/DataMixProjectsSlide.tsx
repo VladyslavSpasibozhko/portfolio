@@ -6,9 +6,13 @@ import { Title } from "../Title";
 import { BadgeRow } from "../BadgeRow";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 
-export function DataMixProjectsSlide() {
+interface DataMixProjectsSlideProps {
+  pageIndex: number;
+}
+
+export function DataMixProjectsSlide({ pageIndex }: DataMixProjectsSlideProps) {
   return (
-    <JourneySection title="DataMix" current={7}>
+    <JourneySection title="DataMix" current={pageIndex}>
       <Title content="The projects." />
 
       <div className="grid grid-cols-2 gap-16 mt-16 w-full">

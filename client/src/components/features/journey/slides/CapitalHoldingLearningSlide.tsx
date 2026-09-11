@@ -12,9 +12,13 @@ const badges = [
   "More questions",
 ];
 
-export function CapitalHoldingLearningSlide() {
+interface CapitalHoldingLearningSlideProps {
+  pageIndex: number;
+}
+
+export function CapitalHoldingLearningSlide({ pageIndex }: CapitalHoldingLearningSlideProps) {
   return (
-    <JourneySection title="Capital Holding" current={5}>
+    <JourneySection title="Capital Holding" current={pageIndex}>
       <div className="w-1/2">
         <Title content="I wanted to understand more." />
         <SubTitle

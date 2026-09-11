@@ -3,9 +3,13 @@ import { JourneySection } from "../JourneySection";
 import { Title } from "../Title";
 import { BadgeRow } from "../BadgeRow";
 
-export function WorkJamProblemsSlide() {
+interface WorkJamProblemsSlideProps {
+  pageIndex: number;
+}
+
+export function WorkJamProblemsSlide({ pageIndex }: WorkJamProblemsSlideProps) {
   return (
-    <JourneySection title="WorkJam" current={11}>
+    <JourneySection title="WorkJam" current={pageIndex}>
       <Title content="Four complex problems. Real solutions." />
 
       <div className="grid grid-cols-2 gap-6 mt-10">

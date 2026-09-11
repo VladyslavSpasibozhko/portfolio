@@ -13,9 +13,13 @@ const stats = [
   "Global users — enterprise scale",
 ];
 
-export function WorkJamIntroSlide() {
+interface WorkJamIntroSlideProps {
+  pageIndex: number;
+}
+
+export function WorkJamIntroSlide({ pageIndex }: WorkJamIntroSlideProps) {
   return (
-    <JourneySection title="WorkJam" current={10}>
+    <JourneySection title="WorkJam" current={pageIndex}>
       <div className="w-1/2">
         <Title content="When scale changes the rules." />
         <SubTitle className="mt-10" content="Frontend Engineer · March 2024 – July 2026" />

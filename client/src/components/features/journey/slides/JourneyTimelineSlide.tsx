@@ -16,9 +16,13 @@ const timelineItems: TimelineItem[] = [
   },
 ];
 
-export function JourneyTimelineSlide() {
+interface JourneyTimelineSlideProps {
+  pageIndex: number;
+}
+
+export function JourneyTimelineSlide({ pageIndex }: JourneyTimelineSlideProps) {
   return (
-    <JourneySection title="The Journey" current={2}>
+    <JourneySection title="The Journey" current={pageIndex}>
       <div className="w-1/2 pt-20">
         <Title content="It didn't start with architecture." />
         <SubTitle className="pt-6" content="It started with learning how to make things work." />

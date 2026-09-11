@@ -3,9 +3,13 @@ import { JourneySection } from "../JourneySection";
 import { Title } from "../Title";
 import { SubTitle } from "../SubTitle";
 
-export function RemedOwnershipSlide() {
+interface RemedOwnershipSlideProps {
+  pageIndex: number;
+}
+
+export function RemedOwnershipSlide({ pageIndex }: RemedOwnershipSlideProps) {
   return (
-    <JourneySection title="REMED" current={9}>
+    <JourneySection title="REMED" current={pageIndex}>
       <Title content="Ownership, architecture, and stability." />
 
       <div className="grid grid-cols-2 gap-6 mt-10">

@@ -11,7 +11,7 @@ interface IntroSlideProps {
 export function IntroSlide({ pageIndex }: IntroSlideProps) {
   return (
     <JourneySection title="" current={pageIndex}>
-      <div className="pt-24 w-1/2 space-y-20">
+      <div className="mt-24 w-1/2 space-y-20">
         <Typography className="uppercase text-30 font-500 text-text-sky">
           Frontend Engineer
         </Typography>
@@ -26,7 +26,7 @@ export function IntroSlide({ pageIndex }: IntroSlideProps) {
           architecture, state, performance, integrations and scale."
         />
         <SubTitle
-          className="pt-20"
+          className="mt-20"
           content="This is the story behind the code."
         />
       </div>

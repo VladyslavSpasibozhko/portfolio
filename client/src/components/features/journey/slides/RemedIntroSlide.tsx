@@ -49,7 +49,7 @@ export function RemedIntroSlide({ pageIndex }: RemedIntroSlideProps) {
                 <Icon
                   name={feature.icon}
                   size="lg"
-                  className="pr-2 text-text-white"
+                  className="mr-2 text-text-white"
                 />
                 {feature.label}
               </div>

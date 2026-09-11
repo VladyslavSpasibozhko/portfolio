@@ -25,21 +25,21 @@ interface DataMixIntroSlideProps {
 export function DataMixIntroSlide({ pageIndex }: DataMixIntroSlideProps) {
   return (
     <JourneySection title="DataMix" current={pageIndex}>
-      <div className="pt-20 w-1/2">
+      <div className="mt-20 w-1/2">
         <Title content="The first time I understood that engineering is a team sport." />
         <SubTitle
-          className="pt-8"
+          className="mt-8"
           content="Frontend Engineer · October 2020 – December 2021"
         />
         <Story
-          className="pt-18"
+          className="mt-18"
           content="DataMix was my first outsourced experience and one of the first places where I felt a genuinely warm engineering team. That environment mattered. I learned how important it is to work with people who support and inspire each other."
         />
       </div>
 
-      <div className="pt-20">
+      <div className="mt-20">
         <SubTitle content="Multiple projects. Different domains." />
-        <div className="pt-6 flex flex-col justify-start items-start gap-4">
+        <div className="mt-6 flex flex-col justify-start items-start gap-4">
           {domains.map((domain) => (
             <Badge
               size="2xl"
@@ -48,7 +48,7 @@ export function DataMixIntroSlide({ pageIndex }: DataMixIntroSlideProps) {
               className="flex items-center gap-2"
             >
               <div className="flex items-center justify-center">
-                <Icon name={domain.icon} className="pr-2 text" size="lg" />
+                <Icon name={domain.icon} className="mr-2 text" size="lg" />
                 {domain.label}
               </div>
             </Badge>

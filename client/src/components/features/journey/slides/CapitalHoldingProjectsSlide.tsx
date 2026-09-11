@@ -18,16 +18,16 @@ export function CapitalHoldingProjectsSlide({ pageIndex }: CapitalHoldingProject
       <div className="w-1/2">
         <Title content="Where it all started." />
         <SubTitle
-          className="pt-6"
+          className="mt-6"
           content="Frontend Engineer · April 2019 – October 2020"
         />
         <Story
-          className="pt-12"
+          className="mt-12"
           content="My first role as a frontend engineer. I was fascinated by how everything worked — not just the UI, but how data flows, how the frontend communicates with the backend, and how all the pieces work together."
         />
       </div>
 
-      <div className="grid grid-cols-2 gap-8 pt-20">
+      <div className="grid grid-cols-2 gap-8 mt-20">
         <InfoCard
           icon="javascript"
           title="Project 1 — Vanilla JavaScript"
@@ -51,7 +51,7 @@ export function CapitalHoldingProjectsSlide({ pageIndex }: CapitalHoldingProject
         </InfoCard>
       </div>
 
-      <div className="flex gap-4 pt-20">
+      <div className="flex gap-4 mt-20">
         {badges.map((badge) => (
           <Badge key={badge} variant="primary" size="2xl" className="px-10">
             {badge}

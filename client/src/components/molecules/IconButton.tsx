@@ -20,13 +20,13 @@ const variantClasses = {
 
 const sizeClasses = {
   sm: { button: "p-1", icon: "sm" },
-  md: { button: "p-2", icon: "md" },
-  lg: { button: "p-3", icon: "lg" },
-  xl: { button: "p-3", icon: "xl" },
-  "2xl": { button: "p-4", icon: "2xl" },
-  "3xl": { button: "p-4", icon: "3xl" },
-  "4xl": { button: "p-5", icon: "4xl" },
-  "5xl": { button: "p-5", icon: "5xl" },
+  md: { button: "p-1 xl:p-2", icon: "md" },
+  lg: { button: "p-1 md:p-2 xl:p-3", icon: "lg" },
+  xl: { button: "p-1 md:p-2 xl:p-3", icon: "xl" },
+  "2xl": { button: "p-2 md:p-3 xl:p-4", icon: "2xl" },
+  "3xl": { button: "p-2 md:p-3 xl:p-4", icon: "3xl" },
+  "4xl": { button: "p-2 md:p-4 xl:p-5", icon: "4xl" },
+  "5xl": { button: "p-2 md:p-4 xl:p-5", icon: "5xl" },
 } as const;
 
 export function IconButton({

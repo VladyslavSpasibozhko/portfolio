@@ -43,14 +43,14 @@ export function BigPictureSlide({ pageIndex }: BigPictureSlideProps) {
     <JourneySection title="The Big Picture" current={pageIndex} showFooter={false}>
       <Title content="Looking back, the questions changed." />
 
-      <Timeline items={timelineItems} className="mt-16" />
+      <Timeline items={timelineItems} className="mt-6 sm:mt-8 md:mt-10 lg:mt-12 xl:mt-14" />
 
-      <div className="mt-16 space-y-4">
+      <div className="mt-6 md:mt-8 xl:mt-12 space-y-2">
         <SubTitle content="The toolbox" />
-        <Typography tag="p" className="text-text-400 italic text-18">
+        <Typography tag="p" className="text-text-400 italic text-10 sm:text-12 md:text-14 lg:text-16">
           Technologies change. Problems don't.
         </Typography>
-        <div className="mt-10 flex gap-4 flex-wrap">
+        <div className="mt-4 sm:mt-6 md:mt-8 flex gap-2 flex-wrap">
           {toolbox.map((icon) => (
             <BorderedContainer
               key={icon}
@@ -62,15 +62,15 @@ export function BigPictureSlide({ pageIndex }: BigPictureSlideProps) {
         </div>
       </div>
 
-      <div className="mt-16 pt-8 border-t border-border-highlight flex items-start">
+      <div className="mt-4 md:mt-8 xl:mt-12 pt-2 md:pt-4 border-t border-border-highlight flex items-start">
         <Link className="flex items-center">
-          <Typography tag="h3">Let's build something.</Typography>
+          <Typography tag="p" className="text-12 md:text-16 xl:text-20" >Let's build something.</Typography>
           {/* TODO: enchange accesability everywhere */}
           <IconButton
-            size="5xl"
+            size="3xl"
             icon="arrow-right-circle"
             aria-label="Open LinkedIn"
-            className="p-2 text-text-white"
+            className="text-text-white"
           />
         </Link>
       </div>

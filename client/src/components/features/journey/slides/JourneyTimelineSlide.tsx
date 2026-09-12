@@ -23,17 +23,17 @@ interface JourneyTimelineSlideProps {
 export function JourneyTimelineSlide({ pageIndex }: JourneyTimelineSlideProps) {
   return (
     <JourneySection title="The Journey" current={pageIndex}>
-      <div className="w-1/2 mt-20">
+      <div className="w-1/2 mt-6 sm:mt-8 md:mt-12 lg:mt-14 xl:mt-18">
         <Title content="It didn't start with architecture." />
-        <SubTitle className="mt-6" content="It started with learning how to make things work." />
+        <SubTitle className="mt-2 md:mt-3 lg:mt-4" content="It started with learning how to make things work." />
         <Story
-          className="mt-6"
+          className="mt-2 md:mt-3 lg:mt-4"
           content="7+ years. Four companies. Different products. The same curiosity — how
           does it all fit together?"
         />
       </div>
-      <div className="mt-20">
-        <Timeline items={timelineItems} className="mt-24" />
+      <div className="mt-6 sm:mt-8 md:mt-12 lg:mt-14 xl:mt-18">
+        <Timeline items={timelineItems} className="mt-8 sm:mt-10 md:mt-14 lg:mt-18 xl:mt-22" />
       </div>
     </JourneySection>
   );

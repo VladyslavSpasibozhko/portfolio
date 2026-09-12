@@ -42,10 +42,10 @@ function TimelineEntry({ item, isLast }: TimelineEntryProps) {
   }, []);
 
   return (
-    <div className="relative flex flex-1 flex-col items-start gap-3">
+    <div className="relative flex flex-1 flex-col items-start gap-2 sm:gap-3">
       <div
         ref={dotRef}
-        className="relative z-10 h-12 w-12 rounded-full bg-background-white animate-pulse after:absolute after:w-full after:h-full after:z-20 after:border after:border-border-focus after:rounded-lg after:animate-pulse-scale"
+        className="relative z-10 h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full bg-background-white after:absolute after:w-full after:h-full after:z-20 after:border after:border-border-focus after:rounded-lg after:animate-pulse-scale"
       />
       {!isLast && (
         <div
@@ -56,11 +56,11 @@ function TimelineEntry({ item, isLast }: TimelineEntryProps) {
         </div>
       )}
       <div className="flex flex-col gap-1">
-        <Typography tag="h4" className="text-30 text-text-200">{item.year}</Typography>
-        <Typography tag="p" className="text-24 text-text-300">
+        <Typography tag="h4" className="text-16 sm:text-18 md:text-20 lg:text-24 xl:text-26 2xl:text-30 text-text-100">{item.year}</Typography>
+        <Typography tag="p" className="text-12 sm:text-14 md:text-16 lg:text-18 xl:text-20 2xl:text-24 text-text-200">
           {item.title}
         </Typography>
-        <Typography tag="p" className="text-20 text-text-sky">
+        <Typography tag="p" className="text-10 sm:text-12 md:text-14 lg:text-16 xl:text-18 text-text-sky">
           {item.description}
         </Typography>
       </div>

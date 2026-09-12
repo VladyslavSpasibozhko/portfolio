@@ -1,7 +1,6 @@
 import { InfoCard } from "../InfoCard";
 import { JourneySection } from "../JourneySection";
 import { Title } from "../Title";
-import { SubTitle } from "../SubTitle";
 
 interface RemedOwnershipSlideProps {
   pageIndex: number;
@@ -12,7 +11,7 @@ export function RemedOwnershipSlide({ pageIndex }: RemedOwnershipSlideProps) {
     <JourneySection title="REMED" current={pageIndex}>
       <Title content="Ownership, architecture, and stability." />
 
-      <div className="grid grid-cols-2 gap-6 mt-10">
+      <div className="grid grid-cols-2 gap-2 md:gap-4 mt-2 md:mt-6 xl:mt-8">
         <InfoCard
           icon="education"
           title="High-load modules"

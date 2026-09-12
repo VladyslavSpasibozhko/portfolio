@@ -43,3 +43,21 @@ Design and implement a way for the chat flow to accept file input and incorporat
 
 **How:**
 To be discussed — needs a decision on transport (WS message vs. HTTP upload endpoint), file types supported, and how file content is merged into the system prompt/context.
+
+## Optimize Images Delivery
+
+**Priority:** Medium
+
+**Reason:**  
+Images are served without optimization (compression, formats, sizes). This impacts page load times, bandwidth usage, and user experience, especially on mobile or slower connections.
+
+**What to update:**
+Implement image optimization across the portfolio, including responsive images, modern formats (WebP), and lazy loading.
+
+**How:**
+1. Audit all images in the portfolio to identify optimization opportunities
+2. Consider using image optimization tools/services (e.g. sharp, ImageOptim, or CDN with built-in optimization)
+3. Implement responsive images with srcset for different screen sizes
+4. Add lazy loading where appropriate (Intersection Observer or native `loading="lazy"`)
+5. Convert to modern formats (WebP with fallbacks) where possible
+6. Measure performance impact (LCP, CLS) before and after

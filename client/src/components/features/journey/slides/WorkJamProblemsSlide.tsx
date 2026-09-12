@@ -12,7 +12,7 @@ export function WorkJamProblemsSlide({ pageIndex }: WorkJamProblemsSlideProps) {
     <JourneySection title="WorkJam" current={pageIndex}>
       <Title content="Four complex problems. Real solutions." />
 
-      <div className="grid grid-cols-2 gap-6 mt-10">
+      <div className="grid grid-cols-2 gap-2 md:gap-4 mt-2 sm:mt-4 md:mt-6 lg:mt-8">
         <InfoCard
           icon="feature-flag"
           title="Feature Flag Migration"

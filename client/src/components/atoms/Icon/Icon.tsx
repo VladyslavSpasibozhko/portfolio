@@ -15,6 +15,7 @@ export type IconName =
   | 'clipboard-check'
   | 'clock'
   | 'close'
+  // TODO: COde icon is broken.
   | 'code'
   | 'cypress'
   | 'database'
@@ -51,14 +52,14 @@ interface IconProps {
 }
 
 const sizeClasses = {
-  sm: "w-20 h-20",
-  md: "w-24 h-24",
-  lg: "w-28 h-28",
-  xl: "w-32 h-32",
-  "2xl": "w-36 h-36",
-  "3xl": "w-40 h-40",
-  "4xl": "w-44 h-44",
-  "5xl": "w-48 h-48",
+  sm: "w-12 h-12 md:w-16 md:h-16 xl:w-20 xl:h-20",
+  md: "w-16 h-16 md:w-20 md:h-20 xl:w-24 xl:h-24",
+  lg: "w-20 h-20 md:w-24 md:h-24 xl:w-28 xl:h-28",
+  xl: "w-24 h-24 md:w-28 md:h-28 xl:w-32 xl:h-32",
+  "2xl": "w-28 h-28 md:w-32 md:h-32 xl:w-36 xl:h-36",
+  "3xl": "w-32 h-32 md:w-36 md:h-36 xl:w-40 xl:h-40",
+  "4xl": "w-36 h-36 md:w-40 md:h-40 xl:w-44 xl:h-44",
+  "5xl": "w-40 h-40 md:w-44 md:h-44 xl:w-48 xl:h-48",
 };
 
 type SvgComponent = FC<SVGProps<SVGSVGElement>>;

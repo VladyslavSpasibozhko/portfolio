@@ -1,5 +1,6 @@
 import { useEffect, useState, type RefObject } from "react";
 
+// TODO: Rewrite animation;
 const BADGE_GLOW_DEFAULTS = {
   // border color of the glowing line — a Tailwind `stroke-*` utility class
   colorClassName: "stroke-border-focus",

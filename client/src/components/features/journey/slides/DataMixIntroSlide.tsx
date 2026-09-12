@@ -25,21 +25,21 @@ interface DataMixIntroSlideProps {
 export function DataMixIntroSlide({ pageIndex }: DataMixIntroSlideProps) {
   return (
     <JourneySection title="DataMix" current={pageIndex}>
-      <div className="mt-20 w-1/2">
+      <div className="mt-4 md:mt-6 xl:mt-12 w-full md:w-2/3 xl:w-1/2">
         <Title content="The first time I understood that engineering is a team sport." />
         <SubTitle
-          className="mt-8"
+          className="mt-2 sm:mt-4 md:mt-4 xl:mt-6"
           content="Frontend Engineer · October 2020 – December 2021"
         />
         <Story
-          className="mt-18"
+          className="mt-2 sm:mt-4 md:mt-6 xl:mt-8"
           content="DataMix was my first outsourced experience and one of the first places where I felt a genuinely warm engineering team. That environment mattered. I learned how important it is to work with people who support and inspire each other."
         />
       </div>
 
-      <div className="mt-20">
+      <div className="mt-4 md:mt-8 xl:mt-12">
         <SubTitle content="Multiple projects. Different domains." />
-        <div className="mt-6 flex flex-col justify-start items-start gap-4">
+        <div className="mt-2 md:mt-4 flex flex-col justify-start items-start gap-2">
           {domains.map((domain) => (
             <Badge
               size="2xl"
@@ -56,7 +56,10 @@ export function DataMixIntroSlide({ pageIndex }: DataMixIntroSlideProps) {
         </div>
       </div>
 
-      <Typography tag="p" className="mt-40 italic text-text-400 w-1/2">
+      <Typography
+        tag="p"
+        className="mt-6 md:mt-8 xl:mt-12 italic text-text-400 w-1/2"
+      >
         Not just writing code — but reviewing, supporting, refactoring,
         discussing architecture.
       </Typography>

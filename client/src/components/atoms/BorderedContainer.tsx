@@ -11,7 +11,7 @@ export function BorderedContainer({
 }: BorderedContainerProps) {
   return (
     <div
-      className={`p-6 rounded-lg border border-border-focus bg-background-900 ${className}`}
+      className={`p-2 md:p-4 xl:p-6 rounded-lg border border-border-focus bg-background-900 ${className}`}
     >
       {children}
     </div>

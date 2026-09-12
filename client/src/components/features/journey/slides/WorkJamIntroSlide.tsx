@@ -20,22 +20,33 @@ interface WorkJamIntroSlideProps {
 export function WorkJamIntroSlide({ pageIndex }: WorkJamIntroSlideProps) {
   return (
     <JourneySection title="WorkJam" current={pageIndex}>
-      <div className="w-1/2">
+      <div className="w-full md:w-2/3 xl:w-1/2">
         <Title content="When scale changes the rules." />
-        <SubTitle className="mt-10" content="Frontend Engineer · March 2024 – July 2026" />
-        <Story className="mt-20" content="Global workforce platform for enterprise clients. Multiple apps, legacy Angular, modern React & Next.js, shared packages, micro-frontends, monorepo and multiple teams." />
+        <SubTitle
+          className="mt-2 md:mt-4 xl:mt-8"
+          content="Frontend Engineer · March 2024 – July 2026"
+        />
+        <Story
+          className="mt-4 md:mt-8 xl:mt-12"
+          content="Global workforce platform for enterprise clients. Multiple apps, legacy Angular, modern React & Next.js, shared packages, micro-frontends, monorepo and multiple teams."
+        />
       </div>
 
-      <div className="grid grid-cols-4 gap-6 mt-12 w-full">
+      <div className="grid grid-cols-4 gap-2 lg:gap-4 mt-4 sm:mt-6 md:mt-8 lg:mt-10 w-full">
         {stats.map((stat) => (
           <BorderedContainer className="bg-transparent" key={stat}>
-            <Typography tag="p" className="text-18 text-text-white">{stat}</Typography>
+            <Typography
+              tag="p"
+              className="text-10 sm:text-12 md:text-14 lg:text-16 text-text-white"
+            >
+              {stat}
+            </Typography>
           </BorderedContainer>
         ))}
       </div>
 
       <FlowDiagram
-        className="mt-12"
+        className="mt-4 sm:mt-6 md:mt-8 lg:mt-10"
         steps={[
           { label: "Angular", icon: "angular" },
           { label: "Shared Packages", icon: "layers" },

@@ -12,6 +12,7 @@
     "noImplicitOverride": true,
     "resolveJsonModule": true,
     "moduleResolution": "bundler",
+    "noEmit": true,
     "allowImportingTsExtensions": true,
     "jsx": "react-jsx",
     "baseUrl": ".",

@@ -67,6 +67,12 @@ export interface ShootingStar {
   maxLife: number;
 }
 
+/** Offscreen link halo, re-rendered on its own slower schedule than the main frame. */
+export interface HaloLayer {
+  canvas: HTMLCanvasElement;
+  renderedAt: number;
+}
+
 export interface Scene {
   nodes: ConstellationNode[];
   links: ConstellationLink[];

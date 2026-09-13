@@ -5,6 +5,8 @@ import {
   LINK_HALO_ALPHA,
   LINK_HALO_BLUR,
   LINK_HALO_BUCKETS,
+  LINK_HALO_LAYER_SCALE,
+  LINK_HALO_REFRESH_MS,
   LINK_HALO_WIDTH,
   LINK_PULSE_DEPTH,
   NODE_ALPHA_MIN,
@@ -20,7 +22,14 @@ import {
 import { getGlowSprite } from './offscreen';
 import { randomBetween } from './random';
 import { edgeWeight } from './scene';
-import type { ConstellationLink, ConstellationNode, Scene, ShootingStar, Size } from './types';
+import type {
+  ConstellationLink,
+  ConstellationNode,
+  HaloLayer,
+  Scene,
+  ShootingStar,
+  Size,
+} from './types';
 
 interface NodePosition {
   x: number;
@@ -34,8 +43,7 @@ interface RenderFrame {
   time: number;
   deltaMs: number;
   animate: boolean;
-  /** Pre-rendered nebula haze, drawn as the backdrop of every frame. */
-  backdrop: HTMLCanvasElement | null;
+  halo: HaloLayer;
 }
 
 function rgba(color: string, alpha: number): string {
@@ -84,19 +92,22 @@ function drawDust(
 /**
  * Blurred halo behind the lines. A blur cannot vary along one stroke, so links are
  * grouped into a few brightness buckets and each bucket is stroked as a single batched
- * path — the halo follows the fade at the cost of a handful of blurs per frame rather
- * than one per link, which is what stalls the main thread.
+ * path — the halo follows the fade at the cost of a handful of blurs rather than one per
+ * link. Even batched, those blurs cover the whole viewport, so they are rendered into a
+ * low-res layer that is only refreshed every `LINK_HALO_REFRESH_MS` and stretched on draw.
  */
-function drawLinkHalo(
-  ctx: CanvasRenderingContext2D,
-  scene: Scene,
-  positions: NodePosition[],
-): void {
-  ctx.save();
+function renderLinkHalo(halo: HaloLayer, scene: Scene, positions: NodePosition[]): void {
+  const ctx = halo.canvas.getContext('2d');
+  if (!ctx) return;
+
+  ctx.setTransform(1, 0, 0, 1, 0, 0);
+  ctx.clearRect(0, 0, halo.canvas.width, halo.canvas.height);
+  ctx.setTransform(LINK_HALO_LAYER_SCALE, 0, 0, LINK_HALO_LAYER_SCALE, 0, 0);
   ctx.globalCompositeOperation = 'lighter';
   ctx.lineCap = 'round';
   ctx.lineWidth = LINK_HALO_WIDTH;
-  ctx.shadowBlur = LINK_HALO_BLUR;
+  // Shadows ignore the transform, so the blur is scaled down by hand to match the layer.
+  ctx.shadowBlur = LINK_HALO_BLUR * LINK_HALO_LAYER_SCALE;
 
   for (let bucket = 0; bucket < LINK_HALO_BUCKETS; bucket++) {
     const level = (bucket + 1) / LINK_HALO_BUCKETS;
@@ -121,7 +132,23 @@ function drawLinkHalo(
     ctx.shadowColor = rgba(COLOR_BLUE, level);
     ctx.stroke();
   }
+}
 
+function drawLinkHalo(
+  ctx: CanvasRenderingContext2D,
+  frame: RenderFrame,
+  positions: NodePosition[],
+): void {
+  const { halo, scene, size, time, animate } = frame;
+
+  if (!animate || time - halo.renderedAt >= LINK_HALO_REFRESH_MS) {
+    renderLinkHalo(halo, scene, positions);
+    halo.renderedAt = time;
+  }
+
+  ctx.save();
+  ctx.globalCompositeOperation = 'lighter';
+  ctx.drawImage(halo.canvas, 0, 0, size.width, size.height);
   ctx.restore();
 }
 
@@ -274,19 +301,15 @@ function drawShootingStars(
 }
 
 export function renderScene(ctx: CanvasRenderingContext2D, frame: RenderFrame): void {
-  const { scene, size, time, deltaMs, animate, backdrop } = frame;
+  const { scene, size, time, deltaMs, animate } = frame;
 
   ctx.clearRect(0, 0, size.width, size.height);
   ctx.globalAlpha = 1;
 
-  if (backdrop) {
-    ctx.drawImage(backdrop, 0, 0, size.width, size.height);
-  }
-
   const positions = scene.nodes.map((node) => positionOf(node, time, animate));
 
   drawDust(ctx, scene, time, animate);
-  drawLinkHalo(ctx, scene, positions);
+  drawLinkHalo(ctx, frame, positions);
   drawLinks(ctx, scene, positions, size, time, animate);
   drawNodes(ctx, scene, positions, size);
 

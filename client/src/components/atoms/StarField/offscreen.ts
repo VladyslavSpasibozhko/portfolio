@@ -1,5 +1,5 @@
-import { GLOW_SPRITE_SIZE, NEBULA_LAYER_SCALE } from './constants';
-import type { Nebula, Size } from './types';
+import { GLOW_SPRITE_SIZE, LINK_HALO_LAYER_SCALE, NEBULA_LAYER_SCALE } from './constants';
+import type { HaloLayer, Nebula, Size } from './types';
 
 function rgba(color: string, alpha: number): string {
   return `rgba(${color}, ${alpha})`;
@@ -39,17 +39,17 @@ export function getGlowSprite(color: string): HTMLCanvasElement {
 }
 
 /**
- * Nebulas never move, so the haze is rendered once per resize. It is soft by nature, so
- * it is rasterized at a fraction of the viewport size and scaled up when drawn — that
- * cuts the fill cost of these full-screen gradients by an order of magnitude.
+ * Nebulas never move, so the haze is rendered once per resize into its own canvas element
+ * sitting behind the animated one — the browser composites it, so it costs nothing per
+ * frame. It is soft by nature, so it is rasterized at a fraction of the viewport size and
+ * stretched by CSS, which cuts the fill cost of these full-screen gradients even further.
  */
-export function createNebulaLayer(nebulas: Nebula[], size: Size): HTMLCanvasElement {
-  const canvas = document.createElement('canvas');
+export function renderNebulaLayer(canvas: HTMLCanvasElement, nebulas: Nebula[], size: Size): void {
   canvas.width = Math.max(1, Math.round(size.width * NEBULA_LAYER_SCALE));
   canvas.height = Math.max(1, Math.round(size.height * NEBULA_LAYER_SCALE));
 
   const ctx = canvas.getContext('2d');
-  if (!ctx) return canvas;
+  if (!ctx) return;
 
   ctx.scale(NEBULA_LAYER_SCALE, NEBULA_LAYER_SCALE);
   ctx.globalCompositeOperation = 'lighter';
@@ -72,6 +72,12 @@ export function createNebulaLayer(nebulas: Nebula[], size: Size): HTMLCanvasElem
     ctx.arc(nebula.x, nebula.y, nebula.radius, 0, Math.PI * 2);
     ctx.fill();
   }
+}
 
-  return canvas;
+export function createHaloLayer(size: Size): HaloLayer {
+  const canvas = document.createElement('canvas');
+  canvas.width = Math.max(1, Math.round(size.width * LINK_HALO_LAYER_SCALE));
+  canvas.height = Math.max(1, Math.round(size.height * LINK_HALO_LAYER_SCALE));
+
+  return { canvas, renderedAt: -Infinity };
 }

@@ -83,6 +83,13 @@ export const LINK_HALO_ALPHA = 0.2;
 export const LINK_HALO_BLUR = 6;
 /** Brightness steps the halo is batched into, so it can follow the fade along a path. */
 export const LINK_HALO_BUCKETS = 4;
+/**
+ * The halo is a blur, so it is rasterized into a small offscreen layer and scaled up —
+ * a blur's cost grows with the area it covers, and the batched paths span the viewport.
+ */
+export const LINK_HALO_LAYER_SCALE = 0.5;
+/** Dots drift a fraction of a pixel per frame, so the halo only needs an occasional refresh. */
+export const LINK_HALO_REFRESH_MS = 250;
 
 /** Core passes: stacked strokes per link, widest/faintest first, additively blended. */
 export const LINK_GLOW_LAYERS = [
@@ -118,6 +125,19 @@ export const FRAME_INTERVAL_MS = 1000 / 30;
  * every frame, and that pass is what a high DPR makes expensive.
  */
 export const MAX_DPR = 1.5;
+/**
+ * The field is decoration, so it must never compete with the page loading: a static frame
+ * is painted right away and the animation only starts once the browser is idle.
+ */
+export const ANIMATION_START_TIMEOUT_MS = 3000;
+/**
+ * A device that cannot keep the frame rate would spend most of its main thread on the
+ * background, so after a few late frames in a row the field settles into a static frame.
+ * Lateness is read from the gap between frames rather than by timing the draw calls:
+ * canvas work is rasterized after the calls return, so a timer around them misses most of it.
+ */
+export const SLOW_FRAME_GAP_MS = FRAME_INTERVAL_MS * 2;
+export const SLOW_FRAME_LIMIT = 4;
 
 export const DRIFT_RADIUS_MIN = 2;
 export const DRIFT_RADIUS_MAX = 7;

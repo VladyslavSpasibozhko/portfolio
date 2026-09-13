@@ -17,13 +17,13 @@ function JourneySectionHeader({
 }: JourneySectionHeaderProps) {
   return (
     <div className="flex items-center justify-between">
-      <Typography className="uppercase text-16 sm:text-18 md:text-20 lg:text-22 xl:text-24 2xl:text-28 text-text-blue">
+      <Typography className="uppercase text-16 sm:text-18 lg:text-20 xl:text-24 2xl:text-28 text-text-blue">
         {title}
       </Typography>
       {/* The section's label already announces the position, and "01/05"
           would be read out as a fraction. */}
       <div aria-hidden="true">
-        <Typography className="capitalize text-16 sm:text-18 md:text-20 lg:text-22 xl:text-24 2xl:text-28 text-white">
+        <Typography className="capitalize text-16 sm:text-18 lg:text-20 xl:text-24 2xl:text-28 text-white">
           {padNumber(current)}/{padNumber(max)}
         </Typography>
       </div>
@@ -37,17 +37,17 @@ function JourneySectionFooter() {
     // for screen reader users, who move on by reading.
     <div
       aria-hidden="true"
-      className="py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 absolute bottom-0 left-0 right-0"
+      className="py-4 px-8 sm:py-6 sm:px-10 md:py-9.5 md:px-9.5 xl:py-14 xl:px-14 2xl:px-24 absolute bottom-0 left-0 right-0"
     >
       <div className="flex items-center animate-bounce">
-        <div className="pr-2">
+        <div className="pr-2 md:pr-1.5 xl:pr-2">
           <Icon
             size="xl"
             name="arrow-right-circle"
             className="rotate-90 text-text-sky"
           />
         </div>
-        <Typography className="text-text-sky text-14 sm:text-16 md:text-18 lg:text-20">
+        <Typography className="text-text-sky text-14 sm:text-16 lg:text-18 xl:text-20">
           Scroll to explore
         </Typography>
       </div>
@@ -118,11 +118,11 @@ export function JourneySection({
       // Several slides share a company title, so the position keeps each
       // landmark's name unique.
       aria-label={`${title}, slide ${current} of ${max}`}
-      className="relative py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col"
+      className="relative py-4 px-8 sm:py-6 sm:px-10 md:py-9.5 md:px-9.5 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col"
     >
       <JourneySectionHeader title={title} max={max} current={current} />
       {/* Bottom padding keeps content clear of the absolutely positioned footer. */}
-      <div className="flex-1 pt-4 md:pt-8 xl:pt-12 pb-16 md:pb-20">
+      <div className="flex-1 pt-4 md:pt-7.5 xl:pt-12 pb-16 md:pb-19.5 xl:pb-20">
         {children}
       </div>
       <JourneySectionBackground image={background} />

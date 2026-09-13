@@ -14,7 +14,7 @@ export function FlowBlock({ block }: FlowBlockProps) {
   }));
 
   return (
-    <div className="space-y-2 md:space-y-4 lg:space-y-12 xl:space-y-16">
+    <div className="space-y-2 md:space-y-3.5 lg:space-y-11.5 xl:space-y-16">
       <BlockHeading content={block.heading} />
       <FlowDiagram steps={steps} />
     </div>

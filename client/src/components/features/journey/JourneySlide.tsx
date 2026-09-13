@@ -36,9 +36,9 @@ export function JourneySlide({
       showFooter={showFooter}
       background={background}
     >
-      <div className={`space-y-2 md:space-y-4 xl:space-y-6 ${width}`}>
+      <div className={`space-y-2 md:space-y-3.5 xl:space-y-6 ${width}`}>
         {section.eyebrow && (
-          <Typography className="uppercase text-14 md:text-16 lg:text-20 xl:text-22 2xl:text-26 font-500 text-text-sky">
+          <Typography className="uppercase text-14 lg:text-18 xl:text-22 2xl:text-26 font-500 text-text-sky">
             {section.eyebrow}
           </Typography>
         )}
@@ -51,7 +51,7 @@ export function JourneySlide({
         {section.blocks.map((block, index) => (
           <div
             key={`${section.id}-${index}`}
-            className="mt-6 sm:mt-8 md:mt-12 lg:mt-14 xl:mt-18"
+            className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18"
           >
             <JourneyBlock block={block} />
           </div>
@@ -59,7 +59,7 @@ export function JourneySlide({
       </div>
 
       {section.links && (
-        <div className="mt-6 sm:mt-8 md:mt-12 lg:mt-14 xl:mt-18 pt-2 md:pt-4 border-t border-border-highlight flex flex-wrap items-center gap-4 md:gap-8">
+        <div className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18 pt-2 md:pt-3.5 xl:pt-4 border-t border-border-highlight flex flex-wrap items-center gap-4 md:gap-7.5 xl:gap-8">
           {section.links.map((link) => (
             <Link
               key={link.href}
@@ -70,10 +70,10 @@ export function JourneySlide({
                 target: "_blank",
                 rel: "noreferrer",
               })}
-              className="flex items-center gap-2"
+              className="flex items-center gap-2 md:gap-1.5 xl:gap-2"
             >
               {isIconName(link.icon) && <Icon name={link.icon} size="md" />}
-              <Typography tag="p" className="text-14 md:text-16 xl:text-20">
+              <Typography tag="p" className="text-14 xl:text-20">
                 {link.label}
               </Typography>
             </Link>
@@ -84,7 +84,7 @@ export function JourneySlide({
       {section.transition && (
         <Quote
           content={section.transition}
-          className="mt-6 sm:mt-8 md:mt-12 lg:mt-14 xl:mt-18 italic"
+          className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18 italic"
         />
       )}
     </JourneySection>

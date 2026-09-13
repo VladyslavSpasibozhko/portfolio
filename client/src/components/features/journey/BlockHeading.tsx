@@ -10,7 +10,7 @@ export function BlockHeading({ content }: BlockHeadingProps) {
   return (
     <Typography
       tag="h3"
-      className="uppercase text-14 lg:text-16 xl:text-18 text-text-100"
+      className="uppercase text-14 md:text-12 lg:text-14 xl:text-18 text-text-100"
     >
       {content}
     </Typography>

@@ -33,14 +33,14 @@ export function DiagramNode({
 }: DiagramNodeProps) {
   return (
     <div
-      className={`inline-flex items-center justify-center gap-2 rounded-lg border px-4 py-2 md:px-6 md:py-4 text-center ${toneClasses[tone]} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 md:gap-1.5 xl:gap-2 rounded-lg border px-4 py-2 md:px-5.5 md:py-3.5 xl:px-6 xl:py-4 text-center ${toneClasses[tone]} ${className}`}
     >
       {isIconName(icon) && (
         <Icon name={icon} size="sm" className={toneTextClasses[tone]} />
       )}
       <Typography
         tag="p"
-        className={`text-14 xl:text-16 ${toneTextClasses[tone]}`}
+        className={`text-14 md:text-12 xl:text-16 ${toneTextClasses[tone]}`}
       >
         {label}
       </Typography>

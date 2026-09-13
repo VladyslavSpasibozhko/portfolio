@@ -67,7 +67,7 @@ export function DiagramRail({
       {label ? (
         <Typography
           tag="p"
-          className="relative rounded-full border border-border-focus bg-background-900 px-4 py-2 text-12 md:text-14 text-text-sky"
+          className="relative rounded-full border border-border-focus bg-background-900 px-4 py-2 md:px-3.5 md:py-1.5 xl:px-4 xl:py-2 text-12 xl:text-14 text-text-sky"
         >
           {label}
         </Typography>

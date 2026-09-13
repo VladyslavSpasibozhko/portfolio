@@ -10,18 +10,18 @@ interface IconsBlockProps {
 
 export function IconsBlock({ block }: IconsBlockProps) {
   return (
-    <div className="space-y-2 md:space-y-4">
+    <div className="space-y-2 md:space-y-3.5 xl:space-y-4">
       <BlockHeading content={block.heading} />
       {block.note && (
         <Typography
           tag="p"
-          className="italic text-14 lg:text-16 text-text-300"
+          className="italic text-14 md:text-12 lg:text-14 xl:text-16 text-text-300"
         >
           {block.note}
         </Typography>
       )}
       {/* `role` restores list semantics that Safari drops once list styles are reset. */}
-      <ul role="list" className="flex flex-wrap gap-2 lg:gap-4">
+      <ul role="list" className="flex flex-wrap gap-2 md:gap-1.5 lg:gap-3.5 xl:gap-4">
         {block.icons.filter(isIconName).map((icon) => (
           <li key={icon}>
             <BorderedContainer className="rounded-full!">

@@ -9,16 +9,16 @@ interface ListBlockProps {
 
 export function ListBlock({ block }: ListBlockProps) {
   return (
-    <div className="space-y-2 md:space-y-4 lg:space-y-12 xl:space-y-24">
+    <div className="space-y-2 md:space-y-3.5 lg:space-y-11.5 xl:space-y-24">
       <BlockHeading content={block.heading} />
       {/* `role` restores list semantics that Safari drops once list styles are reset. */}
-      <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+      <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-3.5 xl:gap-4">
         {block.items.map((item) => (
-          <li key={item} className="flex items-center gap-2 text-text-white">
+          <li key={item} className="flex items-center gap-2 md:gap-1.5 xl:gap-2 text-text-white">
             <Icon name="arrow-right" size="md" className="" />
             <Typography
               tag="p"
-              className="text-14 lg:text-16 xl:text-18"
+              className="text-14 md:text-12 lg:text-14 xl:text-18"
             >
               {item}
             </Typography>

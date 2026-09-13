@@ -5,7 +5,6 @@ import { BadgesBlock } from "./BadgesBlock";
 import { CardsBlock } from "./CardsBlock";
 import { TimelineBlock } from "./TimelineBlock";
 import { FlowBlock } from "./FlowBlock";
-import { StatsBlock } from "./StatsBlock";
 import { IconsBlock } from "./IconsBlock";
 import { CalloutBlock } from "./CalloutBlock";
 import { StepsBlock } from "./StepsBlock";
@@ -29,8 +28,6 @@ export function JourneyBlock({ block }: JourneyBlockProps) {
       return <TimelineBlock block={block} />;
     case "flow":
       return <FlowBlock block={block} />;
-    case "stats":
-      return <StatsBlock block={block} />;
     case "icons":
       return <IconsBlock block={block} />;
     case "callout":

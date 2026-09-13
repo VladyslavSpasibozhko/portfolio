@@ -1,16 +1,13 @@
-import { useState } from "react";
 import { Badge } from "@components/atoms/Badge";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Button } from "@components/atoms/Button";
 import { Icon, type IconName } from "@components/atoms/Icon";
 import { Link } from "@components/atoms/Link";
 import { Textarea } from "@components/atoms/Textarea";
-import { Tooltip } from "@components/atoms/Tooltip";
 import { Typography } from "@components/atoms/Typography";
 import { EmptyState } from "@components/molecules/EmptyState";
 import { IconButton } from "@components/molecules/IconButton";
 import { Markdown } from "@components/molecules/Markdown";
-import { Modal } from "@components/molecules/Modal";
 import { Timeline } from "@components/molecules/Timeline";
 
 const ICON_NAMES: IconName[] = [
@@ -145,8 +142,6 @@ function Example({
 }
 
 export function LibraryPage() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   return (
     <div className="relative z-10  mx-auto px-6 py-16 bg-background-950">
       <Typography tag="h1" className="mb-2">
@@ -408,9 +403,7 @@ export function LibraryPage() {
         </Example>
         <Example label="All icons">
           {ICON_NAMES.map((name) => (
-            <Tooltip key={name} content={name}>
-              <Icon name={name} size="lg" />
-            </Tooltip>
+            <Icon key={name} name={name} size="lg" />
           ))}
         </Example>
       </Section>
@@ -478,23 +471,6 @@ export function LibraryPage() {
         </Example>
       </Section>
 
-      <Section title="Tooltip">
-        <Example label="Sides">
-          <Tooltip content="Top tooltip" side="top">
-            <Button variant="secondary">Top</Button>
-          </Tooltip>
-          <Tooltip content="Bottom tooltip" side="bottom">
-            <Button variant="secondary">Bottom</Button>
-          </Tooltip>
-          <Tooltip content="Left tooltip" side="left">
-            <Button variant="secondary">Left</Button>
-          </Tooltip>
-          <Tooltip content="Right tooltip" side="right">
-            <Button variant="secondary">Right</Button>
-          </Tooltip>
-        </Example>
-      </Section>
-
       <Section title="EmptyState">
         <Example label="Default">
           <div className="h-24 w-full">
@@ -515,19 +491,6 @@ export function LibraryPage() {
         </Example>
       </Section>
 
-      <Section title="Modal">
-        <Example label="Default">
-          <Button onClick={() => setIsModalOpen(true)}>Open modal</Button>
-          <Modal
-            isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
-            title="Example modal"
-            size="md"
-          >
-            <Typography tag="p">This is example modal content.</Typography>
-          </Modal>
-        </Example>
-      </Section>
     </div>
   );
 }

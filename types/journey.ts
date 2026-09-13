@@ -78,12 +78,6 @@ export interface JourneyFlowBlock extends JourneyBlockBase {
     steps: JourneyFlowStep[];
 }
 
-/** Short facts about scale, shown as a row of boxes. */
-export interface JourneyStatsBlock extends JourneyBlockBase {
-    type: 'stats';
-    items: string[];
-}
-
 /** A row of technology icons. */
 export interface JourneyIconsBlock extends JourneyBlockBase {
     type: 'icons';
@@ -144,7 +138,6 @@ export type JourneyBlock =
     | JourneyCardsBlock
     | JourneyTimelineBlock
     | JourneyFlowBlock
-    | JourneyStatsBlock
     | JourneyIconsBlock
     | JourneyCalloutBlock
     | JourneyStepsBlock

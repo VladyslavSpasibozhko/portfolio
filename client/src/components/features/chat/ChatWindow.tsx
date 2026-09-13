@@ -1,10 +1,9 @@
-import { useRef, type ReactNode } from "react";
+import type { ReactNode } from "react";
 import { IconButton } from "@components/molecules/IconButton";
 import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import type { WsMessage } from "@types";
-import { useClickOutside } from "@hooks/useClickOutside";
 
 
 interface ChatWindowProps {
@@ -24,12 +23,8 @@ export function ChatWindow({
   sendMessage,
   emptyMessage,
 }: ChatWindowProps) {
-  const ref = useRef(null);
-  useClickOutside(ref, closeWindow);
-
   return (
     <div
-      ref={ref}
       className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-background-950 border border-border-strong"
     >
       {/* Header */}

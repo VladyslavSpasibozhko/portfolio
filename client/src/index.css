@@ -236,27 +236,123 @@ body {
   *::after {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
+    /* Staggered entrances would otherwise keep content hidden for no reason. */
+    animation-delay: 0ms !important;
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
 }
 
-@keyframes pulse-scale {
+/*
+ * Timeline entrance. Each piece reads two variables set from Timeline.tsx:
+ * `--timeline-delay` staggers it along the sequence, and
+ * `--timeline-play-state` holds it paused until the timeline scrolls into
+ * view. `both` fill keeps a piece in its first frame while it waits, so
+ * nothing flashes before its turn. They animate the individual `scale` and
+ * `translate` properties so Tailwind's own transform utilities still apply.
+ */
+@keyframes timeline-dot-in {
   0% {
-    transform: scale(1);
-    box-shadow: none;
+    scale: 0;
+    opacity: 0;
   }
-  50% {
-    transform: scale(2);
-    box-shadow: var(--shadow-sm) var(--color-accent-sky);
+  60% {
+    scale: 1.25;
+    opacity: 1;
   }
   100% {
+    scale: 1;
+    opacity: 1;
+  }
+}
+
+@keyframes timeline-ping {
+  0% {
+    scale: 1;
+    opacity: 0.9;
+  }
+  100% {
+    scale: 2.4;
     opacity: 0;
   }
 }
 
-@utility animate-pulse-scale {
-  animation: pulse-scale 2s ease-in-out infinite;
+@keyframes timeline-draw-x {
+  from {
+    scale: 0 1;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes timeline-draw-y {
+  from {
+    scale: 1 0;
+  }
+  to {
+    scale: 1 1;
+  }
+}
+
+@keyframes timeline-rise {
+  from {
+    opacity: 0;
+    translate: 0 0.5rem;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@keyframes timeline-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@utility animate-timeline-dot-in {
+  animation: timeline-dot-in 400ms cubic-bezier(0.34, 1.56, 0.64, 1)
+    var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+/* A single ping as the line arrives at a dot. */
+@utility animate-timeline-ping {
+  animation: timeline-ping 900ms ease-out var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+/* The latest entry keeps pinging, so the eye settles on where things stand now. */
+@utility animate-timeline-ping-loop {
+  animation: timeline-ping 2s ease-out var(--timeline-delay, 0ms) infinite both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+@utility animate-timeline-draw-x {
+  animation: timeline-draw-x var(--timeline-duration, 350ms)
+    cubic-bezier(0.65, 0, 0.35, 1) var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+@utility animate-timeline-draw-y {
+  animation: timeline-draw-y var(--timeline-duration, 350ms)
+    cubic-bezier(0.65, 0, 0.35, 1) var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+@utility animate-timeline-rise {
+  animation: timeline-rise 500ms ease-out var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
+}
+
+@utility animate-timeline-fade-in {
+  animation: timeline-fade-in 600ms ease-out var(--timeline-delay, 0ms) both;
+  animation-play-state: var(--timeline-play-state, running);
 }
 
 @keyframes line-sweep {

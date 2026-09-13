@@ -40,15 +40,15 @@ export function Modal({
   return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       {/* Backdrop */}
-      <div className="absolute inset-0 bg-dark-950/40 backdrop-blur-sm" />
+      <div className="absolute inset-0 bg-background-950/40 backdrop-blur-sm" />
 
       {/* Modal */}
       <div
         ref={modalRef}
-        className={`relative bg-dark-950 border rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
+        className={`relative bg-background-950 border border-border-strong rounded-2xl shadow-2xl ${sizeClasses[size]} w-full mx-4`}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b">
+        <div className="flex items-center justify-between p-6 border-b border-border-DEFAULT">
           <Typography tag="h2" className="text-24">{title}</Typography>
           <IconButton
             icon="close"

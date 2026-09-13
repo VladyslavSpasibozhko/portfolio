@@ -15,7 +15,7 @@ export function IconsBlock({ block }: IconsBlockProps) {
       {block.note && (
         <Typography
           tag="p"
-          className="italic text-10 sm:text-12 md:text-14 lg:text-16 text-text-400"
+          className="italic text-14 lg:text-16 text-text-300"
         >
           {block.note}
         </Typography>

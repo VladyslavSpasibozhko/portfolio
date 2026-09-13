@@ -17,7 +17,7 @@ export function ListBlock({ block }: ListBlockProps) {
             <Icon name="arrow-right" size="md" className="" />
             <Typography
               tag="p"
-              className="text-10 sm:text-12 md:text-14 lg:text-16 xl:text-18 "
+              className="text-14 lg:text-16 xl:text-18"
             >
               {item}
             </Typography>

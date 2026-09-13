@@ -18,5 +18,9 @@ const slides: Slide[] = sections.map((section, index) => ({
 }));
 
 export function MainPage() {
-  return <Slider slides={slides} />;
+  return (
+    <main>
+      <Slider slides={slides} />
+    </main>
+  );
 }

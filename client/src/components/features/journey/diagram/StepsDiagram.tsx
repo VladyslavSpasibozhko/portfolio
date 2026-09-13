@@ -22,7 +22,7 @@ export function StepsDiagram({
     <div
       className={`flex w-full ${
         isHorizontal
-          ? "flex-col md:flex-row md:items-center"
+          ? "flex-col lg:flex-row lg:items-center"
           : "flex-col items-center"
       } ${className}`}
     >
@@ -33,7 +33,7 @@ export function StepsDiagram({
             icon={step.icon}
             tone={step.tone}
             className={
-              isHorizontal ? "w-full md:flex-1" : "w-full md:w-auto md:min-w-64"
+              isHorizontal ? "w-full lg:flex-1 lg:min-w-0" : "w-full md:w-auto md:min-w-64"
             }
           />
 
@@ -42,10 +42,10 @@ export function StepsDiagram({
             // stacks and its connectors turn back to vertical.
             (isHorizontal ? (
               <>
-                <div className="md:hidden w-full">
+                <div className="lg:hidden w-full">
                   <DiagramRail bidirectional={step.bidirectional} />
                 </div>
-                <div className="hidden md:block shrink-0">
+                <div className="hidden lg:block shrink-0">
                   <DiagramRail
                     orientation="horizontal"
                     bidirectional={step.bidirectional}

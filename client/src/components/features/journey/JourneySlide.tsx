@@ -37,7 +37,7 @@ export function JourneySlide({
     >
       <div className={`space-y-2 md:space-y-4 xl:space-y-6 ${width}`}>
         {section.eyebrow && (
-          <Typography className="uppercase text-12 sm:text-14 md:text-16 lg:text-20 xl:text-22 2xl:text-26 font-500 text-text-sky">
+          <Typography className="uppercase text-14 md:text-16 lg:text-20 xl:text-22 2xl:text-26 font-500 text-text-sky">
             {section.eyebrow}
           </Typography>
         )}
@@ -68,7 +68,7 @@ export function JourneySlide({
               className="flex items-center gap-2"
             >
               {isIconName(link.icon) && <Icon name={link.icon} size="md" />}
-              <Typography tag="p" className="text-12 md:text-16 xl:text-20">
+              <Typography tag="p" className="text-14 md:text-16 xl:text-20">
                 {link.label}
               </Typography>
             </Link>

@@ -15,7 +15,7 @@ export function CalloutBlock({ block }: CalloutBlockProps) {
       )}
       <Typography
         tag="p"
-        className="italic text-12 md:text-18 xl:text-22 2xl:text-26 text-text-300"
+        className="italic text-16 md:text-18 xl:text-22 2xl:text-26 text-text-300"
       >
         {block.text}
       </Typography>

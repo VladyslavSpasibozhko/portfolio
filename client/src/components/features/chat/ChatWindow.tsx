@@ -30,7 +30,7 @@ export function ChatWindow({
   return (
     <div
       ref={ref}
-      className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-dark-950 border"
+      className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-background-950 border border-border-strong"
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4">

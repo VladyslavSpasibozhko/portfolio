@@ -6,7 +6,7 @@ export type DiagramRailOrientation = "vertical" | "horizontal";
 // Tall enough that a label pill riding the rail never outgrows it.
 const containerClasses: Record<DiagramRailOrientation, string> = {
   vertical: "h-48 md:h-64 w-full flex-col",
-  horizontal: "w-48 md:w-64 h-16 md:h-20 shrink-0 flex-row",
+  horizontal: "w-12 xl:w-24 2xl:w-32 h-16 md:h-20 shrink-0 flex-row",
 };
 
 // The hairline itself, plus the highlight that sweeps along it.
@@ -66,7 +66,7 @@ export function DiagramRail({
       {label ? (
         <Typography
           tag="p"
-          className="relative rounded-full border border-border-focus bg-background-900 px-4 py-2 text-10 md:text-12 text-text-sky"
+          className="relative rounded-full border border-border-focus bg-background-900 px-4 py-2 text-12 md:text-14 text-text-sky"
         >
           {label}
         </Typography>

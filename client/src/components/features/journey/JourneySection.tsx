@@ -49,14 +49,17 @@ interface JourneySectionBackgroundProps {
   src?: string;
 }
 
-// TODO: improve accessability
+// The image is decorative, so it's hidden from assistive tech. It runs under
+// the text column, so its left edge fades out and on narrower screens it's
+// dimmed to stay behind the copy instead of competing with it.
 function JourneySectionBackground({ src }: JourneySectionBackgroundProps) {
   return (
     <div className="bg-background-950/60 absolute bottom-0 top-0 left-0 right-0 -z-10 overflow-hidden">
       {src && (
         <img
-          className="absolute right-0 h-full transform-[translate(40%,20%)] backdrop-opacity-80"
+          className="absolute right-0 h-full transform-[translate(40%,20%)] opacity-15 xl:opacity-100 mask-[linear-gradient(to_right,transparent,black_35%)]"
           src={src}
+          alt=""
         />
       )}
     </div>
@@ -81,7 +84,12 @@ export function JourneySection({
   backgroundSrc,
 }: JourneySectionProps) {
   return (
-    <div className="relative py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col">
+    <section
+      // Several slides share a company title, so the position keeps each
+      // landmark's name unique.
+      aria-label={`${title}, slide ${current} of ${max}`}
+      className="relative py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col"
+    >
       <JourneySectionHeader title={title} max={max} current={current} />
       {/* Bottom padding keeps content clear of the absolutely positioned footer. */}
       <div className="flex-1 pt-4 md:pt-8 xl:pt-12 pb-16 md:pb-20">
@@ -89,6 +97,6 @@ export function JourneySection({
       </div>
       <JourneySectionBackground src={backgroundSrc} />
       {showFooter && <JourneySectionFooter />}
-    </div>
+    </section>
   );
 }

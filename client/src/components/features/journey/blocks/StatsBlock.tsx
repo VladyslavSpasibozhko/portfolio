@@ -16,7 +16,7 @@ export function StatsBlock({ block }: StatsBlockProps) {
           <BorderedContainer className="bg-transparent" key={item}>
             <Typography
               tag="p"
-              className="text-10 sm:text-12 md:text-14 lg:text-16 text-text-white"
+              className="text-14 lg:text-16 text-text-white"
             >
               {item}
             </Typography>

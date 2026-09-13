@@ -10,6 +10,7 @@ export function StarField() {
   return (
     <div
       ref={containerRef}
+      aria-hidden="true"
       className="fixed inset-0 -z-10 pointer-events-none overflow-hidden bg-background-950"
     >
       <canvas ref={canvasRef} className="h-full w-full" />

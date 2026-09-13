@@ -40,7 +40,7 @@ export function DiagramNode({
       )}
       <Typography
         tag="p"
-        className={`text-10 sm:text-12 md:text-14 xl:text-16 ${toneTextClasses[tone]}`}
+        className={`text-14 xl:text-16 ${toneTextClasses[tone]}`}
       >
         {label}
       </Typography>

@@ -15,7 +15,6 @@ export type IconName =
   | 'clipboard-check'
   | 'clock'
   | 'close'
-  // TODO: COde icon is broken.
   | 'code'
   | 'cypress'
   | 'database'
@@ -33,6 +32,7 @@ export type IconName =
   | 'menu'
   | 'mobx'
   | 'modular-book'
+  | 'nextjs'
   | 'nodejs'
   | 'react'
   | 'redux'

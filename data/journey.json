@@ -249,9 +249,9 @@
         "type": "flow",
         "heading": "Two worlds",
         "steps": [
-          { "label": "Legacy Angular", "icon": "angular" },
+          { "label": "Angular", "icon": "angular" },
           { "label": "Shared Packages", "icon": "layers" },
-          { "label": "React / Next.js", "icon": "react" }
+          { "label": "Next.js", "icon": "nextjs" }
         ]
       },
       {
@@ -534,6 +534,7 @@
           "typescript",
           "nodejs",
           "react",
+          "nextjs",
           "angular",
           "redux",
           "mobx",

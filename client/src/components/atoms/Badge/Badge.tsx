@@ -1,17 +1,27 @@
-import { useRef, type ReactNode } from "react";
-import { usePrefersReducedMotion } from "@hooks/usePrefersReducedMotion";
-import { BadgeGlow, type BadgeGlowConfig } from "./BadgeGlow";
+import type { CSSProperties, ReactNode } from "react";
 
 interface BadgeProps {
   children: ReactNode;
   variant?: "default" | "primary";
   size?: "sm" | "md" | "lg" | "xl" | "2xl";
+  /**
+   * Position in a row of badges. Offsets the primary sheen so neighbours
+   * catch the light one after another instead of flashing in unison.
+   */
+  index?: number;
   className?: string;
 }
 
+// The gap between neighbouring sheens, and how many of them run before the
+// sequence starts over — beyond that the wait would feel random, not ordered.
+const SHEEN_STAGGER_MS = 180;
+const SHEEN_STAGGER_LIMIT = 8;
+
 const variantClasses = {
-  default: "bg-background-700 border border-border-focus text-text-blue",
-  primary: "border border border-border-focus text-text-sky",
+  default:
+    "border border-border-highlight bg-linear-to-b from-background-700 to-background-850 text-text-blue",
+  primary:
+    "overflow-hidden border border-border-focus bg-linear-to-b from-background-800 to-background-950 text-text-sky shadow-md shadow-accent-cyan/20",
 };
 
 const sizeClasses = {
@@ -22,35 +32,29 @@ const sizeClasses = {
   "2xl": "px-4 py-2 text-14 xl:text-18",
 };
 
-const sizeGlowConfig: Record<
-  NonNullable<BadgeProps["size"]>,
-  Partial<BadgeGlowConfig>
-> = {
-  sm: { strokeWidth: 2, segmentLength: 30, blurStdDeviation: 4 },
-  md: { strokeWidth: 3, segmentLength: 26, blurStdDeviation: 4 },
-  lg: { strokeWidth: 3, segmentLength: 24, blurStdDeviation: 4 },
-  xl: { strokeWidth: 3, segmentLength: 24, blurStdDeviation: 4 },
-  "2xl": { strokeWidth: 4, segmentLength: 24, blurStdDeviation: 4.5 },
-};
-
 export function Badge({
   children,
   variant = "default",
   size = "md",
+  index = 0,
   className = "",
 }: BadgeProps) {
-  const ref = useRef<HTMLSpanElement>(null);
-  // The glow loops through SVG animation, which the reduced-motion rule in
-  // index.css can't stop, so it's left out entirely.
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const sheenDelay = {
+    "--badge-sheen-delay": `${(index % SHEEN_STAGGER_LIMIT) * SHEEN_STAGGER_MS}ms`,
+  } as CSSProperties;
 
   return (
     <span
-      ref={ref}
-      className={`relative inline-block rounded-full ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
+      className={`relative isolate inline-block rounded-full ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
-      {variant === "primary" && !prefersReducedMotion && (
-        <BadgeGlow containerRef={ref} {...sizeGlowConfig[size]} />
+      {variant === "primary" && (
+        // A band of light that glides across now and then, like a reflection
+        // on glass. It sits under the label, so the text stays crisp.
+        <span
+          aria-hidden="true"
+          style={sheenDelay}
+          className="absolute inset-y-0 -left-1/2 -z-10 w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-accent-cyan/25 to-transparent animate-badge-sheen"
+        />
       )}
       {children}
     </span>

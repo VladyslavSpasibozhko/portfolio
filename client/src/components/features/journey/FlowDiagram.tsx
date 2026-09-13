@@ -24,7 +24,7 @@ export function FlowDiagram({ steps, className = "" }: FlowDiagramProps) {
           key={step.label}
           className="flex min-w-0 flex-col lg:flex-row lg:flex-1 justify-center items-center gap-4 lg:gap-6"
         >
-          <BorderedContainer className="bg-transparent w-full lg:flex-1 lg:self-stretch min-w-0 flex flex-col justify-center items-center gap-2">
+          <BorderedContainer className="w-full lg:flex-1 lg:self-stretch min-w-0 flex flex-col justify-center items-center gap-2">
             {step.icon && (
               <Icon name={step.icon} size="5xl" className="text-text-white" />
             )}

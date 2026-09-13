@@ -35,7 +35,7 @@ export function BadgesBlock({ block }: BadgesBlockProps) {
       <ul role="list" className={layoutClasses[layout]}>
         {badges.map((badge) => (
           <li key={badge.label}>
-            <Badge size="2xl">
+            <Badge size="2xl" variant="primary">
               <span className="flex items-center gap-2">
                 {isIconName(badge.icon) && (
                   <Icon name={badge.icon} size="lg" className="text-text-white" />

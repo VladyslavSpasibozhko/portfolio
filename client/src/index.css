@@ -197,6 +197,10 @@
   --shadow-sm: 0 0 2px;
   --shadow-md: 0 0 4px;
   --shadow-lg: 0 0 6px;
+  --shadow-xl: 0 0 24px;
+
+  /* A 1px light edge along the top, like light catching a raised surface. */
+  --inset-shadow-highlight: inset 0 1px 0 rgb(255 255 255 / 0.06);
 }
 
 *,
@@ -241,6 +245,26 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/*
+ * Badge sheen: a quick pass across the badge, then a long rest, so a page
+ * full of badges glints now and then instead of shimmering constantly.
+ * `--badge-sheen-delay` staggers neighbouring badges. It animates `translate`,
+ * leaving `transform` free for the band's skew.
+ */
+@keyframes badge-sheen {
+  0% {
+    translate: 0 0;
+  }
+  22%,
+  100% {
+    translate: 400% 0;
+  }
+}
+
+@utility animate-badge-sheen {
+  animation: badge-sheen 6s ease-in-out var(--badge-sheen-delay, 0ms) infinite;
 }
 
 /*

@@ -6,14 +6,13 @@ const sections = journeyData as JourneyData;
 
 export function MainPage() {
   return (
-    <main>
+    <main className="bg-background-950/60">
       {sections.map((section, index) => (
         <JourneySlide
           key={section.id}
           section={section}
           current={index + 1}
           max={sections.length}
-          showFooter={index < sections.length - 1}
         />
       ))}
     </main>

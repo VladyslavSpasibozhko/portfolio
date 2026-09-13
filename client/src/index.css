@@ -215,6 +215,12 @@ body,
   height: 100%;
 }
 
+/* Hash navigation between slides glides instead of jumping. The
+   reduced-motion rule below turns it back off. */
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   background-color: var(--color-background-950);

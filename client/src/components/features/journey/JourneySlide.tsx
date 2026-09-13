@@ -14,14 +14,12 @@ interface JourneySlideProps {
   section: JourneySectionData;
   current: number;
   max: number;
-  showFooter?: boolean;
 }
 
 export function JourneySlide({
   section,
   current,
   max,
-  showFooter = true,
 }: JourneySlideProps) {
   const background = getBackground(section.background);
 
@@ -33,7 +31,6 @@ export function JourneySlide({
       title={section.title}
       current={current}
       max={max}
-      showFooter={showFooter}
       background={background}
     >
       <div className={`space-y-2 md:space-y-3.5 xl:space-y-6 ${width}`}>

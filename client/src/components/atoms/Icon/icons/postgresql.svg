@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="PostgreSQL">
+  <title>PostgreSQL</title>
+  <rect width="120" height="120" rx="28" fill="none"/>
+
+  <path d="M22 30c0-9 17-15 38-15s38 6 38 15v60c0 9-17 15-38 15s-38-6-38-15Z" fill="#336791"/>
+  <ellipse cx="60" cy="30" rx="38" ry="15" fill="#4A85B5"/>
+  <text x="60" y="72" text-anchor="middle" font-family="Arial, sans-serif" font-size="30" font-weight="800" fill="#fff">PG</text>
+  <text x="60" y="92" text-anchor="middle" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#fff">SQL</text>
+
+</svg>

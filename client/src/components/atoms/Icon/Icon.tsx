@@ -34,6 +34,7 @@ export type IconName =
   | 'modular-book'
   | 'nextjs'
   | 'nodejs'
+  | 'postgresql'
   | 'react'
   | 'redux'
   | 'send'

@@ -1,6 +1,7 @@
 import type { JourneyCalloutBlock } from "@types";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
+import { Link } from "@components/atoms/Link";
 import { Icon, isIconName } from "@components/atoms/Icon";
 
 interface CalloutBlockProps {
@@ -18,6 +19,14 @@ export function CalloutBlock({ block }: CalloutBlockProps) {
         className="italic text-16 md:text-18 xl:text-22 2xl:text-26 text-text-300"
       >
         {block.text}
+        {block.link && (
+          <>
+            {" "}
+            <Link href={block.link.href} className="not-italic text-text-sky">
+              {block.link.label}
+            </Link>
+          </>
+        )}
       </Typography>
     </BorderedContainer>
   );

@@ -1,4 +1,5 @@
 import { Typography } from "@components/atoms/Typography";
+import { Link } from "@components/atoms/Link";
 import { useIntersectionObserver } from "@hooks/useIntersectionObserver";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
@@ -6,6 +7,7 @@ export interface TimelineItem {
   year: string;
   title: string;
   description: string;
+  href?: string;
 }
 
 interface TimelineProps {
@@ -114,7 +116,13 @@ function TimelineEntry({ item, index, isLast }: TimelineEntryProps) {
           {item.title}
         </Typography>
         <Typography tag="p" className="text-14 sm:text-12 md:text-14 lg:text-16 xl:text-18 text-text-sky">
-          {item.description}
+          {item.href ? (
+            <Link href={item.href} className="text-text-sky">
+              {item.description}
+            </Link>
+          ) : (
+            item.description
+          )}
         </Typography>
       </div>
     </li>

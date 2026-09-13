@@ -29,6 +29,7 @@ export function JourneySlide({
 
   return (
     <JourneySection
+      id={section.id}
       title={section.title}
       current={current}
       max={max}

@@ -42,6 +42,7 @@ const ICON_NAMES: IconName[] = [
   "mobx",
   "modular-book",
   "nodejs",
+  "postgresql",
   "react",
   "redux",
   "send",

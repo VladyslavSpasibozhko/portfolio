@@ -93,6 +93,8 @@ function JourneySectionBackground({ image }: JourneySectionBackgroundProps) {
 }
 
 interface JourneySectionProps {
+  /** Anchor target, so other slides can link here (e.g. `#whats-next`). */
+  id?: string;
   title: string;
   current: number;
   max: number;
@@ -102,6 +104,7 @@ interface JourneySectionProps {
 }
 
 export function JourneySection({
+  id,
   title,
   current,
   max,
@@ -111,6 +114,7 @@ export function JourneySection({
 }: JourneySectionProps) {
   return (
     <section
+      id={id}
       // Several slides share a company title, so the position keeps each
       // landmark's name unique.
       aria-label={`${title}, slide ${current} of ${max}`}

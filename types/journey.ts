@@ -59,6 +59,8 @@ export interface JourneyTimelineEntry {
     year: string;
     title: string;
     description: string;
+    /** Turns the description into a link, e.g. `#whats-next`. */
+    href?: string;
 }
 
 /** A horizontal progression across years. */
@@ -90,6 +92,8 @@ export interface JourneyCalloutBlock extends JourneyBlockBase {
     type: 'callout';
     icon?: string;
     text: string;
+    /** A call to action shown after the text. */
+    link?: JourneyLink;
 }
 
 /**

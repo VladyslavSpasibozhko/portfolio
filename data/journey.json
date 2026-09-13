@@ -3,7 +3,7 @@
     "id": "hello-vlad",
     "index": "01",
     "title": "",
-    "eyebrow": "Frontend Engineer",
+    "eyebrow": "Senior Frontend Engineer",
     "headline": "Hi, I'm *Vlad*.",
     "tagline": "From writing code to designing systems",
     "background": "code_card_1",
@@ -11,9 +11,9 @@
       {
         "type": "text",
         "paragraphs": [
-          "I'm a Senior Frontend Engineer with 7+ years of experience building and owning complex web applications.",
+          "7+ years building frontends people rely on every day: live betting odds, patient records, shift schedules for frontline teams.",
           "Over the years, I've worked across sports betting, social platforms, healthcare, and enterprise workforce management.",
-          "But this portfolio isn't another version of my CV. I want to show how I grew as an engineer — from learning the fundamentals of JavaScript and React, to owning critical modules, making architectural decisions, working with large-scale systems, and thinking about stability and users."
+          "This isn't my CV. It's the story of the problems that changed how I think, in about 5 minutes. I want to show how I grew as an engineer — from learning the fundamentals of JavaScript and React, to owning critical modules, making architectural decisions, working with large-scale systems, and thinking about stability and users."
         ]
       },
       {
@@ -33,7 +33,7 @@
           {
             "year": "2021",
             "title": "REMED",
-            "description": "Learned to design"
+            "description": "Learned to draw boundaries"
           },
           {
             "year": "2024",
@@ -42,8 +42,9 @@
           },
           {
             "year": "Today",
-            "title": "Looking ahead",
-            "description": "The next difficult problem"
+            "title": "Your team?",
+            "description": "Let's talk →",
+            "href": "#whats-next"
           }
         ]
       }
@@ -234,7 +235,7 @@
     "index": "07",
     "title": "WorkJam",
     "tagline": "The most complicated frontend environment I'd worked in.",
-    "subtitle": "Frontend Engineer · March 2024 — July 2026",
+    "subtitle": "Senior Frontend Engineer · March 2024 — July 2026",
     "background": "code_card_2",
     "blocks": [
       {
@@ -267,7 +268,7 @@
     "id": "workjam-feature-flags",
     "index": "08",
     "title": "WorkJam · Case Study",
-    "eyebrow": "Feature Flag Management Migration",
+    "eyebrow": "Replacing flag infrastructure with zero downtime",
     "tagline": "How do you replace infrastructure without users noticing?",
     "blocks": [
       {
@@ -293,6 +294,12 @@
         "type": "callout",
         "icon": "feature-flag",
         "text": "Zero downtime. No service disruption. The migration happened while the platform kept serving users."
+      },
+      {
+        "type": "callout",
+        "icon": "send",
+        "text": "Planning a risky migration? I've done this before.",
+        "link": { "label": "Let's talk →", "href": "#whats-next" }
       }
     ]
   },
@@ -348,7 +355,7 @@
       {
         "type": "callout",
         "icon": "calendar-cursor",
-        "text": "Delivered in around 10 days. The important part wasn't writing code faster — it was solving the right problem."
+        "text": "Delivered in around 10 days — 2 days of research saved ~2 weeks of building and a second component to maintain forever. The important part wasn't writing code faster — it was solving the right problem."
       }
     ]
   },
@@ -385,6 +392,11 @@
           "When a user clicked a link from Teams, the correct application instance had to open rather than navigating inside the current one — carrying context and state across the boundary."
         ],
         "quote": "Solve the integration once. Make every application benefit from it."
+      },
+      {
+        "type": "callout",
+        "icon": "layers",
+        "text": "Result: 1 library, 4 apps integrated, no copied Teams logic."
       }
     ]
   },
@@ -392,7 +404,7 @@
     "id": "workjam-android-webview",
     "index": "11",
     "title": "WorkJam · Case Study",
-    "eyebrow": "Android WebView Integration",
+    "eyebrow": "One experience across web and native",
     "tagline": "When web and native have to become one experience.",
     "blocks": [
       {
@@ -418,6 +430,11 @@
           "I implemented a JavaScript-to-native bridge — extending the global window object with methods the Android layer could call and respond to — so the web module could receive authentication context and reach Android APIs."
         ],
         "quote": "The user shouldn't need to know which part of the product is native and which part is web."
+      },
+      {
+        "type": "callout",
+        "icon": "code",
+        "text": "Result: no second login, native video and screenshots from a web module, app size unchanged."
       }
     ]
   },
@@ -517,6 +534,12 @@
             "description": "Good engineering decisions rarely happen in isolation."
           }
         ]
+      },
+      {
+        "type": "callout",
+        "icon": "send",
+        "text": "If this sounds like how your team works,",
+        "link": { "label": "let's talk →", "href": "#whats-next" }
       }
     ]
   },
@@ -533,6 +556,7 @@
           "javascript",
           "typescript",
           "nodejs",
+          "postgresql",
           "react",
           "nextjs",
           "angular",
@@ -565,6 +589,15 @@
           { "label": "GraphQL" },
           { "label": "REST" },
           { "label": "WebSockets" }
+        ]
+      },
+      {
+        "type": "badges",
+        "heading": "Backend",
+        "layout": "row",
+        "badges": [
+          { "label": "Node.js" },
+          { "label": "PostgreSQL" }
         ]
       },
       {
@@ -607,13 +640,13 @@
     "id": "whats-next",
     "index": "15",
     "title": "What's Next?",
-    "tagline": "I'm looking for the next difficult problem.",
+    "tagline": "Got a frontend that's hard to change? That's my favourite kind of problem.",
     "subtitle": "Remote or hybrid · Wrocław, Poland",
     "blocks": [
       {
         "type": "text",
         "paragraphs": [
-          "I'm looking for a team where I can use my potential without being micromanaged — where I can own meaningful parts of the system, influence architectural decisions and work alongside talented engineers.",
+          "I do my best work when I own an area end to end: its users, its architecture, its failure modes — influencing architectural decisions and working alongside talented engineers.",
           "I believe enterprise platforms can be written with clear and simple code. The key is setting clear boundaries and responsibilities between modules."
         ]
       },

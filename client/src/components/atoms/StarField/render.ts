@@ -4,6 +4,7 @@ import {
   LINK_GLOW_LAYERS,
   LINK_HALO_ALPHA,
   LINK_HALO_BLUR,
+  LINK_HALO_BUCKETS,
   LINK_HALO_WIDTH,
   LINK_PULSE_DEPTH,
   NODE_ALPHA_MIN,
@@ -19,7 +20,7 @@ import {
 import { getGlowSprite } from './offscreen';
 import { randomBetween } from './random';
 import { edgeWeight } from './scene';
-import type { ConstellationNode, Scene, ShootingStar, Size } from './types';
+import type { ConstellationLink, ConstellationNode, Scene, ShootingStar, Size } from './types';
 
 interface NodePosition {
   x: number;
@@ -81,8 +82,10 @@ function drawDust(
 }
 
 /**
- * Blurred halo for the whole web. Every link goes into one path so the blur runs once
- * per frame instead of once per link — per-link blurring is what stalls the main thread.
+ * Blurred halo behind the lines. A blur cannot vary along one stroke, so links are
+ * grouped into a few brightness buckets and each bucket is stroked as a single batched
+ * path — the halo follows the fade at the cost of a handful of blurs per frame rather
+ * than one per link, which is what stalls the main thread.
  */
 function drawLinkHalo(
   ctx: CanvasRenderingContext2D,
@@ -93,25 +96,53 @@ function drawLinkHalo(
   ctx.globalCompositeOperation = 'lighter';
   ctx.lineCap = 'round';
   ctx.lineWidth = LINK_HALO_WIDTH;
-  ctx.strokeStyle = rgba(COLOR_BLUE, LINK_HALO_ALPHA);
-  ctx.shadowColor = rgba(COLOR_BLUE, 1);
   ctx.shadowBlur = LINK_HALO_BLUR;
 
-  ctx.beginPath();
-  for (const link of scene.links) {
-    const from = positions[link.from];
-    const to = positions[link.to];
-    ctx.moveTo(from.x, from.y);
-    ctx.lineTo(to.x, to.y);
+  for (let bucket = 0; bucket < LINK_HALO_BUCKETS; bucket++) {
+    const level = (bucket + 1) / LINK_HALO_BUCKETS;
+    let hasLinks = false;
+
+    ctx.beginPath();
+    for (const link of scene.links) {
+      const fade = (link.fadeFrom + link.fadeTo) / 2;
+      const index = Math.min(LINK_HALO_BUCKETS - 1, Math.floor(fade * LINK_HALO_BUCKETS));
+      if (index !== bucket) continue;
+
+      const from = positions[link.from];
+      const to = positions[link.to];
+      ctx.moveTo(from.x, from.y);
+      ctx.lineTo(to.x, to.y);
+      hasLinks = true;
+    }
+
+    if (!hasLinks) continue;
+
+    ctx.strokeStyle = rgba(COLOR_BLUE, LINK_HALO_ALPHA * level);
+    ctx.shadowColor = rgba(COLOR_BLUE, level);
+    ctx.stroke();
   }
-  ctx.stroke();
 
   ctx.restore();
 }
 
+function fadeGradient(
+  ctx: CanvasRenderingContext2D,
+  color: string,
+  from: NodePosition,
+  to: NodePosition,
+  link: ConstellationLink,
+): CanvasGradient {
+  const gradient = ctx.createLinearGradient(from.x, from.y, to.x, to.y);
+  gradient.addColorStop(0, rgba(color, link.fadeFrom));
+  gradient.addColorStop(1, rgba(color, link.fadeTo));
+
+  return gradient;
+}
+
 /**
- * Lightning core: stacked strokes going from wide and faint to thin and bright, each
- * carrying its link's own alpha and pulse.
+ * Lightning core: stacked strokes going from wide and faint to thin and bright. Each
+ * segment is stroked with a gradient between its two fade values, so a constellation
+ * dims continuously from its first line to its last with no step at the joins.
  */
 function drawLinks(
   ctx: CanvasRenderingContext2D,
@@ -125,26 +156,29 @@ function drawLinks(
   ctx.globalCompositeOperation = 'lighter';
   ctx.lineCap = 'round';
 
-  for (const layer of LINK_GLOW_LAYERS) {
-    ctx.lineWidth = layer.width;
-    ctx.strokeStyle = rgba(layer.white ? COLOR_WHITE : COLOR_BLUE, 1);
+  for (const link of scene.links) {
+    const from = positions[link.from];
+    const to = positions[link.to];
+    const pulse = animate
+      ? 1 - LINK_PULSE_DEPTH * (0.5 + 0.5 * Math.sin(time * link.pulseSpeed + link.pulsePhase))
+      : 1;
+    const alpha =
+      link.alpha *
+      pulse *
+      Math.min(edgeWeight(from.x, size.width), edgeWeight(to.x, size.width));
 
-    for (const link of scene.links) {
-      const from = positions[link.from];
-      const to = positions[link.to];
-      const pulse = animate
-        ? 1 - LINK_PULSE_DEPTH * (0.5 + 0.5 * Math.sin(time * link.pulseSpeed + link.pulsePhase))
-        : 1;
+    // One gradient per color, reused across the layers stacked on this segment.
+    const blue = fadeGradient(ctx, COLOR_BLUE, from, to, link);
+    const white = fadeGradient(ctx, COLOR_WHITE, from, to, link);
 
-      ctx.globalAlpha =
-        link.alpha *
-        pulse *
-        layer.alpha *
-        Math.min(edgeWeight(from.x, size.width), edgeWeight(to.x, size.width));
+    ctx.beginPath();
+    ctx.moveTo(from.x, from.y);
+    ctx.lineTo(to.x, to.y);
 
-      ctx.beginPath();
-      ctx.moveTo(from.x, from.y);
-      ctx.lineTo(to.x, to.y);
+    for (const layer of LINK_GLOW_LAYERS) {
+      ctx.globalAlpha = alpha * layer.alpha;
+      ctx.lineWidth = layer.width;
+      ctx.strokeStyle = layer.white ? white : blue;
       ctx.stroke();
     }
   }

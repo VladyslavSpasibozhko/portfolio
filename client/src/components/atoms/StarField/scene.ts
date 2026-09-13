@@ -37,6 +37,7 @@ import {
   PATH_ATTEMPTS_PER_PATH,
   PATH_COUNT_MAX,
   PATH_COUNT_MIN,
+  PATH_FADE_DEPTH,
   PATH_MIN_DOTS,
   PATH_STEP_MAX_RATIO,
   PATH_STEP_MIN_RATIO,
@@ -142,6 +143,8 @@ function linkBetween(
     from,
     to,
     alpha: Math.min(1, proximity * LINK_MAX_ALPHA * (0.45 + 0.55 * brightness) * alphaScale),
+    fadeFrom: 1,
+    fadeTo: 1,
     pulseSpeed: randomBetween(LINK_PULSE_SPEED_MIN, LINK_PULSE_SPEED_MAX),
     pulsePhase: Math.random() * Math.PI * 2,
   };
@@ -219,6 +222,12 @@ function createPath(
     for (const index of walked) used.delete(index);
     return [];
   }
+
+  // The constellation burns brightest where it starts and dims towards its tail.
+  links.forEach((link, index) => {
+    link.fadeFrom = 1 - PATH_FADE_DEPTH * (index / links.length);
+    link.fadeTo = 1 - PATH_FADE_DEPTH * ((index + 1) / links.length);
+  });
 
   return links;
 }

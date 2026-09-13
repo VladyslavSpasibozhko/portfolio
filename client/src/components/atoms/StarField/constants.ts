@@ -71,6 +71,8 @@ export const PATH_STEP_TARGET_RATIO = 0.22;
 export const PATH_TURN_PENALTY = 0.9;
 /** Paths read as the main figure, so their lines sit a little brighter. */
 export const PATH_ALPHA_SCALE = 1.35;
+/** How much brightness a constellation loses from its first line to its last. */
+export const PATH_FADE_DEPTH = 0.75;
 export const LINK_MAX_ALPHA = 0.85;
 /**
  * Halo pass: every link is stroked as one batched path with a blur, so the whole web
@@ -79,6 +81,8 @@ export const LINK_MAX_ALPHA = 0.85;
 export const LINK_HALO_WIDTH = 1;
 export const LINK_HALO_ALPHA = 0.2;
 export const LINK_HALO_BLUR = 6;
+/** Brightness steps the halo is batched into, so it can follow the fade along a path. */
+export const LINK_HALO_BUCKETS = 4;
 
 /** Core passes: stacked strokes per link, widest/faintest first, additively blended. */
 export const LINK_GLOW_LAYERS = [

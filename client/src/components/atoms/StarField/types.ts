@@ -28,6 +28,13 @@ export interface ConstellationLink {
   from: number;
   to: number;
   alpha: number;
+  /**
+   * Brightness at each end, as a share of the link's alpha. A constellation starts at
+   * full strength and fades along its course, so consecutive links hand off their
+   * values — one link's `fadeTo` is the next one's `fadeFrom`.
+   */
+  fadeFrom: number;
+  fadeTo: number;
   /** Slow brightness pulse running along the link. */
   pulseSpeed: number;
   pulsePhase: number;

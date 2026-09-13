@@ -77,6 +77,13 @@ const iconRegistry = Object.fromEntries(
   ])
 ) as Record<IconName, SvgComponent>;
 
+// Icon names coming from data files (e.g. data/journey.json) are plain
+// strings, so they have to be narrowed against what the registry actually
+// holds before they can be handed to `Icon`.
+export function isIconName(value: string | undefined): value is IconName {
+  return !!value && value in iconRegistry;
+}
+
 export function Icon({ name, size = 'md', className = '' }: IconProps) {
   const SvgIcon = iconRegistry[name];
 

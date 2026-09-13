@@ -46,19 +46,19 @@ function JourneySectionFooter() {
 }
 
 interface JourneySectionBackgroundProps {
-  src: string;
+  src?: string;
 }
 
 // TODO: improve accessability
-export function JourneySectionBackground({
-  src,
-}: JourneySectionBackgroundProps) {
+function JourneySectionBackground({ src }: JourneySectionBackgroundProps) {
   return (
-    <div className="absolute bottom-0 top-0 left-0 right-0 -z-10">
-      <img
-        className="absolute right-0 h-full transform-[translate(40%,20%)]"
-        src={src}
-      />
+    <div className="bg-background-950/60 absolute bottom-0 top-0 left-0 right-0 -z-10 overflow-hidden">
+      {src && (
+        <img
+          className="absolute right-0 h-full transform-[translate(40%,20%)] backdrop-opacity-80"
+          src={src}
+        />
+      )}
     </div>
   );
 }
@@ -66,22 +66,28 @@ export function JourneySectionBackground({
 interface JourneySectionProps {
   title: string;
   current: number;
-  max?: number;
+  max: number;
   showFooter?: boolean;
   children: ReactNode;
+  backgroundSrc?: string;
 }
 
 export function JourneySection({
   title,
   current,
-  max = 12,
+  max,
   showFooter = true,
   children,
+  backgroundSrc,
 }: JourneySectionProps) {
   return (
-    <div className="overflow-hidden relative py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col">
+    <div className="relative py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col">
       <JourneySectionHeader title={title} max={max} current={current} />
-      <div className="flex-1 pt-4 md:pt-8 xl:pt-12">{children}</div>
+      {/* Bottom padding keeps content clear of the absolutely positioned footer. */}
+      <div className="flex-1 pt-4 md:pt-8 xl:pt-12 pb-16 md:pb-20">
+        {children}
+      </div>
+      <JourneySectionBackground src={backgroundSrc} />
       {showFooter && <JourneySectionFooter />}
     </div>
   );

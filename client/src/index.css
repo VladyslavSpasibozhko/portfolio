@@ -251,3 +251,16 @@ body {
 @utility animate-line-sweep {
   animation: line-sweep 2s linear infinite;
 }
+
+@keyframes line-sweep-y {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(400%);
+  }
+}
+
+@utility animate-line-sweep-y {
+  animation: line-sweep-y 2s linear infinite;
+}

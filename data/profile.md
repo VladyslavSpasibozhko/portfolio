@@ -43,7 +43,7 @@ WorkJam is a leading Frontline AI platform that transforms how companies orchest
 - Learning & Knowledge Management
 - Audits & Compliance workflows
 - AI & Workflows automation
-- Earned Wage Accessx
+- Earned Wage Access
 
 **Technical Details:**
 Large-scale workforce management platform used globally by enterprise clients. Complex monorepo (Nx, Lerna, pnpm) with two legacy Angular apps and modern Next.js application, sharing reusable component libraries across all products.
@@ -92,11 +92,7 @@ Integrated web chat module into Android native app while handling significant co
 **December 2021 – August 2024 | Kyiv, Ukraine (Remote)**
 
 **Company Overview:**
-REMED is a healthcare Customer Relationship Management system with integration into Ukraine's national eHealth system and Helsi medical platform. Helsi is Ukraine's largest medical information system, integrated with the national electronic healthcare system eHealth, serving:
-
-- 24 million Ukrainians
-- 1,300+ clinics
-- 37,000+ doctors
+REMED is a healthcare Customer Relationship Management system with integration into Ukraine's national eHealth system and Helsi medical platform.
 
 **Key Features:**
 

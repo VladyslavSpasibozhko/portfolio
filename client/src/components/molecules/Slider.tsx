@@ -49,7 +49,7 @@ export function Slider({ slides, className = "" }: SliderProps) {
           key={slide.id}
           id={slide.id}
           content={slide.content}
-          className={visible === slide.id ? "opacity-100" : "opacity-0"}
+          // className={visible === slide.id ? "opacity-100" : "opacity-0"}
           onAppear={setVisible}
         />
       ))}

@@ -20,9 +20,16 @@ But this portfolio isn't another version of my CV.
 
 I want to show **how I grew as an engineer** — from learning the fundamentals of JavaScript and React, to owning critical modules, making architectural decisions, working with large-scale systems, and thinking about stability and users.
 
-**Visual / animation:** A subtle animated constellation/network. Each major career stage appears as a node that becomes active as the user scrolls.
+### The journey so far
+
+- **2019 — Capital Holding** · Learned to build
+- **2020 — DataMix** · Learned to own
+- **2021 — REMED** · Learned to design
+- **2024 — WorkJam** · Learned to scale
+- **Today** · Looking for the next difficult problem
 
 **Transition:**
+
 > Every journey starts somewhere.
 >
 > **For me, it started with vanilla JavaScript.**
@@ -36,6 +43,8 @@ I want to show **how I grew as an engineer** — from learning the fundamentals 
 **Subtitle:** Frontend Engineer · April 2019 — October 2020 · Kyiv, Ukraine
 
 Capital Holding was my first position as a frontend engineer.
+
+The product was a real-time betting platform — a high-frequency dashboard showing live sports events with data that never stopped moving.
 
 It was the first time I had to understand how a real application is built — not just how to write code, but how different pieces work together.
 
@@ -57,6 +66,14 @@ I became fascinated by the way these technologies worked together. I didn't want
 
 I spent a lot of time learning outside of work, taking courses and experimenting with new technologies.
 
+### Live data — my first real-time system
+
+Odds and match events changed constantly, so the UI could never be a snapshot of a request.
+
+I implemented **WebSockets** for live event streaming, keeping the dashboard in sync with matches as they happened.
+
+It was my first lesson in a problem that followed me through every job after: **the hard part isn't rendering data, it's keeping it correct while it changes.**
+
 ### What changed
 
 I started my career asking:
@@ -67,13 +84,11 @@ And I left Capital Holding wanting to understand:
 
 > **"Why does it work this way?"**
 
-**Visual / animation:** Two parallel timelines:
 - `Vanilla JS → Browser → DOM`
 - `React → Redux → Components → State`
 
-Animate the second timeline appearing after the first.
-
 **Transition:**
+
 > I had learned how to build applications.
 >
 > **Next, I had to learn how to build them with other people.**
@@ -86,7 +101,7 @@ Animate the second timeline appearing after the first.
 
 **Subtitle:** Frontend Engineer · October 2020 — December 2021 · Kyiv, Ukraine
 
-DataMix was my first outsourced experience.
+DataMix was my first outsourced experience — a product studio taking projects from MVP all the way to enterprise scale, with a team of middle and senior engineers, PMs, QAs and designers.
 
 It was also the first place where I experienced a genuinely warm engineering environment — something I learned was important to me.
 
@@ -95,6 +110,22 @@ Instead of staying on one product, I worked across different projects, domains a
 Investment platforms. Social applications. Internal products. Different teams. Different constraints.
 
 Every project gave me another piece of the puzzle.
+
+I also grew fast here — from junior to a strong mid-level engineer in about a year and a half.
+
+**Transition:**
+
+> Different domains, different constraints.
+>
+> **Two projects taught me the most.**
+
+---
+
+## 04 — DataMix
+
+### The projects that taught me the most.
+
+**Subtitle:** Investment matching · Social network MVP
 
 ### Investment Matching Platform
 
@@ -114,11 +145,13 @@ We built an Instagram-like social platform from scratch and brought it to MVP in
 
 I was responsible for the entire frontend lifecycle — architecture, state management, data fetching, UI, animations, performance and deployment.
 
+Fluid animations, a multi-directional slider and efficient data fetching under heavy load — all of it was mine to plan, build and ship.
+
 There was nobody else to pass a frontend problem to.
 
 I had to figure it out.
 
-### The bigger lesson
+### Engineering is more than writing code
 
 Working across different projects taught me that frontend engineering isn't just about writing code.
 
@@ -136,22 +169,23 @@ It's refactoring something even when nobody explicitly asks you to.
 
 **That's when I started seeing frontend engineering as a responsibility, not just a job.**
 
-**Visual / animation:** Project cards orbit around a central `Frontend Engineer` node. Each project reveals a different skill: `Performance`, `Architecture`, `Ownership`, `Collaboration`.
-
 **Transition:**
+
 > My questions were changing.
 >
 > **"How should we build this?"**
 
 ---
 
-## 04 — REMED
+## 05 — REMED
 
 ### When I stopped thinking in screens.
 
 **Subtitle:** Frontend Engineer · December 2021 — August 2024 · Kyiv, Ukraine
 
-REMED was a healthcare CRM connecting doctors, clinics and healthcare workflows with external healthcare systems.
+REMED was a healthcare CRM connecting doctors, clinics, laboratories and healthcare workflows with external healthcare systems.
+
+It integrated with **Helsi** and Ukraine's national **eHealth** system.
 
 The product contained some of the most heavily used modules I'd worked with up to that point.
 
@@ -161,6 +195,20 @@ I wasn't just implementing features anymore.
 
 **I was responsible for parts of the system.**
 
+**Transition:**
+
+> The product was big. My part of it finally had edges.
+>
+> **This is what owning it looked like.**
+
+---
+
+## 06 — REMED
+
+### Ownership, architecture, and stability.
+
+**Subtitle:** What I was responsible for
+
 ### Ownership
 
 I owned several critical modules:
@@ -169,9 +217,11 @@ I owned several critical modules:
 - Cashier Workplace
 - Calendar
 
+The Calendar managed doctor availability and appointment scheduling — patients viewing a doctor's calendar, creating appointments, and staff managing availability and patient data.
+
 These modules handled core business operations, so correctness, performance and reliability mattered.
 
-I started thinking beyond individual screens and toward clear boundaries between business logic, API communication, data and UI.
+I started thinking beyond individual screens and toward clear boundaries between business logic, API communication, data and UI — a modular structure organised per business entity, with services, components, storage and API layers each doing one job.
 
 ### Collaboration
 
@@ -195,32 +245,6 @@ The goal wasn't simply to increase a coverage number.
 
 **It was to make sure the workflows people depended on continued to work.**
 
-### Token refresh — one problem, many clients
-
-Each service had its own API client.
-
-When authentication expired, multiple clients could encounter the problem at the same time.
-
-The solution was to coordinate the refresh process through API-client interceptors:
-
-```text
-Request A ──┐
-Request B ──┼──→ Token expired
-Request C ──┘
-                ↓
-          Refresh once
-                ↓
-       ┌────────┼────────┐
-       ↓        ↓        ↓
-    Retry A   Retry B   Retry C
-```
-
-If refresh succeeded, pending requests continued.
-
-If it failed, requests were aborted and the user was logged out.
-
-**The complexity stayed inside the API layer instead of leaking into every feature.**
-
 ### Mentoring
 
 I also started mentoring junior engineers.
@@ -229,20 +253,21 @@ Teaching became another way of learning.
 
 Before explaining something, I had to understand it deeply enough to explain not only **how** it worked, but **why**.
 
-**Visual / animation:** A system diagram gradually separates into `API`, `Services`, `State`, `UI`. Hovering each layer reveals a short explanation.
-
 **Transition:**
+
 > By the end of this chapter, I was thinking about ownership, boundaries and reliability.
 >
 > **Then everything got bigger.**
 
 ---
 
-## 05 — WorkJam
+## 07 — WorkJam
 
 ### The most complicated frontend environment I'd worked in.
 
 **Subtitle:** Frontend Engineer · March 2024 — July 2026 · Kraków, Poland · Remote
+
+WorkJam is a frontline workforce platform — task management, scheduling, communication, learning and compliance for deskless teams in retail, hospitality, manufacturing and healthcare.
 
 WorkJam changed the scale of the problems I was solving.
 
@@ -256,9 +281,9 @@ Shared packages.
 
 Micro-frontends.
 
-A large monorepo.
+A large monorepo built with Nx, Lerna and pnpm.
 
-Multiple teams.
+Multiple teams, including a frontend group of around twenty engineers.
 
 And real users depending on the system every day.
 
@@ -294,17 +319,17 @@ I worked with the micro-frontend architecture that allowed React modules to be i
 
 **It wasn't a rewrite. It was a migration.**
 
-**Visual / animation:** Show two codebases as separate systems. As the user scrolls, modules detach from the legacy side and move into shared packages.
-
 ---
 
-## 06 — WorkJam Case Study
+## 08 — WorkJam Case Study
 
 ### How do you replace infrastructure without users noticing?
 
 **Subtitle:** Feature Flag Management Migration
 
 The platform relied heavily on **Flagr** and also used **LaunchDarkly** for feature management.
+
+Two systems, years of accumulated tech debt, and every product in the platform depending on them.
 
 We wanted to move to **Harness Feature Management Engine**.
 
@@ -332,6 +357,8 @@ Iterate
 Remove legacy systems
 ```
 
+The migration was itself controlled by a feature flag, so it could be rolled out company by company and turned off instantly if anything went wrong.
+
 We introduced Harness across the platform and allowed companies to use the new system while the existing infrastructure was still available.
 
 We monitored production for a month, collected errors and edge cases, and iterated on the implementation.
@@ -346,11 +373,9 @@ Eventually, LaunchDarkly and Flagr were removed completely.
 
 The migration happened while the platform continued serving users.
 
-**Visual / animation:** A migration timeline. Legacy systems gradually fade out while Harness becomes the single active path.
-
 ---
 
-## 07 — WorkJam Case Study
+## 09 — WorkJam Case Study
 
 ### Sometimes the best engineering decision is the one that saves two weeks.
 
@@ -397,7 +422,7 @@ I spent about two days researching and experimenting with the current implementa
 
 I found a way to extend it instead of creating another component.
 
-That saved additional implementation and coordination work.
+That saved additional implementation and coordination work — and left the platform with one date picker instead of two.
 
 ### Result
 
@@ -407,22 +432,15 @@ The important part wasn't writing code faster.
 
 **It was solving the right problem.**
 
-**Visual / animation:** Compare two paths:
-`Create new component → many steps`
-vs.
-`Improve existing component → ship`
-
-Make the shorter path visually converge on `10 days`.
-
 ---
 
-## 08 — WorkJam Case Study
+## 10 — WorkJam Case Study
 
 ### Four applications. One user experience.
 
 **Subtitle:** Microsoft Teams Integration
 
-The platform consisted of multiple module applications and a unified application.
+The platform consisted of four module applications and one unified application.
 
 We needed to integrate them with Microsoft Teams.
 
@@ -444,17 +462,15 @@ The challenge was preserving context while moving between independently running 
                  Unified App
 ```
 
-I created a reusable integration library that centralized Teams configuration and provided consistent cross-application navigation.
+I created a reusable integration library that centralized Teams configuration, exposed a single way to read Teams context, and provided consistent cross-application navigation.
 
-When a user clicked a link from Teams, the correct application instance had to open rather than simply navigating inside the current application.
+When a user clicked a link from Teams, the correct application instance had to open rather than simply navigating inside the current application — carrying context and state across the boundary.
 
 **Solve the integration once. Make every application benefit from it.**
 
-**Visual / animation:** Clicking an application node opens a simulated Teams window and demonstrates context being carried between apps.
-
 ---
 
-## 09 — WorkJam Case Study
+## 11 — WorkJam Case Study
 
 ### When web and native have to become one experience.
 
@@ -462,9 +478,9 @@ When a user clicked a link from Teams, the correct application instance had to o
 
 We needed to bring a web chat experience into an Android application.
 
-The web module couldn't simply be bundled into the native application because of platform constraints.
+The web module couldn't simply be bundled into the native application: Google's 4KB page-size requirement meant shipping the external module natively wasn't an option.
 
-So we used WebView.
+So we used WebView, keeping the native app lightweight.
 
 ```text
 Android
@@ -480,21 +496,19 @@ JS ↔ Native Bridge
 
 But embedding the web application was only the beginning.
 
-Users were already authenticated in the native application, so they shouldn't have to authenticate again.
+Users were already authenticated in the native application, so they shouldn't have to authenticate again — no login screen, ever.
 
 The web experience also needed access to native capabilities such as video recording and screenshots.
 
-I implemented a JavaScript-to-native bridge that allowed the web module to communicate with Android APIs.
+I implemented a JavaScript-to-native bridge — extending the global window object with methods the Android layer could call and respond to — that allowed the web module to communicate with Android APIs.
 
 The web module could receive authentication context and request native capabilities without exposing the underlying complexity to the user.
 
 **The user shouldn't need to know which part of the product is native and which part is web.**
 
-**Visual / animation:** A simulated phone frame with the native Android app transitioning into the embedded React chat. Animate messages between `Web` and `Native`.
-
 ---
 
-## 10 — How I Think About Engineering
+## 12 — How I Think About Engineering
 
 ### The technology changed. The questions changed more.
 
@@ -518,7 +532,27 @@ and started asking:
 
 > **"What is the simplest system that lets us keep changing this?"**
 
-### The principles I care about
+### How the question changed
+
+- **2019** — How do I build this?
+- **2020** — How should this feature work?
+- **2021** — Where should this logic live?
+- **2024** — How should these systems interact?
+- **Today** — How do we make this system easier to change?
+
+**Transition:**
+
+> The answers changed as the systems got bigger.
+>
+> **A few things didn't.**
+
+---
+
+## 13 — The Principles I Care About
+
+### The things that survived every stack I worked in.
+
+**Subtitle:** Six ideas I keep coming back to
 
 **Clear boundaries**
 
@@ -544,11 +578,9 @@ A production system is not a playground. Every change has users behind it.
 
 Good engineering decisions rarely happen in isolation.
 
-**Visual / animation:** Six principles arranged around a central `Engineering` node. As the user scrolls, each principle activates and connects to one of the previous case studies.
-
 ---
 
-## 11 — My Toolbox
+## 14 — My Toolbox
 
 ### Technologies I've worked with in production
 
@@ -576,7 +608,7 @@ Good engineering decisions rarely happen in isolation.
 
 ### UI & Development
 
-`Tailwind CSS` · `Storybook`
+`Tailwind CSS` · `Storybook` · `Firebase`
 
 ### Currently expanding
 
@@ -586,22 +618,23 @@ I'm interested in expanding beyond frontend and becoming stronger on the backend
 
 I've been working with technologies such as Node.js and PostgreSQL and want to continue developing that part of my skill set.
 
-**Visual / animation:** An interactive constellation of technologies. Selecting a technology highlights the projects where it was used instead of showing a static logo wall.
-
 **Transition:**
+
 > But a stack doesn't tell you how someone thinks.
 >
 > **The problems they choose to solve do.**
 
 ---
 
-## 12 — What's Next?
+## 15 — What's Next?
 
 ### I'm looking for the next difficult problem.
 
 I'm looking for a team where I can use my potential without being micromanaged.
 
 A place where I can own meaningful parts of the system, influence architectural decisions and work alongside talented engineers.
+
+I believe enterprise platforms can be written with clear and simple code. The key is setting clear boundaries and responsibilities between modules.
 
 ### What matters to me
 
@@ -629,6 +662,12 @@ A manager who listens, communicates clearly and genuinely cares about developmen
 
 **Remote or hybrid · Wrocław, Poland**
 
+### Also worth knowing
+
+- **Bachelor's Degree** — Management and Administration, National University of Food Technologies
+- **Ukrainian** — Native
+- **English** — Upper-Intermediate
+
 ---
 
 # Let's build something worth solving.
@@ -637,24 +676,6 @@ A manager who listens, communicates clearly and genuinely cares about developmen
 
 [LinkedIn] · [GitHub] · [Email]
 
-**Visual / animation:** Bring back the constellation from the first section. All career nodes are now connected.
-
-Final animation:
-
-```text
-Capital Holding
-      ↓
-DataMix
-      ↓
-REMED
-      ↓
-WorkJam
-      ↓
-      ?
-```
-
-The final `?` remains active.
-
-**Final line:**
+Final line:
 
 > **Maybe the next chapter is something we build together.**

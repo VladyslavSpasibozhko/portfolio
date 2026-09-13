@@ -1,4 +1,5 @@
 import { useRef, type ReactNode } from "react";
+import { usePrefersReducedMotion } from "@hooks/usePrefersReducedMotion";
 import { BadgeGlow, type BadgeGlowConfig } from "./BadgeGlow";
 
 interface BadgeProps {
@@ -39,13 +40,16 @@ export function Badge({
   className = "",
 }: BadgeProps) {
   const ref = useRef<HTMLSpanElement>(null);
+  // The glow loops through SVG animation, which the reduced-motion rule in
+  // index.css can't stop, so it's left out entirely.
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   return (
     <span
       ref={ref}
       className={`relative inline-block rounded-full ${variantClasses[variant]} ${sizeClasses[size]} ${className}`}
     >
-      {variant === "primary" && (
+      {variant === "primary" && !prefersReducedMotion && (
         <BadgeGlow containerRef={ref} {...sizeGlowConfig[size]} />
       )}
       {children}

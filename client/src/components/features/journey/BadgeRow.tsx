@@ -6,12 +6,15 @@ interface BadgeRowProps {
 
 export function BadgeRow({ badges }: BadgeRowProps) {
   return (
-    <div className="flex flex-wrap gap-2">
+    // `role` restores list semantics that Safari drops once list styles are reset.
+    <ul role="list" className="flex flex-wrap gap-2">
       {badges.map((badge) => (
-        <Badge size="2xl" variant="primary" key={badge}>
-          {badge}
-        </Badge>
+        <li key={badge}>
+          <Badge size="2xl" variant="primary">
+            {badge}
+          </Badge>
+        </li>
       ))}
-    </div>
+    </ul>
   );
 }

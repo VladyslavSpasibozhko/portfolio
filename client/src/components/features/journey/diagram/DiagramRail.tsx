@@ -56,6 +56,7 @@ export function DiagramRail({
       className={`relative flex items-center justify-center ${containerClasses[orientation]} ${className}`}
     >
       <div
+        aria-hidden="true"
         className={`absolute bg-border-focus overflow-hidden ${trackClasses[orientation]}`}
       >
         <div
@@ -72,6 +73,8 @@ export function DiagramRail({
         </Typography>
       ) : (
         <>
+          {/* The chevrons are hidden icons, so the two-way link is spelled out. */}
+          {bidirectional && <span className="sr-only">Two-way link</span>}
           {bidirectional && (
             <Icon
               name="chevron-down"

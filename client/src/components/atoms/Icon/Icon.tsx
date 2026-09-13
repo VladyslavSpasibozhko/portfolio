@@ -49,6 +49,12 @@ interface IconProps {
   name: IconName;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | '3xl' | '4xl' | '5xl';
   className?: string;
+  /**
+   * Icons sit next to text that already says what they mean, so they're
+   * hidden from assistive tech by default. Pass `false` for an icon that
+   * stands alone — it's then announced by the label inside its SVG file.
+   */
+  decorative?: boolean;
 }
 
 const sizeClasses = {
@@ -84,10 +90,16 @@ export function isIconName(value: string | undefined): value is IconName {
   return !!value && value in iconRegistry;
 }
 
-export function Icon({ name, size = 'md', className = '' }: IconProps) {
+export function Icon({ name, size = 'md', className = '', decorative = true }: IconProps) {
   const SvgIcon = iconRegistry[name];
 
   if (!SvgIcon) return null;
 
-  return <SvgIcon className={`${sizeClasses[size]} ${className}`} />;
+  return (
+    <SvgIcon
+      className={`${sizeClasses[size]} ${className}`}
+      aria-hidden={decorative || undefined}
+      focusable={decorative ? 'false' : undefined}
+    />
+  );
 }

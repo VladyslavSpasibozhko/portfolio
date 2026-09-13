@@ -20,13 +20,17 @@ export function IconsBlock({ block }: IconsBlockProps) {
           {block.note}
         </Typography>
       )}
-      <div className="flex flex-wrap gap-2">
+      {/* `role` restores list semantics that Safari drops once list styles are reset. */}
+      <ul role="list" className="flex flex-wrap gap-2">
         {block.icons.filter(isIconName).map((icon) => (
-          <BorderedContainer key={icon} className="bg-transparent rounded-full!">
-            <Icon name={icon} size="4xl" className="text-text-sky" />
-          </BorderedContainer>
+          <li key={icon}>
+            <BorderedContainer className="bg-transparent rounded-full!">
+              {/* No text label here, so the icon is announced by its own name. */}
+              <Icon name={icon} size="4xl" className="text-text-sky" decorative={false} />
+            </BorderedContainer>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

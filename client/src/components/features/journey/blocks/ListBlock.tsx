@@ -11,7 +11,8 @@ export function ListBlock({ block }: ListBlockProps) {
   return (
     <div className="space-y-2 md:space-y-4 lg:space-y-12 xl:space-y-24">
       <BlockHeading content={block.heading} />
-      <ul className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
+      {/* `role` restores list semantics that Safari drops once list styles are reset. */}
+      <ul role="list" className="grid grid-cols-1 md:grid-cols-2 gap-2 md:gap-4">
         {block.items.map((item) => (
           <li key={item} className="flex items-center gap-2 text-text-white">
             <Icon name="arrow-right" size="md" className="" />

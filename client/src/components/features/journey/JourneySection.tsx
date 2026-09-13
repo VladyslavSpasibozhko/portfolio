@@ -20,16 +20,25 @@ function JourneySectionHeader({
       <Typography className="uppercase text-16 sm:text-18 md:text-20 lg:text-22 xl:text-24 2xl:text-28 text-text-blue">
         {title}
       </Typography>
-      <Typography className="capitalize text-16 sm:text-18 md:text-20 lg:text-22 xl:text-24 2xl:text-28 text-white">
-        {padNumber(current)}/{padNumber(max)}
-      </Typography>
+      {/* The section's label already announces the position, and "01/05"
+          would be read out as a fraction. */}
+      <div aria-hidden="true">
+        <Typography className="capitalize text-16 sm:text-18 md:text-20 lg:text-22 xl:text-24 2xl:text-28 text-white">
+          {padNumber(current)}/{padNumber(max)}
+        </Typography>
+      </div>
     </div>
   );
 }
 
 function JourneySectionFooter() {
   return (
-    <div className="py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 absolute bottom-0 left-0 right-0">
+    // A visual cue only: repeated on every slide, it would just be noise
+    // for screen reader users, who move on by reading.
+    <div
+      aria-hidden="true"
+      className="py-4 px-8 sm:py-6 sm:px-10 md:py-10 md:px-10 xl:py-14 xl:px-14 2xl:px-24 absolute bottom-0 left-0 right-0"
+    >
       <div className="flex items-center animate-bounce">
         <div className="pr-2">
           <Icon

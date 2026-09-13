@@ -63,8 +63,12 @@ export function JourneySlide({
             <Link
               key={link.href}
               href={link.href}
-              target="_blank"
-              rel="noreferrer"
+              // Web pages open in a new tab; `mailto:` hands off to the mail
+              // app, so a blank tab would just be left behind.
+              {...(link.href.startsWith("http") && {
+                target: "_blank",
+                rel: "noreferrer",
+              })}
               className="flex items-center gap-2"
             >
               {isIconName(link.icon) && <Icon name={link.icon} size="md" />}

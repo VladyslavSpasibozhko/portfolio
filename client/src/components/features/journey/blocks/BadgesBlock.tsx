@@ -31,18 +31,21 @@ export function BadgesBlock({ block }: BadgesBlockProps) {
           {note}
         </Typography>
       )}
-      <div className={layoutClasses[layout]}>
+      {/* `role` restores list semantics that Safari drops once list styles are reset. */}
+      <ul role="list" className={layoutClasses[layout]}>
         {badges.map((badge) => (
-          <Badge key={badge.label} size="2xl">
-            <span className="flex items-center gap-2">
-              {isIconName(badge.icon) && (
-                <Icon name={badge.icon} size="lg" className="text-text-white" />
-              )}
-              {badge.label}
-            </span>
-          </Badge>
+          <li key={badge.label}>
+            <Badge size="2xl">
+              <span className="flex items-center gap-2">
+                {isIconName(badge.icon) && (
+                  <Icon name={badge.icon} size="lg" className="text-text-white" />
+                )}
+                {badge.label}
+              </span>
+            </Badge>
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

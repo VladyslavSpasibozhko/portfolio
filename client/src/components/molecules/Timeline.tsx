@@ -44,7 +44,7 @@ function TimelineEntry({ item, isLast }: TimelineEntryProps) {
   // Phones get a stacked timeline with a vertical line; from `sm` up the
   // entries sit in a row joined by a horizontal line.
   return (
-    <div className="relative flex flex-1 flex-row sm:flex-col items-start gap-4 sm:gap-3 pb-6 sm:pb-0">
+    <li className="relative flex flex-1 flex-row sm:flex-col items-start gap-4 sm:gap-3 pb-6 sm:pb-0">
       <div
         ref={dotRef}
         className="relative z-10 shrink-0 h-16 w-16 sm:h-12 sm:w-12 2xl:h-16 2xl:w-16 rounded-full bg-background-white after:absolute after:w-full after:h-full after:z-20 after:border after:border-border-focus after:rounded-lg after:animate-pulse-scale"
@@ -66,13 +66,15 @@ function TimelineEntry({ item, isLast }: TimelineEntryProps) {
           {item.description}
         </Typography>
       </div>
-    </div>
+    </li>
   );
 }
 
 export function Timeline({ items, className = "" }: TimelineProps) {
   return (
-    <div className={`flex flex-col sm:flex-row ${className}`}>
+    // An ordered list, so the entries are announced as a sequence. `role`
+    // restores list semantics that Safari drops once list styles are reset.
+    <ol role="list" className={`flex flex-col sm:flex-row ${className}`}>
       {items.map((item, index) => (
         <TimelineEntry
           key={item.year}
@@ -80,6 +82,6 @@ export function Timeline({ items, className = "" }: TimelineProps) {
           isLast={index === items.length - 1}
         />
       ))}
-    </div>
+    </ol>
   );
 }

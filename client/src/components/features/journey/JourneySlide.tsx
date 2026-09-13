@@ -33,7 +33,7 @@ export function JourneySlide({
       current={current}
       max={max}
       showFooter={showFooter}
-      backgroundSrc={background}
+      background={background}
     >
       <div className={`space-y-2 md:space-y-4 xl:space-y-6 ${width}`}>
         {section.eyebrow && (

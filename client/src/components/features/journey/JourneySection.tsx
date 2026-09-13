@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Typography } from "@components/atoms/Typography";
 import { Icon } from "@components/atoms/Icon";
 import { padNumber } from "@utils/padNumber";
+import type { BackgroundImage } from "./backgrounds";
 
 interface JourneySectionHeaderProps {
   max: number;
@@ -45,22 +46,38 @@ function JourneySectionFooter() {
   );
 }
 
+// Mirror the `md` and `xl` breakpoints in index.css: below `xl` the image is
+// dimmed, so smaller screens get lighter files.
+const TABLET_MEDIA = "(min-width: 768px)";
+const LAPTOP_MEDIA = "(min-width: 1280px)";
+
 interface JourneySectionBackgroundProps {
-  src?: string;
+  image?: BackgroundImage;
 }
 
 // The image is decorative, so it's hidden from assistive tech. It runs under
 // the text column, so its left edge fades out and on narrower screens it's
 // dimmed to stay behind the copy instead of competing with it.
-function JourneySectionBackground({ src }: JourneySectionBackgroundProps) {
+function JourneySectionBackground({ image }: JourneySectionBackgroundProps) {
   return (
     <div className="bg-background-950/60 absolute bottom-0 top-0 left-0 right-0 -z-10 overflow-hidden">
-      {src && (
-        <img
-          className="absolute right-0 h-full transform-[translate(40%,20%)] opacity-15 xl:opacity-100 mask-[linear-gradient(to_right,transparent,black_35%)]"
-          src={src}
-          alt=""
-        />
+      {image && (
+        // The browser takes the first source matching both media and type,
+        // so wider screens come first and AVIF precedes WebP.
+        <picture>
+          <source media={LAPTOP_MEDIA} type="image/avif" srcSet={image.laptop.avif} />
+          <source media={LAPTOP_MEDIA} type="image/webp" srcSet={image.laptop.webp} />
+          <source media={TABLET_MEDIA} type="image/avif" srcSet={image.tablet.avif} />
+          <source media={TABLET_MEDIA} type="image/webp" srcSet={image.tablet.webp} />
+          <source type="image/avif" srcSet={image.mobile.avif} />
+          <img
+            className="absolute right-0 h-full transform-[translate(40%,20%)] opacity-15 xl:opacity-100 mask-[linear-gradient(to_right,transparent,black_35%)]"
+            src={image.mobile.webp}
+            alt=""
+            loading="lazy"
+            decoding="async"
+          />
+        </picture>
       )}
     </div>
   );
@@ -72,7 +89,7 @@ interface JourneySectionProps {
   max: number;
   showFooter?: boolean;
   children: ReactNode;
-  backgroundSrc?: string;
+  background?: BackgroundImage;
 }
 
 export function JourneySection({
@@ -81,7 +98,7 @@ export function JourneySection({
   max,
   showFooter = true,
   children,
-  backgroundSrc,
+  background,
 }: JourneySectionProps) {
   return (
     <section
@@ -95,7 +112,7 @@ export function JourneySection({
       <div className="flex-1 pt-4 md:pt-8 xl:pt-12 pb-16 md:pb-20">
         {children}
       </div>
-      <JourneySectionBackground src={backgroundSrc} />
+      <JourneySectionBackground image={background} />
       {showFooter && <JourneySectionFooter />}
     </section>
   );

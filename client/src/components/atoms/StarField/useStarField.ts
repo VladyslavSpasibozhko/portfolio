@@ -147,20 +147,20 @@ export function useStarField({ containerRef, canvasRef, nebulaCanvasRef }: UseSt
 
     resize();
 
-    const resizeObserver = new ResizeObserver(resize);
-    resizeObserver.observe(container);
+    // const resizeObserver = new ResizeObserver(resize);
+    // resizeObserver.observe(container);
 
     const cancelIdleStart = whenIdle(() => {
       canAnimate = true;
       if (!document.hidden) handleMotionChange();
     });
-    reducedMotionQuery.addEventListener('change', handleMotionChange);
-    document.addEventListener('visibilitychange', handleVisibilityChange);
+    // reducedMotionQuery.addEventListener('change', handleMotionChange);
+    // document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
       stopLoop();
       cancelIdleStart();
-      resizeObserver.disconnect();
+      // resizeObserver.disconnect();
       reducedMotionQuery.removeEventListener('change', handleMotionChange);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };

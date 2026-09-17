@@ -9,7 +9,7 @@ interface TextBlockProps {
 
 export function TextBlock({ block }: TextBlockProps) {
   return (
-    <div className="space-y-2 md:space-y-3.5 xl:space-y-12">
+    <div className="space-y-6 md:space-y-10 xl:space-y-12 2xl:space-y-14 3xl:space-y-18">
       <BlockHeading content={block.heading} />
       {block.paragraphs.map((paragraph) => (
         <Story key={paragraph} content={paragraph} />

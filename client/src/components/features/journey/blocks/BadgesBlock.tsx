@@ -8,9 +8,9 @@ const layoutClasses: Record<
   NonNullable<JourneyBadgesBlock["layout"]>,
   string
 > = {
-  row: "flex flex-wrap items-center gap-2 md:gap-3.5 xl:gap-4",
-  column: "flex flex-col items-start gap-2 md:gap-3.5 xl:gap-4",
-  grid: "grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3.5 xl:gap-4 w-fit",
+  row: "flex flex-wrap items-center gap-8 md:gap-14 xl:gap-16",
+  column: "flex flex-col items-start gap-8 md:gap-14 xl:gap-16",
+  grid: "grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-14 xl:gap-16 w-fit",
 };
 
 interface BadgesBlockProps {
@@ -21,7 +21,7 @@ export function BadgesBlock({ block }: BadgesBlockProps) {
   const { heading, note, layout = "row", badges } = block;
 
   return (
-    <div className="flex flex-col gap-2 md:gap-3.5 xl:gap-4">
+    <div className="flex flex-col gap-8 md:gap-14 xl:gap-16">
       <BlockHeading content={heading} />
       {note && (
         <Typography
@@ -36,7 +36,7 @@ export function BadgesBlock({ block }: BadgesBlockProps) {
         {badges.map((badge) => (
           <li key={badge.label}>
             <Badge size="2xl" variant="primary">
-              <span className="flex items-center gap-2 md:gap-1.5 xl:gap-2">
+              <span className="flex items-center gap-8 md:gap-6 xl:gap-8">
                 {isIconName(badge.icon) && (
                   <Icon name={badge.icon} size="lg" className="text-text-white" />
                 )}

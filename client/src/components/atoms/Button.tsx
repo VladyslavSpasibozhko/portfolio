@@ -15,9 +15,9 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: "p-1 md:p-2 xl:p-3 text-12 xl:text-14",
-  md: "p-2 md:p-3 xl:p-4 text-14 xl:text-16",
-  lg: "px-2 py-2 md:px-3 md:py-3 xl:px-5 xl:py-4 text-14 md:text-16 xl:text-18",
+  sm: "p-4 md:p-8 xl:p-12 text-12 xl:text-14",
+  md: "p-8 md:p-12 xl:p-16 text-14 xl:text-16",
+  lg: "px-8 py-8 md:px-12 md:py-12 xl:px-20 xl:py-16 text-14 md:text-16 xl:text-18",
 };
 
 export function Button({

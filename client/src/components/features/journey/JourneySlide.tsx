@@ -16,11 +16,7 @@ interface JourneySlideProps {
   max: number;
 }
 
-export function JourneySlide({
-  section,
-  current,
-  max,
-}: JourneySlideProps) {
+export function JourneySlide({ section, current, max }: JourneySlideProps) {
   const background = getBackground(section.background);
 
   const width = background ? "w-full md:w-2/3 xl:w-[60%]" : "w-full";
@@ -33,7 +29,9 @@ export function JourneySlide({
       max={max}
       background={background}
     >
-      <div className={`space-y-2 md:space-y-3.5 xl:space-y-6 ${width}`}>
+      <div
+        className={`space-y-4 md:space-y-10 xl:space-y-14 3xl:space-y-18 ${width}`}
+      >
         {section.eyebrow && (
           <Typography className="uppercase text-14 lg:text-18 xl:text-22 2xl:text-26 font-500 text-text-sky">
             {section.eyebrow}
@@ -47,8 +45,8 @@ export function JourneySlide({
       <div className={`${width}`}>
         {section.blocks.map((block, index) => (
           <div
+            className="mt-8 md:mt-10 lg:mt-12 xl:mt-18 2xl:mt-26 3xl:mt-36"
             key={`${section.id}-${index}`}
-            className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18"
           >
             <JourneyBlock block={block} />
           </div>
@@ -56,7 +54,7 @@ export function JourneySlide({
       </div>
 
       {section.links && (
-        <div className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18 pt-2 md:pt-3.5 xl:pt-4 border-t border-border-highlight flex flex-wrap items-center gap-4 md:gap-7.5 xl:gap-8">
+        <div className="mt-24 sm:mt-32 md:mt-46 lg:mt-54 xl:mt-72 pt-8 md:pt-14 xl:pt-16 border-t border-border-highlight flex flex-wrap items-center gap-16 md:gap-30 xl:gap-32">
           {section.links.map((link) => (
             <Link
               key={link.href}
@@ -67,7 +65,7 @@ export function JourneySlide({
                 target: "_blank",
                 rel: "noreferrer",
               })}
-              className="flex items-center gap-2 md:gap-1.5 xl:gap-2"
+              className="flex items-center gap-8 md:gap-6 xl:gap-8"
             >
               {isIconName(link.icon) && <Icon name={link.icon} size="md" />}
               <Typography tag="p" className="text-14 xl:text-20">
@@ -81,7 +79,7 @@ export function JourneySlide({
       {section.transition && (
         <Quote
           content={section.transition}
-          className="mt-6 sm:mt-8 md:mt-11.5 lg:mt-13.5 xl:mt-18 italic"
+          className="mt-14 sm:mt-16 md:mt-24 lg:mt-28 xl:mt-32 2xl:mt-40 3xl:mt-90 italic"
         />
       )}
     </JourneySection>

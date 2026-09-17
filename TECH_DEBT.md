@@ -60,6 +60,35 @@ Keep the proxy target and the server port in sync.
 1. Pick one default port
 2. Either hardcode it consistently in both places or read it from env in `vite.config.ts`
 
+## Layout Doesn't Follow the Browser's Font Size
+
+**Priority:** Low
+
+**Reason:**  
+The `--text-*` tokens and `--spacing` in `client/src/index.css` are in `px` (see the sizing rule in `AGENTS.md`), so neither text nor spacing scales when a user raises their browser's default font size. Rendered sizes are unchanged at the default 16px root, but the accessibility affordance that `rem` gave us is gone.
+
+**What to update:**
+Decide whether user font-size scaling matters for this site; if it does, restore it without giving up px-numbered class names.
+
+**How:**
+1. Keep the numbering as it is (`text-44` = 44px, `p-16` = 16px at the default root)
+2. Express the values as a `calc()` off the root font size — e.g. `--spacing: calc(1rem / 16)` — rather than going back to hand-written `rem` values
+3. Verify the slides at 125%/150% browser font size before and after
+
+## Nothing Enforces the Even-Step Spacing Rule
+
+**Priority:** Low
+
+**Reason:**  
+With `--spacing: 1px` the scale is unbounded, so `p-15` or `gap-7.5` compile happily and just render slightly off. The old `--space-*`/`--width-*` token lists at least failed loudly on a value they didn't define (by falling back to a different unit) — that early warning is gone, and the "even numbers, steps of 2–4" convention now lives only in `AGENTS.md`.
+
+**What to update:**
+Make an off-scale spacing value fail in CI rather than in review.
+
+**How:**
+1. Add an ESLint rule (e.g. `eslint-plugin-tailwindcss` with a custom pattern) or a small lint script that greps class strings for odd/fractional spacing numbers
+2. Wire it into the client's lint step
+
 ## No Pipeline for Background Image Variants
 
 **Priority:** Low

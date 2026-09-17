@@ -32,7 +32,7 @@ export function ChatMessages({
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-24">
       {messages.map((msg, idx) =>
         msg.role === "user" ? (
           <ChatUserMessage
@@ -57,7 +57,7 @@ export function ChatMessages({
         </div>
       )}
 
-      <div className="p-4" ref={messagesEndRef} />
+      <div className="p-16" ref={messagesEndRef} />
     </div>
   );
 }

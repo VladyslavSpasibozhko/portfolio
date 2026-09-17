@@ -9,7 +9,7 @@ interface StoryProps {
 export function Story({ content, className = "" }: StoryProps) {
   return (
     <Typography
-      className={`text-16 md:text-14 lg:text-16 xl:text-20 2xl:text-24 text-text-sky ${className}`}
+      className={`text-10 md:text-12 lg:text-14 xl:text-26 2xl:text-20 3xl:text-26 text-text-sky ${className}`}
     >
       {content}
     </Typography>

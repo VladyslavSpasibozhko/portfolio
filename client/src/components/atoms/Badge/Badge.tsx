@@ -25,11 +25,11 @@ const variantClasses = {
 };
 
 const sizeClasses = {
-  sm: "px-4 py-2 text-12",
-  md: "px-4 py-2 text-12 xl:text-14",
-  lg: "px-4 py-2 text-12 md:text-14",
-  xl: "px-4 py-2 text-12 md:text-14 xl:text-16",
-  "2xl": "px-4 py-2 text-14 xl:text-18",
+  sm: "px-16 py-8 text-12",
+  md: "px-16 py-8 text-12 xl:text-14",
+  lg: "px-16 py-8 text-12 md:text-14",
+  xl: "px-16 py-8 text-12 md:text-14 xl:text-16",
+  "2xl": "px-16 py-8 text-14 xl:text-18",
 };
 
 export function Badge({

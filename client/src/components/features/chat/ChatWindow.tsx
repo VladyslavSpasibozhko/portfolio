@@ -28,7 +28,7 @@ export function ChatWindow({
       className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-background-950 border border-border-strong"
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4">
+      <div className="flex items-center justify-between p-16">
         <Typography tag="h3" className="font-semibold text-18">
           AI Assistance
         </Typography>
@@ -42,7 +42,7 @@ export function ChatWindow({
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4">
+      <div className="flex-1 overflow-y-auto p-16">
         <ChatMessages
           messages={messages}
           isLoading={isLoading}
@@ -52,7 +52,7 @@ export function ChatWindow({
 
       {/* Error */}
       {error && (
-        <div className="px-4 py-2 bg-background-error text-text-danger border-t border-red-700/60">
+        <div className="px-16 py-8 bg-background-error text-text-danger border-t border-red-700/60">
           <Typography tag="small">{error}</Typography>
         </div>
       )}

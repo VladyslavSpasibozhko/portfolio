@@ -19,9 +19,9 @@ export function CardsBlock({ block }: CardsBlockProps) {
   const { heading, columns = 2, cards } = block;
 
   return (
-    <div className="space-y-2 md:space-y-3.5 xl:space-y-4">
+    <div className="space-y-8 md:space-y-14 xl:space-y-16">
       <BlockHeading content={heading} />
-      <div className={`grid gap-2 md:gap-3.5 xl:gap-6 ${columnClasses[columns]}`}>
+      <div className={`grid gap-8 md:gap-14 xl:gap-24 ${columnClasses[columns]}`}>
         {cards.map((card) => (
           <InfoCard
             key={card.title}

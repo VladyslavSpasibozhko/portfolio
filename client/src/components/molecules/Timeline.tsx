@@ -73,7 +73,7 @@ function TimelineEntry({ item, index, isLast }: TimelineEntryProps) {
   // Phones get a stacked timeline with a vertical line; from `sm` up the
   // entries sit in a row joined by a horizontal line.
   return (
-    <li className="relative flex flex-1 flex-row sm:flex-col items-start gap-4 sm:gap-3 pb-6 sm:pb-0">
+    <li className="relative flex flex-1 flex-row sm:flex-col items-start gap-16 sm:gap-12 pb-24 sm:pb-0">
       {/* The ring is the dot's own `::after`, so it scales in with the dot. */}
       <div
         ref={dotRef}
@@ -103,19 +103,30 @@ function TimelineEntry({ item, index, isLast }: TimelineEntryProps) {
             style={animationTiming({ delay: lineEnd })}
             className="absolute inset-0 animate-timeline-fade-in"
           >
-            <div className="absolute top-0 -left-1 h-1/4 w-2 bg-linear-to-b animate-line-sweep-y sm:-top-3 sm:left-0 sm:h-6 sm:w-1/4 sm:bg-linear-to-r sm:animate-line-sweep from-transparent via-accent-cyan to-transparent blur-[3px]" />
+            <div className="absolute top-0 -left-4 h-1/4 w-8 bg-linear-to-b animate-line-sweep-y sm:-top-12 sm:left-0 sm:h-24 sm:w-1/4 sm:bg-linear-to-r sm:animate-line-sweep from-transparent via-accent-cyan to-transparent blur-[3px]" />
           </div>
         </div>
       )}
       <div
         style={animationTiming({ delay: start + TEXT_OFFSET_MS })}
-        className="flex flex-col gap-1 animate-timeline-rise"
+        className="flex flex-col gap-4 animate-timeline-rise"
       >
-        <Typography tag="h4" className="text-16 sm:text-18 md:text-20 lg:text-24 xl:text-26 2xl:text-30 text-text-100">{item.year}</Typography>
-        <Typography tag="p" className="text-16 sm:text-14 md:text-16 lg:text-18 xl:text-20 2xl:text-24 text-text-200">
+        <Typography
+          tag="h4"
+          className="text-12 sm:text-14 md:text-16 lg:text-18 xl:text-20 2xl:text-22 3xl:text-28 text-text-100"
+        >
+          {item.year}
+        </Typography>
+        <Typography
+          tag="p"
+          className="text-10 sm:text-12 md:text-14 lg:text-16 xl:text-20 2xl:text-22 3xl:text-24 text-text-200"
+        >
           {item.title}
         </Typography>
-        <Typography tag="p" className="text-14 sm:text-12 md:text-14 lg:text-16 xl:text-18 text-text-sky">
+        <Typography
+          tag="p"
+          className="text-14 sm:text-12 md:text-14 lg:text-16 xl:text-18 text-text-sky"
+        >
           {item.href ? (
             <Link href={item.href} className="text-text-sky">
               {item.description}

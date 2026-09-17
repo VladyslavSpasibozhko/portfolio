@@ -164,6 +164,11 @@ A fixed, decorative canvas background (constellations, dust, nebulas, shooting s
 
 - Theme tokens (colors, fonts, sizes, breakpoints, etc.) are defined via `@theme` in `client/src/index.css`, not `tailwind.config.ts`. Components must use those tokens — don't make up ad hoc styles/values.
 - Before creating a custom class or one-off style, check whether it's worth adding to `@theme` in `index.css` instead.
+- **Every number in a class name is a px value.** Sizes are in `px`, never `rem` — that goes for the `@theme` tokens and for any raw CSS written elsewhere (keyframes included). `p-16` is 16px of padding, `gap-24` is a 24px gap, `text-44` is a 44px font.
+  - This works because `@theme` sets `--spacing: 1px`, replacing Tailwind's default `0.25rem` step. So Tailwind's own docs are off by 4× for this repo: their `p-4` (16px) is our `p-16`. Don't copy spacing numbers out of Tailwind examples or from other projects — read them as px.
+  - `--spacing` covers padding, margin, gap, `space-x/y`, `width`/`height`, `min-*`/`max-*`, `inset`/`top`/`right`/`bottom`/`left`, `translate`, `size` and `basis`. There are deliberately no `--space-*`, `--width-*` or `--height-*` tokens: a named token per step would just be a second, partial copy of the same scale, and any value missing from it would silently fall back to a different unit.
+  - Font sizes are the one namespace that still needs tokens (`--text-8` … `--text-100`), since `--spacing` doesn't feed `text-*`. Use the `text-<n>` utilities they generate (`text-12`, `xl:text-20`). Tailwind's default names (`text-sm`, `text-xl`, …) and arbitrary values (`text-[15px]`) are prohibited; if a size is genuinely missing, add a `--text-*` token for it.
+- Keep spacing numbers **even, in steps of 2 — prefer steps of 4** (`gap-4`, `p-8`, `mt-12`, `space-y-16`). Odd or fractional values (`p-3`, `gap-7.5`) are prohibited: the scale is unbounded now, so a typo no longer fails loudly, it just renders slightly wrong. Fraction utilities (`w-1/2`, `h-1/4`) are unaffected by all of this — they're percentages, not lengths.
 - Animations are defined in `index.css` as `@keyframes` plus a matching `@utility animate-*` class (e.g. `animate-badge-sheen`, `animate-timeline-*`, `animate-line-sweep`). Every new animation must be covered by the `prefers-reduced-motion: reduce` block there.
 - Color tokens are grouped by the CSS property they're meant for — use each group only for that property:
   - `--color-text-*` — text color only (e.g. `text-text-200`).
@@ -171,7 +176,7 @@ A fixed, decorative canvas background (constellations, dust, nebulas, shooting s
   - `--color-border-*` — borders only (e.g. `border-border-subtle`).
   - `--color-accent-*` — the exception: not tied to one property, reusable anywhere (text, background, border, shadow, etc.).
   - Shadows use the `--shadow-*` size tokens (`shadow-sm`/`md`/`lg`) for spread, colored via an accent token, e.g. `shadow-accent-cyan`.
-- Layouts must be responsive across `sm` → `2xl`; follow the existing per-breakpoint spacing/type scales used by the journey slides.
+- Layouts must be responsive across `sm` → `3xl` (`3xl` = 1920px, for wide desktops); follow the existing per-breakpoint spacing/type scales used by the journey slides.
 
 ### Accessibility
 

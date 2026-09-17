@@ -36,7 +36,7 @@ export function BranchDiagram({
         label={source.label}
         icon={source.icon}
         tone={source.tone ?? "accent"}
-        className="w-full md:w-auto md:min-w-64"
+        className="w-full md:w-auto md:min-w-256"
       />
 
       <DiagramRail label={connector} />
@@ -95,7 +95,7 @@ export function BranchDiagram({
             label={sink.label}
             icon={sink.icon}
             tone={sink.tone ?? "result"}
-            className="w-full md:w-auto md:min-w-64"
+            className="w-full md:w-auto md:min-w-256"
           />
         </>
       )}

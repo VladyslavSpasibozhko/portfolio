@@ -74,11 +74,11 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="mb-16">
-      <Typography tag="h2" className="mb-6 pb-2 border-b border-white/10">
+    <section className="mb-64">
+      <Typography tag="h2" className="mb-24 pb-8 border-b border-white/10">
         {title}
       </Typography>
-      <div className="flex flex-col gap-6">{children}</div>
+      <div className="flex flex-col gap-24">{children}</div>
     </section>
   );
 }
@@ -95,20 +95,20 @@ function ColorSwatch({
   kind?: "bg" | "text" | "border";
 }) {
   return (
-    <div className="flex flex-col items-start gap-2">
+    <div className="flex flex-col items-start gap-8">
       {kind === "bg" && (
         <div
-          className={`w-full h-14 rounded-lg border border-white/10 ${className}`}
+          className={`w-full h-56 rounded-lg border border-white/10 ${className}`}
         />
       )}
       {kind === "text" && (
-        <div className="w-full h-14 rounded-lg border border-white/10 bg-background-950 flex items-center justify-center">
+        <div className="w-full h-56 rounded-lg border border-white/10 bg-background-950 flex items-center justify-center">
           <span className={`text-18 font-semibold ${className}`}>Aa</span>
         </div>
       )}
       {kind === "border" && (
         <div
-          className={`w-full h-14 rounded-lg bg-background-950 border-4 ${className}`}
+          className={`w-full h-56 rounded-lg bg-background-950 border-4 ${className}`}
         />
       )}
       <div>
@@ -132,10 +132,10 @@ function Example({
 }) {
   return (
     <div>
-      <Typography tag="small" className="block mb-2 uppercase tracking-wide">
+      <Typography tag="small" className="block mb-8 uppercase tracking-wide">
         {label}
       </Typography>
-      <div className="flex flex-wrap items-center gap-4 p-4 rounded-lg bg-white/5 border border-white/10">
+      <div className="flex flex-wrap items-center gap-16 p-16 rounded-lg bg-white/5 border border-white/10">
         {children}
       </div>
     </div>
@@ -144,11 +144,11 @@ function Example({
 
 export function LibraryPage() {
   return (
-    <div className="relative z-10  mx-auto px-6 py-16 bg-background-950">
-      <Typography tag="h1" className="mb-2">
+    <div className="relative z-10  mx-auto px-24 py-64 bg-background-950">
+      <Typography tag="h1" className="mb-8">
         Component Library
       </Typography>
-      <Typography tag="p" className="mb-12 ">
+      <Typography tag="p" className="mb-48 ">
         Every component with its prop variations, for quick visual reference.
       </Typography>
 
@@ -332,7 +332,7 @@ export function LibraryPage() {
 
       <Section title="Typography">
         <Example label="Tags">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-8">
             <Typography tag="h1">Heading 1</Typography>
             <Typography tag="h2">Heading 2</Typography>
             <Typography tag="h3">Heading 3</Typography>

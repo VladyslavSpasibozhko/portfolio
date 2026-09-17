@@ -10,13 +10,15 @@ interface CalloutBlockProps {
 
 export function CalloutBlock({ block }: CalloutBlockProps) {
   return (
-    <BorderedContainer className="w-full flex items-center gap-2 md:gap-1.5 lg:gap-3.5 xl:gap-4">
-      {isIconName(block.icon) && (
-        <Icon name={block.icon} size="2xl" className="text-text-white" />
-      )}
+    <BorderedContainer className="w-full flex items-center gap-8 md:gap-6 lg:gap-14 xl:gap-16">
+      <div>
+        {isIconName(block.icon) && (
+          <Icon name={block.icon} size="4xl" className="text-text-white" />
+        )}
+      </div>
       <Typography
         tag="p"
-        className="italic text-16 xl:text-22 2xl:text-26 text-text-300"
+        className="italic text-12 md:text-16 xl:text-18 2xl:text-20 3xl:text-28 text-text-300"
       >
         {block.text}
         {block.link && (

@@ -8,7 +8,7 @@ interface TimelineBlockProps {
 
 export function TimelineBlock({ block }: TimelineBlockProps) {
   return (
-    <div className="space-y-4 md:space-y-7.5 xl:space-y-8">
+    <div className="space-y-16 md:space-y-30 xl:space-y-32">
       <BlockHeading content={block.heading} />
       <Timeline items={block.items} />
     </div>

@@ -33,7 +33,7 @@ export function DiagramNode({
 }: DiagramNodeProps) {
   return (
     <div
-      className={`inline-flex items-center justify-center gap-2 md:gap-1.5 xl:gap-2 rounded-lg border px-4 py-2 md:px-5.5 md:py-3.5 xl:px-6 xl:py-4 text-center ${toneClasses[tone]} ${className}`}
+      className={`inline-flex items-center justify-center gap-8 md:gap-6 xl:gap-8 rounded-lg border px-16 py-8 md:px-22 md:py-14 xl:px-24 xl:py-16 text-center ${toneClasses[tone]} ${className}`}
     >
       {isIconName(icon) && (
         <Icon name={icon} size="sm" className={toneTextClasses[tone]} />

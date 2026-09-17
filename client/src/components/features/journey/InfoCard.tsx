@@ -25,7 +25,7 @@ export function InfoCard({
   className = "",
 }: InfoCardProps) {
   return (
-    <BorderedContainer className={`w-full flex flex-col gap-1 md:gap-1.5 xl:gap-4 ${className}`}>
+    <BorderedContainer className={`w-full flex flex-col gap-4 md:gap-6 xl:gap-16 ${className}`}>
       {icon && (
         <div className="rounded-lg flex items-center justify-start">
           <Icon name={icon} size={iconSize} className={iconClassName} />

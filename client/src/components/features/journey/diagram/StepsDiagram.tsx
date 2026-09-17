@@ -33,7 +33,7 @@ export function StepsDiagram({
             icon={step.icon}
             tone={step.tone}
             className={
-              isHorizontal ? "w-full lg:flex-1 lg:min-w-0" : "w-full md:w-auto md:min-w-64"
+              isHorizontal ? "w-full lg:flex-1 lg:min-w-0" : "w-full md:w-auto md:min-w-256"
             }
           />
 

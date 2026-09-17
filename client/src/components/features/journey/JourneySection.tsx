@@ -94,12 +94,10 @@ export function JourneySection({
       // Lets hash navigation move focus onto the slide without adding it to
       // the tab order.
       tabIndex={-1}
-      className="outline-none relative py-4 px-8 sm:py-6 sm:px-10 md:py-9.5 md:px-9.5 xl:py-14 xl:px-14 2xl:px-24 min-h-screen flex flex-col border-b border-border-highlight"
+      className="outline-none relative py-8 px-16 md:py-24 md:px-32 xl:py-32 xl:px-48 2xl:py-64 2xl:px-80 min-h-screen flex flex-col border-b border-border-highlight"
     >
       <JourneySectionHeader title={title} max={max} current={current} />
-      <div className="flex-1 pt-4 md:pt-7.5 xl:pt-12">
-        {children}
-      </div>
+      <div className="flex-1 pt-16 md:pt-24 xl:pt-48">{children}</div>
       <JourneySectionBackground image={background} />
     </section>
   );

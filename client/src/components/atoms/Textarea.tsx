@@ -20,8 +20,8 @@ export function Textarea({
   };
 
   const classes = [
-    "px-2",
-    "py-1",
+    "px-8",
+    "py-4",
     "border",
     "rounded-lg",
     "focus:outline-none",

@@ -15,7 +15,7 @@ export function Headline({ content }: HeadlineProps) {
     // Only the opening slide has a headline, so it's the page's single h1.
     <Typography
       tag="h1"
-      className="leading-relaxed text-34 sm:text-38 md:text-42 lg:text-48 xl:text-56 2xl:text-70 font-700 text-text-100"
+      className="leading-relaxed text-28 sm:text-32 md:text-34 lg:text-36 xl:text-40 2xl:text-56 font-700 text-text-100"
     >
       {parts.map((part, index) =>
         // split() puts every captured group at an odd position.
@@ -25,7 +25,7 @@ export function Headline({ content }: HeadlineProps) {
           </span>
         ) : (
           part
-        )
+        ),
       )}
     </Typography>
   );

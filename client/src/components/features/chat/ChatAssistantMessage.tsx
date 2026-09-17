@@ -9,12 +9,12 @@ interface ChatAssistantMessageProps {
 
 export function ChatAssistantMessage({ content, username, className = "" }: ChatAssistantMessageProps) {
   return (
-    <div className={`flex gap-2 ${className}`}>
+    <div className={`flex gap-8 ${className}`}>
       <div className="flex-1">
-        <Typography tag="span" className="block mb-1">
+        <Typography tag="span" className="block mb-4">
           {username}
         </Typography>
-        <div className="border backdrop-blur-sm px-4 py-2 rounded-lg">
+        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg">
           <Markdown content={content} />
         </div>
       </div>

@@ -14,7 +14,7 @@ interface BorderedContainerProps {
 // The border lights up on hover, easing in rather than snapping, so the
 // panel responds without pretending to be clickable.
 const baseClasses =
-  "p-2 md:p-4 xl:p-6 rounded-lg border transition-[border-color,box-shadow] duration-300 ease-out hover:border-border-focus";
+  "p-8 md:p-16 xl:p-24 rounded-lg border transition-[border-color,box-shadow] duration-300 ease-out hover:border-border-focus";
 
 const variantClasses = {
   surface:

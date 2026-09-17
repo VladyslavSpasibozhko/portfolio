@@ -9,7 +9,7 @@ export function Quote({ content, className = "" }: QuoteProps) {
   return (
     <Typography
       tag="p"
-      className={`border-l-2 lg:border-l-4 border-border-focus pl-4 md:pl-3.5 xl:pl-4 text-14 sm:text-16 lg:text-18 xl:text-22 2xl:text-26 font-500 text-text-100 ${className}`}
+      className={`border-l-2 lg:border-l-4 border-border-focus pl-16 md:pl-14 xl:pl-16 text-12 md:text-16 xl:text-18 2xl:text-24 3xl:text-32 font-500 text-text-100 ${className}`}
     >
       {content}
     </Typography>

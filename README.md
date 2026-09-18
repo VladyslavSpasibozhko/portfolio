@@ -18,8 +18,8 @@ Personal portfolio of Vladyslav Spasibozhko, Frontend Engineer — a single-page
 │   ├── services/       # business logic facades (ai chat)
 │   ├── routes/         # Fastify routes (/ws/chat)
 │   └── plugins/        # CORS, rate limit
-├── types/              # shared types: message, profile, journey
-├── data/               # journey.json/.md, profile.json/.md
+├── types/              # shared types: message, journey
+├── data/               # journey.json (page content), profile.md (AI context)
 └── client/
     ├── static/backgrounds/   # optimized slide backgrounds (avif/webp × 3 sizes)
     └── src/
@@ -64,9 +64,12 @@ npm run dev --prefix client     # client on http://localhost:5173
 
 ## Editing content
 
-The main page is rendered entirely from [data/journey.json](data/journey.json). Each section is a slide made of typed blocks (`text`, `cards`, `timeline`, `steps`, `branch`, …) described in [types/journey.ts](types/journey.ts). Keep [data/journey.md](data/journey.md) in sync when changing the JSON.
+There are two content files, one per consumer:
 
-Profile facts for the AI assistant live in [data/profile.json](data/profile.json) and its Markdown copy [data/profile.md](data/profile.md).
+- [data/journey.json](data/journey.json) renders the main page. Each section is a slide made of typed blocks (`text`, `cards`, `timeline`, `steps`, `branch`, …) described in [types/journey.ts](types/journey.ts).
+- [data/profile.md](data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [src/services/ai.ts](src/services/ai.ts).
+
+Neither file is a copy of the other, so there's nothing to keep in sync mechanically — but a factual change usually belongs in both.
 
 ## Docs
 

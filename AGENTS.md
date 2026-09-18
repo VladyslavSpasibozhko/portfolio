@@ -7,7 +7,7 @@ Reference notes for agents working in this repo.
 - `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, websocket, multipart) and routes.
 - `src/` — server code: `lib/`, `services/`, `routes/`, `plugins/`.
 - `types/` — shared types, used by both the server and the client (`@types` alias on the client).
-- `data/` — content (JSON + Markdown), used by both the server and the client.
+- `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
 - `client/` — Vite + React + Tailwind v4 app.
 
 ## Commands
@@ -32,8 +32,7 @@ Run `typecheck` in the affected package(s) after changes.
 ## Types (`types/`)
 
 - `message.ts` — WebSocket contract for communication between the user and the LLM (single WS path). Defines `WsMessage`, `WsRequestPayload`, `WsSuccessResponse`, `WsErrorResponse`, `WsResponsePayload`.
-- `profile.ts` — describes the structure of the profile JSON file (`ProfileData`, tech stack, work experience, education, etc.).
-- `journey.ts` — describes the structure of the journey JSON file (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
+- `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
 - `index.ts` — re-exports the above.
 
 Follow DRY: don't create new types/interfaces on your own. Ask for approval first — once approved, feel free to create the new type.
@@ -42,15 +41,16 @@ Icon fields in the data types are plain `string`s on purpose — available icons
 
 ## Data (`data/`)
 
-- `profile.json` — source of truth for profile data, used by both BE and client.
-- `profile.md` — a Markdown copy of `profile.json`, loaded into the AI system prompt (`src/services/ai.ts`) so the LLM has clear, readable context.
-- `journey.json` — source of truth for the main page: every slide, its copy, background and blocks. The page is fully data-driven from this file.
-- `journey.md` — a readable Markdown copy of `journey.json` (chapter numbers mirror `JourneySection.index`).
+Two files, each with one consumer:
+
+- `journey.json` — source of truth for the main page: every slide, its copy, background and blocks. The page is fully data-driven from this file, and only the client reads it.
+- `profile.md` — the profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt (`src/services/ai.ts`) so the LLM has clear, readable context. Only the server reads it.
 
 Rules:
 
-- When you change a JSON file, update its Markdown copy in the same change (and vice versa) — they're maintained by hand.
-- `data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build. Never put secrets or private info there.
+- Keep the split: rendered content goes in `journey.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
+- The two files overlap in subject matter but not in form, so a factual change (a new role, a corrected date) usually belongs in both — check the other file when you edit one.
+- `data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build — `profile.md` included. Never put secrets or private info there.
 
 ## Libs (`src/lib/`)
 
@@ -136,7 +136,7 @@ To add a new block type:
 
 1. Get approval for the new type (see Types), then add it to the `JourneyBlock` union in `types/journey.ts`.
 2. Create `blocks/<Name>Block.tsx` and add a `case` to `JourneyBlock.tsx`.
-3. Use it in `data/journey.json` and mirror the content in `data/journey.md`.
+3. Use it in `data/journey.json`.
 
 ### Icons (`atoms/Icon/`)
 
@@ -199,7 +199,7 @@ Common, reusable utility functions (e.g. `hexToRgb`, `padNumber`, `interval`, `t
 
 ### Libs (`client/src/lib/`)
 
-Client-side access layers: `api.ts` (profile data access), `ws.ts` (`ChatWebSocket` wrapper).
+Client-side access layers: `ws.ts` (`ChatWebSocket` wrapper).
 
 ### Types
 

@@ -104,20 +104,19 @@ Make the variant generation reproducible.
 2. Document where originals are kept (outside the repo) and how to run the script
 3. Update the comment in `backgrounds.ts`
 
-## JSON and Markdown Data Copies Are Synced by Hand
+## Journey Content Isn't Part of the AI Context
 
 **Priority:** Low
 
 **Reason:**  
-`profile.json`/`profile.md` and `journey.json`/`journey.md` hold the same content twice and are kept in sync manually. `profile.md` feeds the AI prompt and `journey.json` feeds the UI, so drift means the assistant and the page can say different things. `journey.md` isn't used by the AI at all yet.
+`data/journey.json` (the page content) and `data/profile.md` (the AI context) are now separate files with no duplication, but the assistant only sees `profile.md`. It can't answer questions about anything that exists only on the page, and the two files can still drift on shared facts since both are edited by hand.
 
 **What to update:**
-Generate the Markdown copies from the JSON (or add a check that flags drift), and decide whether the journey content should be part of the AI context.
+Decide whether the journey content should feed the AI too, and add a check that flags factual drift between the two files.
 
 **How:**
-1. Write a small script that renders `*.md` from `*.json`
-2. Run it as part of the build or a pre-commit check
-3. If useful, include `journey.md` in `systemPrompt()` in `src/services/ai.ts`
+1. Render `journey.json` to Markdown at runtime and include it in `systemPrompt()` in `src/services/ai.ts`, or accept the gap and document it
+2. If useful, add a check (build or pre-commit) that flags facts present in one file and missing from the other
 
 ## Stale `@icons` Alias
 

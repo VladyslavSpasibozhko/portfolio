@@ -38,7 +38,7 @@ export function JourneySlide({ section, current, max }: JourneySlideProps) {
           </Typography>
         )}
         {section.headline && <Headline content={section.headline} />}
-        <Title content={section.tagline} />
+        {section.tagline && <Title content={section.tagline} />}
         {section.subtitle && <SubTitle content={section.subtitle} />}
       </div>
 

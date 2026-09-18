@@ -163,7 +163,8 @@ export interface JourneySection {
     eyebrow?: string;
     /** Oversized hero line — only the opening slide uses one. */
     headline?: string;
-    tagline: string;
+    /** Headline of the slide — omitted when the eyebrow carries it alone. */
+    tagline?: string;
     subtitle?: string;
     /** Key into the client's background image registry. */
     background?: string;

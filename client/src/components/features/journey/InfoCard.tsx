@@ -9,7 +9,7 @@ interface InfoCardProps {
   icon?: IconName;
   iconSize?: IconSize;
   iconClassName?: string;
-  title: string;
+  title?: string;
   description?: string;
   children?: ReactNode;
   className?: string;
@@ -31,9 +31,11 @@ export function InfoCard({
           <Icon name={icon} size={iconSize} className={iconClassName} />
         </div>
       )}
-      <Typography tag="h4" className="text-16 md:text-14 xl:text-20 2xl:text-26 text-text-100">
-        {title}
-      </Typography>
+      {title && (
+        <Typography tag="h4" className="text-16 md:text-14 xl:text-20 2xl:text-26 text-text-100">
+          {title}
+        </Typography>
+      )}
       {description && (
         <Typography tag="p" className="text-14 md:text-12 lg:text-14 xl:text-18 text-text-sky">
           {description}

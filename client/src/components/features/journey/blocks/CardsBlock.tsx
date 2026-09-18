@@ -22,9 +22,9 @@ export function CardsBlock({ block }: CardsBlockProps) {
     <div className="space-y-8 md:space-y-14 xl:space-y-16">
       <BlockHeading content={heading} />
       <div className={`grid gap-8 md:gap-14 xl:gap-24 ${columnClasses[columns]}`}>
-        {cards.map((card) => (
+        {cards.map((card, index) => (
           <InfoCard
-            key={card.title}
+            key={card.title ?? index}
             icon={isIconName(card.icon) ? card.icon : undefined}
             title={card.title}
             description={card.description}

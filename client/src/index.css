@@ -306,6 +306,28 @@ body {
   animation-play-state: var(--timeline-play-state, running);
 }
 
+/*
+ * List entrance: items fade up one after another. `--list-delay` staggers each
+ * item along the sequence and `--list-play-state` holds them paused until the
+ * list scrolls into view. `both` fill keeps an item in its first frame while it
+ * waits, so nothing flashes before its turn.
+ */
+@keyframes list-item-in {
+  from {
+    opacity: 0;
+    translate: 0 12px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@utility animate-list-item-in {
+  animation: list-item-in 500ms ease-out var(--list-delay, 0ms) both;
+  animation-play-state: var(--list-play-state, running);
+}
+
 @keyframes line-sweep {
   0% {
     transform: translateX(-100%);

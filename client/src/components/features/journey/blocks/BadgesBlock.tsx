@@ -10,7 +10,7 @@ const layoutClasses: Record<
 > = {
   row: "flex flex-wrap items-center gap-8 md:gap-14 xl:gap-16",
   column: "flex flex-col items-start gap-8 md:gap-14 xl:gap-16",
-  grid: "grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-14 xl:gap-16 w-fit",
+  grid: "grid grid-cols-2 gap-8 md:gap-14 xl:gap-16 w-fit",
 };
 
 interface BadgesBlockProps {
@@ -35,7 +35,7 @@ export function BadgesBlock({ block }: BadgesBlockProps) {
       <ul role="list" className={layoutClasses[layout]}>
         {badges.map((badge) => (
           <li key={badge.label}>
-            <Badge size="2xl" variant="primary">
+            <Badge className="w-full" size="2xl" variant="primary">
               <span className="flex items-center gap-8 md:gap-6 xl:gap-8">
                 {isIconName(badge.icon) && (
                   <Icon name={badge.icon} size="lg" className="text-text-white" />

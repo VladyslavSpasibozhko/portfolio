@@ -11,8 +11,7 @@
       {
         "type": "text",
         "paragraphs": [
-          "7+ years building frontends people rely on every day: live betting odds, patient records, shift schedules for frontline teams.",
-          "Over the years, I've worked across sports betting, social platforms, healthcare, and enterprise workforce management.",
+          "Over 7+ years, I've worked across fintech, social platforms, healthcare, and enterprise workforce management.",
           "This isn't my CV. It's the story of the problems that changed how I think, in about 5 minutes. I want to show how I grew as an engineer — from learning the fundamentals of JavaScript and React, to owning critical modules, making architectural decisions, working with large-scale systems, and thinking about stability and users."
         ]
       },
@@ -48,8 +47,7 @@
           }
         ]
       }
-    ],
-    "transition": "Every journey starts somewhere. For me, it started with vanilla JavaScript."
+    ]
   },
   {
     "id": "capital-holding",
@@ -62,7 +60,7 @@
       {
         "type": "text",
         "paragraphs": [
-          "My first position as a frontend developer. The product was a real-time betting platform — a high-frequency dashboard showing live sports events with data that never stopped moving.",
+          "My first position as a frontend developer, on a product used for live sports betting.",
           "It was the first time I had to understand how a real application is built — not just how to write code, but how different pieces work together."
         ]
       },
@@ -72,20 +70,18 @@
         "cards": [
           {
             "icon": "javascript",
-            "title": "Project #1 — Vanilla JavaScript",
-            "description": "A sports betting platform built from scratch. No framework, just JavaScript.",
-            "detail": "That gave me a strong foundation in how the browser, application logic, data and UI work together — what happens underneath the abstractions frameworks would later provide."
+            "description": "My first real product: a betting platform where the numbers on screen changed every few seconds, and we built every part of it ourselves.",
+            "detail": "Building everything by hand meant I had to learn how the web actually works, not just how to use tools that hide it. That foundation made everything I learned afterwards make sense."
           },
           {
             "icon": "react",
-            "title": "Project #2 — React + Redux",
-            "description": "The first project ended and a new betting platform began — this time with React and Redux.",
-            "detail": "I didn't want to simply learn the APIs. I wanted to understand why these tools existed, how state should flow through an application, and how to structure a growing frontend."
+            "description": "The first project ended and a new betting platform began — this time built with React, the tool most modern websites are made with today.",
+            "detail": "Having built the hard way first, I could see exactly which problems these tools were invented to solve — so I learned why they work, not just how to use them."
           }
         ]
       }
     ],
-    "transition": "I had learned how to build applications. Next, I had to learn how to build them with other people."
+    "transition": "One year, two products, one team. I had no idea how narrow that was."
   },
   {
     "id": "datamix",
@@ -98,9 +94,8 @@
       {
         "type": "text",
         "paragraphs": [
-          "My first outsourced experience — a product studio taking projects from MVP all the way to enterprise scale.",
-          "It was also the first place where I experienced a genuinely warm engineering environment. That mattered more than I expected.",
-          "Instead of staying on one product, I worked across different projects, domains and requirements — and grew from junior to a strong mid-level engineer in about a year and a half."
+          "My first outsourced experience. Instead of staying on one product, I worked across different projects, domains and requirements — and grew from junior to a strong mid-level engineer in about a year and a half.",
+          "It was also the first place where I experienced a genuinely warm engineering environment. That mattered more than I expected."
         ]
       },
       {
@@ -121,21 +116,20 @@
     "index": "04",
     "title": "DataMix",
     "tagline": "The projects that taught me the most.",
-    "subtitle": "Investment matching · Social network MVP",
     "blocks": [
       {
         "type": "cards",
         "columns": 2,
         "cards": [
           {
-            "title": "Investment Matching Platform",
-            "description": "Core developer on a high-load two-sided marketplace connecting investors and investees.",
-            "detail": "Complex calculations, matching logic and large amounts of data taught me that frontend performance isn't only about rendering quickly — it's about how you structure data, state and the flow of information."
+            "title": "Investment platform",
+            "description": "One of the main developers on a platform matching investors with companies looking for funding.",
+            "detail": "Heavy calculations and a lot of data moving at once. That's where I learned that making a product feel fast has less to do with the screen than with how you organise the information behind it."
           },
           {
-            "title": "Social Network (MVP)",
-            "description": "Sole frontend developer. Instagram-like platform, from scratch to MVP in six months.",
-            "detail": "Architecture, state, data fetching, UI, fluid animations, a multi-directional slider, performance and deployment. There was nobody to pass a frontend problem to."
+            "title": "Social media platform",
+            "description": "The only frontend developer on an Instagram-style social network — from an empty folder to a working product in six months.",
+            "detail": "Design, animations, performance, releases — every decision was mine, and there was nobody to pass a problem to. It's the fastest I've ever learned."
           }
         ]
       },
@@ -143,27 +137,21 @@
         "type": "list",
         "heading": "Engineering is more than writing code",
         "items": [
-          "It's code review.",
-          "It's helping another engineer solve a problem.",
-          "It's discussing architecture.",
-          "It's deciding whether something should become reusable.",
-          "It's thinking about how a technical decision affects the user and the client.",
-          "It's refactoring something even when nobody asks you to."
+          "It's reading someone else's work before it ships.",
+          "It's sitting with another engineer until the problem makes sense.",
+          "It's arguing about how something should be built — before anyone builds it.",
+          "It's remembering there's a person on the other end of every decision.",
+          "It's fixing something nobody asked you to fix."
         ]
-      },
-      {
-        "type": "callout",
-        "icon": "code",
-        "text": "That's when I started seeing frontend engineering as a responsibility, not just a job."
       }
     ],
-    "transition": "My questions were changing. \"How should we build this?\""
+    "transition": "That's when I started seeing frontend engineering as a responsibility, not just a job."
   },
   {
     "id": "remed",
     "index": "05",
     "title": "REMED",
-    "tagline": "When I stopped thinking in screens.",
+    "tagline": "Software that people's health depended on.",
     "subtitle": "Frontend Engineer · December 2021 — August 2024",
     "background": "crm_dashboard",
     "blocks": [
@@ -171,23 +159,25 @@
         "type": "text",
         "paragraphs": [
           "A healthcare CRM connecting doctors, clinics, laboratories and healthcare workflows with external healthcare systems.",
-          "It integrated with Helsi and Ukraine's national eHealth system, and contained some of the most heavily used modules I'd worked with up to that point."
-        ],
-        "quote": "I wasn't implementing features anymore. I was responsible for parts of the system."
+          "It integrated with Helsi ( Ukraine's national eHealth system ), and contained some of the most heavily used modules I'd worked with up to that point."
+        ]
       },
       {
         "type": "badges",
         "heading": "Key features",
-        "layout": "column",
+        "layout": "grid",
         "badges": [
-          { "label": "Patient management & CRM", "icon": "user" },
-          { "label": "EHR integration", "icon": "shield-heart" },
-          { "label": "Appointment scheduling", "icon": "calendar-cursor" },
-          { "label": "Medical documentation", "icon": "clipboard-check" }
+          { "label": "One place for every patient", "icon": "user" },
+          {
+            "label": "Connected to the country's health system",
+            "icon": "shield-heart"
+          },
+          { "label": "A doctor's day, scheduled", "icon": "calendar-cursor" },
+          { "label": "Paperwork that must be exact", "icon": "clipboard-check" }
         ]
       }
     ],
-    "transition": "The product was big. My part of it finally had edges — this is what owning it looked like."
+    "transition": "Doctors used some of these screens every hour of every day. Those were the ones I owned."
   },
   {
     "id": "remed-ownership",
@@ -202,33 +192,28 @@
         "cards": [
           {
             "icon": "education",
-            "title": "High-load modules",
-            "description": "Doctor Workplace, Cashier Workplace and Calendar — doctor availability, appointments and patient data."
+            "title": "A workspace for every role",
+            "description": "Four jobs, four workspaces: reception, the doctor's room, the laboratory and the cash desk — each built around how that person actually works."
           },
           {
             "icon": "layers",
             "title": "Modular architecture",
-            "description": "Services, components, data storage and API layers organised per business entity."
-          },
-          {
-            "icon": "lock-module",
-            "title": "Cypress E2E testing",
-            "description": "Unit tests couldn't protect these journeys, so we covered the workflows people depended on."
+            "description": "The code was arranged the way a clinic thinks — patients, visits, payments — so changing one area didn't ripple through the others."
           },
           {
             "icon": "user",
             "title": "Mentoring",
-            "description": "Teaching juniors meant understanding things well enough to explain not only how, but why."
+            "description": "Reviewing their code, pairing on problems, and answering 'why' rather than just 'how' — half of what I know well, I know because I had to explain it."
+          },
+          {
+            "icon": "lock-module",
+            "title": "E2E testing",
+            "description": "Automated tests that clicked through booking a visit, the way a real user would — so a broken step was caught before a doctor hit it mid-appointment."
           }
         ]
-      },
-      {
-        "type": "callout",
-        "icon": "layers",
-        "text": "The best solution usually appeared somewhere between design, frontend and backend."
       }
     ],
-    "transition": "I was thinking about ownership, boundaries and reliability. Then everything got bigger."
+    "transition": "Everything I'd learned about boundaries was about to be tested at a different scale."
   },
   {
     "id": "workjam",
@@ -241,26 +226,20 @@
       {
         "type": "text",
         "paragraphs": [
-          "A frontline workforce platform — task management, scheduling, communication, learning and compliance for deskless teams in retail, hospitality, manufacturing and healthcare.",
-          "Multiple applications. Legacy Angular. Modern React and Next.js. Shared packages. Micro-frontends. A large monorepo. Multiple teams. And real users depending on the system every day.",
-          "When an application is already in production, \"make it work\" isn't enough. You have to think about stability, migration paths, backward compatibility, user experience and business impact."
+          "Around 3 million people use it to get through their working day. A frontline workforce platform: scheduling, tasks, communication, learning, compliance, and integrations with whatever a company already runs.",
+          "Multiple applications. Shared packages. A large monorepo. Multiple teams. And an architecture that let new React features run inside the old Angular apps, so the product could move forward without being rebuilt."
         ]
       },
       {
-        "type": "flow",
-        "heading": "Two worlds",
-        "steps": [
-          { "label": "Angular", "icon": "angular" },
-          { "label": "Shared Packages", "icon": "layers" },
-          { "label": "Next.js", "icon": "nextjs" }
-        ]
+        "type": "icons",
+        "heading": "What the platform runs on",
+        "icons": ["angular", "react", "nextjs", "typescript", "graphql"],
+        "note": "Two frameworks, several applications, one product."
       },
       {
-        "type": "text",
-        "paragraphs": [
-          "I worked with the micro-frontend architecture that allowed React modules to be injected into legacy Angular applications while functionality gradually moved toward reusable shared packages."
-        ],
-        "quote": "It wasn't a rewrite. It was a migration."
+        "type": "callout",
+        "icon": "layers",
+        "text": "The hard part wasn't building the new platform. It was living with both."
       }
     ]
   },
@@ -268,38 +247,32 @@
     "id": "workjam-feature-flags",
     "index": "08",
     "title": "WorkJam · Case Study",
-    "eyebrow": "Replacing flag infrastructure with zero downtime",
-    "tagline": "How do you replace infrastructure without users noticing?",
+    "eyebrow": "Replacing a system the whole product depended on",
+    "tagline": "How do you replace something everything relies on, without anyone noticing?",
     "blocks": [
       {
         "type": "text",
         "paragraphs": [
-          "The platform relied heavily on Flagr and also used LaunchDarkly for feature management — two systems, years of accumulated tech debt, and every product depending on them.",
-          "We wanted to move to Harness Feature Management Engine. The challenge wasn't implementing Harness."
-        ],
-        "quote": "The challenge was removing the old systems without disrupting production."
+          "Feature flags are the switches that decide which parts of a product each company sees. Every one of our applications depended on them, through a single shared library at the centre of the platform.",
+          "Those switches ran on two outside services that had to go — while 3 million people used the product every day. I owned that migration."
+        ]
       },
       {
         "type": "steps",
-        "heading": "The migration",
+        "heading": "How I ran it",
         "steps": [
-          { "label": "Flagr + LaunchDarkly", "tone": "legacy" },
-          { "label": "Introduce Harness alongside them" },
-          { "label": "Enable it company by company", "tone": "accent" },
-          { "label": "Observe production, collect edge cases, iterate" },
-          { "label": "Remove the legacy systems", "tone": "result" }
+          { "label": "Proposed the move, then researched what it would really cost", "tone": "legacy" },
+          { "label": "Added the new system alongside the old two" },
+          { "label": "Three flag systems running at once", "tone": "accent" },
+          { "label": "Covered every affected page with automated tests" },
+          { "label": "QA, then staging, then a handful of real companies" },
+          { "label": "Watched production, then removed the old systems", "tone": "result" }
         ]
       },
       {
         "type": "callout",
         "icon": "feature-flag",
-        "text": "Zero downtime. No service disruption. The migration happened while the platform kept serving users."
-      },
-      {
-        "type": "callout",
-        "icon": "send",
-        "text": "Planning a risky migration? I've done this before.",
-        "link": { "label": "Let's talk →", "href": "#whats-next" }
+        "text": "Zero downtime. No incidents, no rollbacks. The old systems came out and nobody outside the team noticed."
       }
     ]
   },
@@ -307,55 +280,38 @@
     "id": "workjam-agenda-calendar",
     "index": "09",
     "title": "WorkJam · Case Study",
-    "eyebrow": "Building an Agenda Calendar View",
-    "tagline": "Sometimes the best engineering decision is the one that saves two weeks.",
+    "eyebrow": "Building a Calendar",
     "blocks": [
       {
-        "type": "text",
-        "paragraphs": [
-          "We needed to add an agenda view to an existing calendar. The requirements sounded straightforward:"
-        ]
-      },
-      {
-        "type": "list",
-        "items": [
-          "One-day view",
-          "Infinite scroll",
-          "Search",
-          "Filters",
-          "Date picker",
-          "Events and tasks"
-        ]
-      },
-      {
-        "type": "text",
-        "heading": "The date picker problem",
-        "paragraphs": [
-          "But the existing API wasn't designed around this experience, and we were working under a tight deadline.",
-          "The common component library didn't support the new design. The obvious solution was to create another component — and that meant a long tail of work:"
-        ]
-      },
-      {
-        "type": "steps",
-        "orientation":"horizontal",
-        "steps": [
-          { "label": "New component", "tone": "legacy" },
-          { "label": "Library changes", "tone": "legacy" },
-          { "label": "Implementation & discussion", "tone": "legacy" },
-          { "label": "Testing", "tone": "legacy" },
-          { "label": "Maintenance — forever", "tone": "legacy" }
-        ]
-      },
-      {
-        "type": "text",
-        "paragraphs": [
-          "Instead, I spent about two days researching the current implementation and found a way to extend it rather than duplicate it — leaving the platform with one date picker instead of two."
+        "type": "cards",
+        "columns": 2,
+        "cards": [
+          {
+            "icon": "user",
+            "title": "Proposed a better plan",
+            "description": "Worked with the product owner and suggested reusing the calendar we already had, instead of building a second one beside it."
+          },
+          {
+            "icon": "layers",
+            "title": "Left the code better than I found it",
+            "description": "Refactored the existing calendar so both views could be built from the same pieces — cleaner and reusable, not just finished."
+          },
+          {
+            "icon": "calendar-cursor",
+            "title": "Delivered five days early",
+            "description": "Ten days instead of the fifteen planned, with the harder parts done first."
+          },
+          {
+            "icon": "lock-module",
+            "title": "Shipped without a bug",
+            "description": "Covered end to end with automated tests — nothing came back from QA or from production."
+          }
         ]
       },
       {
         "type": "callout",
         "icon": "calendar-cursor",
-        "text": "Delivered in around 10 days — 2 days of research saved ~2 weeks of building and a second component to maintain forever. The important part wasn't writing code faster — it was solving the right problem."
+        "text": "The important part wasn't writing code faster — it was solving the right problem."
       }
     ]
   },
@@ -369,14 +325,12 @@
       {
         "type": "text",
         "paragraphs": [
-          "The platform consisted of four module applications and one unified application, and we needed to integrate them with Microsoft Teams.",
-          "The interesting part wasn't simply receiving Teams context. The challenge was preserving context while moving between independently running applications."
+          "The platform consisted of four module applications and one unified application, and we needed to integrate them with Microsoft Teams."
         ]
       },
       {
         "type": "branch",
         "source": { "label": "Microsoft Teams" },
-        "connector": "Context",
         "branches": [
           { "label": "Module app" },
           { "label": "Module app" },
@@ -388,15 +342,14 @@
       {
         "type": "text",
         "paragraphs": [
-          "I created a reusable integration library that centralized Teams configuration, exposed a single way to read Teams context, and provided consistent cross-application navigation.",
-          "When a user clicked a link from Teams, the correct application instance had to open rather than navigating inside the current one — carrying context and state across the boundary."
-        ],
-        "quote": "Solve the integration once. Make every application benefit from it."
+          "Five applications had to behave like one product inside Microsoft Teams: four module apps, and the unified app that ties them together.",
+          "I built one shared place that holds everything Teams needs — the configuration, who the user is, which company they belong to — so every application reads it the same way instead of each team solving it again. Clean in one place, rather than copied five times."
+        ]
       },
       {
         "type": "callout",
         "icon": "layers",
-        "text": "Result: 1 library, 4 apps integrated, no copied Teams logic."
+        "text": "Solve the integration once. Make every application benefit from it."
       }
     ]
   },
@@ -404,37 +357,31 @@
     "id": "workjam-android-webview",
     "index": "11",
     "title": "WorkJam · Case Study",
-    "eyebrow": "One experience across web and native",
-    "tagline": "When web and native have to become one experience.",
+    "tagline": "Chat inside the Android app",
     "blocks": [
       {
         "type": "text",
         "paragraphs": [
-          "We needed to bring a web chat experience into an Android application.",
-          "The module couldn't simply be bundled natively: Google's 4KB page-size requirement made that impossible. So we used WebView, keeping the native app lightweight."
+          "Frontline workers use chat all day — between tasks, on a phone, often standing up. It had to open instantly, scroll smoothly, record a voice message and send a photo exactly like the rest of the Android app. If it felt slower or thinner than what they already had, they'd simply stop using it.",
+          "Chat couldn't be built into the app natively, so it had to run as a web page inside it. That's the part users usually notice — a web page inside an app tends to feel like one. This one couldn't."
         ]
       },
       {
         "type": "steps",
+        "heading": "How I approached it",
         "steps": [
-          { "label": "Android native app" },
-          { "label": "WebView" },
-          { "label": "React chat module", "bidirectional": true },
-          { "label": "JS ↔ Native bridge", "tone": "accent" }
+          { "label": "Learned how the Android app actually worked, before writing anything" },
+          { "label": "Agreed with the Android team how the two halves would talk" },
+          { "label": "Built one bridge instead of a special case per feature", "tone": "accent" },
+          { "label": "Gave the web chat the phone's camera, microphone and files" },
+          { "label": "Carried the login across, so nobody signs in twice" },
+          { "label": "Tested on real devices, then shipped", "tone": "result" }
         ]
       },
       {
-        "type": "text",
-        "paragraphs": [
-          "Embedding the web application was only the beginning. Users were already authenticated in the native app, so they should never see a login screen. The web experience also needed native capabilities such as video recording and screenshots.",
-          "I implemented a JavaScript-to-native bridge — extending the global window object with methods the Android layer could call and respond to — so the web module could receive authentication context and reach Android APIs."
-        ],
-        "quote": "The user shouldn't need to know which part of the product is native and which part is web."
-      },
-      {
         "type": "callout",
-        "icon": "code",
-        "text": "Result: no second login, native video and screenshots from a web module, app size unchanged."
+        "icon": "layers",
+        "text": "Chat records, sends and shares like everything else in the app — and nobody logs in twice."
       }
     ]
   },
@@ -442,55 +389,52 @@
     "id": "how-i-think",
     "index": "12",
     "title": "How I Think About Engineering",
-    "tagline": "The technology changed. The questions changed more.",
+    "tagline": "The technology changed. The way I think changed more.",
     "subtitle": "What 7+ years of frontend engineering taught me",
     "blocks": [
       {
         "type": "list",
         "items": [
-          "JavaScript taught me how the browser works.",
-          "React taught me how to structure interfaces.",
+          "Shipping end to end taught me what production actually costs.",
+          "Frameworks taught me how to structure interfaces.",
           "Working across projects taught me how to collaborate.",
           "Ownership taught me to think beyond individual features.",
           "Large-scale systems taught me about boundaries, migration and reliability."
         ]
       },
       {
-        "type": "text",
-        "paragraphs": [
-          "Somewhere along the way I stopped asking \"How do I implement this?\" and started asking:"
-        ],
-        "quote": "\"What is the simplest system that lets us keep changing this?\""
-      },
-      {
         "type": "timeline",
-        "heading": "How the question changed",
+        "heading": "What changed at each step",
         "items": [
-          { "year": "2019", "title": "How do I", "description": "build this?" },
+          {
+            "year": "2019",
+            "title": "Implementation",
+            "description": "Make the feature work."
+          },
           {
             "year": "2020",
-            "title": "How should",
-            "description": "this feature work?"
+            "title": "Architecture",
+            "description": "Think above the code."
           },
           {
             "year": "2021",
-            "title": "Where should",
-            "description": "this logic live?"
+            "title": "Responsibility",
+            "description": "Own the whole module."
           },
           {
             "year": "2024",
-            "title": "How should",
-            "description": "these systems interact?"
+            "title": "Scale",
+            "description": "Users, limits, boundaries."
           },
           {
             "year": "Today",
-            "title": "How do we make",
-            "description": "this system easier to change?"
+            "title": "The full cycle",
+            "description": "Discuss, build, ship, improve."
           }
         ]
       }
     ],
-    "transition": "The answers changed as the systems got bigger. A few things didn't."
+    "transition": "What I thought about changed as the systems got bigger. A few things didn't."
   },
   {
     "id": "principles",
@@ -595,10 +539,7 @@
         "type": "badges",
         "heading": "Backend",
         "layout": "row",
-        "badges": [
-          { "label": "Node.js" },
-          { "label": "PostgreSQL" }
-        ]
+        "badges": [{ "label": "Node.js" }, { "label": "PostgreSQL" }]
       },
       {
         "type": "badges",
@@ -624,13 +565,6 @@
           { "label": "Tailwind CSS" },
           { "label": "Storybook" },
           { "label": "Firebase" }
-        ]
-      },
-      {
-        "type": "text",
-        "heading": "Currently expanding",
-        "paragraphs": [
-          "I'm interested in expanding beyond frontend and becoming stronger on the backend side as well — working with Node.js and PostgreSQL, and continuing to develop that part of my skill set."
         ]
       }
     ],

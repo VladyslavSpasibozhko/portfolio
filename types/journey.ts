@@ -40,7 +40,7 @@ export interface JourneyBadgesBlock extends JourneyBlockBase {
 
 export interface JourneyCard {
     icon?: string;
-    title: string;
+    title?: string;
     description?: string;
     detail?: string;
     badges?: string[];

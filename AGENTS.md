@@ -4,8 +4,8 @@ Reference notes for agents working in this repo.
 
 ## Repo layout
 
-- `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, websocket, multipart) and routes.
-- `src/` — server code: `lib/`, `services/`, `routes/`, `plugins/`.
+- `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
+- `src/` — server code: `lib/`, `services/`, `routes/`, `plugins/`, `utils/`.
 - `types/` — shared types, used by both the server and the client (`@types` alias on the client).
 - `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
 - `client/` — Vite + React + Tailwind v4 app.
@@ -93,7 +93,11 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
-- Current routes: `chat.ts` — `GET /ws/chat` (websocket), rate limited per route via `config.rateLimit`.
+- Current routes: `chat.ts` — `POST /chat` (empty stub for now; request schema matches `Message`, validated by `validateChatRequest`), rate limited per route via `config.rateLimit`.
+
+## Utils (`src/utils/`)
+
+- `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse`, `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`).
 
 ## Plugins (`src/plugins/`)
 

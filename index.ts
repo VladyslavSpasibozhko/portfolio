@@ -1,6 +1,5 @@
 import "dotenv/config";
 import Fastify from "fastify";
-import websocket from "@fastify/websocket";
 import multipart from "@fastify/multipart";
 import { registerCors } from "./src/plugins/cors.js";
 import { registerRateLimit } from "./src/plugins/rateLimit.js";
@@ -10,7 +9,6 @@ const app = Fastify({ logger: true });
 
 await registerCors(app);
 await registerRateLimit(app);
-await app.register(websocket);
 await app.register(multipart);
 
 await app.register(chatRoutes);

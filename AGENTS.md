@@ -31,7 +31,8 @@ Run `typecheck` in the affected package(s) after changes.
 
 ## Types (`types/`)
 
-- `message.ts` — WebSocket contract for communication between the user and the LLM (single WS path). Defines `WsMessage`, `WsRequestPayload`, `WsSuccessResponse`, `WsErrorResponse`, `WsResponsePayload`.
+- `message.ts` — chat contract between the user and the LLM. Defines `MessageRole`, `Session` (`{ sessionId }`) and `Message` (extends `Session`: `role`, `content`, optional `fileIds`).
+- `transport.ts` — wire types. `ErrorDetails` (`{ reason, message, code }`), `SuccessResponse<T>` (`success: true`, `data`), `ErrorResponse` (`success: false`, `error: ErrorDetails`), `Response<T>` (union of the two) and `StreamResponse` (union on `type`: `delta`, `done`, `error`, `block`; clients ignore unknown types).
 - `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
 - `index.ts` — re-exports the above.
 

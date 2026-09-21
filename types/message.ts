@@ -1,23 +1,11 @@
-export type WsMessageRole = 'user' | 'assistant'
+export interface Session {
+    sessionId: string;
+}
 
-export interface WsMessage {
-    role: WsMessageRole;
+export type MessageRole = 'user' | 'assistant'
+
+export interface Message extends Session {
+    role: MessageRole;
     content: string;
+    fileIds?: string[];
 }
-
-export interface WsRequestPayload {
-    message: WsMessage;
-    history: WsMessage[];
-}
-
-export interface WsSuccessResponse {
-    success: true;
-    message: WsMessage;
-}
-
-export interface WsErrorResponse {
-    success: false;
-    message: string;
-}
-
-export type WsResponsePayload = WsSuccessResponse | WsErrorResponse;

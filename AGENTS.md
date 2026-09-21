@@ -6,6 +6,7 @@ Reference notes for agents working in this repo.
 
 - `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
 - `src/` — server code: `lib/`, `services/`, `routes/`, `plugins/`, `utils/`.
+- `utils/` — global utils shared across the repo (see Global utils).
 - `types/` — shared types, used by both the server and the client (`@types` alias on the client).
 - `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
 - `client/` — Vite + React + Tailwind v4 app.
@@ -94,10 +95,19 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
 - Current routes: `chat.ts` — `POST /chat` (empty stub for now; request schema matches `Message`, validated by `validateChatRequest`), rate limited per route via `config.rateLimit`.
+  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`); creates a session via the session service, returns `{ sessionId }`.
+  - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`); removes the session, 404 if it doesn't exist.
+  - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `src/utils/transport.ts`.
 
 ## Utils (`src/utils/`)
 
 - `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse`, `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`).
+
+## Global utils (`utils/`)
+
+Root-level helpers not tied to the server or client layers.
+
+- `message.ts` — message factories: `createMessage(role, content)`, `createUserMessage`, `createAssistantMessage`. The role-specific ones reuse `createMessage`.
 
 ## Plugins (`src/plugins/`)
 

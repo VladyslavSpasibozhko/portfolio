@@ -16,3 +16,7 @@ export function get(sessionId: string): Message[] | undefined {
 export function remove(sessionId: string): boolean {
   return sessions.remove(sessionId);
 }
+
+export function set(sessionId: string, messages: Message[]): void {
+  sessions.set(sessionId, messages);
+}

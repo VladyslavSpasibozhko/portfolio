@@ -23,26 +23,23 @@ export class AnthropicAdapter implements AIAdapter {
   async streamMessage(
     messages: Message[],
     system: string,
-    options: StreamOptions = {}
-  ): Promise<void> {
+    options: StreamOptions
+  ): Promise<string> {
     const { onmessage, onerror, onabort, onend, signal } = options;
 
     const stream = this.client.messages.stream(
       { model: this.model, max_tokens: MAX_TOKENS, system, messages },
       { signal }
-    );
+    )
+      .on('text', onmessage)
+      .on('abort', (e) => {
+        onabort && onabort(e.message);
+      })
+      .on('error', (e) => {
+        onerror(e.message)
+      })
+      .on('end', () => onend && onend())
 
-    if (onmessage) stream.on("text", onmessage);
-    if (onabort) stream.on("abort", onabort);
-    if (onend) stream.on("end", onend);
-    stream.on("error", (error) => {
-      if (onerror) onerror(error.message)
-    });
-
-    try {
-      await stream.done();
-    } catch {
-      // reported through the onerror / onabort callbacks
-    }
+    return await stream.finalText();
   }
 }

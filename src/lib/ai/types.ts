@@ -6,14 +6,14 @@ export interface Message {
 }
 
 export interface StreamOptions {
-  onmessage?: (message: string) => void;
-  onerror?: (error: string) => void;
-  onabort?: () => void;
+  onmessage: (message: string) => void;
+  onerror: (message: string) => void;
+  onabort?: (message: string) => void;
   onend?: () => void;
   signal?: AbortSignal;
 }
 
 export interface AIAdapter {
   sendMessage(messages: Message[], system: string): Promise<string>;
-  streamMessage(messages: Message[], system: string, options?: StreamOptions): Promise<void>;
+  streamMessage(messages: Message[], system: string, options?: StreamOptions): Promise<string>;
 }

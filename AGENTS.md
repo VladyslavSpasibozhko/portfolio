@@ -94,7 +94,7 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
-- Current routes: `chat.ts` — `POST /chat` (empty stub for now; request schema matches `Message`, validated by `validateChatRequest`), rate limited per route via `config.rateLimit`.
+- Current routes: `chat.ts` — `POST /chat` (SSE stream of `StreamResponse` events; request schema matches `Message` with `role: "user"`, validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
   - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`); creates a session via the session service, returns `{ sessionId }`.
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`); removes the session, 404 if it doesn't exist.
   - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `src/utils/transport.ts`.

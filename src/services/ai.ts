@@ -22,6 +22,6 @@ export async function chat(messages: Message[]): Promise<string> {
   return aiAdapter.sendMessage(messages, systemPrompt());
 }
 
-export async function chatStream(messages: Message[], options?: StreamOptions): Promise<void> {
+export async function chatStream(messages: Message[], options?: StreamOptions): Promise<string> {
   return aiAdapter.streamMessage(messages, systemPrompt(), options);
 }

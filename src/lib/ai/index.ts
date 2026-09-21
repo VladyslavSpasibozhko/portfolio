@@ -17,4 +17,4 @@ const anthropicClient = new Anthropic({ apiKey });
 const anthropicModel = model;
 
 export const aiAdapter: AIAdapter = new AnthropicAdapter(anthropicClient, anthropicModel);
-export type { AIAdapter, Message } from "./types.js";
+export type { AIAdapter, Message, StreamOptions } from "./types.js";

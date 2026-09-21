@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
-import { aiAdapter, type Message } from "../lib/ai/index.js";
+import { aiAdapter, type Message, type StreamOptions } from "../lib/ai/index.js";
 
 const PROFILE_MD_PATH = fileURLToPath(
   new URL("../../data/profile.md", import.meta.url)
@@ -20,4 +20,8 @@ function systemPrompt(): string {
 
 export async function chat(messages: Message[]): Promise<string> {
   return aiAdapter.sendMessage(messages, systemPrompt());
+}
+
+export async function chatStream(messages: Message[], options?: StreamOptions): Promise<void> {
+  return aiAdapter.streamMessage(messages, systemPrompt(), options);
 }

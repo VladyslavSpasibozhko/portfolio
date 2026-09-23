@@ -10,7 +10,7 @@ import {
   createErrorDetails,
   createErrorResponse,
   createErrorStreamResponse,
-} from "../utils/transport.js";
+} from "../../utils/transport.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

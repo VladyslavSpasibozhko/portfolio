@@ -107,17 +107,14 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 - Current routes: `chat.ts` — `POST /chat` (SSE stream of `StreamResponse` events; request schema matches `Message` with `role: "user"`, validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
   - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`); creates a session via the session service, returns `{ sessionId }`.
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`); removes the session, 404 if it doesn't exist.
-  - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `src/utils/transport.ts`.
-
-## Utils (`src/utils/`)
-
-- `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse`, `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`).
+  - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
 
 ## Global utils (`utils/`)
 
-Root-level helpers not tied to the server or client layers.
+Root-level helpers not tied to the server or client layers. Shared between both — the client reaches them via the `@global` alias (`@global/*` → `utils/*`; see `client/tsconfig.json` and `client/vite.config.ts`).
 
 - `message.ts` — message factories: `createMessage(role, content)`, `createUserMessage`, `createAssistantMessage`. The role-specific ones reuse `createMessage`.
+- `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse` (takes one `ErrorDetails`), `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`). Was `src/utils/transport.ts` (server-only); moved here so the client's `lib/request` and `lib/sse` can build the same error envelope.
 
 ## Plugins (`src/plugins/`)
 
@@ -224,7 +221,15 @@ Common, reusable utility functions (e.g. `hexToRgb`, `padNumber`, `interval`, `t
 
 ### Libs (`client/src/lib/`)
 
-Client-side access layers: `ws.ts` (`ChatWebSocket` wrapper).
+Client-side access layers:
+
+- `ws.ts` (`ChatWebSocket` wrapper).
+- `request/` — thin `fetch` wrapper for JSON endpoints. `request<T, B extends FetchBody>(config: FetchConfig<B>)` takes one config object (`path`, `method`, `query`, `headers`, `body`), try/catches the call, and returns `FetchResult<T>` (= `Response<T>` from `@types`). The server always responds through `createResponse`/`createErrorResponse` (`@global/transport`), so a parsed body already is a `Response<T>`; `request` only builds its own error envelope (via `createErrorResponse`) for transport-level failures (network error, bad JSON). Doesn't handle the `/chat` SSE stream.
+- `sse/` — generic SSE (`text/event-stream`) client, not tied to any one endpoint's event shape. `streamRequest<B extends StreamBody>(config: StreamConfig<B>, options: StreamOptions)` POSTs the request and, on success, hands each raw frame to `options.onFrame`; `options.onError` covers both a non-OK/bodyless response and a transport failure. `readFrames.ts` does the actual decode/buffer/split into complete `\n\n`-delimited frames — parsing a frame's `data:` line into a typed event (e.g. `StreamResponse`) is the caller's job, not this lib's. Has its own `StreamConfig`/`StreamBody` types (same shape as `request/`'s) since a lib can't depend on another lib.
+
+### API (`client/src/api/`)
+
+Endpoint descriptors, one file per feature (e.g. `chat.ts`). Each function represents one endpoint and returns a config object for the matching lib to execute: `FetchConfig` for `@lib/request`'s `request()` (JSON endpoints), `StreamConfig` for `@lib/sse`'s `streamRequest()` (the `/chat` SSE endpoint). The api file doesn't call `fetch` itself.
 
 ### Types
 

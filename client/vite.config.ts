@@ -20,6 +20,7 @@ export default defineConfig({
       '@data': path.resolve(__dirname, '../data'),
       '@icons': path.resolve(__dirname, './src/icons'),
       '@static': path.resolve(__dirname, './static'),
+      '@global': path.resolve(__dirname, '../utils'),
     },
   },
   server: {

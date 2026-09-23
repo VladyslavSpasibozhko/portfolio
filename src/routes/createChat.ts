@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { validate, type Schema } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
-import { createErrorDetails, createErrorResponse, createResponse } from "../utils/transport.js";
+import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

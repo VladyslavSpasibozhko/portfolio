@@ -25,7 +25,8 @@
       "@config": ["./src/config.ts"],
       "@data/*": ["../data/*"],
       "@icons/*": ["./src/icons/*"],
-      "@static/*": ["./static/*"]
+      "@static/*": ["./static/*"],
+      "@global/*": ["../utils/*"]
     }
   },
   "include": ["src"],

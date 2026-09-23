@@ -2,7 +2,6 @@ import { useState } from "react";
 import type { Message } from "@types";
 import { IconButton } from "@components/molecules/IconButton";
 import { ChatWindow } from "./ChatWindow";
-import { messageFactory } from "./utils/messageFactory";
 
 interface ChatWrapperProps {
   avatarUrl?: string;
@@ -23,8 +22,6 @@ export function ChatWrapper({}: ChatWrapperProps) {
 
   // TODO: send the message over the new /chat transport; this only echoes it locally for now.
   const handleSendMessage = (content: string) => {
-    setMessages((state) => state.concat(messageFactory("", content)));
-    setIsResponding(false);
   };
 
   return (

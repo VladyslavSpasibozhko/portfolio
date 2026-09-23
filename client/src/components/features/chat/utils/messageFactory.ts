@@ -1,10 +1,12 @@
-import type { WsMessageRole, WsMessage } from "@types";
-
+import type { Message, MessageRole } from "@types";
+// TODO: remove it and reuse from global util.
 export function messageFactory(
+  sessionId: string,
   content: string,
-  role: WsMessageRole = "user",
-): WsMessage {
+  role: MessageRole = "user",
+): Message {
   return {
+    sessionId,
     role,
     content,
   };

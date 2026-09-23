@@ -24,9 +24,8 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/ws/chat': {
-        target: 'ws://localhost:3000',
-        ws: true,
+      '/chat': {
+        target: 'http://localhost:3001',
       },
     },
   },

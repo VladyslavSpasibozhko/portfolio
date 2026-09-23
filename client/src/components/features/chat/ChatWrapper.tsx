@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
-import type { WsMessage } from "@types";
-import { config } from "@config";
+import { useState } from "react";
+import type { Message } from "@types";
 import { IconButton } from "@components/molecules/IconButton";
 import { ChatWindow } from "./ChatWindow";
-import { useChatConnection } from "./hooks/useChatConnection";
 import { messageFactory } from "./utils/messageFactory";
 
 interface ChatWrapperProps {
@@ -11,7 +9,9 @@ interface ChatWrapperProps {
   username?: string;
 }
 
+// TODO: wire this up to the sessionId once the transport is implemented.
 const defaultMessage = messageFactory(
+  "",
   "Hey there! 👋 Thanks for stopping by — feel free to ask me anything about my work, experience, or projects.",
   "assistant",
 );
@@ -19,48 +19,13 @@ const defaultMessage = messageFactory(
 export function ChatWrapper({}: ChatWrapperProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
-  const [messages, setMessages] = useState<WsMessage[]>([defaultMessage]);
-  const connection = useChatConnection({ url: config.wsUrl });
+  const [messages, setMessages] = useState<Message[]>([defaultMessage]);
 
-  const handleSending = () => {
-    setIsResponding(true);
-
-    const unsubscribe = connection.subscribe(() => {
-      setIsResponding(false);
-      unsubscribe();
-    });
-  };
-
+  // TODO: send the message over the new /chat transport; this only echoes it locally for now.
   const handleSendMessage = (content: string) => {
-    const success = connection.send(content);
-    if (success) {
-      setMessages((state) => state.concat(messageFactory(content)));
-      handleSending();
-    }
+    setMessages((state) => state.concat(messageFactory("", content)));
+    setIsResponding(false);
   };
-
-  const connect = async (signal: AbortSignal) => {
-    try {
-      const connected = await connection.initialize({ signal });
-      if (!connected) throw Error("Can`t connect");
-
-      connection.subscribe((response) => {
-        if (!response.success) return;
-        setMessages((state) => state.concat(response.message));
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  useEffect(() => {
-    const abortController = new AbortController();
-    connect(abortController.signal);
-
-    return () => {
-      abortController.abort("Close connection due component unmount.");
-    };
-  }, []);
 
   return (
     <>

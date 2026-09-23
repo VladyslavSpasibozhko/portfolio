@@ -3,11 +3,11 @@ import { IconButton } from "@components/molecules/IconButton";
 import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import type { WsMessage } from "@types";
+import type { Message } from "@types";
 
 
 interface ChatWindowProps {
-  messages: WsMessage[];
+  messages: Message[];
   isLoading?: boolean;
   error?: string | null;
   closeWindow: () => void;

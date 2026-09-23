@@ -1,4 +1,5 @@
 import { StarField } from "@components/atoms/StarField";
+import { ChatWrapper } from "@components/features/chat/ChatWrapper";
 import { MainPage } from "./pages/MainPage";
 
 export default function App() {
@@ -6,6 +7,7 @@ export default function App() {
     <>
       <StarField />
       <MainPage />
+      <ChatWrapper />
     </>
   );
 }

@@ -3,10 +3,10 @@ import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
-import type { WsMessage, WsMessageRole } from "@types";
+import type { Message, MessageRole } from "@types";
 
 interface ChatMessagesProps {
-  messages: WsMessage[];
+  messages: Message[];
   isLoading?: boolean;
   emptyMessage?: ReactNode;
 }
@@ -18,7 +18,7 @@ export function ChatMessages({
 }: ChatMessagesProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const NAMES: Record<WsMessageRole, string> = {
+  const NAMES: Record<MessageRole, string> = {
     assistant: "AI Assistant",
     user: "User",
   };

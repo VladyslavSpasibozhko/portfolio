@@ -5,7 +5,7 @@ Reference notes for agents working in this repo.
 ## Repo layout
 
 - `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
-- `src/` — server code: `lib/`, `services/`, `routes/`, `plugins/`, `utils/`.
+- `src/` — server code: `lib/`, `services/`, `storage/`, `routes/`, `plugins/`, `utils/`.
 - `utils/` — global utils shared across the repo (see Global utils).
 - `types/` — shared types, used by both the server and the client (`@types` alias on the client).
 - `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
@@ -85,8 +85,18 @@ Rules for adapters:
 An additional layer built on top of libs. Services act as a facade, hiding business logic behind a simple interface.
 
 - A service can't use another service — prohibited.
-- A service can use libs, global types, and schemas — allowed.
+- A service can use libs, global types, schemas, and the storage layer — allowed.
 - Every service must have strictly typed input/output params — a contract to work with it.
+- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (uses `src/storage/sessions.ts` for create/get/set/remove).
+
+## Storage (`src/storage/`)
+
+Persistence, kept behind a plain function interface so the backing store can change without touching callers.
+
+- Can use: libs, global types.
+- Can't use: services, routes.
+- Used only by the session service (`src/services/session.ts`) — routes and other services never import from `src/storage/` directly.
+- Current storage: `sessions.ts` — in-memory `Map<sessionId, Message[]>` (`set`, `get`, `remove`). No TTL/eviction yet (see `TECH_DEBT.md`).
 
 ## Routes (`src/routes/`)
 

@@ -1,5 +1,3 @@
-// TODO: transport file should be moved to src directory.
-
 export interface ErrorDetails {
     reason: string;
     message: string;

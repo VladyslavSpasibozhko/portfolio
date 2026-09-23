@@ -24,12 +24,10 @@ export function ChatWindow({
   emptyMessage,
 }: ChatWindowProps) {
   return (
-    <div
-      className="overflow-hidden w-full h-full rounded-2xl shadow-2xl flex flex-col bg-background-950 border border-border-strong"
-    >
+    <div className="overflow-hidden w-full h-full rounded-2xl flex flex-col bg-background-950 border border-border-focus shadow-md shadow-accent-sky">
       {/* Header */}
-      <div className="flex items-center justify-between p-16">
-        <Typography tag="h3" className="font-semibold text-18">
+      <div className="flex items-center justify-between p-16 bg-background-850">
+        <Typography tag="h3" className="font-semibold text-18 text-text-sky">
           AI Assistance
         </Typography>
         <IconButton

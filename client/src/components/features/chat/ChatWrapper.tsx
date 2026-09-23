@@ -10,16 +10,16 @@ interface ChatWrapperProps {
 }
 
 // TODO: wire this up to the sessionId once the transport is implemented.
-const defaultMessage = messageFactory(
-  "",
-  "Hey there! 👋 Thanks for stopping by — feel free to ask me anything about my work, experience, or projects.",
-  "assistant",
-);
+// const defaultMessage = messageFactory(
+//   "",
+//   "Hey there! 👋 Thanks for stopping by — feel free to ask me anything about my work, experience, or projects.",
+//   "assistant",
+// );
 
 export function ChatWrapper({}: ChatWrapperProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isResponding, setIsResponding] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([defaultMessage]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   // TODO: send the message over the new /chat transport; this only echoes it locally for now.
   const handleSendMessage = (content: string) => {
@@ -39,7 +39,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
       />
 
       {isOpen && (
-        <div className="fixed z-40 top-0 left-0 right-0 bottom-0 backdrop-blur-sm">
+        <div className="fixed z-40 top-0 left-0 right-0 bottom-0">
           <div className="fixed bottom-20 right-20 z-50 w-full h-screen max-h-800 sm:w-full md:w-2/3 lg:w-1/2 xl:w-1/3">
             <ChatWindow
               messages={messages}

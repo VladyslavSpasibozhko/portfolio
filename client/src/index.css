@@ -105,9 +105,6 @@
   --font-weight-800: 800;
   --font-weight-900: 900;
 
-
-
-
   --border-width-1: 1px;
   --border-width-2: 2px;
   --border-width-3: 3px;
@@ -151,13 +148,6 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* A clear keyboard focus ring that reads against the dark background. It only
-   shows for keyboard focus, so mouse clicks don't leave an outline behind. */
-:focus-visible {
-  outline: 2px solid var(--color-accent-cyan);
-  outline-offset: 4px;
 }
 
 /* Users who ask for less motion get the page without the looping effects. */

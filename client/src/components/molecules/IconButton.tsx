@@ -12,7 +12,7 @@ interface IconButtonProps extends Omit<
 
 const variantClasses = {
   primary:
-    "rounded-lg cursor-pointer border border-border-highlight text-text-blue hover:border-border-focus hover:text-accent-sky",
+    "rounded-lg cursor-pointer border bg border-border-highlight text-text-blue hover:border-border-focus hover:text-accent-sky",
   secondary:
     "rounded-lg cursor-pointer border border-border-strong text-text-200 hover:border-border-DEFAULT hover:text-text-300",
   ghost: "rounded-lg cursor-pointer text-text-blue hover:text-accent-sky",

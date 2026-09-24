@@ -12,7 +12,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
-  const { error, retrySendMessage, isFailed } = useChatWindowContext();
+  const { error, retrySendMessage } = useChatWindowContext();
 
   return (
     <div className="overflow-hidden w-full h-full rounded-2xl flex flex-col bg-background-950 border border-border-focus shadow-md shadow-accent-sky">
@@ -36,7 +36,7 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
       </div>
 
       {/* Error */}
-      {isFailed && error && (
+      {error && (
         <div className="flex items-center justify-between gap-16 px-16 py-8 bg-background-error text-text-danger border-t border-red-700/60">
           <Typography tag="small">{error}</Typography>
           <Button

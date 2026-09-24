@@ -5,28 +5,23 @@ import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";
 import { useCreateSession } from "./useCreateSession";
 import { useGetChatMessages } from "./useGetChatMessages";
-
-export type ChatStatus = "idle" | "waiting" | "generating" | "generated" | "failed";
+import { StatusEmitter } from "../utils/statusEmitter";
+import { StreamEmitter } from "../utils/streamEmitter";
 
 interface UseChatMessagesResult {
   messages: Message[];
-  status: ChatStatus;
+  statusEmitter: StatusEmitter;
+  streamEmitter: StreamEmitter;
   error: string | null;
   sendMessage: (content: string) => Promise<void>;
   retrySendMessage: () => Promise<void>;
-  isGenerating: boolean;
-  isWaiting: boolean;
-  isFailed: boolean;
 }
 
 export function useChatMessages(): UseChatMessagesResult {
-  const streamingContentRef = useRef("");
+  const statusEmitterRef = useRef<StatusEmitter>(new StatusEmitter("idle"));
+  const streamEmitterRef = useRef<StreamEmitter>(new StreamEmitter());
 
-  const [status, setStatus] = useState<ChatStatus>("idle");
   const [messages, setMessages] = useState<Message[]>([]);
-  const [streamingMessage, setStreamingMessage] = useState<Message | null>(
-    null,
-  );
   const [userMessage, setUserMessage] = useState<string>('');
 
   const { sessionId, setSession } = useChatSession();
@@ -34,32 +29,24 @@ export function useChatMessages(): UseChatMessagesResult {
     useCreateSession();
   const { getMessages } = useGetChatMessages();
 
-
-  const isGenerating = status === "generating";
-  const isWaiting = status === "waiting";
-  const isFailed = status === "failed";
-
   const {
     sendMessage: sendChatMessage,
     error: chatError,
   } = useChat({
     onDelta: (text) => {
-      setStatus("generating");
-
-      streamingContentRef.current += text;
-      setStreamingMessage(createAssistantMessage(streamingContentRef.current));
+      statusEmitterRef.current.set("generating");
+      streamEmitterRef.current.delta(text);
     },
     onDone: () => {
-      setStatus("generated");
-      setMessages((messages) => messages.concat(createAssistantMessage(streamingContentRef.current)))
-      setStreamingMessage(null);
-      streamingContentRef.current = "";
+      const content = streamEmitterRef.current!.content;
+      statusEmitterRef.current.set("generated");
+      setMessages((messages) => messages.concat(createAssistantMessage(content)));
+      streamEmitterRef.current!.done();
       setUserMessage('');
     },
-    onError: () => {
-      setStatus("failed");
-      streamingContentRef.current = "";
-      setStreamingMessage(null);
+    onError: (message) => {
+      statusEmitterRef.current.set("failed");
+      streamEmitterRef.current!.error(message);
     },
   });
 
@@ -81,7 +68,7 @@ export function useChatMessages(): UseChatMessagesResult {
   const sendMessage = async (content: string, id: string) => {
     const preparedMessage: Message = createUserMessage(content);
 
-    setStatus("waiting");
+    statusEmitterRef.current.set("waiting");
     setMessages((prev) => [...prev, preparedMessage]);
 
     await sendChatMessage({ message: content, sessionId: id })
@@ -93,7 +80,7 @@ export function useChatMessages(): UseChatMessagesResult {
       return;
     }
 
-    setStatus('idle');
+    statusEmitterRef.current.set('idle');
 
     if (createSessionError) {
       // no user message was appended when session creation failed
@@ -115,19 +102,13 @@ export function useChatMessages(): UseChatMessagesResult {
     return sendMessage(content, sessionId)
   }
 
-  const displayMessages =
-    streamingMessage
-      ? [...messages, streamingMessage]
-      : messages;
-
-
   // Create session or fetch message by ID.
   useEffect(() => {
     if (!sessionId) {
       createSession();
       return;
     }
-    
+
     getSessionMessages(sessionId).then((result) => {
       // If session exist but fetch is failed, create new session.
       if (!result) createSession();
@@ -135,13 +116,11 @@ export function useChatMessages(): UseChatMessagesResult {
   }, [sessionId]);
 
   return {
-    messages: displayMessages,
-    status,
+    messages,
+    statusEmitter: statusEmitterRef.current,
+    streamEmitter: streamEmitterRef.current,
     error: createSessionError ?? chatError,
     sendMessage: prepareSending,
     retrySendMessage: retrySendMessage,
-    isGenerating,
-    isWaiting,
-    isFailed,
   };
 }

@@ -1,9 +1,11 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
+import { ChatStreamingMessage } from "./ChatStreamingMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
 import { useChatWindowContext } from "./context/ChatWindowContext";
+import type { StatusChangeEvent } from "./utils/statusEmitter";
 import type { MessageRole } from "@global-types/message";
 
 interface ChatMessagesProps {
@@ -13,7 +15,8 @@ interface ChatMessagesProps {
 export function ChatMessages({
   emptyMessage = "Start a conversation",
 }: ChatMessagesProps) {
-  const { messages, isWaiting: isLoading } = useChatWindowContext();
+  const [isLoading, setIsLoading] = useState(false);
+  const { messages, statusEmitter } = useChatWindowContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const NAMES: Record<MessageRole, string> = {
@@ -22,8 +25,18 @@ export function ChatMessages({
   };
 
   useEffect(() => {
+    const handleChange = (event: Event) => {
+      const status = (event as StatusChangeEvent).detail;
+      setIsLoading(status === "waiting");
+    };
+
+    statusEmitter.addEventListener("change", handleChange);
+    return () => statusEmitter.removeEventListener("change", handleChange);
+  }, [statusEmitter]);
+
+  useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [isLoading]);
+  }, [isLoading, messages]);
 
   if (messages.length === 0 && !isLoading) {
     return <EmptyState>{emptyMessage}</EmptyState>;
@@ -46,6 +59,8 @@ export function ChatMessages({
           />
         ),
       )}
+
+      <ChatStreamingMessage username={NAMES.assistant} />
 
       {isLoading && (
         <div className="justify-self-start">

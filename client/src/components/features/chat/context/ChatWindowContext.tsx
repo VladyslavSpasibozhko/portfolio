@@ -1,17 +1,16 @@
 import { createContext, useContext, type ReactNode } from "react";
 import { useChatMessages } from "../hooks/useChatMessages";
-import type { ChatStatus } from "../hooks/useChatMessages";
+import type { StatusEmitter } from "../utils/statusEmitter";
+import type { StreamEmitter } from "../utils/streamEmitter";
 import type { Message } from "@global-types/message";
 
 interface ChatWindowContextValue {
   messages: Message[];
-  status: ChatStatus;
+  statusEmitter: StatusEmitter;
+  streamEmitter: StreamEmitter;
   error: string | null;
   sendMessage: (content: string) => Promise<void>;
   retrySendMessage: () => Promise<void>;
-  isGenerating: boolean;
-  isWaiting: boolean;
-  isFailed: boolean;
 }
 
 const ChatWindowContext = createContext<ChatWindowContextValue | null>(null);

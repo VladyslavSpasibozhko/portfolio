@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton } from "@components/molecules/IconButton";
 import { Textarea } from "@components/atoms/Textarea";
 import { useChatWindowContext } from "./context/ChatWindowContext";
+import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
 
 export function ChatInput() {
   const [input, setInput] = useState("");
-  const { sendMessage, isWaiting, isGenerating } = useChatWindowContext();
-  const disabled = isWaiting || isGenerating;
+  const { sendMessage, statusEmitter } = useChatWindowContext();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const submit = () => {
     if (!input.trim()) return;
@@ -28,6 +29,17 @@ export function ChatInput() {
     }
   };
 
+  useEffect(() => {
+    const handleChange = (event: Event) => {
+      const status = (event as StatusChangeEvent).detail;
+      const statuses: StreamStatus[] = ["generating", "waiting"];
+      setIsDisabled(statuses.includes(status));
+    };
+
+    statusEmitter.addEventListener("change", handleChange);
+    return () => statusEmitter.removeEventListener("change", handleChange);
+  }, [statusEmitter]);
+
   return (
     <form
       onSubmit={handleSubmit}
@@ -38,7 +50,7 @@ export function ChatInput() {
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleEnterKeyDown}
-        disabled={disabled}
+        disabled={isDisabled}
         placeholder="Type a message..."
         className="flex-1"
         autoResize
@@ -50,7 +62,7 @@ export function ChatInput() {
         variant="primary"
         size="xl"
         type="submit"
-        disabled={disabled || !input.trim()}
+        disabled={isDisabled || !input.trim()}
         aria-label="Send message"
       />
     </form>

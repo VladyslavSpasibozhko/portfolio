@@ -3,7 +3,7 @@ import { IconButton } from "@components/molecules/IconButton";
 import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import type { Message } from "@types";
+import type { Message } from "@global-types/message";
 
 
 interface ChatWindowProps {

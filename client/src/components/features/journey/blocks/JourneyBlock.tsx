@@ -1,4 +1,4 @@
-import type { JourneyBlock as JourneyBlockData } from "@types";
+import type { JourneyBlock as JourneyBlockData } from "@global-types/journey";
 import { TextBlock } from "./TextBlock";
 import { ListBlock } from "./ListBlock";
 import { BadgesBlock } from "./BadgesBlock";

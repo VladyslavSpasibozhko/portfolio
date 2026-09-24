@@ -1,4 +1,4 @@
-import type { JourneyCalloutBlock } from "@types";
+import type { JourneyCalloutBlock } from "@global-types/journey";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
 import { Link } from "@components/atoms/Link";

@@ -1,5 +1,5 @@
 import { config } from "@config";
-import { createErrorResponse } from "@global/transport";
+import { createErrorResponse } from "@global-utils/transport";
 import type { FetchConfig, FetchResult, FetchBody } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {

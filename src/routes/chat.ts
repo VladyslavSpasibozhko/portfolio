@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import type { Message, StreamResponse } from "../../types/index.js";
+import type { ChatRequest, ChatResponse } from "../../types/api.js";
 import { validate, type Schema } from "../lib/validation/index.js";
 import * as ai from "../services/ai.js";
 import * as session from "../services/session.js";
@@ -17,12 +17,10 @@ const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 const ChatRequestSchema: Schema = {
   type: "object",
   properties: {
+    message: { type: "string" },
     sessionId: { type: "string" },
-    role: { type: "string", enum: ["user"] },
-    content: { type: "string" },
-    fileIds: { type: "array", items: { type: "string" } },
   },
-  required: ["sessionId", "role", "content"],
+  required: ["message", "sessionId"],
   additionalProperties: false,
 };
 
@@ -55,16 +53,16 @@ const ChatResponseSchema: Schema = {
   ],
 };
 
-export function validateChatResponse(response: unknown): StreamResponse {
-  const result = validate<StreamResponse>(response, ChatResponseSchema);
+export function validateChatResponse(response: unknown): ChatResponse {
+  const result = validate<ChatResponse>(response, ChatResponseSchema);
   if (!result.success) {
     throw new Error("Invalid chat response: " + result.error);
   }
   return result.data;
 }
 
-export function validateChatRequest(request: unknown): Message {
-  const result = validate<Message>(request, ChatRequestSchema);
+export function validateChatRequest(request: unknown): ChatRequest {
+  const result = validate<ChatRequest>(request, ChatRequestSchema);
   if (!result.success) {
     throw new Error("Invalid chat request: " + result.error);
   }
@@ -73,7 +71,7 @@ export function validateChatRequest(request: unknown): Message {
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async (request, reply) => {
-    let body: Message;
+    let body: ChatRequest;
     try {
       body = validateChatRequest(request.body);
     } catch (e) {
@@ -85,7 +83,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
       return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
     }
 
-    const messages = [...history, createUserMessage(body.content)];
+    const messages = [...history, createUserMessage(body.message)];
 
     reply.hijack();
     const res = reply.raw;
@@ -100,7 +98,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     const controller = new AbortController();
     res.on("close", () => controller.abort());
 
-    const send = (event: StreamResponse) =>
+    const send = (event: ChatResponse) =>
       res.write(`data: ${JSON.stringify(validateChatResponse(event))}\n\n`);
 
     try {

@@ -3,7 +3,7 @@ import type {
   ErrorResponse,
   StreamResponse,
   SuccessResponse,
-} from "../types/index.js";
+} from "../types/transport.js";
 
 type StreamOf<T extends StreamResponse['type']> = Extract<StreamResponse, { type: T }>;
 

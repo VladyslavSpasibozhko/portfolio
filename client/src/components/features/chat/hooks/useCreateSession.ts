@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createSession } from "@api/chat";
 import { request } from "@lib/request";
-import type { Session } from "@types";
+import type { CreateChatResponse } from "@global-types/api";
 
 interface UseCreateSessionResult {
   createSession: () => Promise<string | null>;
@@ -17,7 +17,7 @@ export function useCreateSession(): UseCreateSessionResult {
     setLoading(true);
     setError(null);
 
-    const result = await request<Session>(createSession());
+    const result = await request<CreateChatResponse>(createSession());
 
     setLoading(false);
 

@@ -3,7 +3,7 @@ import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
-import type { Message, MessageRole } from "@types";
+import type { Message, MessageRole } from "@global-types/message";
 
 interface ChatMessagesProps {
   messages: Message[];

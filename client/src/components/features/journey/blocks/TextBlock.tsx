@@ -1,4 +1,4 @@
-import type { JourneyTextBlock } from "@types";
+import type { JourneyTextBlock } from "@global-types/journey";
 import { Story } from "../Story";
 import { Quote } from "../Quote";
 import { BlockHeading } from "../BlockHeading";

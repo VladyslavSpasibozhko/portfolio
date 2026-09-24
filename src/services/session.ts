@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { Message } from "../lib/ai/index.js";
-import type { Session } from "../../types/index.js";
+import type { Session } from "../../types/session.js";
 import * as sessions from "../storage/sessions.js";
 
 export function create(): Session {

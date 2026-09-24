@@ -1,7 +1,8 @@
 import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
-import type { Message, StreamResponse } from "@types";
+import type { ChatRequest } from "@global-types/api";
+import type { StreamResponse } from "@global-types/transport";
 
 interface UseChatCallbacks {
   onDelta: (text: string) => void;
@@ -10,7 +11,7 @@ interface UseChatCallbacks {
 }
 
 interface UseChatResult {
-  sendMessage: (message: Message) => Promise<void>;
+  sendMessage: (request: ChatRequest) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
@@ -32,7 +33,7 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
   const controllerRef = useRef<AbortController | null>(null);
 
   const sendMessage = useCallback(
-    async (message: Message) => {
+    async (request: ChatRequest) => {
       controllerRef.current?.abort();
       const controller = new AbortController();
       controllerRef.current = controller;
@@ -69,7 +70,7 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
         onError(message);
       };
 
-      await streamRequest(sendMessageConfig(message), {
+      await streamRequest(sendMessageConfig(request), {
         signal: controller.signal,
         onFrame: handleFrame,
         onError: handleError,

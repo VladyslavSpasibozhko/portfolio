@@ -7,7 +7,7 @@ Reference notes for agents working in this repo.
 - `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
 - `src/` — server code: `lib/`, `services/`, `storage/`, `routes/`, `plugins/`, `utils/`.
 - `utils/` — global utils shared across the repo (see Global utils).
-- `types/` — shared types, used by both the server and the client (`@types` alias on the client).
+- `types/` — shared types, used by both the server and the client. No barrel file — import each file directly (`@global-types/<file-name>` alias on the client).
 - `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
 - `client/` — Vite + React + Tailwind v4 app.
 
@@ -32,10 +32,13 @@ Run `typecheck` in the affected package(s) after changes.
 
 ## Types (`types/`)
 
-- `message.ts` — chat contract between the user and the LLM. Defines `MessageRole`, `Session` (`{ sessionId }`) and `Message` (extends `Session`: `role`, `content`, optional `fileIds`).
+No barrel file — there is no `types/index.ts`. Each file is imported directly: the server uses relative paths (`../../types/session.js`), the client uses `@global-types/<file-name>` (see Imports).
+
+- `session.ts` — `Session` (`{ sessionId }`).
+- `message.ts` — chat contract between the user and the LLM. Defines `MessageRole` and `Message` (`{ sessionId, role, content, fileIds? }`). Does not extend `Session` — it duplicates `sessionId` on purpose so the two types can evolve independently.
 - `transport.ts` — wire types. `ErrorDetails` (`{ reason, message, code }`), `SuccessResponse<T>` (`success: true`, `data`), `ErrorResponse` (`success: false`, `error: ErrorDetails`), `Response<T>` (union of the two) and `StreamResponse` (union on `type`: `delta`, `done`, `error`, `block`; clients ignore unknown types).
 - `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
-- `index.ts` — re-exports the above.
+- `api.ts` — request/response contracts for the routes in `src/routes/`, one pair per route (a route with no meaningful input has no request type): `ChatRequest`/`ChatResponse` (`POST /chat`), `CreateChatResponse` (`POST /chat/create`), `DeleteChatRequest`/`DeleteChatResponse` (`DELETE /chat/:id`). Validation schemas stay in the route file; only the TS shape lives here.
 
 Follow DRY: don't create new types/interfaces on your own. Ask for approval first — once approved, feel free to create the new type.
 
@@ -104,14 +107,14 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
-- Current routes: `chat.ts` — `POST /chat` (SSE stream of `StreamResponse` events; request schema matches `Message` with `role: "user"`, validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
-  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`); creates a session via the session service, returns `{ sessionId }`.
-  - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`); removes the session, 404 if it doesn't exist.
+- Current routes: `chat.ts` — `POST /chat` (SSE stream of `ChatResponse` events; request is `ChatRequest` (`{ message, sessionId }`), validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
+  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via the session service, returns `CreateChatResponse` (`Session`).
+  - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
   - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
 
 ## Global utils (`utils/`)
 
-Root-level helpers not tied to the server or client layers. Shared between both — the client reaches them via the `@global` alias (`@global/*` → `utils/*`; see `client/tsconfig.json` and `client/vite.config.ts`).
+Root-level helpers not tied to the server or client layers. Shared between both — the client reaches them via the `@global-utils` alias (`@global-utils/*` → `utils/*`; see `client/tsconfig.json` and `client/vite.config.ts`).
 
 - `message.ts` — message factories: `createMessage(role, content)`, `createUserMessage`, `createAssistantMessage`. The role-specific ones reuse `createMessage`.
 - `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse` (takes one `ErrorDetails`), `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`). Was `src/utils/transport.ts` (server-only); moved here so the client's `lib/request` and `lib/sse` can build the same error envelope.
@@ -224,7 +227,7 @@ Common, reusable utility functions (e.g. `hexToRgb`, `padNumber`, `interval`, `t
 Client-side access layers:
 
 - `ws.ts` (`ChatWebSocket` wrapper).
-- `request/` — thin `fetch` wrapper for JSON endpoints. `request<T, B extends FetchBody>(config: FetchConfig<B>)` takes one config object (`path`, `method`, `query`, `headers`, `body`), try/catches the call, and returns `FetchResult<T>` (= `Response<T>` from `@types`). The server always responds through `createResponse`/`createErrorResponse` (`@global/transport`), so a parsed body already is a `Response<T>`; `request` only builds its own error envelope (via `createErrorResponse`) for transport-level failures (network error, bad JSON). Doesn't handle the `/chat` SSE stream.
+- `request/` — thin `fetch` wrapper for JSON endpoints. `request<T, B extends FetchBody>(config: FetchConfig<B>)` takes one config object (`path`, `method`, `query`, `headers`, `body`), try/catches the call, and returns `FetchResult<T>` (= `Response<T>` from `@global-types/transport`). The server always responds through `createResponse`/`createErrorResponse` (`@global-utils/transport`), so a parsed body already is a `Response<T>`; `request` only builds its own error envelope (via `createErrorResponse`) for transport-level failures (network error, bad JSON). Doesn't handle the `/chat` SSE stream.
 - `sse/` — generic SSE (`text/event-stream`) client, not tied to any one endpoint's event shape. `streamRequest<B extends StreamBody>(config: StreamConfig<B>, options: StreamOptions)` POSTs the request and, on success, hands each raw frame to `options.onFrame`; `options.onError` covers both a non-OK/bodyless response and a transport failure. `readFrames.ts` does the actual decode/buffer/split into complete `\n\n`-delimited frames — parsing a frame's `data:` line into a typed event (e.g. `StreamResponse`) is the caller's job, not this lib's. Has its own `StreamConfig`/`StreamBody` types (same shape as `request/`'s) since a lib can't depend on another lib.
 
 ### API (`client/src/api/`)

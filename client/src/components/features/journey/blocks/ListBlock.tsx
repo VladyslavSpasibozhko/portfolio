@@ -1,5 +1,5 @@
 import { useRef, useState, type CSSProperties } from "react";
-import type { JourneyListBlock } from "@types";
+import type { JourneyListBlock } from "@global-types/journey";
 import { Typography } from "@components/atoms/Typography";
 import { Icon } from "@components/atoms/Icon";
 import { useIntersectionObserver } from "@hooks/useIntersectionObserver";

@@ -20,12 +20,11 @@ export function validateCreateChatRequest(request: unknown): Record<string, neve
 }
 
 export async function createChatRoute(app: FastifyInstance): Promise<void> {
-  app.post("/chat/create", { config: ROUTE_CONFIG }, async (request, reply) => {
+  app.post("/chat/create", { config: ROUTE_CONFIG }, async (_, reply) => {
     try {
-      validateCreateChatRequest(request.body);
+      return createResponse(session.create());
     } catch (e) {
-      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
+      return reply.status(500).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
     }
-    return createResponse(session.create());
   });
 }

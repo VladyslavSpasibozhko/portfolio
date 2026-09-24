@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import type { Message } from "@types";
-import { createUserMessage, createAssistantMessage } from "@global/message";
+import type { Message } from "@global-types/message";
+import { createUserMessage, createAssistantMessage } from "@global-utils/message";
 import { IconButton } from "@components/molecules/IconButton";
 import { ChatWindow } from "./ChatWindow";
 import { useChatSession } from "./hooks/useChatSession";
@@ -57,7 +57,7 @@ export function ChatWrapper({}: ChatWrapperProps) {
     const userMessage: Message = { ...createUserMessage(content), sessionId };
     setMessages((prev) => [...prev, userMessage]);
 
-    await sendChatMessage(userMessage);
+    await sendChatMessage({ message: content, sessionId });
   };
 
   const displayMessages =

@@ -1,4 +1,4 @@
-import type { JourneyCardsBlock } from "@types";
+import type { JourneyCardsBlock } from "@global-types/journey";
 import { Typography } from "@components/atoms/Typography";
 import { isIconName } from "@components/atoms/Icon";
 import { InfoCard } from "../InfoCard";

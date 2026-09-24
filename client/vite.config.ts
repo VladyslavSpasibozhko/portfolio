@@ -11,7 +11,7 @@ export default defineConfig({
   envDir: './src',
   resolve: {
     alias: {
-      '@types': path.resolve(__dirname, '../types'),
+      '@global-types': path.resolve(__dirname, '../types'),
       '@api': path.resolve(__dirname, './src/api'),
       '@lib': path.resolve(__dirname, './src/lib'),
       '@components': path.resolve(__dirname, './src/components'),
@@ -21,7 +21,7 @@ export default defineConfig({
       '@data': path.resolve(__dirname, '../data'),
       '@icons': path.resolve(__dirname, './src/icons'),
       '@static': path.resolve(__dirname, './static'),
-      '@global': path.resolve(__dirname, '../utils'),
+      '@global-utils': path.resolve(__dirname, '../utils'),
     },
   },
   server: {

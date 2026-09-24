@@ -25,7 +25,7 @@ export function ChatMessages({
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+  }, [isLoading]);
 
   if (messages.length === 0 && !isLoading) {
     return <EmptyState>{emptyMessage}</EmptyState>;
@@ -39,14 +39,12 @@ export function ChatMessages({
             key={idx}
             content={msg.content}
             username={NAMES[msg.role]}
-            className="flex-row-reverse justify-self-end"
           />
         ) : (
           <ChatAssistantMessage
             key={idx}
             content={msg.content}
             username={NAMES[msg.role]}
-            className="justify-self-start"
           />
         ),
       )}

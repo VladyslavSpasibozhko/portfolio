@@ -33,7 +33,7 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end gap-8 p-16"
+      className="flex items-end gap-8 p-16 border-t border-border-focus"
     >
       <Textarea
         name="chat_message"

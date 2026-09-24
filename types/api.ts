@@ -3,6 +3,7 @@
  * per route (input, output).
  */
 
+import type { Message } from './message.js';
 import type { Session } from './session.js';
 import type { StreamResponse } from './transport.js';
 
@@ -23,3 +24,10 @@ export interface DeleteChatRequest {
 }
 
 export type DeleteChatResponse = boolean;
+
+/** GET /chat/:id/messages */
+export interface GetChatMessagesRequest {
+    id: string;
+}
+
+export type GetChatMessagesResponse = Message[];

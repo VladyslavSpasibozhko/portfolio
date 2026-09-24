@@ -6,6 +6,7 @@ import { registerRateLimit } from "./src/plugins/rateLimit.js";
 import { chatRoutes } from "./src/routes/chat.js";
 import { createChatRoute } from "./src/routes/createChat.js";
 import { deleteChatRoute } from "./src/routes/deleteChat.js";
+import { getChatMessagesRoute } from "./src/routes/getChatMessages.js";
 
 const app = Fastify({ logger: true });
 
@@ -16,6 +17,7 @@ await app.register(multipart);
 await app.register(chatRoutes);
 await app.register(createChatRoute);
 await app.register(deleteChatRoute);
+await app.register(getChatMessagesRoute);
 
 const port = Number(process.env.PORT);
 if (!port) {

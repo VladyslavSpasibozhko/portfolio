@@ -38,7 +38,7 @@ No barrel file — there is no `types/index.ts`. Each file is imported directly:
 - `message.ts` — chat contract between the user and the LLM. Defines `MessageRole` and `Message` (`{ sessionId, role, content, fileIds? }`). Does not extend `Session` — it duplicates `sessionId` on purpose so the two types can evolve independently.
 - `transport.ts` — wire types. `ErrorDetails` (`{ reason, message, code }`), `SuccessResponse<T>` (`success: true`, `data`), `ErrorResponse` (`success: false`, `error: ErrorDetails`), `Response<T>` (union of the two) and `StreamResponse` (union on `type`: `delta`, `done`, `error`, `block`; clients ignore unknown types).
 - `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
-- `api.ts` — request/response contracts for the routes in `src/routes/`, one pair per route (a route with no meaningful input has no request type): `ChatRequest`/`ChatResponse` (`POST /chat`), `CreateChatResponse` (`POST /chat/create`), `DeleteChatRequest`/`DeleteChatResponse` (`DELETE /chat/:id`). Validation schemas stay in the route file; only the TS shape lives here.
+- `api.ts` — request/response contracts for the routes in `src/routes/`, one pair per route (a route with no meaningful input has no request type): `ChatRequest`/`ChatResponse` (`POST /chat`), `CreateChatResponse` (`POST /chat/create`), `DeleteChatRequest`/`DeleteChatResponse` (`DELETE /chat/:id`), `GetChatMessagesRequest`/`GetChatMessagesResponse` (`GET /chat/:id/messages`). Validation schemas stay in the route file; only the TS shape lives here.
 
 Follow DRY: don't create new types/interfaces on your own. Ask for approval first — once approved, feel free to create the new type.
 
@@ -110,6 +110,7 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 - Current routes: `chat.ts` — `POST /chat` (SSE stream of `ChatResponse` events; request is `ChatRequest` (`{ message, sessionId }`), validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
   - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via the session service, returns `CreateChatResponse` (`Session`).
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
+  - `getChatMessages.ts` — `GET /chat/:id/messages` (`validateGetChatMessagesParams`, params typed as `GetChatMessagesRequest`); returns the session's messages via `session.get`, 404 if the session doesn't exist, otherwise returns `GetChatMessagesResponse` (`Message[]`).
   - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
 
 ## Global utils (`utils/`)

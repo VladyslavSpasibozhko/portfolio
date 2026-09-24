@@ -21,7 +21,8 @@ export function Textarea({
   };
 
   const classes = [
-    "p-16",
+    "px-16",
+    "py-13",
     "border",
     "border-border-highlight",
     "rounded-lg",

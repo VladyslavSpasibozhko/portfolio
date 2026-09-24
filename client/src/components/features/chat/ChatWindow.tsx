@@ -15,9 +15,9 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
   const { error, retrySendMessage } = useChatWindowContext();
 
   return (
-    <div className="overflow-hidden w-full h-full rounded-2xl flex flex-col bg-background-950 border border-border-focus shadow-md shadow-accent-sky">
+    <div className="overflow-hidden w-full h-full sm:rounded-2xl flex flex-col bg-background-950 border border-border-focus shadow-md shadow-accent-sky">
       {/* Header */}
-      <div className="flex items-center justify-between p-16 bg-background-850 border-b border-border-focus">
+      <div className="flex items-center justify-between px-16 py-12 bg-background-850 border-b border-border-focus">
         <Typography tag="h3" className="font-semibold text-18 text-text-sky">
           AI Assistance
         </Typography>
@@ -31,7 +31,7 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-16">
+      <div className="flex-1 min-h-0 overflow-y-auto p-12 sm:p-16">
         <ChatMessages emptyMessage={emptyMessage} />
       </div>
 

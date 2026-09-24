@@ -17,7 +17,6 @@ export function ChatInput() {
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("hello");
     e.preventDefault();
     submit();
   };
@@ -43,7 +42,7 @@ export function ChatInput() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end gap-8 p-16 border-t border-border-focus"
+      className="flex items-end gap-8 p-12 sm:p-16 border-t border-border-focus"
     >
       <Textarea
         name="chat_message"
@@ -52,7 +51,7 @@ export function ChatInput() {
         onKeyDown={handleEnterKeyDown}
         disabled={isDisabled}
         placeholder="Type a message..."
-        className="flex-1"
+        className="flex-1 min-w-0"
         autoResize
         autoFocus
         maxHeight={200}
@@ -62,6 +61,7 @@ export function ChatInput() {
         variant="primary"
         size="xl"
         type="submit"
+        className="shrink-0 !p-0 h-50 w-50"
         disabled={isDisabled || !input.trim()}
         aria-label="Send message"
       />

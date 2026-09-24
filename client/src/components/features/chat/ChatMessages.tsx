@@ -6,7 +6,6 @@ import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
 import { useChatWindowContext } from "./context/ChatWindowContext";
 import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
-import type { MessageRole } from "@global-types/message";
 
 interface ChatMessagesProps {
   emptyMessage?: ReactNode;
@@ -18,11 +17,6 @@ export function ChatMessages({
   const [isLoading, setIsLoading] = useState(false);
   const { messages, statusEmitter } = useChatWindowContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-  const NAMES: Record<MessageRole, string> = {
-    assistant: "AI Assistant",
-    user: "User",
-  };
 
   const scrollToBottom = () => {
     setTimeout(() => {
@@ -68,21 +62,13 @@ export function ChatMessages({
     <div className="space-y-24">
       {messages.map((msg, idx) =>
         msg.role === "user" ? (
-          <ChatUserMessage
-            key={idx}
-            content={msg.content}
-            username={NAMES[msg.role]}
-          />
+          <ChatUserMessage key={idx} content={msg.content} />
         ) : (
-          <ChatAssistantMessage
-            key={idx}
-            content={msg.content}
-            username={NAMES[msg.role]}
-          />
+          <ChatAssistantMessage key={idx} content={msg.content} />
         ),
       )}
 
-      <ChatStreamingMessage username={NAMES.assistant} />
+      <ChatStreamingMessage />
 
       {isLoading && (
         <div className="justify-self-start">

@@ -2,15 +2,9 @@ import { useEffect, useState } from "react";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { useChatWindowContext } from "./context/ChatWindowContext";
 
-interface ChatStreamingMessageProps {
-  username: string;
-}
+interface ChatStreamingMessageProps {}
 
-/**
- * Subscribes directly to the stream emitter instead of reading from
- * context state, so only this component re-renders per delta chunk.
- */
-export function ChatStreamingMessage({ username }: ChatStreamingMessageProps) {
+export function ChatStreamingMessage(props: ChatStreamingMessageProps) {
   const { streamEmitter } = useChatWindowContext();
   const [content, setContent] = useState(streamEmitter.content);
 
@@ -31,5 +25,5 @@ export function ChatStreamingMessage({ username }: ChatStreamingMessageProps) {
 
   if (!content) return null;
 
-  return <ChatAssistantMessage content={content} username={username} />;
+  return <ChatAssistantMessage content={content} />;
 }

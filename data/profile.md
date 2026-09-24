@@ -68,7 +68,7 @@ _Cross-Platform Android WebView Integration_ — Integrated a web chat module in
 
 **December 2021 – August 2024 | Kyiv, Ukraine (Remote) | 2 years 9 months**
 
-Healthcare CRM system with integration into Ukraine's national eHealth system and Helsi medical platform. Helsi is Ukraine's largest medical information system, integrated with the national electronic healthcare system eHealth, serving 24 million Ukrainians, 1,300+ clinics, and 37,000+ doctors. Key features: patient management/CRM, EHR integration, appointment scheduling, medical documentation, integration with national healthcare systems.
+Healthcare CRM system with integration into Ukraine's national eHealth system and Helsi medical platform. Helsi is Ukraine's largest medical information system, integrated with the national electronic healthcare system eHealth. Key features: patient management/CRM, EHR integration, appointment scheduling, medical documentation, integration with national healthcare systems.
 
 **Responsibilities:**
 
@@ -287,5 +287,3 @@ One-line summary: _success means the team and PO trust his judgment, not just hi
 From LinkedIn recommendations (WorkJam/Proffiz colleagues — a Team Lead who managed him directly for 2+ years, a Software Architect, and several Frontend/Software Engineers): consistently described as reliable, taking full ownership of features end-to-end without cutting corners; thinking in systems rather than tickets, often improving the underlying structure rather than just fixing the immediate issue; comfortable with complex legacy code with good instincts on when to refactor; clear and honest in code reviews while staying open to discussion; a go-to person junior engineers sought out for advice; strong architectural thinking (especially micro-frontend strategy); combining technical depth with clear communication.
 
 ---
-
-_Document compiled for interview preparation use._

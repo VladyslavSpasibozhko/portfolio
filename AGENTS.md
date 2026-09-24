@@ -138,7 +138,7 @@ Thin wrappers that register Fastify plugins with project config (`cors.ts`, `rat
 - `molecules/` — more complex components, built by composing atoms into a ready-to-use component (e.g. `Timeline`, `Markdown`, `IconButton`).
 - `features/` — components tied to a specific feature. May include hooks and utils scoped to that feature (e.g. `features/chat/hooks`, `features/chat/utils`). Current features:
   - `journey/` — the slides of the main page (see below).
-  - `chat/` — the AI chat window over WebSocket (`ChatWrapper` is the entry point; currently not mounted).
+  - `chat/` — the AI chat window over WebSocket (`ChatWrapper` is the entry point; currently not mounted). `context/ChatWindowContext.tsx` holds `ChatWindowProvider` (wraps `useChatMessages`) and `useChatWindowContext`; `ChatWrapper` wraps only `ChatWindow` in the provider, and `ChatWindow`'s children (`ChatMessages`, `ChatInput`) read chat state from the context instead of props. A feature gets its own `context/` folder like this when a hook's state needs to reach several components in that feature's tree without prop drilling.
 
 Rules:
 

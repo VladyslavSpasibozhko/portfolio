@@ -3,19 +3,17 @@ import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
-import type { Message, MessageRole } from "@global-types/message";
+import { useChatWindowContext } from "./context/ChatWindowContext";
+import type { MessageRole } from "@global-types/message";
 
 interface ChatMessagesProps {
-  messages: Message[];
-  isLoading?: boolean;
   emptyMessage?: ReactNode;
 }
 
 export function ChatMessages({
-  messages,
-  isLoading = false,
   emptyMessage = "Start a conversation",
 }: ChatMessagesProps) {
+  const { messages, isWaiting: isLoading } = useChatWindowContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const NAMES: Record<MessageRole, string> = {

@@ -4,7 +4,7 @@ import { Button } from "@components/atoms/Button";
 import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
-import { useChatMessages } from "./hooks/useChatMessages";
+import { useChatWindowContext } from "./context/ChatWindowContext";
 
 interface ChatWindowProps {
   closeWindow: () => void;
@@ -12,15 +12,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
-  const {
-    messages,
-    error,
-    sendMessage,
-    retrySendMessage,
-    isWaiting,
-    isGenerating,
-    isFailed,
-  } = useChatMessages();
+  const { error, retrySendMessage, isFailed } = useChatWindowContext();
 
   return (
     <div className="overflow-hidden w-full h-full rounded-2xl flex flex-col bg-background-950 border border-border-focus shadow-md shadow-accent-sky">
@@ -40,11 +32,7 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto p-16">
-        <ChatMessages
-          messages={messages}
-          isLoading={isWaiting}
-          emptyMessage={emptyMessage}
-        />
+        <ChatMessages emptyMessage={emptyMessage} />
       </div>
 
       {/* Error */}
@@ -62,10 +50,7 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
       )}
 
       {/* Input */}
-      <ChatInput
-        onSendMessage={sendMessage}
-        disabled={isWaiting || isGenerating}
-      />
+      <ChatInput />
     </div>
   );
 }

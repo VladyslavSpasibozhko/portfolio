@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { IconButton } from "@components/molecules/IconButton";
 import { Textarea } from "@components/atoms/Textarea";
+import { useChatWindowContext } from "./context/ChatWindowContext";
 
-interface ChatInputProps {
-  onSendMessage: (message: string) => void;
-  disabled?: boolean;
-}
-
-export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
+export function ChatInput() {
   const [input, setInput] = useState("");
+  const { sendMessage, isWaiting, isGenerating } = useChatWindowContext();
+  const disabled = isWaiting || isGenerating;
 
   const submit = () => {
     if (!input.trim()) return;
 
-    onSendMessage(input);
+    sendMessage(input);
     setInput("");
   };
 

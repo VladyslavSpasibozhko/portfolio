@@ -112,6 +112,8 @@ export function useChatMessages(): UseChatMessagesResult {
     getSessionMessages(sessionId).then((result) => {
       // If session exist but fetch is failed, create new session.
       if (!result) createSession();
+      else { statusEmitterRef.current.set('idle'); }
+
     })
   }, [sessionId]);
 

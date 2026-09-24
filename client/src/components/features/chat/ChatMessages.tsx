@@ -5,7 +5,7 @@ import { ChatStreamingMessage } from "./ChatStreamingMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
 import { useChatWindowContext } from "./context/ChatWindowContext";
-import type { StatusChangeEvent } from "./utils/statusEmitter";
+import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
 import type { MessageRole } from "@global-types/message";
 
 interface ChatMessagesProps {
@@ -24,19 +24,41 @@ export function ChatMessages({
     user: "User",
   };
 
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    });
+  };
+
   useEffect(() => {
-    const handleChange = (event: Event) => {
-      const status = (event as StatusChangeEvent).detail;
+    const handleLoading = (status: StreamStatus) => {
       setIsLoading(status === "waiting");
+    };
+
+    const handleAutoScroll = (status: StreamStatus) => {
+      const statuses: StreamStatus[] = [
+        "idle",
+        "waiting",
+        "generating",
+        "generated",
+      ];
+
+      if (statuses.includes(status)) {
+        scrollToBottom();
+      }
+    };
+
+    const handleChange = (event: Event) => {
+      handleLoading((event as StatusChangeEvent).detail);
+      handleAutoScroll((event as StatusChangeEvent).detail);
     };
 
     statusEmitter.addEventListener("change", handleChange);
     return () => statusEmitter.removeEventListener("change", handleChange);
   }, [statusEmitter]);
-
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [isLoading, messages]);
 
   if (messages.length === 0 && !isLoading) {
     return <EmptyState>{emptyMessage}</EmptyState>;

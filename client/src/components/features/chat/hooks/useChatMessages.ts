@@ -73,8 +73,9 @@ export function useChatMessages(): UseChatMessagesResult {
 
   const getSessionMessages = async (id: string) => {
     const messages = await getMessages(id);
-    if (!messages) return;
+    if (!messages) return false;
     setMessages(messages);
+    return true;
   }
 
   const sendMessage = async (content: string, id: string) => {
@@ -126,10 +127,11 @@ export function useChatMessages(): UseChatMessagesResult {
       createSession();
       return;
     }
-
-    console.log(sessionId);
-
-    getSessionMessages(sessionId);
+    
+    getSessionMessages(sessionId).then((result) => {
+      // If session exist but fetch is failed, create new session.
+      if (!result) createSession();
+    })
   }, [sessionId]);
 
   return {

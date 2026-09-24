@@ -13,8 +13,8 @@ export function ChatUserMessage({ content, username, className = "" }: ChatUserM
         <Typography tag="span" className="text-right block mb-4">
           {username}
         </Typography>
-        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg">
-          <Typography tag="span" className="break-all">
+        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg bg-background-chat">
+          <Typography tag="span" className="break-all text-white">
             {content}
           </Typography>
         </div>

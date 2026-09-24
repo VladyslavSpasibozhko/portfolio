@@ -14,7 +14,7 @@ export function ChatAssistantMessage({ content, username, className = "" }: Chat
         <Typography tag="span" className="block mb-4">
           {username}
         </Typography>
-        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg">
+        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg text-white bg-background-chat">
           <Markdown content={content} />
         </div>
       </div>

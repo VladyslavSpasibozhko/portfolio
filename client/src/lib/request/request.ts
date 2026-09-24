@@ -26,9 +26,9 @@ function buildHeaders(headers?: FetchConfig["headers"]): HeadersInit {
 }
 
 function buildBody<B extends FetchBody = {}>(body: B | undefined): string | undefined {
-  if (!body) return undefined;
+  if (!body) return JSON.stringify({});
   const isEmpty = Object.keys(body).length === 0;
-  if (isEmpty) return undefined;
+  if (isEmpty) return JSON.stringify({});
   return JSON.stringify(body)
 }
 

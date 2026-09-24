@@ -4,6 +4,7 @@ export interface Session {
 
 export type MessageRole = 'user' | 'assistant'
 
+// TODO: change it;
 export interface Message extends Session {
     role: MessageRole;
     content: string;

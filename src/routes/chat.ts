@@ -93,6 +93,8 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
+      "Access-Control-Allow-Origin": process.env.CLIENT_ORIGIN as string,
+      Vary: "Origin",
     });
 
     const controller = new AbortController();

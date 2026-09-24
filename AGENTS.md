@@ -49,7 +49,7 @@ Icon fields in the data types are plain `string`s on purpose — available icons
 Two files, each with one consumer:
 
 - `journey.json` — source of truth for the main page: every slide, its copy, background and blocks. The page is fully data-driven from this file, and only the client reads it.
-- `profile.md` — the profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt (`src/services/ai.ts`) so the LLM has clear, readable context. Only the server reads it.
+- `profile.md` — the profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt (`src/services/ai/prompts.ts`) so the LLM has clear, readable context. Only the server reads it.
 
 Rules:
 

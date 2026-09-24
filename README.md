@@ -67,7 +67,7 @@ npm run dev --prefix client     # client on http://localhost:5173
 There are two content files, one per consumer:
 
 - [data/journey.json](data/journey.json) renders the main page. Each section is a slide made of typed blocks (`text`, `cards`, `timeline`, `steps`, `branch`, …) described in [types/journey.ts](types/journey.ts).
-- [data/profile.md](data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [src/services/ai.ts](src/services/ai.ts).
+- [data/profile.md](data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [src/services/ai/prompts.ts](src/services/ai/prompts.ts).
 
 Neither file is a copy of the other, so there's nothing to keep in sync mechanically — but a factual change usually belongs in both.
 

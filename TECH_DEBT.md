@@ -162,7 +162,7 @@ Make the variant generation reproducible.
 Decide whether the journey content should feed the AI too, and add a check that flags factual drift between the two files.
 
 **How:**
-1. Render `journey.json` to Markdown at runtime and include it in `systemPrompt()` in `src/services/ai.ts`, or accept the gap and document it
+1. Render `journey.json` to Markdown at runtime and include it in `systemPrompt()` in `src/services/ai/prompts.ts`, or accept the gap and document it
 2. If useful, add a check (build or pre-commit) that flags facts present in one file and missing from the other
 
 ## Stale `@icons` Alias

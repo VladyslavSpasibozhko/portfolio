@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
+    "test:ai": "tsx src/services/ai/test.ts",
     "test": "find src -name '*.test.ts' | xargs node --import=tsx --test"
   },
   "dependencies": {

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import type { ChatRequest, ChatResponse } from "../../types/api.js";
 import { validate, type Schema } from "../lib/validation/index.js";
-import * as ai from "../services/ai.js";
+import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
 import { createAssistantMessage, createUserMessage } from "../../utils/message.js";
 import {

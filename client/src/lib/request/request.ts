@@ -1,6 +1,6 @@
 import { config } from "@config";
 import { createErrorResponse } from "@global-utils/transport";
-import type { FetchConfig, FetchResult, FetchBody } from "./types";
+import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {
   if (!query) return '';
@@ -25,7 +25,11 @@ function buildHeaders(headers?: FetchConfig["headers"]): HeadersInit {
   return { "Content-Type": "application/json", ...headers };
 }
 
-function buildBody<B extends FetchBody = {}>(body: B | undefined): string | undefined {
+function buildBody<B extends FetchBody = {}>(method: Method, body: B | undefined): string | undefined {
+  const nonBodyMethods: Method[] = ['GET'];
+  if (nonBodyMethods.includes(method)) return undefined;
+
+
   if (!body) return JSON.stringify({});
   const isEmpty = Object.keys(body).length === 0;
   if (isEmpty) return JSON.stringify({});
@@ -37,7 +41,7 @@ export async function request<T, B extends FetchBody = {}>(request: FetchConfig<
     const res = await fetch(buildUrl(request.path, request.query), {
       method: request.method,
       headers: buildHeaders(request.headers),
-      body: buildBody(request.body),
+      body: buildBody(request.method, request.body),
     });
 
     const data = (await res.json()) as FetchResult<T>;

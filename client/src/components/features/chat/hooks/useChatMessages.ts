@@ -1,9 +1,10 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Message } from "@global-types/message";
 import { createUserMessage, createAssistantMessage } from "@global-utils/message";
 import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";
 import { useCreateSession } from "./useCreateSession";
+import { useGetChatMessages } from "./useGetChatMessages";
 
 export type ChatStatus = "idle" | "waiting" | "generating" | "generated" | "failed";
 
@@ -31,6 +32,8 @@ export function useChatMessages(): UseChatMessagesResult {
   const { sessionId, setSession } = useChatSession();
   const { createSession: createSessionReq, error: createSessionError } =
     useCreateSession();
+  const { getMessages } = useGetChatMessages();
+
 
   const isGenerating = status === "generating";
   const isWaiting = status === "waiting";
@@ -68,29 +71,27 @@ export function useChatMessages(): UseChatMessagesResult {
     return id;
   }
 
-  const ensureSession = async (session: string | null) => {
-    const id = session ? session : await createSession();
-
-    if (!id) {
-      setStatus("failed");
-      return null
-    }
-
-    return id;
+  const getSessionMessages = async (id: string) => {
+    const messages = await getMessages(id);
+    if (!messages) return;
+    setMessages(messages);
   }
 
-  const sendMessage = async (content: string, session: string | null) => {
-    const id = await ensureSession(session);
-    if (!id) return;
-
+  const sendMessage = async (content: string, id: string) => {
     const preparedMessage: Message = createUserMessage(content);
-    setMessages((prev) => [...prev, preparedMessage]);
 
     setStatus("waiting");
+    setMessages((prev) => [...prev, preparedMessage]);
+
     await sendChatMessage({ message: content, sessionId: id })
   };
 
   const retrySendMessage = async () => {
+    if (!sessionId) {
+      console.error('No session id found');
+      return;
+    }
+
     setStatus('idle');
 
     if (createSessionError) {
@@ -105,6 +106,10 @@ export function useChatMessages(): UseChatMessagesResult {
   }
 
   const prepareSending = async (content: string) => {
+    if (!sessionId) {
+      console.error('No session id found');
+      return;
+    }
     setUserMessage(content);
     return sendMessage(content, sessionId)
   }
@@ -113,6 +118,19 @@ export function useChatMessages(): UseChatMessagesResult {
     streamingMessage
       ? [...messages, streamingMessage]
       : messages;
+
+
+  // Create session or fetch message by ID.
+  useEffect(() => {
+    if (!sessionId) {
+      createSession();
+      return;
+    }
+
+    console.log(sessionId);
+
+    getSessionMessages(sessionId);
+  }, [sessionId]);
 
   return {
     messages: displayMessages,

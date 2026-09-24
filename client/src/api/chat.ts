@@ -10,6 +10,10 @@ export function deleteSession(sessionId: string): FetchConfig {
   return { path: `/chat/${sessionId}`, method: "DELETE" };
 }
 
+export function getChatMessages(sessionId: string): FetchConfig {
+  return { path: `/chat/${sessionId}/messages`, method: "GET" };
+}
+
 export function sendMessage(request: ChatRequest): StreamConfig<ChatRequest> {
   return { path: "/chat", method: "POST", body: request };
 }

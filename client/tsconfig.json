@@ -17,7 +17,8 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@types": ["../types"],
+      "@global-types/*": ["../types/*"],
+      "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],
       "@hooks/*": ["./src/hooks/*"],
@@ -25,7 +26,8 @@
       "@config": ["./src/config.ts"],
       "@data/*": ["../data/*"],
       "@icons/*": ["./src/icons/*"],
-      "@static/*": ["./static/*"]
+      "@static/*": ["./static/*"],
+      "@global-utils/*": ["../utils/*"]
     }
   },
   "include": ["src"],

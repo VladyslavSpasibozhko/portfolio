@@ -1,4 +1,4 @@
-import type { JourneyDiagramTone } from "@types";
+import type { JourneyDiagramTone } from "@global-types/journey";
 import { Typography } from "@components/atoms/Typography";
 import { Icon, isIconName } from "@components/atoms/Icon";
 

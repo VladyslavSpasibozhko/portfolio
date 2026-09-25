@@ -1,4 +1,4 @@
-import type { JourneyStepsBlock } from "@types";
+import type { JourneyStepsBlock } from "@global-types/journey";
 import { StepsDiagram } from "../diagram/StepsDiagram";
 import { BlockHeading } from "../BlockHeading";
 

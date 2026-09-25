@@ -1,4 +1,4 @@
-import type { JourneyBadgesBlock } from "@types";
+import type { JourneyBadgesBlock } from "@global-types/journey";
 import { Badge } from "@components/atoms/Badge";
 import { Icon, isIconName } from "@components/atoms/Icon";
 import { Typography } from "@components/atoms/Typography";

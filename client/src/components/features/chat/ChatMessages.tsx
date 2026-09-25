@@ -1,31 +1,58 @@
-import { useEffect, useRef, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ChatUserMessage } from "./ChatUserMessage";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
+import { ChatStreamingMessage } from "./ChatStreamingMessage";
 import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
-import type { WsMessage, WsMessageRole } from "@types";
+import { useChatWindowContext } from "./context/ChatWindowContext";
+import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
 
 interface ChatMessagesProps {
-  messages: WsMessage[];
-  isLoading?: boolean;
   emptyMessage?: ReactNode;
 }
 
 export function ChatMessages({
-  messages,
-  isLoading = false,
   emptyMessage = "Start a conversation",
 }: ChatMessagesProps) {
+  const [isLoading, setIsLoading] = useState(false);
+  const { messages, statusEmitter } = useChatWindowContext();
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const NAMES: Record<WsMessageRole, string> = {
-    assistant: "AI Assistant",
-    user: "User",
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      messagesEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    });
   };
 
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages, isLoading]);
+    const handleLoading = (status: StreamStatus) => {
+      setIsLoading(status === "waiting");
+    };
+
+    const handleAutoScroll = (status: StreamStatus) => {
+      const statuses: StreamStatus[] = [
+        "idle",
+        "waiting",
+        "generating",
+        "generated",
+      ];
+
+      if (statuses.includes(status)) {
+        scrollToBottom();
+      }
+    };
+
+    const handleChange = (event: Event) => {
+      handleLoading((event as StatusChangeEvent).detail);
+      handleAutoScroll((event as StatusChangeEvent).detail);
+    };
+
+    statusEmitter.addEventListener("change", handleChange);
+    return () => statusEmitter.removeEventListener("change", handleChange);
+  }, [statusEmitter]);
 
   if (messages.length === 0 && !isLoading) {
     return <EmptyState>{emptyMessage}</EmptyState>;
@@ -35,21 +62,13 @@ export function ChatMessages({
     <div className="space-y-24">
       {messages.map((msg, idx) =>
         msg.role === "user" ? (
-          <ChatUserMessage
-            key={idx}
-            content={msg.content}
-            username={NAMES[msg.role]}
-            className="flex-row-reverse justify-self-end"
-          />
+          <ChatUserMessage key={idx} content={msg.content} />
         ) : (
-          <ChatAssistantMessage
-            key={idx}
-            content={msg.content}
-            username={NAMES[msg.role]}
-            className="justify-self-start"
-          />
+          <ChatAssistantMessage key={idx} content={msg.content} />
         ),
       )}
+
+      <ChatStreamingMessage />
 
       {isLoading && (
         <div className="justify-self-start">

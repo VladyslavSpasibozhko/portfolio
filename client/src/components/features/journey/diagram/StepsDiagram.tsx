@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-import type { JourneyDiagramStep } from "@types";
+import type { JourneyDiagramStep } from "@global-types/journey";
 import { DiagramNode } from "./DiagramNode";
 import { DiagramRail } from "./DiagramRail";
 

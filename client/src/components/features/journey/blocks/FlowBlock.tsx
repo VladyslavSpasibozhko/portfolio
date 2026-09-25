@@ -1,4 +1,4 @@
-import type { JourneyFlowBlock } from "@types";
+import type { JourneyFlowBlock } from "@global-types/journey";
 import { isIconName } from "@components/atoms/Icon";
 import { FlowDiagram, type FlowStep } from "../FlowDiagram";
 import { BlockHeading } from "../BlockHeading";

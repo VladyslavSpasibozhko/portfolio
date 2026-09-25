@@ -11,6 +11,7 @@ export function Textarea({
   autoResize = false,
   maxHeight,
   value,
+  rows = 1,
   ...props
 }: TextareaProps) {
   const ref = useRef<HTMLTextAreaElement>(null);
@@ -20,11 +21,24 @@ export function Textarea({
   };
 
   const classes = [
-    "px-8",
-    "py-4",
+    "px-16",
+    "py-13",
     "border",
+    "border-border-highlight",
     "rounded-lg",
+    "leading-normal",
+    "text-16",
+    "text-text-white",
+    "placeholder:text-text-white",
     "focus:outline-none",
+    "hover:border-border-focus",
+    "hover:border-border-focus",
+    "focus:border-border-focus",
+    "hover:shadow-accent-blue",
+    "focus:shadow-accent-blue",
+    "hover:shadow-sm",
+    "focus:shadow-sm",
+    "transition-shadow",
     className,
   ];
 
@@ -43,6 +57,7 @@ export function Textarea({
     <textarea
       ref={ref}
       value={value}
+      rows={rows}
       style={styles}
       className={classes.join(" ")}
       {...props}

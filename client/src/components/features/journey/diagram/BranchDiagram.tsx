@@ -1,4 +1,4 @@
-import type { JourneyDiagramNode } from "@types";
+import type { JourneyDiagramNode } from "@global-types/journey";
 import { DiagramNode } from "./DiagramNode";
 import { DiagramRail } from "./DiagramRail";
 

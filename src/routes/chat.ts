@@ -1,117 +1,120 @@
-import { WsRequestPayload, type WsResponsePayload } from './../../types/index.js';
 import type { FastifyInstance } from "fastify";
+import type { ChatRequest, ChatResponse } from "../../types/api.js";
 import { validate, type Schema } from "../lib/validation/index.js";
-import { chat } from "../services/ai.js";
+import * as ai from "../services/ai/index.js";
+import * as session from "../services/session.js";
+import { createAssistantMessage, createUserMessage } from "../../utils/message.js";
+import {
+  createDeltaResponse,
+  createDoneResponse,
+  createErrorDetails,
+  createErrorResponse,
+  createErrorStreamResponse,
+} from "../../utils/transport.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-const WsMessageSchema: Schema = {
+const ChatRequestSchema: Schema = {
   type: "object",
   properties: {
-    role: { type: "string", enum: ["user", "assistant"] },
-    content: { type: "string" },
+    message: { type: "string" },
+    sessionId: { type: "string" },
   },
-  required: ["role", "content"],
+  required: ["message", "sessionId"],
   additionalProperties: false,
 };
 
-const WsRequestSchema: Schema = {
-  type: "object",
-  properties: {
-    message: WsMessageSchema,
-    history: {
-      type: "array",
-      items: WsMessageSchema,
-    },
-  },
-  required: ["message", "history"],
-  additionalProperties: false,
-};
-
-const WsResponseSchema: Schema = {
-  type: "object",
+const ChatResponseSchema: Schema = {
   oneOf: [
     {
-      properties: {
-        success: { const: true },
-        message: WsMessageSchema,
-      },
-      required: ["success", "message"],
+      type: "object",
+      properties: { type: { const: "delta" }, text: { type: "string" } },
+      required: ["type", "text"],
       additionalProperties: false,
     },
     {
-      properties: {
-        success: { const: false },
-        message: { type: "string" },
-      },
-      required: ["success", "message"],
+      type: "object",
+      properties: { type: { const: "done" } },
+      required: ["type"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: { type: { const: "error" }, message: { type: "string" } },
+      required: ["type", "message"],
+      additionalProperties: false,
+    },
+    {
+      type: "object",
+      properties: { type: { const: "block" } },
+      required: ["type"],
       additionalProperties: false,
     },
   ],
 };
 
-function parseIncomingMessage(raw: Buffer): WsRequestPayload | null {
-  try {
-    const parsed = JSON.parse(raw.toString());
-    const result = validate<WsRequestPayload>(parsed, WsRequestSchema);
-    if (!result.success) return null;
-    return result.data;
-  } catch {
-    return null;
-  }
-}
-
-function serializeResponse(response: WsResponsePayload): string {
-  const result = validate<WsResponsePayload>(response, WsResponseSchema);
+export function validateChatResponse(response: unknown): ChatResponse {
+  const result = validate<ChatResponse>(response, ChatResponseSchema);
   if (!result.success) {
-    throw new Error("Failed to build a valid response: " + result.error);
+    throw new Error("Invalid chat response: " + result.error);
   }
-  return JSON.stringify(result.data);
+  return result.data;
 }
 
-function createResponse(content: string): WsResponsePayload {
-  return { success: true, message: { role: "assistant", content } };
-}
-
-function createErrorResponse(message: string): WsResponsePayload {
-  return {
-    success: false, message
-  };
-}
-
-async function receiveMessage(input: WsRequestPayload): Promise<WsResponsePayload> {
-  const messages = input.history.concat(input.message);
-
-  try {
-    const response = await chat(messages);
-    return createResponse(response);
-  } catch (err) {
-    throw new Error("The assistant hit an error. Try again.");
+export function validateChatRequest(request: unknown): ChatRequest {
+  const result = validate<ChatRequest>(request, ChatRequestSchema);
+  if (!result.success) {
+    throw new Error("Invalid chat request: " + result.error);
   }
+  return result.data;
 }
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
-  app.get(
-    "/ws/chat",
-    { websocket: true, config: ROUTE_CONFIG },
-    (socket) => {
-      socket.on("message", async (raw: Buffer) => {
-        try {
-          const parsed = parseIncomingMessage(raw);
-          if (!parsed) {
-            socket.send(serializeResponse(createErrorResponse("Invalid request format")));
-            return;
-          }
-
-          const response = await receiveMessage(parsed);
-          socket.send(serializeResponse(response));
-
-        } catch (err) {
-          const errorMessage = err instanceof Error ? err.message : "Internal server error.";
-          app.log.error("Error processing message: " + errorMessage);
-          socket.send(serializeResponse(createErrorResponse(errorMessage)));
-        }
-      });
+  app.post("/chat", { config: ROUTE_CONFIG }, async (request, reply) => {
+    let body: ChatRequest;
+    try {
+      body = validateChatRequest(request.body);
+    } catch (e) {
+      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
     }
-  );
+
+    const history = session.get(body.sessionId);
+    if (!history) {
+      return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
+    }
+
+    const messages = [...history, createUserMessage(body.message)];
+
+    reply.hijack();
+    const res = reply.raw;
+    res.writeHead(200, {
+      "Content-Type": "text/event-stream",
+      "Cache-Control": "no-cache",
+      Connection: "keep-alive",
+      "Access-Control-Allow-Origin": process.env.CLIENT_ORIGIN as string,
+      Vary: "Origin",
+    });
+
+    const controller = new AbortController();
+    res.on("close", () => controller.abort());
+
+    const send = (event: ChatResponse) =>
+      res.write(`data: ${JSON.stringify(validateChatResponse(event))}\n\n`);
+
+    try {
+      const text = await ai.chatStream(messages, {
+        signal: controller.signal,
+        onmessage: (delta) => send(createDeltaResponse(delta)),
+        onerror: (message) => send(createErrorStreamResponse(message)),
+      });
+      session.set(body.sessionId, [...messages, createAssistantMessage(text)]);
+      send(createDoneResponse());
+    } catch (e) {
+      if (!controller.signal.aborted) {
+        request.log.error(e);
+      }
+    } finally {
+      res.end();
+    }
+  });
 }

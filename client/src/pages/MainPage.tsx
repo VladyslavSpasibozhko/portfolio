@@ -1,4 +1,4 @@
-import type { JourneyData } from "@types";
+import type { JourneyData } from "@global-types/journey";
 import { JourneySlide } from "@components/features/journey/JourneySlide";
 import journeyData from "@data/journey.json";
 

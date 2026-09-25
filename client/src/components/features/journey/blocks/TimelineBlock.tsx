@@ -1,4 +1,4 @@
-import type { JourneyTimelineBlock } from "@types";
+import type { JourneyTimelineBlock } from "@global-types/journey";
 import { Timeline } from "@components/molecules/Timeline";
 import { BlockHeading } from "../BlockHeading";
 

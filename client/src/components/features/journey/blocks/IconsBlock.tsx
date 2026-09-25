@@ -1,4 +1,4 @@
-import type { JourneyIconsBlock } from "@types";
+import type { JourneyIconsBlock } from "@global-types/journey";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
 import { Icon, isIconName } from "@components/atoms/Icon";

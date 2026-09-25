@@ -1,4 +1,4 @@
-import type { JourneySection as JourneySectionData } from "@types";
+import type { JourneySection as JourneySectionData } from "@global-types/journey";
 import { Typography } from "@components/atoms/Typography";
 import { Link } from "@components/atoms/Link";
 import { Icon, isIconName } from "@components/atoms/Icon";

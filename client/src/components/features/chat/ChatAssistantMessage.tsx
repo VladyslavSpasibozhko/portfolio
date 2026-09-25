@@ -1,20 +1,18 @@
-import { Typography } from "@components/atoms/Typography";
 import { Markdown } from "@components/molecules/Markdown";
 
 interface ChatAssistantMessageProps {
   content: string;
-  username: string;
   className?: string;
 }
 
-export function ChatAssistantMessage({ content, username, className = "" }: ChatAssistantMessageProps) {
+export function ChatAssistantMessage({
+  content,
+  className = "",
+}: ChatAssistantMessageProps) {
   return (
-    <div className={`flex gap-8 ${className}`}>
+    <div className={`flex gap-8 justify-self-start ${className}`}>
       <div className="flex-1">
-        <Typography tag="span" className="block mb-4">
-          {username}
-        </Typography>
-        <div className="border backdrop-blur-sm px-16 py-8 rounded-lg">
+        <div className="px-16 py-8 border border-border-strong rounded-lg text-white bg-background-900">
           <Markdown content={content} />
         </div>
       </div>

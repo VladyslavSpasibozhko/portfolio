@@ -1,4 +1,4 @@
-import type { JourneyBranchBlock } from "@types";
+import type { JourneyBranchBlock } from "@global-types/journey";
 import { BranchDiagram } from "../diagram/BranchDiagram";
 import { BlockHeading } from "../BlockHeading";
 

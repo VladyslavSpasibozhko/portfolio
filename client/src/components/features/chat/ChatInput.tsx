@@ -1,24 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IconButton } from "@components/molecules/IconButton";
 import { Textarea } from "@components/atoms/Textarea";
+import { useChatWindowContext } from "./context/ChatWindowContext";
+import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
 
-interface ChatInputProps {
-  onSendMessage: (message: string) => void;
-  disabled?: boolean;
-}
-
-export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
+export function ChatInput() {
   const [input, setInput] = useState("");
+  const { sendMessage, statusEmitter } = useChatWindowContext();
+  const [isDisabled, setIsDisabled] = useState(false);
 
   const submit = () => {
     if (!input.trim()) return;
 
-    onSendMessage(input);
+    sendMessage(input);
     setInput("");
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log("hello");
     e.preventDefault();
     submit();
   };
@@ -30,29 +28,41 @@ export function ChatInput({ onSendMessage, disabled = false }: ChatInputProps) {
     }
   };
 
+  useEffect(() => {
+    const handleChange = (event: Event) => {
+      const status = (event as StatusChangeEvent).detail;
+      const statuses: StreamStatus[] = ["generating", "waiting"];
+      setIsDisabled(statuses.includes(status));
+    };
+
+    statusEmitter.addEventListener("change", handleChange);
+    return () => statusEmitter.removeEventListener("change", handleChange);
+  }, [statusEmitter]);
+
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex items-end gap-8 p-16"
+      className="flex items-end gap-8 p-12 sm:p-16 border-t border-border-focus"
     >
       <Textarea
         name="chat_message"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleEnterKeyDown}
-        disabled={disabled}
+        disabled={isDisabled}
         placeholder="Type a message..."
-        className="flex-1"
+        className="flex-1 min-w-0"
         autoResize
         autoFocus
         maxHeight={200}
       />
       <IconButton
         icon="send"
-        variant="ghost"
+        variant="primary"
         size="xl"
         type="submit"
-        disabled={disabled || !input.trim()}
+        className="shrink-0 !p-0 h-50 w-50"
+        disabled={isDisabled || !input.trim()}
         aria-label="Send message"
       />
     </form>

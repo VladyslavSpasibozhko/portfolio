@@ -354,34 +354,50 @@
     ]
   },
   {
-    "id": "workjam-android-webview",
+    "id": "workjam-ai-editor",
     "index": "11",
     "title": "WorkJam · Case Study",
-    "tagline": "Chat inside the Android app",
+    "eyebrow": "AI in the Rich Text Editor",
+    "tagline": "Help people write, right where they write.",
     "blocks": [
       {
         "type": "text",
         "paragraphs": [
-          "Frontline workers use chat all day — between tasks, on a phone, often standing up. It had to open instantly, scroll smoothly, record a voice message and send a photo exactly like the rest of the Android app. If it felt slower or thinner than what they already had, they'd simply stop using it.",
-          "Chat couldn't be built into the app natively, so it had to run as a web page inside it. That's the part users usually notice — a web page inside an app tends to feel like one. This one couldn't."
+          "The rich text editor is one shared component behind documents, posts and comments across the platform. Writing good content in it takes time, so I added an AI assistant directly inside it — the way Jira helps you write a task.",
+          "The model sees the full post. People pick a quick action or describe exactly what they need in their own words."
         ]
       },
       {
-        "type": "steps",
-        "heading": "How I approached it",
-        "steps": [
-          { "label": "Learned how the Android app actually worked, before writing anything" },
-          { "label": "Agreed with the Android team how the two halves would talk" },
-          { "label": "Built one bridge instead of a special case per feature", "tone": "accent" },
-          { "label": "Gave the web chat the phone's camera, microphone and files" },
-          { "label": "Carried the login across, so nobody signs in twice" },
-          { "label": "Tested on real devices, then shipped", "tone": "result" }
+        "type": "cards",
+        "heading": "What it brings",
+        "columns": 2,
+        "cards": [
+          {
+            "icon": "user",
+            "title": "Faster writing",
+            "description": "A rough draft becomes a polished post in seconds, without leaving the editor."
+          },
+          {
+            "icon": "layers",
+            "title": "One place, everywhere",
+            "description": "The editor is shared, so documents, posts and comments all get the assistant at once."
+          },
+          {
+            "icon": "calendar-cursor",
+            "title": "Answers appear as they're written",
+            "description": "The text streams in and shows up immediately, so nobody waits on a blank screen."
+          },
+          {
+            "icon": "lock-module",
+            "title": "Ready to use",
+            "description": "The output arrives already styled, so there's nothing to reformat."
+          }
         ]
       },
       {
         "type": "callout",
         "icon": "layers",
-        "text": "Chat records, sends and shares like everything else in the app — and nobody logs in twice."
+        "text": "One shared editor, one AI assistant — and every place people write gets it."
       }
     ]
   },

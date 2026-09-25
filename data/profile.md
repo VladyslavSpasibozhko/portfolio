@@ -2,6 +2,10 @@
 
 _This document covers background, work history, use cases, and thinking as a developer. It is not tied to any specific target company — questions about a particular company should be answered directly, not from this file._
 
+> **Headline:** Senior Frontend Engineer | React, Next.js, TypeScript | Micro-frontends & Design Systems | AI-powered product features
+>
+> Frontend-focused, working across the stack (Node.js, LLM APIs, streaming).
+
 ---
 
 ## Basic Information
@@ -10,13 +14,12 @@ _This document covers background, work history, use cases, and thinking as a dev
 - **LinkedIn:** linkedin.com/in/vladspasibozhko
 - **Role:** Senior Frontend Engineer, 7+ years of experience
 - **Location:** Wrocław, Poland (works remotely)
-- **Core stack:** React, Next.js, TypeScript, GraphQL/Apollo, MobX, Redux, WebSockets, Claude SDK/AI integrations
-- **Expertise:** Micro-frontend architecture, monorepos
+- **Core stack:** React, Next.js, TypeScript, GraphQL/Apollo, MobX, Redux, WebSockets
+- **AI:** LLM features in production (Gemini, SSE streaming, Markdown rendering), AI-automated dev workflows, Claude SDK / Anthropic API
+- **Backend:** Node.js (Express, Nest.js), PostgreSQL, SSE — frontend-focused, working across the stack
+- **Specialist areas:** Micro-frontend architecture, monorepos (Nx, Lerna, pnpm), design systems & shared component libraries (Storybook), performance of high-load modules, real-time UIs (WebSockets)
 - **Business setup:** Operates a Polish sole proprietorship (JDG) for over two years
 - **Education:** Bachelor's Degree in Management and Administration, National University of Food Technologies (2018), GPA 4.5
-- **Courses & Certifications:**
-  - JavaScript Advanced, React.js — IT Education Academy (March–May 2019)
-  - Front-End Jedi Course — Forte Group (July 2020)
 - **Languages:** Ukrainian (native), English (upper-intermediate)
 - **Work authorization:** Temporary residence in Poland, valid until 2028; covers roles applied for; authorization tied to Polish JDG (B2B without sponsorship). For employment-based roles, would need to confirm compatibility with the residence permit.
 - **Notice period:** None — available to start immediately
@@ -32,37 +35,51 @@ _This document covers background, work history, use cases, and thinking as a dev
 
 ---
 
+## Senior / Staff Signals (summary)
+
+- **Architecture decisions:** Micro-frontend strategy (React inside legacy Angular) in a 5-app monorepo; per-entity modular architecture at REMED; single shared libraries for feature flags and MS Teams instead of 5 separate implementations.
+- **Migration ownership:** Proposed and led a zero-downtime migration of platform-wide feature flags (3 flag systems → 1) for a product used by ~3M people.
+- **Scope pushback with data:** Replaced a 10-day date-picker rewrite with a 3-day extension of the legacy picker (~70% less time); client approved.
+- **Mentoring:** Ran near-weekly deep-dive sessions for junior engineers at REMED (Redux Saga, Tailwind, etc.); go-to person for "why", not just "how".
+- **Code review:** Structured review process (context → structure → contracts → state → risks → tests); feedback as questions; separates blockers from nitpicks.
+- **Recognition:** Named a top performer on a ~20-person frontend team at WorkJam.
+
+---
+
 ## Work History
 
 ### WorkJam — Senior Frontend Engineer
 
 **March 2024 – July 2026 | Kraków, Poland (Remote) | 2 years 5 months**
 
-Leading Frontline AI platform for task management, scheduling, and communication for deskless workforces across retail, hospitality, manufacturing, and healthcare. Served enterprise clients in 38 countries with 50+ languages support. Complex monorepo (Nx, Lerna, pnpm) with two legacy Angular apps and a modern Next.js application, sharing reusable component libraries across all products.
+Frontline AI platform for task management, scheduling, and communication for deskless workforces (retail, hospitality, manufacturing, healthcare). ~3M users, enterprise clients in 38 countries, 50+ languages. Monorepo (Nx, Lerna, pnpm) with 2 legacy Angular apps + 1 Next.js app — 4 module apps and 1 unified app — sharing reusable component libraries. ~20-person frontend team.
 
-**Responsibilities:**
+**Key Outcomes:**
 
-- Managed micro-frontend architecture with React modules injected into legacy Angular applications
-- Refactored critical feature flag management library used across the entire platform
-- Web app integration into Android via WebView
-- Integrations with Microsoft Teams and an AI-powered chatbot
-- Developed new features and maintained functionality across legacy and modern codebases
-- Active code review and agile ceremonies
-- Recognized internally as top performer on the team
+- **AI:** Built an AI writing assistant (Gemini) into the platform's shared rich text editor — one integration shipped AI to every documents, posts and comments surface at once; streamed via SSE with live Markdown rendering.
+- **AI:** Designed an AI-automated translations workflow (JSON keys → one command → generation for 50+ languages → PR with ticket link and description), cutting the process from ~5 hours to ~1 hour (~80% less).
+- Proposed and led a zero-downtime migration of platform-wide feature flags from LaunchDarkly/Flagr to Harness FME across all 5 apps — 3 systems ran in parallel, 1 month of production monitoring, then legacy removed. No incidents, no rollbacks.
+- Built a shared Microsoft Teams integration library used by all 5 apps (4 module + 1 unified), replacing 5 separate implementations and solving cross-app navigation with preserved context.
+- Integrated the web chat module into the native Android app via WebView under Google's 4KB page size limit — silent auth (no login screen) and a native bridge for camera, video recording and screenshots.
+- Maintained the micro-frontend architecture injecting React modules into 2 legacy Angular apps, so new features shipped without a rewrite.
+- **Design system:** Contributed to shared component libraries documented in Storybook and reused across all products in the monorepo.
+- Refactored the Two Weeks View calendar into shared components for a new Agenda View: delivered in 10 days vs 15 planned, zero bugs from QA or production.
+- Pushed back on bundled scope for a date-picker/calendar epic: extended the legacy picker in 3 days instead of a 10-day rewrite.
+- Active code reviewer and agile ceremony participant; recognized internally as a top performer on the ~20-person team.
 
-**Tech Stack:** React, Next.js, Angular, Redux (Thunk, Saga), MobX, GraphQL, Tailwind CSS, Storybook, Jest, Nx, Lerna, pnpm
+**Tech Stack:** React, Next.js, Angular, TypeScript, Redux (Thunk, Saga), MobX, GraphQL, Tailwind CSS, Storybook, Jest, Nx, Lerna, pnpm, SSE, Gemini
 
 **Use Cases:**
 
-_Feature Flag Management Library Migration to Harness FME_ — The platform originally used LaunchDarkly and Flagr (legacy tech debt) for feature flags, with Flagr being the most heavily used. To modernize the infrastructure, the team migrated to Harness Feature Management Engine. The process involved: creating a feature flag in Harness to enable the migration, implementing Harness initialization across the platform, allowing all companies to use Harness instead of LaunchDarkly, gathering errors and edge cases for one month in production, iterating on improvements, and finally removing LaunchDarkly and Flagr completely. Successfully completed a zero-downtime migration with no service disruption.
+_AI Content Assistant in Rich Text Editor_ — The platform's rich text editor is a shared component used to create documents, posts, comments, and other content. It supports text formatting and styling, links, and embedding images, files, and video. To simplify content creation, integrated an AI assistant into the editor, with Gemini as the primary model, similar to how the AI assistant works in Jira for task creation. The full content of the post is passed to the model, and the user can pick a quick action (simplify, make shorter, make more polite, etc.) or write a custom prompt. Implemented streaming with Server-Sent Events (SSE): the client keeps an open connection with the server, receives generated content in chunks, and renders it immediately. The model returns Markdown, so the output is displayed with styling applied automatically. Because the editor is shared, every writing surface got the feature from one integration.
 
-_Shareable Microsoft Teams Integration Library_ — Created a reusable library to standardize Microsoft Teams integration across the platform. The library provides methods to receive context from MS Teams and centralizes configuration for all integrated applications. The platform consists of 4 module applications and 1 unified application. A key complexity was handling navigation between module apps — when users click a link in Teams, the system needs to open a new app instance, not just navigate to a page. Implemented cross-app navigation logic that maintains context and state when switching between modules within the Teams environment.
+_AI-Automated Translations Workflow_ — Three main repositories: the main application, translations, and analytics. Translations and analytics were shared across all front-end platforms (web, iOS, Android). The original process was manual: update a CSV with new keys, run a script to generate files for all languages, create a PR, get it reviewed and merged, then update the package version. With the AI workflow, the developer defines the required translations in a JSON file (key–value pairs) and runs a single AI command, which runs the generation script for all languages and creates a PR with the ticket link and a description. After merge, the package version is updated manually. Reduced the process from ~5 hours to ~1 hour.
 
-_Cross-Platform Android WebView Integration_ — Integrated a web chat module into the Android native app while handling significant constraints. Google's requirements limit Android apps to a 4KB page size, making it impossible to load the external module directly due to size limitations. Solution: render the chat module using WebView to keep the native app lightweight. The complexity involved ensuring a seamless user experience: users logged into the native app automatically authenticate in the web chat (no auth screens shown), and the web chat module had to support all Android app features including video recording and screenshot functionality. Implemented by extending the global window object with methods that allow internal Android APIs to access the camera and receive responses, creating a bridge between native Android capabilities and the web chat module.
+_Feature Flag Migration to Harness FME_ — The platform used LaunchDarkly and Flagr (legacy tech debt, Flagr most heavily used) through one shared library at the centre of the platform. Proposed the move and researched its real cost. Steps: created a Harness flag to gate the migration, implemented Harness initialization across all apps (3 systems running at once), covered affected pages with automated tests, rolled out via QA → staging → a handful of real companies → all companies, collected errors and edge cases for one month in production, iterated, then removed LaunchDarkly and Flagr. Zero downtime, no incidents, no rollbacks.
 
-_AI Content Assistant in Rich Text Editor_ — The platform's rich text editor is a shared component used to create documents, posts, comments, and other content. It supports text formatting and styling, links, and embedding images, files, and video. To simplify content creation, integrated an AI assistant into the editor, with Gemini as the primary model, similar to how the AI assistant works in Jira for task creation. The full content of the post is passed to the model, and the user can pick a quick action (simplify, make shorter, make more polite, etc.) or write a custom prompt describing their needs and requirements. Implemented streaming with Server-Sent Events (SSE): the client keeps an open connection with the server, receives generated content in chunks, and renders it immediately as it arrives. The model returns Markdown, so the output is displayed with styling applied automatically.
+_Shareable Microsoft Teams Integration Library_ — Created a reusable library to standardize MS Teams integration: methods to receive Teams context (user, company) and centralized configuration for all apps. The platform has 4 module apps and 1 unified app. Key complexity: when a user clicks a link in Teams, the system must open a new app instance, not just navigate to a page. Implemented cross-app navigation that preserves context and state between modules inside Teams.
 
-_AI-Automated Translations Workflow_ — The company had three main repositories: the main application, translations, and analytics. Translations and analytics were shared across all front-end platforms (web, iOS, and Android). The original translation process was manual: update a CSV file with new keys and translations, run a script to generate files for all supported languages, create a PR, get it reviewed and merged, then update the package version. With the AI workflow, the developer builds the feature, defines the required translations in a JSON file (key–value pairs), and runs a single AI command. The command picks up the file, runs the generation script for all languages, and creates a PR with the ticket link and a description. Once the PR is approved and merged, the package version is updated manually and the translations are used in the feature. Reduced the process from about 5 hours to 1 hour.
+_Cross-Platform Android WebView Integration_ — Google's 4KB page size requirement made loading the external chat module directly impossible. Rendered it in a WebView to keep the native app lightweight. Users logged into the native app are authenticated in the web chat automatically (no auth screens), and the chat supports all app features including video recording and screenshots — implemented by extending the global window object with methods that let internal Android APIs access the camera and return results, creating a native ↔ web bridge.
 
 **Reason for Leaving:** Company-wide layoff, not a performance issue. The team worked in an outstaffing format; one of the company's biggest clients left, and the company no longer had enough resources to keep the team. Managers, developers, product owners, and product managers were all genuinely happy with the team's work — performance was rated highly, and nobody wanted to let the team go.
 
@@ -72,30 +89,31 @@ _AI-Automated Translations Workflow_ — The company had three main repositories
 
 **December 2021 – August 2024 | Kyiv, Ukraine (Remote) | 2 years 9 months**
 
-Healthcare CRM system with integration into Ukraine's national eHealth system and Helsi medical platform. Helsi is Ukraine's largest medical information system, integrated with the national electronic healthcare system eHealth. Key features: patient management/CRM, EHR integration, appointment scheduling, medical documentation, integration with national healthcare systems.
+Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi — Ukraine's largest medical information system, connected to the national eHealth system (Helsi serves 24M Ukrainians, 1,300+ clinics, 37,000+ doctors).
 
-**Responsibilities:**
+**Key Outcomes:**
 
-- Owned and maintained the most high-loaded modules in the platform
-- Built modular architecture with services, components, data storage, and API layers organized per business entity
-- Implemented comprehensive E2E testing strategy with Cypress
-- Integrated advanced token refresh mechanism across all API clients
-- Integrated with Helsi (Ukraine's national e-health system)
-- Mentored junior engineers on the team — ran almost weekly deep-dive sessions on a chosen technology (e.g. Redux Saga, Tailwind); was the go-to person for explaining why and how something should be done
+- Owned the 3 most high-loaded, business-critical modules — Doctor Workplace, Cashier Workplace, Calendar System — used by doctors every hour of the working day.
+- Designed a per-entity modular architecture (services, components, data storage, API layers) so changes in one domain didn't ripple into others.
+- Refactored and optimized the most demanding modules, improving performance and reducing API requests.
+- Introduced Cypress E2E testing where unit/integration tests weren't practical; covered the most high-loaded pages and critical flows (e.g. booking a visit).
+- Built a coordinated token-refresh mechanism across all API clients: one refresh call, queued requests, auto-logout on failure — no duplicate refreshes.
+- Migrated local dev build from Webpack to Vite, cutting build time by ~10 seconds.
+- Implemented Sentry for real-time error tracking, replacing manual user error reports.
+- Mentored junior engineers: ran near-weekly deep-dive sessions on a chosen technology (Redux Saga, Tailwind, etc.) and was the go-to person for "why and how".
+- Resolved recurring frontend/backend API contract disputes by bringing design into the discussion, so all three sides agreed on one trade-off.
 
-**Module Ownership:** Doctor Workplace, Cashier Workplace, Calendar System
-
-**Tech Stack:** React.js, MobX, TypeScript, Cypress, Jest, Vite, Sentry
+**Tech Stack:** React.js, MobX, TypeScript, Cypress, Jest, Vite, Sentry, PWA
 
 **Use Cases:**
 
-_Module Ownership — Doctor Workplace, Cashier Workplace, and Calendar System_ — Owned the most high-loaded and critical modules of the CRM system. The Doctor Workplace and Cashier Workplace modules handled core business operations. The Calendar system managed doctor availability and appointment scheduling — allowing patients to view each doctor's calendar, create appointments, and manage doctor availability and patient data. This required careful architecture to handle high traffic and complex user interactions.
+_Module Ownership — Doctor Workplace, Cashier Workplace, and Calendar System_ — Owned the most high-loaded and critical modules of the CRM. Doctor and Cashier Workplaces handled core business operations. The Calendar managed doctor availability and scheduling — patients view each doctor's calendar and create appointments; staff manage availability and patient data. Required careful architecture for high traffic and complex interactions.
 
-_Cypress E2E Testing Integration_ — Due to architectural specifics of the platform, traditional unit and integration tests were difficult to implement effectively. Implemented Cypress as the E2E testing framework and integrated it into the development pipeline. Achieved comprehensive test coverage of the most high-loaded and demanded pages, ensuring stability and reliability of critical user workflows.
+_Cypress E2E Testing Integration_ — The platform's architecture made unit and integration tests hard to apply effectively. Introduced Cypress and integrated it into the development pipeline, covering the most high-loaded and demanded pages and critical user workflows.
 
-_Refresh Token Implementation with Request Interceptors_ — Implemented an advanced token refresh mechanism to handle token expiration. Each service in the platform has an extended ApiClient, creating a service-to-API client relationship. The challenge was coordinating token refresh across multiple clients — when a token is about to expire, make a refresh call while ensuring all subsequent requests from other clients wait until the refresh completes. Solution involved adding interceptors to the ApiClient: the refresh interceptor makes the token refresh call, waits for the response, and if successful passes arguments to subsequent requests; if it fails, aborts all subsequent requests and logs out the user. This ensures seamless token management without duplicate refresh calls.
+_Refresh Token Implementation with Request Interceptors_ — Each service has an extended ApiClient (service ↔ API client relationship). Challenge: coordinate refresh across many clients so that when a token is about to expire, one refresh call happens and all other requests wait. Solution: a refresh interceptor makes the call, waits for the response, and on success passes arguments to queued requests; on failure aborts them and logs the user out.
 
-**Reason for Leaving:** Had learned the project in deep detail and got an opportunity to work on an even bigger project. Also moved to Poland and needed legal work documentation there — the new position (WorkJam) was based in Poland, which is why the JDG (sole proprietorship) was opened.
+**Reason for Leaving:** Had learned the project in deep detail and got an opportunity to work on an even bigger project. Also moved to Poland and needed legal work documentation there — the new position (WorkJam) was based in Poland, which is why the JDG was opened.
 
 ---
 
@@ -103,21 +121,16 @@ _Refresh Token Implementation with Request Interceptors_ — Implemented an adva
 
 **October 2020 – December 2021 | Kyiv, Ukraine | 1 year 3 months**
 
-DataMix designs and builds complex web and ML/AI applications with a dedicated Ukrainian team, specializing in taking projects from MVP to enterprise scale. 6 years in business (founded 2017), 3 offices worldwide, 85+ projects completed, 45+ middle+ and senior experts. Services include custom web application development, design sprints, ML/AI development, technical audits, and cybersecure development. Outsourcing company working across multiple projects simultaneously.
+Outsourcing company building web and ML/AI applications from MVP to enterprise scale (85+ projects, 45+ middle+/senior experts, 3 offices).
 
-**Career Progression:**
+**Key Outcomes:**
 
-- Progressed from junior to strong mid-level engineer within 1.5 years, gaining diverse experience across different product domains and architectures
-- Worked across multiple high-load projects concurrently
-- Took ownership of core development responsibilities on multiple initiatives
+- Sole frontend developer on an Instagram-like social network: took it from an empty repo to MVP in 6 months — architecture, animations, multi-directional slider, efficient data fetching under heavy load.
+- Core developer on a high-load investment matching marketplace (investors ↔ investees) with complex data calculations.
+- Key contributor to architecture design on the business automation platform.
+- Grew from junior to strong mid-level in ~1.5 years while working on multiple projects in parallel.
 
 **Tech Stack:** React.js, Redux, Redux-Saga, MobX, GraphQL, React Testing Library, Jest, Firebase
-
-**Use Cases:**
-
-_Investment Matching Platform_ — Core developer on this high-load two-sided marketplace connecting investors and investees with complex data calculations. Worked on critical features handling real-time market data and user matching algorithms.
-
-_Social Network (Instagram-like Web App)_ — Sole frontend developer, built the complete application from scratch to MVP within 6 months. Wide responsibilities spanning from architectural decisions to implementation and styling. Delivered smooth UX with fluid animations, a multi-directional slider, and efficient data fetching under heavy load. Managed the entire frontend lifecycle independently — from technical planning through deployment.
 
 **Reason for Leaving:** Realized he was no longer junior-level and wanted to move beyond implementing features toward architecture and module ownership. Salary disagreements also contributed.
 
@@ -127,62 +140,49 @@ _Social Network (Instagram-like Web App)_ — Sole frontend developer, built the
 
 **April 2019 – October 2020 | Kyiv, Ukraine | 1 year 7 months**
 
-Real-time betting platform featuring a high-frequency dashboard displaying live sports events with continuous data updates.
-
-**Responsibilities:**
-
-- Built and maintained UI components for the live betting dashboard with real-time data updates
-- Implemented WebSockets for live event streaming to keep the UI in sync with ongoing match events
-- Gained strong foundational experience in React, Redux, and vanilla JavaScript
+- Built UI for a real-time sports betting dashboard with WebSocket streaming, keeping high-frequency live data in sync — foundation in React, Redux and vanilla JS.
 
 **Tech Stack:** React.js, Redux, JavaScript, WebSockets
 
-**Reason for Leaving:** Wanted to grow further as a frontend developer, gain more hands-on practice, and work across different kinds of projects. DataMix (an outsourcing company) felt like the right next step.
+**Reason for Leaving:** Wanted to grow faster and work across different kinds of projects; DataMix (outsourcing) was the right next step.
+
+---
+
+## Projects
+
+### Portfolio AI Assistant (personal, 2026)
+
+Portfolio app with a Node.js server and a chat assistant built on the Anthropic SDK (Claude). The assistant answers recruiters' questions about the candidate using a structured background file as its source of truth. Testing uses a dual-AI setup: one model answers as the assistant, a second plays the test user — asking questions and evaluating answers for accuracy and consistency.
+
+**Stack:** Node.js, Anthropic SDK (Claude), TypeScript
+
+### Other side projects
+
+- Natal chart web app with AI-generated readings.
+- Job matcher SPA — interactive extended CV with job matching and chat.
+- Clean architecture / DDD exploration project.
 
 ---
 
 ## Key Architectural Decisions & Patterns
 
-- **Monorepo Architecture (WorkJam):** Managed complex monorepo with Nx/Lerna/pnpm across legacy Angular apps + modern Next.js; established micro-frontend strategy for injecting React modules into Angular systems.
-- **Modular Service Architecture (REMED):** Clear separation of services, components, data storage, and API layers per business entity; robust token refresh with interceptors across multiple API clients.
-- **Feature Flag Abstraction (WorkJam):** Standardized feature flag management library; zero-downtime migration from multiple legacy systems to Harness FME.
-- **Real-Time Data Patterns (Capital Holding):** WebSocket implementation and real-time synchronization for high-frequency trading dashboards.
+- **Monorepo & Micro-frontends (WorkJam):** Nx/Lerna/pnpm monorepo with 5 apps across legacy Angular and modern Next.js; React modules injected into Angular so the product moved forward without a rewrite.
+- **Shared Libraries over Duplication (WorkJam):** One feature flag library and one MS Teams library consumed by all apps instead of per-app solutions.
+- **Modular Service Architecture (REMED):** Services, components, data storage, and API layers per business entity; coordinated token refresh via interceptors across multiple API clients.
+- **Streaming AI UX (WorkJam):** SSE streaming with incremental Markdown rendering so users never wait on a blank screen.
+- **Real-Time Data (Capital Holding):** WebSocket streaming for high-frequency live dashboards.
 
 ---
 
-## Soft Skills
+## Soft Skills (with evidence)
 
-**Leadership & Team Collaboration**
-
-- Worked within large-scale team dynamics (20-person frontend team at WorkJam)
-- Experience across different organizational sizes (solo projects to enterprise teams) indicates adaptability to various team structures
-
-**Communication & Clarity**
-
-- Working remotely across distributed teams requires clear async communication
-- Building complex systems (micro-frontends, monorepos) suggests the ability to explain technical concepts to stakeholders and peers
-- Job searching in multiple contexts (different markets, LinkedIn presence) shows self-promotion and articulation skills
-
-**Entrepreneurship & Self-Direction**
-
-- Running a Polish JDG sole proprietorship for 2+ years demonstrates initiative, business acumen, and independent problem-solving
-- Multiple simultaneous side projects (natal card app, job matcher SPA, clean architecture exploration) shows the ability to self-motivate and juggle priorities
-
-**Adaptability & Learning Agility**
-
-- Worked across diverse domains: fintech (Capital Holding), social networks (DataMix), healthcare (REMED), enterprise workforce (WorkJam)
-- Continuous stack evolution (React, Next.js, GraphQL, MobX, Redux, WebSockets, AI integrations) indicates openness to learning
-- Successfully transitioned from IC to contributing to larger team efforts
-
-**Problem-Solving & Initiative**
-
-- Built production systems solo (DataMix MVP) and at scale
-- Designing micro-frontend architecture and complex distributed systems suggests strategic thinking
-- Proactively developing skills (AI integrations, architecture principles)
-
-**Resilience & Persistence**
-
-- Navigating career transitions, maintaining business while employed, active job search with strategic projects
+- **Communicating trade-offs to non-technical people:** Explained to a PO that building the Agenda View separately would double future maintenance and bundle size; refactor-first cost 5–7 extra days. PO approved.
+- **Pushing back with data:** Estimated a date-picker rewrite at ~10 days and proposed a 3-day alternative; the client was happy with the result.
+- **Mentoring:** Near-weekly technology deep dives for juniors at REMED.
+- **Cross-functional conflict resolution:** Brought backend, frontend, and design together to settle API contract disagreements at REMED.
+- **Ownership under ambiguity:** First WorkJam epic (MS Teams integration) had little documentation and a hard local setup; delivered it correctly, then discussed the timeline openly with the team lead in a 1:1.
+- **Self-direction:** Runs a JDG for 2+ years; builds side projects in parallel with full-time work.
+- **Adaptability:** Four domains — betting/fintech, social, healthcare, enterprise workforce.
 
 ---
 
@@ -277,8 +277,6 @@ Mainly a lack of trust and respect: people afraid to raise concerns, mistakes bl
 Autonomy and clear module ownership, no micromanagement. A 1:1 every two weeks works well, with more frequent contact when blocked or something important comes up. Wants visibility into priorities, not constant status updates. Values a manager who listens, gives constructive feedback, and supports growth.
 
 ### Success After 6 Months
-
-Three points:
 
 1. **Technical ownership** — clear ownership of a module/area, shipping at least one meaningful feature/improvement mostly independently.
 2. **Team integration and trust** — team lead/colleagues trusting his technical judgment (estimates hold up, reviews are useful, brought hard problems).

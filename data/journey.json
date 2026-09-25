@@ -11,7 +11,7 @@
       {
         "type": "text",
         "paragraphs": [
-          "Over 7+ years, I've worked across fintech, social platforms, healthcare, and enterprise workforce management.",
+          "7 years, I've worked across fintech, social platforms, healthcare, and enterprise workforce management.",
           "This isn't my CV. It's the story of the problems that changed how I think, in about 5 minutes. I want to show how I grew as an engineer — from learning the fundamentals of JavaScript and React, to owning critical modules, making architectural decisions, working with large-scale systems, and thinking about stability and users."
         ]
       },
@@ -94,7 +94,7 @@
       {
         "type": "text",
         "paragraphs": [
-          "My first outsourced experience. Instead of staying on one product, I worked across different projects, domains and requirements — and grew from junior to a strong mid-level engineer in about a year and a half.",
+          "My first outsourced experience. Instead of staying on one product, I worked across different projects, domains and requirements — and grew from junior to a strong mid-level engineer in just over a year.",
           "It was also the first place where I experienced a genuinely warm engineering environment. That mattered more than I expected."
         ]
       },
@@ -103,9 +103,18 @@
         "heading": "Multiple projects. Different domains.",
         "layout": "column",
         "badges": [
-          { "label": "Investment platform", "icon": "bar-chart-trend" },
-          { "label": "Social media platform", "icon": "camera" },
-          { "label": "Internal company products", "icon": "modular-book" }
+          {
+            "label": "Investment platform",
+            "icon": "bar-chart-trend"
+          },
+          {
+            "label": "Social media platform",
+            "icon": "camera"
+          },
+          {
+            "label": "Internal company products",
+            "icon": "modular-book"
+          }
         ]
       }
     ],
@@ -159,7 +168,7 @@
         "type": "text",
         "paragraphs": [
           "A healthcare CRM connecting doctors, clinics, laboratories and healthcare workflows with external healthcare systems.",
-          "It integrated with Helsi ( Ukraine's national eHealth system ), and contained some of the most heavily used modules I'd worked with up to that point."
+          "It integrated with Helsi (Ukraine's national eHealth system), and  contained some of the most heavily used modules I'd worked with up to that point."
         ]
       },
       {
@@ -167,13 +176,22 @@
         "heading": "Key features",
         "layout": "grid",
         "badges": [
-          { "label": "One place for every patient", "icon": "user" },
+          {
+            "label": "One place for every patient",
+            "icon": "user"
+          },
           {
             "label": "Connected to the country's health system",
             "icon": "shield-heart"
           },
-          { "label": "A doctor's day, scheduled", "icon": "calendar-cursor" },
-          { "label": "Paperwork that must be exact", "icon": "clipboard-check" }
+          {
+            "label": "A doctor's day, scheduled",
+            "icon": "calendar-cursor"
+          },
+          {
+            "label": "Paperwork that must be exact",
+            "icon": "clipboard-check"
+          }
         ]
       }
     ],
@@ -192,8 +210,8 @@
         "cards": [
           {
             "icon": "education",
-            "title": "A workspace for every role",
-            "description": "Four jobs, four workspaces: reception, the doctor's room, the laboratory and the cash desk — each built around how that person actually works."
+            "title": "The busiest screens in the clinic",
+            "description": "I owned the three most heavily used modules — the doctor's workplace, the cash desk and the scheduling calendar — screens doctors relied on every hour of the day."
           },
           {
             "icon": "layers",
@@ -203,7 +221,7 @@
           {
             "icon": "user",
             "title": "Mentoring",
-            "description": "Reviewing their code, pairing on problems, and answering 'why' rather than just 'how' — half of what I know well, I know because I had to explain it."
+            "description": "Near-weekly deep dives on a technology the team picked, like Redux Saga or Tailwind, plus code reviews and pairing — half of what I know well, I know because I had to explain it."
           },
           {
             "icon": "lock-module",
@@ -261,18 +279,33 @@
         "type": "steps",
         "heading": "How I ran it",
         "steps": [
-          { "label": "Proposed the move, then researched what it would really cost", "tone": "legacy" },
-          { "label": "Added the new system alongside the old two" },
-          { "label": "Three flag systems running at once", "tone": "accent" },
-          { "label": "Covered every affected page with automated tests" },
-          { "label": "QA, then staging, then a handful of real companies" },
-          { "label": "Watched production, then removed the old systems", "tone": "result" }
+          {
+            "label": "Proposed the move, then researched what it would really cost",
+            "tone": "legacy"
+          },
+          {
+            "label": "Added the new system alongside the old two"
+          },
+          {
+            "label": "Three flag systems running at once",
+            "tone": "accent"
+          },
+          {
+            "label": "Covered every affected page with automated tests"
+          },
+          {
+            "label": "QA, then staging, then a handful of real companies"
+          },
+          {
+            "label": "Watched production for a month, then removed the old systems",
+            "tone": "result"
+          }
         ]
       },
       {
         "type": "callout",
         "icon": "feature-flag",
-        "text": "Zero downtime. No incidents, no rollbacks. The old systems came out and nobody outside the team noticed."
+        "text": "Three flag systems became one. Zero downtime, no incidents, no rollbacks — and nobody outside the team noticed."
       }
     ]
   },
@@ -280,7 +313,7 @@
     "id": "workjam-agenda-calendar",
     "index": "09",
     "title": "WorkJam · Case Study",
-    "eyebrow": "Building a Calendar",
+    "eyebrow": "Two Calendar Requests",
     "blocks": [
       {
         "type": "cards",
@@ -309,11 +342,19 @@
         ]
       },
       {
+        "type": "text",
+        "paragraphs": [
+          "A product owner wanted to bundle two epics: a brand-new date picker and a calendar view built on top of it. I estimated the new picker at about 10 days and showed the numbers.",
+          "Instead, I proposed extending the existing date picker to match the new design. It shipped in 3 days instead of 10, and the client was happy with the result."
+        ]
+      },
+      {
         "type": "callout",
         "icon": "calendar-cursor",
         "text": "The important part wasn't writing code faster — it was solving the right problem."
       }
-    ]
+    ],
+    "tagline": "Twice, the smaller plan was the better plan."
   },
   {
     "id": "workjam-teams-integration",
@@ -330,20 +371,33 @@
       },
       {
         "type": "branch",
-        "source": { "label": "Microsoft Teams" },
+        "source": {
+          "label": "Microsoft Teams"
+        },
         "branches": [
-          { "label": "Module app" },
-          { "label": "Module app" },
-          { "label": "Module app" },
-          { "label": "Module app" }
+          {
+            "label": "Module app"
+          },
+          {
+            "label": "Module app"
+          },
+          {
+            "label": "Module app"
+          },
+          {
+            "label": "Module app"
+          }
         ],
-        "sink": { "label": "Unified App" }
+        "sink": {
+          "label": "Unified App"
+        }
       },
       {
         "type": "text",
         "paragraphs": [
           "Five applications had to behave like one product inside Microsoft Teams: four module apps, and the unified app that ties them together.",
-          "I built one shared place that holds everything Teams needs — the configuration, who the user is, which company they belong to — so every application reads it the same way instead of each team solving it again. Clean in one place, rather than copied five times."
+          "I built one shared place that holds everything Teams needs — the configuration, who the user is, which company they belong to — so every application reads it the same way instead of each team solving it again. Clean in one place, rather than copied five times.",
+          "The hardest part was moving between apps. Inside Teams, clicking a link couldn't just change the page — it had to open a different app while keeping who the user is and where they were. I built navigation between the apps that carries that context across."
         ]
       },
       {
@@ -354,16 +408,54 @@
     ]
   },
   {
-    "id": "workjam-ai-editor",
+    "id": "workjam-android-webview",
     "index": "11",
     "title": "WorkJam · Case Study",
-    "eyebrow": "AI in the Rich Text Editor",
+    "eyebrow": "Web Chat Inside the Android App",
+    "tagline": "One chat, two platforms, no second login.",
+    "blocks": [
+      {
+        "type": "text",
+        "paragraphs": [
+          "The Android app needed the platform's web chat, but Google's new 4KB page size requirement meant the chat module couldn't be loaded into the app directly.",
+          "I rendered it inside a WebView to keep the native app light, and built a bridge so the web chat and the Android app could talk to each other."
+        ]
+      },
+      {
+        "type": "cards",
+        "heading": "What it brings",
+        "columns": 2,
+        "cards": [
+          {
+            "icon": "lock-module",
+            "title": "Already signed in",
+            "description": "People logged into the app are logged into the chat automatically, with no second login screen."
+          },
+          {
+            "icon": "camera",
+            "title": "Native features from the web",
+            "description": "The web chat can open the phone's camera, record video and take screenshots through the bridge."
+          }
+        ]
+      },
+      {
+        "type": "callout",
+        "icon": "code",
+        "text": "Keep the native app light, and let the web do what it already does well."
+      }
+    ]
+  },
+  {
+    "id": "workjam-ai-editor",
+    "index": "12",
+    "title": "WorkJam · Case Study",
+    "eyebrow": "AI in the Product and in the Workflow",
     "tagline": "Help people write, right where they write.",
     "blocks": [
       {
         "type": "text",
         "paragraphs": [
-          "The rich text editor is one shared component behind documents, posts and comments across the platform. Writing good content in it takes time, so I added an AI assistant directly inside it — the way Jira helps you write a task.",
+          "The rich text editor is one shared component behind documents, posts and comments across the platform. Writing good content in it takes time, so I added an AI assistant (built on Gemini) directly inside it — the way Jira helps you write a task.",
           "The model sees the full post. People pick a quick action or describe exactly what they need in their own words."
         ]
       },
@@ -373,7 +465,7 @@
         "columns": 2,
         "cards": [
           {
-            "icon": "user",
+            "icon": "send",
             "title": "Faster writing",
             "description": "A rough draft becomes a polished post in seconds, without leaving the editor."
           },
@@ -383,27 +475,51 @@
             "description": "The editor is shared, so documents, posts and comments all get the assistant at once."
           },
           {
-            "icon": "calendar-cursor",
+            "icon": "terminal",
             "title": "Answers appear as they're written",
             "description": "The text streams in and shows up immediately, so nobody waits on a blank screen."
           },
           {
-            "icon": "lock-module",
+            "icon": "clipboard-check",
             "title": "Ready to use",
             "description": "The output arrives already styled, so there's nothing to reformat."
           }
         ]
       },
       {
+        "type": "steps",
+        "heading": "And AI for the team: translations in 50+ languages",
+        "steps": [
+          {
+            "label": "Before: spreadsheet, script, PR, review, version bump — about 5 hours",
+            "tone": "legacy"
+          },
+          {
+            "label": "Developer writes the new keys in one JSON file"
+          },
+          {
+            "label": "One AI command generates all 50+ languages",
+            "tone": "accent"
+          },
+          {
+            "label": "It opens the pull request with the ticket link and description"
+          },
+          {
+            "label": "About 1 hour — 80% less time",
+            "tone": "result"
+          }
+        ]
+      },
+      {
         "type": "callout",
         "icon": "layers",
-        "text": "One shared editor, one AI assistant — and every place people write gets it."
+        "text": "AI where people write, and AI where engineers work — both built once, used everywhere."
       }
     ]
   },
   {
     "id": "how-i-think",
-    "index": "12",
+    "index": "13",
     "title": "How I Think About Engineering",
     "tagline": "The technology changed. The way I think changed more.",
     "subtitle": "What 7+ years of frontend engineering taught me",
@@ -429,13 +545,13 @@
           },
           {
             "year": "2020",
-            "title": "Architecture",
-            "description": "Think above the code."
+            "title": "Ownership",
+            "description": "Own it end to end."
           },
           {
             "year": "2021",
-            "title": "Responsibility",
-            "description": "Own the whole module."
+            "title": "Boundaries",
+            "description": "Split by domain, own the module."
           },
           {
             "year": "2024",
@@ -454,7 +570,7 @@
   },
   {
     "id": "principles",
-    "index": "13",
+    "index": "14",
     "title": "Principles",
     "tagline": "The things that survived every stack I worked in.",
     "subtitle": "Six ideas I keep coming back to",
@@ -499,13 +615,16 @@
         "type": "callout",
         "icon": "send",
         "text": "If this sounds like how your team works,",
-        "link": { "label": "let's talk →", "href": "#whats-next" }
+        "link": {
+          "label": "let's talk →",
+          "href": "#whats-next"
+        }
       }
     ]
   },
   {
     "id": "toolbox",
-    "index": "14",
+    "index": "15",
     "title": "My Toolbox",
     "tagline": "Technologies I've worked with in production",
     "subtitle": "Tools are means, not the destination.",
@@ -531,11 +650,21 @@
         "heading": "Frontend",
         "layout": "row",
         "badges": [
-          { "label": "React" },
-          { "label": "Next.js" },
-          { "label": "Angular" },
-          { "label": "TypeScript" },
-          { "label": "JavaScript" }
+          {
+            "label": "React"
+          },
+          {
+            "label": "Next.js"
+          },
+          {
+            "label": "Angular"
+          },
+          {
+            "label": "TypeScript"
+          },
+          {
+            "label": "JavaScript"
+          }
         ]
       },
       {
@@ -543,30 +672,87 @@
         "heading": "State & Data",
         "layout": "row",
         "badges": [
-          { "label": "Redux" },
-          { "label": "Redux Saga" },
-          { "label": "MobX" },
-          { "label": "GraphQL" },
-          { "label": "REST" },
-          { "label": "WebSockets" }
+          {
+            "label": "Redux"
+          },
+          {
+            "label": "Redux Saga"
+          },
+          {
+            "label": "MobX"
+          },
+          {
+            "label": "GraphQL"
+          },
+          {
+            "label": "REST"
+          },
+          {
+            "label": "WebSockets"
+          }
         ]
       },
       {
         "type": "badges",
         "heading": "Backend",
         "layout": "row",
-        "badges": [{ "label": "Node.js" }, { "label": "PostgreSQL" }]
+        "badges": [
+          {
+            "label": "Node.js"
+          },
+          {
+            "label": "Express"
+          },
+          {
+            "label": "Nest.js"
+          },
+          {
+            "label": "PostgreSQL"
+          },
+          {
+            "label": "SSE"
+          }
+        ]
+      },
+      {
+        "type": "badges",
+        "heading": "AI",
+        "layout": "row",
+        "badges": [
+          {
+            "label": "Claude SDK"
+          },
+          {
+            "label": "Gemini"
+          },
+          {
+            "label": "SSE streaming"
+          },
+          {
+            "label": "AI dev workflows"
+          }
+        ]
       },
       {
         "type": "badges",
         "heading": "Architecture & Tooling",
         "layout": "row",
         "badges": [
-          { "label": "Micro-frontends" },
-          { "label": "Nx" },
-          { "label": "Lerna" },
-          { "label": "pnpm" },
-          { "label": "Vite" }
+          {
+            "label": "Micro-frontends"
+          },
+          {
+            "label": "Nx"
+          },
+          {
+            "label": "Lerna"
+          },
+          {
+            "label": "pnpm"
+          },
+          {
+            "label": "Vite"
+          }
         ]
       },
       {
@@ -574,13 +760,30 @@
         "heading": "Testing, Quality & UI",
         "layout": "row",
         "badges": [
-          { "label": "Jest" },
-          { "label": "Cypress" },
-          { "label": "React Testing Library" },
-          { "label": "Sentry" },
-          { "label": "Tailwind CSS" },
-          { "label": "Storybook" },
-          { "label": "Firebase" }
+          {
+            "label": "Jest"
+          },
+          {
+            "label": "Cypress"
+          },
+          {
+            "label": "React Testing Library"
+          },
+          {
+            "label": "Sentry"
+          },
+          {
+            "label": "Tailwind CSS"
+          },
+          {
+            "label": "Storybook"
+          },
+          {
+            "label": "Design systems"
+          },
+          {
+            "label": "Firebase"
+          }
         ]
       }
     ],
@@ -588,7 +791,7 @@
   },
   {
     "id": "whats-next",
-    "index": "15",
+    "index": "16",
     "title": "What's Next?",
     "tagline": "Got a frontend that's hard to change? That's my favourite kind of problem.",
     "subtitle": "Remote or hybrid · Wrocław, Poland",
@@ -598,6 +801,12 @@
         "paragraphs": [
           "I do my best work when I own an area end to end: its users, its architecture, its failure modes — influencing architectural decisions and working alongside talented engineers.",
           "I believe enterprise platforms can be written with clear and simple code. The key is setting clear boundaries and responsibilities between modules."
+        ]
+      },
+      {
+        "type": "text",
+        "paragraphs": [
+          "This site has its own AI assistant, built with Node.js and the Claude SDK, that answers questions about my experience — tested by a second AI that plays the recruiter and checks the answers."
         ]
       },
       {
@@ -638,6 +847,11 @@
         "label": "LinkedIn",
         "href": "https://linkedin.com/in/vladspasibozhko",
         "icon": "linkedin"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/VladyslavSpasibozhko",
+        "icon": "github"
       },
       {
         "label": "Email",

@@ -22,6 +22,7 @@ export type IconName =
   | 'education'
   | 'external-link'
   | 'feature-flag'
+  | 'github'
   | 'graphql'
   | 'info'
   | 'javascript'

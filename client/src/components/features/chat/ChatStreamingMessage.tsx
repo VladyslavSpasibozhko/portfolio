@@ -4,7 +4,7 @@ import { useChatWindowContext } from "./context/ChatWindowContext";
 
 interface ChatStreamingMessageProps {}
 
-export function ChatStreamingMessage(props: ChatStreamingMessageProps) {
+export function ChatStreamingMessage(_: ChatStreamingMessageProps) {
   const { streamEmitter } = useChatWindowContext();
   const [content, setContent] = useState(streamEmitter.content);
 

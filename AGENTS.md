@@ -27,7 +27,7 @@ Run `typecheck` in the affected package(s) after changes.
 
 ## Environment
 
-- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
+- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `QSTASH_TOKEN`, `QSTASH_CURRENT_SIGNING_KEY`, `QSTASH_NEXT_SIGNING_KEY`, `APP_BASE_URL` (public base URL QStash calls back). Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/src/.env` (`envDir: './src'` in `vite.config.ts`) and is exposed only through `client/src/config.ts`.
 
 ## Types (`types/`)
@@ -64,6 +64,7 @@ A layer of adapters and utility sets, each scoped to one specific area (e.g. dat
 - `ai/` — adapter around the Anthropic SDK.
 - `validation/` — adapter around AJV (JSON Schema).
 - `redis/` — adapter around Upstash Redis (`@upstash/redis`); exposes only `get`/`set`/`del`. Throws at load if the env vars are missing.
+- `scheduler/` — adapter around Upstash QStash (`@upstash/qstash`); exposes `schedule({ path, delaySeconds })` (delayed POST to `APP_BASE_URL + path`) and `verify({ signature, body, path })` (callback signature check). Throws at load if the env vars are missing.
 
 Rules for adapters:
 
@@ -92,7 +93,7 @@ An additional layer built on top of libs. Services act as a facade, hiding busin
 - A service can't use another service — prohibited.
 - A service can use libs, global types, schemas, and the storage layer — allowed.
 - Every service must have strictly typed input/output params — a contract to work with it.
-- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (async; uses `src/storage/sessions.ts` for create/get/set/remove; `create` sets `expiresAt` = now + 24h).
+- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (async; uses `src/storage/sessions.ts` for create/get/set/remove; `create()` sets `expiresAt` = now + 24h and stores an empty session; `setSessionCleanup(path, session)` schedules a cleanup callback via `scheduler` to the given path, delayed until `expiresAt` (the service knows no route paths), and removes the session if scheduling fails; `verifyCleanup(path, signature, body)` checks the callback signature).
 
 ## Storage (`src/storage/`)
 
@@ -101,7 +102,7 @@ Persistence, kept behind a plain function interface so the backing store can cha
 - Can use: libs, global types.
 - Can't use: services, routes.
 - Used only by the session service (`src/services/session.ts`) — routes and other services never import from `src/storage/` directly.
-- Current storage: `sessions.ts` — Redis (via `lib/redis`), key `session:${id}`, value `{ messages, expiresAt }` (async `set`, `get`, `remove`). No Redis TTL on the key — deletion is manual (cleanup scheduling is planned, see `REDIS_MIGRATION.md`).
+- Current storage: `sessions.ts` — Redis (via `lib/redis`), key `session:${id}`, value `{ messages, expiresAt }` (async `set`, `get`, `remove`). No Redis TTL on the key — deletion is manual (cleanup is scheduled at creation, see `cleanupChat.ts`).
 
 ## Routes (`src/routes/`)
 
@@ -110,9 +111,10 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
 - Can use: services, libs.
 - Every route must have a schema for request/response with validation.
 - Current routes: `chat.ts` — `POST /chat` (SSE stream of `ChatResponse` events; request is `ChatRequest` (`{ message, sessionId }`), validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
-  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via the session service, returns `CreateChatResponse` (`Session`).
+  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via `create()`, then schedules its cleanup via `setSessionCleanup` (removes the session and returns an error if either step after creation fails); returns `CreateChatResponse` (`Session`).
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
   - `getChatMessages.ts` — `GET /chat/:id/messages` (`validateGetChatMessagesParams`, params typed as `GetChatMessagesRequest`); returns the session's messages via `session.get`, 404 if the session doesn't exist, otherwise returns `GetChatMessagesResponse` (`Message[]`).
+  - `cleanupChat.ts` — `POST /internal/cleanup/:sessionId`, the QStash callback (`validateCleanupChatParams`, params are `Pick<Session, "sessionId">`); reads the raw body (string content-type parser) to verify the `upstash-signature` header via `session.verifyCleanup` (401 if invalid), then `session.remove` — idempotent, always 200 for a valid call. Not rate limited. Claude file deletion is not wired yet (Files API step in `REDIS_MIGRATION.md`).
   - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
 
 ## Global utils (`utils/`)

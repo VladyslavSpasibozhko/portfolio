@@ -62,20 +62,19 @@ Replace the `/ws/chat` WS proxy entry with a plain HTTP proxy for `/chat`, once 
 2. Replace the proxy entry: `/chat` → `http://localhost:<port>`, no `ws: true`
 3. Pick one default port and either hardcode it consistently in both places or read it from env in `vite.config.ts`
 
-## Chat Sessions Have No TTL, Caps, or Concurrency Guard
+## Chat Sessions Have No Caps or Concurrency Guard
 
 **Priority:** Medium
 
 **Reason:**  
-Sessions now live in Redis with an `expiresAt` field, but nothing deletes them yet (cleanup via QStash is planned in `REDIS_MIGRATION.md`), and nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. `CHAT_MIGRATION.md` planned all of this (1h TTL swept every minute, 1,000/100/~5 caps, a 409 on concurrent streams) but it isn't implemented.
+Sessions live in Redis with an `expiresAt` field and are deleted 24h after creation by a QStash callback (`POST /internal/cleanup/:sessionId`), but nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. `CHAT_MIGRATION.md` planned all of this (1,000/100/~5 caps, a 409 on concurrent streams) but it isn't implemented.
 
 **What to update:**
-Add TTL sweeping, size caps, and a per-session busy flag to the storage/session layer.
+Add size caps and a per-session busy flag to the storage/session layer.
 
 **How:**
-1. Add `lastActivity` to stored sessions and sweep expired ones on an unref'd interval
-2. Add and enforce the caps (total sessions, messages/session, sessions/IP)
-3. Add a busy flag per session; `POST /chat` returns 409 if a stream is already running for that session
+1. Add and enforce the caps (total sessions, messages/session, sessions/IP)
+2. Add a busy flag per session; `POST /chat` returns 409 if a stream is already running for that session
 
 ## Full Chat History Is Sent to the Model, Unbounded
 

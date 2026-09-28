@@ -29,7 +29,7 @@ export async function deleteChatRoute(app: FastifyInstance): Promise<void> {
     } catch (e) {
       return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
     }
-    const removed: DeleteChatResponse = session.remove(params.id);
+    const removed: DeleteChatResponse = await session.remove(params.id);
     if (!removed) {
       return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
     }

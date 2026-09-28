@@ -2,7 +2,7 @@ import { createContext, useContext, type ReactNode } from "react";
 import { useChatMessages } from "../hooks/useChatMessages";
 import type { StatusEmitter } from "../utils/statusEmitter";
 import type { StreamEmitter } from "../utils/streamEmitter";
-import type { Message } from "@global-types/message";
+import type { Message } from "@global-types/main/message";
 
 interface ChatWindowContextValue {
   messages: Message[];

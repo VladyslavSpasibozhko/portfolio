@@ -27,14 +27,14 @@ Run `typecheck` in the affected package(s) after changes.
 
 ## Environment
 
-- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`. Missing vars throw at startup.
+- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/src/.env` (`envDir: './src'` in `vite.config.ts`) and is exposed only through `client/src/config.ts`.
 
 ## Types (`types/`)
 
 No barrel file — there is no `types/index.ts`. Each file is imported directly: the server uses relative paths (`../../types/session.js`), the client uses `@global-types/<file-name>` (see Imports).
 
-- `session.ts` — `Session` (`{ sessionId }`).
+- `session.ts` — `Session` (`{ sessionId, expiresAt }`; `expiresAt` is a ms timestamp, 24h after creation).
 - `message.ts` — chat contract between the user and the LLM. Defines `MessageRole` and `Message` (`{ sessionId, role, content, fileIds? }`). Does not extend `Session` — it duplicates `sessionId` on purpose so the two types can evolve independently.
 - `transport.ts` — wire types. `ErrorDetails` (`{ reason, message, code }`), `SuccessResponse<T>` (`success: true`, `data`), `ErrorResponse` (`success: false`, `error: ErrorDetails`), `Response<T>` (union of the two) and `StreamResponse` (union on `type`: `delta`, `done`, `error`, `block`; clients ignore unknown types).
 - `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
@@ -63,11 +63,13 @@ A layer of adapters and utility sets, each scoped to one specific area (e.g. dat
 
 - `ai/` — adapter around the Anthropic SDK.
 - `validation/` — adapter around AJV (JSON Schema).
+- `redis/` — adapter around Upstash Redis (`@upstash/redis`); exposes only `get`/`set`/`del`. Throws at load if the env vars are missing.
 
 Rules for adapters:
 
 - Every adapter must expose its own interface/contract (see each lib's `types.ts`) — consumers code against that contract, not the underlying library.
 - Inputs and outputs must be strictly typed using the adapter's own types. Never expose the external library's or service's types/instances directly.
+- Name libs, adapters and modules after the role they play (`storage`, `scheduler`), not the vendor/tech behind them (`redis`, `qstash`). Vendor names stay inside the implementation file (e.g. `upstashAdapter.ts`) and env vars.
 - A lib can't use another lib. Each lib depends only on the platform and the external service/library it wraps.
 - Never return the raw external instance. Wrap only what's needed:
 
@@ -90,7 +92,7 @@ An additional layer built on top of libs. Services act as a facade, hiding busin
 - A service can't use another service — prohibited.
 - A service can use libs, global types, schemas, and the storage layer — allowed.
 - Every service must have strictly typed input/output params — a contract to work with it.
-- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (uses `src/storage/sessions.ts` for create/get/set/remove).
+- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (async; uses `src/storage/sessions.ts` for create/get/set/remove; `create` sets `expiresAt` = now + 24h).
 
 ## Storage (`src/storage/`)
 
@@ -99,7 +101,7 @@ Persistence, kept behind a plain function interface so the backing store can cha
 - Can use: libs, global types.
 - Can't use: services, routes.
 - Used only by the session service (`src/services/session.ts`) — routes and other services never import from `src/storage/` directly.
-- Current storage: `sessions.ts` — in-memory `Map<sessionId, Message[]>` (`set`, `get`, `remove`). No TTL/eviction yet (see `TECH_DEBT.md`).
+- Current storage: `sessions.ts` — Redis (via `lib/redis`), key `session:${id}`, value `{ messages, expiresAt }` (async `set`, `get`, `remove`). No Redis TTL on the key — deletion is manual (cleanup scheduling is planned, see `REDIS_MIGRATION.md`).
 
 ## Routes (`src/routes/`)
 

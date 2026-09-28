@@ -67,7 +67,7 @@ Replace the `/ws/chat` WS proxy entry with a plain HTTP proxy for `/chat`, once 
 **Priority:** Medium
 
 **Reason:**  
-`src/storage/sessions.ts` is a plain in-memory `Map` with no expiry and no limits: sessions never get swept, and nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. `CHAT_MIGRATION.md` planned all of this (1h TTL swept every minute, 1,000/100/~5 caps, a 409 on concurrent streams) but it isn't implemented.
+Sessions now live in Redis with an `expiresAt` field, but nothing deletes them yet (cleanup via QStash is planned in `REDIS_MIGRATION.md`), and nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. `CHAT_MIGRATION.md` planned all of this (1h TTL swept every minute, 1,000/100/~5 caps, a 409 on concurrent streams) but it isn't implemented.
 
 **What to update:**
 Add TTL sweeping, size caps, and a per-session busy flag to the storage/session layer.

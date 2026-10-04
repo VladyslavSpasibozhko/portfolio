@@ -11,9 +11,7 @@ Refer to [AGENTS.md](AGENTS.md) before implementing or editing anything in this 
 - Use simple, clear language.
 - Get straight to the point.
 
-# Engineering Rules: React (client) and Node.js (server)
-
-Stack: TypeScript, React, Node.js.
+# Engineering Rules
 
 ## How AI must use this file
 

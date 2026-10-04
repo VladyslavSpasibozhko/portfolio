@@ -25,6 +25,10 @@ Client (`client/`):
 
 Run `typecheck` in the affected package(s) after changes.
 
+## Commits
+
+Commit messages follow Conventional Commits (`type(scope): description`), matching existing history. See the `commit` skill for the type/scope rules.
+
 ## Environment
 
 - Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`. Missing vars throw at startup.

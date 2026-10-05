@@ -1,5 +1,21 @@
 # Tech Debt
 
+## Validation Error Messages
+
+**Priority:** Medium
+
+**Reason:**  
+Validation failures return AJV's technical error messages ("must be string", "must have required property") instead of user-friendly messages. Users can't understand what went wrong with their input.
+
+**What to update:**
+Define custom error mappings in `ErrorsDictionary` for common validation failures in chat requests.
+
+**How:**
+1. Identify exact error paths AJV generates for missing/invalid fields
+2. Map those paths to user-friendly messages
+3. Pass `ErrorsDictionary` to `validate()` function
+4. Test that error messages are helpful and accurate
+
 ## AI Response Format Is an Untyped String
 
 **Priority:** Medium

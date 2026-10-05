@@ -1,5 +1,5 @@
 import type { FastifyInstance } from "fastify";
-import { validate, type Schema } from "../lib/validation/index.js";
+import { validate, type Schema, type ErrorsDictionary } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
 import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
 
@@ -11,8 +11,12 @@ const CreateChatRequestSchema: Schema = {
   additionalProperties: false,
 };
 
+const CreateChatRequestErrors: ErrorsDictionary = {
+  root: "This endpoint does not accept any request body fields.",
+};
+
 export function validateCreateChatRequest(request: unknown): Record<string, never> {
-  const result = validate<Record<string, never>>(request ?? {}, CreateChatRequestSchema);
+  const result = validate<Record<string, never>>(request ?? {}, CreateChatRequestSchema, CreateChatRequestErrors);
   if (!result.success) {
     throw new Error("Invalid create chat request: " + result.error);
   }

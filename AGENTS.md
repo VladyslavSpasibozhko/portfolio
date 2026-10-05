@@ -111,7 +111,7 @@ Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming
   - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via the session service, returns `CreateChatResponse` (`Session`).
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
   - `getChatMessages.ts` — `GET /chat/:id/messages` (`validateGetChatMessagesParams`, params typed as `GetChatMessagesRequest`); returns the session's messages via `session.get`, 404 if the session doesn't exist, otherwise returns `GetChatMessagesResponse` (`Message[]`).
-  - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
+  - One route per file; each has its own `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils). A schema (and its `ErrorsDictionary` of user-friendly messages) is owned by its route file unless two or more routes validate the exact same shape — `deleteChat.ts` and `getChatMessages.ts` both take a `{ id: string }` param, so they share one schema + dictionary from `chatIdParams.ts` instead of duplicating it.
 
 ## Global utils (`utils/`)
 

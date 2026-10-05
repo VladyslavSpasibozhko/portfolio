@@ -14,13 +14,13 @@ _This document covers background, work history, use cases, and thinking as a dev
 - **LinkedIn:** linkedin.com/in/vladspasibozhko
 - **Role:** Senior Frontend Engineer, 7+ years of experience
 - **Location:** Wrocław, Poland (works remotely)
-- **Core stack:** React, Next.js, TypeScript, GraphQL/Apollo, MobX, Redux, WebSockets
-- **AI:** LLM features in production (Gemini, SSE streaming, Markdown rendering), AI-automated dev workflows, Claude SDK / Anthropic API
+- **Core stack:** React, Next.js, TypeScript, GraphQL/Apollo, MobX, Redux, Zustand, WebSockets
+- **AI:** LLM features in production (Gemini, Markdown rendering), Claude SDK / Anthropic API
 - **Backend:** Node.js (Express, Nest.js), PostgreSQL, SSE — frontend-focused, working across the stack
 - **Specialist areas:** Micro-frontend architecture, monorepos (Nx, Lerna, pnpm), design systems & shared component libraries (Storybook), performance of high-load modules, real-time UIs (WebSockets)
 - **Business setup:** Operates a Polish sole proprietorship (JDG) for over two years
-- **Education:** Bachelor's Degree in Management and Administration, National University of Food Technologies (2018), GPA 4.5
-- **Languages:** Ukrainian (native), English (upper-intermediate)
+- **Education:** Bachelor's Degree in Robotic Systems for Packaging Production, National University of Food Technologies (2018), GPA 4.5
+- **Languages:** Ukrainian (native), English (upper-intermediate), Polish (B1)
 - **Work authorization:** Temporary residence in Poland, valid until 2028; covers roles applied for; authorization tied to Polish JDG (B2B without sponsorship). For employment-based roles, would need to confirm compatibility with the residence permit.
 - **Notice period:** None — available to start immediately
 - **Relocation/travel:** Under discussion — currently focused on remote/hybrid roles in Wrocław, open to discussing relocation or travel depending on the role
@@ -98,7 +98,7 @@ Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi 
 - Refactored and optimized the most demanding modules, improving performance and reducing API requests.
 - Introduced Cypress E2E testing where unit/integration tests weren't practical; covered the most high-loaded pages and critical flows (e.g. booking a visit).
 - Built a coordinated token-refresh mechanism across all API clients: one refresh call, queued requests, auto-logout on failure — no duplicate refreshes.
-- Migrated local dev build from Webpack to Vite, cutting build time by ~10 seconds.
+- Migrated local dev build from Webpack to Vite, cutting build time from ~12 minutes to ~3 minutes.
 - Implemented Sentry for real-time error tracking, replacing manual user error reports.
 - Mentored junior engineers: ran near-weekly deep-dive sessions on a chosen technology (Redux Saga, Tailwind, etc.) and was the go-to person for "why and how".
 - Resolved recurring frontend/backend API contract disputes by bringing design into the discussion, so all three sides agreed on one trade-off.
@@ -126,8 +126,7 @@ Outsourcing company building web and ML/AI applications from MVP to enterprise s
 **Key Outcomes:**
 
 - Sole frontend developer on an Instagram-like social network: took it from an empty repo to MVP in 6 months — architecture, animations, multi-directional slider, efficient data fetching under heavy load.
-- Core developer on a high-load investment matching marketplace (investors ↔ investees) with complex data calculations.
-- Key contributor to architecture design on the business automation platform.
+- Core developer on a high-load investment matching marketplace with complex data calculations.
 - Grew from junior to strong mid-level in ~1.5 years while working on multiple projects in parallel.
 
 **Tech Stack:** React.js, Redux, Redux-Saga, MobX, GraphQL, React Testing Library, Jest, Firebase

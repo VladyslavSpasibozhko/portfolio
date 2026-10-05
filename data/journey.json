@@ -682,6 +682,9 @@
             "label": "MobX"
           },
           {
+            "label": "Zustand"
+          },
+          {
             "label": "GraphQL"
           },
           {

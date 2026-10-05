@@ -1,9 +1,5 @@
 # Tech Debt
 
-## AI Response Format Is an Untyped String
-
-The assistant's reply is a plain string with no indication of whether it's Markdown or plain text. A renderer can't reliably decide how to display it — run it through a Markdown renderer or show it as-is — and gets it wrong either way for some replies.
-
 ## Chat Sessions Have No TTL, Caps, or Concurrency Guard
 
 Chat sessions are kept with no expiry and no limits: nothing sweeps old sessions, nothing caps total sessions, messages per session, or sessions per user, and nothing stops two concurrent requests against the same session from racing on its history. Memory grows without bound, and overlapping requests can corrupt a session's history.

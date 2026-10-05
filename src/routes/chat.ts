@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 import type { ChatRequest, ChatResponse } from "../../types/api.js";
-import { validate, type Schema } from "../lib/validation/index.js";
+import { validate, type Schema, type ErrorsDictionary } from "../lib/validation/index.js";
 import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
 import { createAssistantMessage, createUserMessage } from "../../utils/message.js";
@@ -22,6 +22,12 @@ const ChatRequestSchema: Schema = {
   },
   required: ["message", "sessionId"],
   additionalProperties: false,
+};
+
+const ChatRequestErrors: ErrorsDictionary = {
+  root: "Request must include a message and a sessionId, with no extra fields.",
+  message: "Message must be text.",
+  sessionId: "Session ID must be text.",
 };
 
 const ChatResponseSchema: Schema = {
@@ -62,7 +68,7 @@ export function validateChatResponse(response: unknown): ChatResponse {
 }
 
 export function validateChatRequest(request: unknown): ChatRequest {
-  const result = validate<ChatRequest>(request, ChatRequestSchema);
+  const result = validate<ChatRequest>(request, ChatRequestSchema, ChatRequestErrors);
   if (!result.success) {
     throw new Error("Invalid chat request: " + result.error);
   }

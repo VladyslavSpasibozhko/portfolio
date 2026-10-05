@@ -1,9 +1,5 @@
 # Tech Debt
 
-## Validation Error Messages Aren't User-Friendly
-
-Validation failures surface the schema validator's raw technical messages (e.g. "must be string", "must have required property") instead of plain-language explanations. A user who submits a bad request can't tell what they actually did wrong.
-
 ## AI Response Format Is an Untyped String
 
 The assistant's reply is a plain string with no indication of whether it's Markdown or plain text. A renderer can't reliably decide how to display it — run it through a Markdown renderer or show it as-is — and gets it wrong either way for some replies.

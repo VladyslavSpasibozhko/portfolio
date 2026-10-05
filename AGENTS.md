@@ -106,12 +106,11 @@ Persistence, kept behind a plain function interface so the backing store can cha
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
 - Can use: services, libs.
-- Every route must have a schema for request/response with validation.
 - Current routes: `chat.ts` — `POST /chat` (SSE stream of `ChatResponse` events; request is `ChatRequest` (`{ message, sessionId }`), validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
-  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via the session service, returns `CreateChatResponse` (`Session`).
+  - `createChat.ts` — `POST /chat/create`, no request body or params; creates a session via the session service, returns `CreateChatResponse` (`Session`).
   - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
   - `getChatMessages.ts` — `GET /chat/:id/messages` (`validateGetChatMessagesParams`, params typed as `GetChatMessagesRequest`); returns the session's messages via `session.get`, 404 if the session doesn't exist, otherwise returns `GetChatMessagesResponse` (`Message[]`).
-  - One route per file; each has its own `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils). A schema (and its `ErrorsDictionary` of user-friendly messages) is owned by its route file unless two or more routes validate the exact same shape — `deleteChat.ts` and `getChatMessages.ts` both take a `{ id: string }` param, so they share one schema + dictionary from `chatIdParams.ts` instead of duplicating it.
+  - One route per file, with its own schema, type, and `ErrorsDictionary` — all optional: a route with no body/params (e.g. `createChat.ts`) skips them entirely. Common schemas shared by multiple routes (e.g. `{ id: string }`, used by `deleteChat.ts` and `getChatMessages.ts`) live in `src/routes/schemas/` instead of being duplicated per route.
 
 ## Global utils (`utils/`)
 

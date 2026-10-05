@@ -1,20 +1,14 @@
 import type { FastifyInstance } from "fastify";
 import type { GetChatMessagesRequest } from "../../types/api.js";
-import { validate, type Schema } from "../lib/validation/index.js";
+import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
 import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
+import { ChatIdParamsSchema, ChatIdParamsErrors } from "./chatIdParams.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-const GetChatMessagesParamsSchema: Schema = {
-  type: "object",
-  properties: { id: { type: "string", minLength: 1 } },
-  required: ["id"],
-  additionalProperties: false,
-};
-
 export function validateGetChatMessagesParams(params: unknown): GetChatMessagesRequest {
-  const result = validate<GetChatMessagesRequest>(params, GetChatMessagesParamsSchema);
+  const result = validate<GetChatMessagesRequest>(params, ChatIdParamsSchema, ChatIdParamsErrors);
   if (!result.success) {
     throw new Error("Invalid get chat messages params: " + result.error);
   }

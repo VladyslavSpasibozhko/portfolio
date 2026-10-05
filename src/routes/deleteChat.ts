@@ -1,20 +1,14 @@
 import type { FastifyInstance } from "fastify";
 import type { DeleteChatRequest, DeleteChatResponse } from "../../types/api.js";
-import { validate, type Schema } from "../lib/validation/index.js";
+import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
 import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
+import { ChatIdParamsSchema, ChatIdParamsErrors } from "./chatIdParams.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-const DeleteChatParamsSchema: Schema = {
-  type: "object",
-  properties: { id: { type: "string", minLength: 1 } },
-  required: ["id"],
-  additionalProperties: false,
-};
-
 export function validateDeleteChatParams(params: unknown): DeleteChatRequest {
-  const result = validate<DeleteChatRequest>(params, DeleteChatParamsSchema);
+  const result = validate<DeleteChatRequest>(params, ChatIdParamsSchema, ChatIdParamsErrors);
   if (!result.success) {
     throw new Error("Invalid delete chat params: " + result.error);
   }

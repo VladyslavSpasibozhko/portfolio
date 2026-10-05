@@ -9,7 +9,7 @@
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "test:ai": "tsx src/services/ai/test.ts",
-    "test": "find src -name '*.test.ts' | xargs node --import=tsx --test"
+    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --import=tsx --test"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",

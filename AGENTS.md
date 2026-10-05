@@ -211,5 +211,6 @@ Single place holding all env vars (`import.meta.env.VITE_*`). Don't read `import
 
 ## Docs upkeep
 
+- Never edit this file without the user's explicit approval first. Propose the change and wait for a yes before writing it.
 - Keep this file in sync when you change structure, conventions, or add a new layer/feature. Describe modules by their responsibility, not by pointing to the current function/type/component names inside them — those drift; the responsibility doesn't.
 - Record known shortcuts, gaps and follow-ups in `TECH_DEBT.md` instead of leaving TODOs in code; remove entries once resolved.

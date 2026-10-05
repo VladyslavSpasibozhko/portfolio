@@ -18,7 +18,7 @@ Before anything else, read `CLAUDE.md` and `AGENTS.md` at the repo root — they
    Present the plan to the user. Do not proceed past this point until the user explicitly approves it. If they request changes, revise and re-present. Treat silence or an unrelated reply as "not approved yet."
 
 3. **Worktree + branch**
-   Once approved: create a git worktree with a new branch named `<type>/<short-description>`, where `<type>` is `feat`, `fix`, or `refactor` (match the task type — see the `commit` skill for the type taxonomy). Branch off the current default branch.
+   Once approved: fetch/pull the default branch locally first, then create a git worktree with a new branch named `<type>/<short-description>`, where `<type>` is `feat`, `fix`, or `refactor` (match the task type — see the `commit` skill for the type taxonomy). Branch off the local default branch, not the remote-tracking ref (e.g. not `origin/main`) — branching directly off a remote ref makes Git auto-track it as upstream.
 
 4. **Implement**
    Implement the approved plan inside the worktree, following `AGENTS.md` layer/convention rules and the engineering rules in `CLAUDE.md`.
@@ -33,7 +33,11 @@ Before anything else, read `CLAUDE.md` and `AGENTS.md` at the repo root — they
    If step 1 decided this needs browser verification: start the app, follow the browser test plan, and report what was observed (pass/fail per step, screenshots/notes as relevant). Skip entirely otherwise.
 
 8. **Review**
-   Invoke the `code-review` skill against the diff. Fix every reported issue, then re-run the review. Repeat until the review is clean, up to 3 rounds. If still not clean after 3 rounds, stop and report the remaining findings instead of looping further.
+   If the diff only touches docs (`*.md`), types, or tests, skip code review entirely — go straight to step 9.
+   Otherwise, invoke the `code-review` skill against the diff. If it reports issues, fix them, then check what the fix touched:
+   - Only docs/types/tests changed → re-run tests, lint, and typecheck (not another code review).
+   - Any other code changed → re-run tests, lint, typecheck, and code review.
+     Repeat until the review is clean, up to 2 code-review rounds. If still not clean after 2 rounds, stop and report the remaining findings instead of looping further.
 
 9. **Commit**
    Commit the work using Conventional Commits (see the `commit` skill for type/scope/format rules). Then return a summary: branch name, worktree path, what changed, test results, lint/typecheck status, and (if applicable) browser verification results.

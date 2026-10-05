@@ -20,7 +20,7 @@ _This document covers background, work history, use cases, and thinking as a dev
 - **Specialist areas:** Micro-frontend architecture, monorepos (Nx, Lerna, pnpm), design systems & shared component libraries (Storybook), performance of high-load modules, real-time UIs (WebSockets)
 - **Business setup:** Operates a Polish sole proprietorship (JDG) for over two years
 - **Education:** Bachelor's Degree in Robotic Systems for Packaging Production, National University of Food Technologies (2018), GPA 4.5
-- **Languages:** Ukrainian (native), English (upper-intermediate), Polish (B1)
+- **Languages:** Ukrainian (native), English (upper-intermediate), Polish (intermediate)
 - **Work authorization:** Temporary residence in Poland, valid until 2028; covers roles applied for; authorization tied to Polish JDG (B2B without sponsorship). For employment-based roles, would need to confirm compatibility with the residence permit.
 - **Notice period:** None — available to start immediately
 - **Relocation/travel:** Under discussion — currently focused on remote/hybrid roles in Wrocław, open to discussing relocation or travel depending on the role

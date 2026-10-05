@@ -12,7 +12,7 @@ _This document covers background, work history, use cases, and thinking as a dev
 
 - **Name:** Vladyslav Spasibozhko
 - **LinkedIn:** linkedin.com/in/vladspasibozhko
-- **Role:** Senior Frontend Engineer, 7+ years of experience
+- **Role:** Senior Frontend Engineer, 7 years of experience
 - **Location:** Wrocław, Poland (works remotely)
 - **Core stack:** React, Next.js, TypeScript, GraphQL/Apollo, MobX, Redux, Zustand, WebSockets
 - **AI:** LLM features in production (Gemini, Markdown rendering), Claude SDK / Anthropic API

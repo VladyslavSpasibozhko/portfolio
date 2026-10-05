@@ -89,7 +89,7 @@ _Cross-Platform Android WebView Integration_ — Google's 4KB page size requirem
 
 **December 2021 – August 2024 | Kyiv, Ukraine (Remote) | 2 years 9 months**
 
-Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi — Ukraine's largest medical information system, connected to the national eHealth system (Helsi serves 24M Ukrainians, 1,300+ clinics, 37,000+ doctors).
+Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi — Ukraine's largest medical information system, connected to the national eHealth system.
 
 **Key Outcomes:**
 

@@ -31,7 +31,7 @@ Commit messages follow Conventional Commits (`type(scope): description`), matchi
 
 ## Environment
 
-- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`. Missing vars throw at startup.
+- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/src/.env` (`envDir: './src'` in `vite.config.ts`) and is exposed only through `client/src/config.ts`.
 
 ## Types (`types/`)

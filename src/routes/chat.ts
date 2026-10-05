@@ -26,8 +26,8 @@ const ChatRequestSchema: Schema = {
 
 const ChatRequestErrors: ErrorsDictionary = {
   root: "Request must include a message and a sessionId, with no extra fields.",
-  "/message": "Message must be text.",
-  "/sessionId": "Session ID must be text.",
+  message: "Message must be text.",
+  sessionId: "Session ID must be text.",
 };
 
 const ChatResponseSchema: Schema = {

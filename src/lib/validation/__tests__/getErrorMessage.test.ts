@@ -21,7 +21,7 @@ test("getErrorMessage - empty errors array", () => {
 test("getErrorMessage - single error with default message", () => {
   const errors: ErrorObject[] = [
     {
-      instancePath: ".name",
+      instancePath: "/name",
       schemaPath: "#/properties/name/type",
       keyword: "type",
       params: { type: "string" },
@@ -30,14 +30,14 @@ test("getErrorMessage - single error with default message", () => {
   ];
 
   const message = getErrorMessage(errors);
-  assert(message.includes(".name"));
+  assert(message.includes("name"));
   assert(message.includes("must be string"));
 });
 
 test("getErrorMessage - single error with custom message", () => {
   const errors: ErrorObject[] = [
     {
-      instancePath: ".name",
+      instancePath: "/name",
       schemaPath: "#/properties/name/type",
       keyword: "type",
       params: { type: "string" },
@@ -46,7 +46,7 @@ test("getErrorMessage - single error with custom message", () => {
   ];
 
   const customErrors = {
-    ".name": "Name is required",
+    name: "Name is required",
   };
 
   const message = getErrorMessage(errors, customErrors);
@@ -57,14 +57,14 @@ test("getErrorMessage - single error with custom message", () => {
 test("getErrorMessage - multiple errors mixed custom and default", () => {
   const errors: ErrorObject[] = [
     {
-      instancePath: ".name",
+      instancePath: "/name",
       schemaPath: "#/properties/name/type",
       keyword: "type",
       params: { type: "string" },
       message: "must be string",
     },
     {
-      instancePath: ".age",
+      instancePath: "/age",
       schemaPath: "#/properties/age/type",
       keyword: "type",
       params: { type: "number" },
@@ -73,12 +73,12 @@ test("getErrorMessage - multiple errors mixed custom and default", () => {
   ];
 
   const customErrors = {
-    ".name": "Custom name error",
+    name: "Custom name error",
   };
 
   const message = getErrorMessage(errors, customErrors);
   assert(message.includes("Custom name error"));
-  assert(message.includes(".age"));
+  assert(message.includes("age"));
   assert(message.includes("must be number"));
 });
 

@@ -9,5 +9,5 @@ export const ChatIdParamsSchema: Schema = {
 
 export const ChatIdParamsErrors: ErrorsDictionary = {
   root: "A chat id is required.",
-  "/id": "Chat id must be a non-empty string.",
+  id: "Chat id must be a non-empty string.",
 };

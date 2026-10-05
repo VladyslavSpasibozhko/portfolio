@@ -81,6 +81,8 @@ Rules for adapters:
   return { validate: zod.validate };
   ```
 
+  This also covers error formats: a key, code, or path an adapter exposes for consumers to match against must be the adapter's own, not the wrapped library's raw representation (e.g. Ajv's `instancePath` syntax).
+
 - Tests live next to the lib in `__tests__/` (see `validation/__tests__`).
 
 ## Services (`src/services/`)

@@ -1,4 +1,4 @@
-import type { Schema, ErrorsDictionary } from "../lib/validation/index.js";
+import type { Schema, ErrorsDictionary } from "../../lib/validation/index.js";
 
 export const ChatIdParamsSchema: Schema = {
   type: "object",

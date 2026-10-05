@@ -3,7 +3,7 @@ import type { DeleteChatRequest, DeleteChatResponse } from "../../types/api.js";
 import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
 import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
-import { ChatIdParamsSchema, ChatIdParamsErrors } from "./chatIdParams.js";
+import { ChatIdParamsSchema, ChatIdParamsErrors } from "./schemas/chatIdParams.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

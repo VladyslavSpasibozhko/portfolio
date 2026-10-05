@@ -25,6 +25,10 @@ Client (`client/`):
 
 Run `typecheck` in the affected package(s) after changes.
 
+## Commits
+
+Commit messages follow Conventional Commits (`type(scope): description`), matching existing history. See the `commit` skill for the type/scope rules.
+
 ## Environment
 
 - Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `QSTASH_TOKEN`, `QSTASH_CURRENT_SIGNING_KEY`, `QSTASH_NEXT_SIGNING_KEY`, `APP_BASE_URL` (public base URL QStash calls back). Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
@@ -32,68 +36,48 @@ Run `typecheck` in the affected package(s) after changes.
 
 ## Types (`types/`)
 
-No barrel file — there is no `types/index.ts`. Each file is imported directly: the server uses relative paths (`../../types/session.js`), the client uses `@global-types/<file-name>` (see Imports).
+No barrel file — there is no `types/index.ts`. Each file is imported directly: the server uses relative paths, the client uses `@global-types/<file-name>` (see Imports).
 
-- `session.ts` — `Session` (`{ sessionId, expiresAt }`; `expiresAt` is a ms timestamp, 24h after creation).
-- `message.ts` — chat contract between the user and the LLM. Defines `MessageRole` and `Message` (`{ sessionId, role, content, fileIds? }`). Does not extend `Session` — it duplicates `sessionId` on purpose so the two types can evolve independently.
-- `transport.ts` — wire types. `ErrorDetails` (`{ reason, message, code }`), `SuccessResponse<T>` (`success: true`, `data`), `ErrorResponse` (`success: false`, `error: ErrorDetails`), `Response<T>` (union of the two) and `StreamResponse` (union on `type`: `delta`, `done`, `error`, `block`; clients ignore unknown types).
-- `journey.ts` — describes the structure of `data/journey.json` (`JourneyData` = `JourneySection[]`). Each section is made of `blocks`, a discriminated union on `type` (`text`, `list`, `badges`, `cards`, `timeline`, `flow`, `icons`, `callout`, `steps`, `branch`).
-- `api.ts` — request/response contracts for the routes in `src/routes/`, one pair per route (a route with no meaningful input has no request type): `ChatRequest`/`ChatResponse` (`POST /chat`), `CreateChatResponse` (`POST /chat/create`), `DeleteChatRequest`/`DeleteChatResponse` (`DELETE /chat/:id`), `GetChatMessagesRequest`/`GetChatMessagesResponse` (`GET /chat/:id/messages`). Validation schemas stay in the route file; only the TS shape lives here.
+Each file owns one conceptual contract:
 
-Follow DRY: don't create new types/interfaces on your own. Ask for approval first — once approved, feel free to create the new type.
+- Session identity — the shape used to address a chat session.
+- Chat message — the contract between the user and the LLM.
+- Transport/wire envelope — success/error/stream response shapes shared by every route.
+- Page content — the schema the main page's content data must conform to.
+- API request/response — one pair of contracts per route; a route with no meaningful input has no request type.
 
-Icon fields in the data types are plain `string`s on purpose — available icons are a client concern; the client narrows them with `isIconName` before rendering.
+See the `types-creation` skill for the rules on adding, approving, and scoping new types.
 
 ## Data (`data/`)
 
 Two files, each with one consumer:
 
-- `journey.json` — source of truth for the main page: every slide, its copy, background and blocks. The page is fully data-driven from this file, and only the client reads it.
-- `profile.md` — the profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt (`src/services/ai/prompts.ts`) so the LLM has clear, readable context. Only the server reads it.
+- `profile.md` — the source of truth: profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt so the LLM has clear, readable context. Only the server reads it.
+- `journey.json` — the main page's slide content, derived from `profile.md` but reshaped for presentation (structured into slides/blocks, trimmed, reworded for a reader instead of an LLM). Only the client reads it.
 
 Rules:
 
 - Keep the split: rendered content goes in `journey.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
-- The two files overlap in subject matter but not in form, so a factual change (a new role, a corrected date) usually belongs in both — check the other file when you edit one.
+- A factual change (a new role, a corrected date) starts in `profile.md`, then must be carried into `journey.json`'s derived content — the two can differ in wording and structure, but never in meaning.
 - `data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build — `profile.md` included. Never put secrets or private info there.
 
 ## Libs (`src/lib/`)
 
-A layer of adapters and utility sets, each scoped to one specific area (e.g. dates, localization, AI, validation). Currently:
+A layer of adapters and utility sets, each scoped to one specific area. Responsibility of each lib is one line — the adapter wraps one external SDK/library and exposes its own contract:
 
-- `ai/` — adapter around the Anthropic SDK.
-- `validation/` — adapter around AJV (JSON Schema).
-- `redis/` — adapter around Upstash Redis (`@upstash/redis`); exposes only `get`/`set`/`del`. Throws at load if the env vars are missing.
-- `scheduler/` — adapter around Upstash QStash (`@upstash/qstash`); exposes `schedule({ path, delaySeconds })` (delayed POST to `APP_BASE_URL + path`) and `verify({ signature, body, path })` (callback signature check). Throws at load if the env vars are missing.
+- `ai` lib — adapter for the AI provider's SDK, used to generate responses.
+- `validation` lib — adapter for the schema-validation library, used to validate input against a schema.
 
-Rules for adapters:
-
-- Every adapter must expose its own interface/contract (see each lib's `types.ts`) — consumers code against that contract, not the underlying library.
-- Inputs and outputs must be strictly typed using the adapter's own types. Never expose the external library's or service's types/instances directly.
-- Name libs, adapters and modules after the role they play (`storage`, `scheduler`), not the vendor/tech behind them (`redis`, `qstash`). Vendor names stay inside the implementation file (e.g. `upstashAdapter.ts`) and env vars.
-- A lib can't use another lib. Each lib depends only on the platform and the external service/library it wraps.
-- Never return the raw external instance. Wrap only what's needed:
-
-  ```ts
-  // prohibited
-  const zod = createZod();
-  return zod;
-
-  // correct
-  const zod = createZod();
-  return { validate: zod.validate };
-  ```
-
-- Tests live next to the lib in `__tests__/` (see `validation/__tests__`).
+See the `lib-creation-server` skill for the rules on adding or changing a lib (contract boundaries, typing, testing).
 
 ## Services (`src/services/`)
 
-An additional layer built on top of libs. Services act as a facade, hiding business logic behind a simple interface.
+An additional layer built on top of libs. Services act as a facade, hiding business logic behind a simple interface. Each service is named after the capability it owns, not an implementation detail:
 
-- A service can't use another service — prohibited.
-- A service can use libs, global types, schemas, and the storage layer — allowed.
-- Every service must have strictly typed input/output params — a contract to work with it.
-- Current services: `ai.ts` (streams the LLM reply, session-free), `session.ts` (async; uses `src/storage/sessions.ts` for create/get/set/remove; `create()` sets `expiresAt` = now + 24h and stores an empty session; `setSessionCleanup(path, session)` schedules a cleanup callback via `scheduler` to the given path, delayed until `expiresAt` (the service knows no route paths), and removes the session if scheduling fails; `verifyCleanup(path, signature, body)` checks the callback signature).
+- `ai` service — orchestrates response generation using the `ai` lib; stateless with respect to sessions.
+- `session` service — owns chat session lifecycle (create, read, update, remove), delegating persistence to the storage layer.
+
+See the `service-creation-server` skill for the rules on adding or changing a service (what it may depend on, naming, typing).
 
 ## Storage (`src/storage/`)
 
@@ -101,143 +85,121 @@ Persistence, kept behind a plain function interface so the backing store can cha
 
 - Can use: libs, global types.
 - Can't use: services, routes.
-- Used only by the session service (`src/services/session.ts`) — routes and other services never import from `src/storage/` directly.
-- Current storage: `sessions.ts` — Redis (via `lib/redis`), key `session:${id}`, value `{ messages, expiresAt }` (async `set`, `get`, `remove`). No Redis TTL on the key — deletion is manual (cleanup is scheduled at creation, see `cleanupChat.ts`).
+- Used only by the session service — routes and other services never import from `src/storage/` directly.
+- Current responsibility: session storage — holds chat messages per session in memory.
 
 ## Routes (`src/routes/`)
 
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
-- Can use: services, libs.
-- Every route must have a schema for request/response with validation.
-- Current routes: `chat.ts` — `POST /chat` (SSE stream of `ChatResponse` events; request is `ChatRequest` (`{ message, sessionId }`), validated by `validateChatRequest`; 404 if the session is missing; appends the user and assistant messages to the session), rate limited per route via `config.rateLimit`.
-  - `createChat.ts` — `POST /chat/create`, empty body (`validateCreateChatRequest`, no request type — see Types); creates a session via `create()`, then schedules its cleanup via `setSessionCleanup` (removes the session and returns an error if either step after creation fails); returns `CreateChatResponse` (`Session`).
-  - `deleteChat.ts` — `DELETE /chat/:id` (`validateDeleteChatParams`, params typed as `DeleteChatRequest`); removes the session, 404 if it doesn't exist, otherwise returns `DeleteChatResponse` (`boolean`).
-  - `getChatMessages.ts` — `GET /chat/:id/messages` (`validateGetChatMessagesParams`, params typed as `GetChatMessagesRequest`); returns the session's messages via `session.get`, 404 if the session doesn't exist, otherwise returns `GetChatMessagesResponse` (`Message[]`).
-  - `cleanupChat.ts` — `POST /internal/cleanup/:sessionId`, the QStash callback (`validateCleanupChatParams`, params are `Pick<Session, "sessionId">`); reads the raw body (string content-type parser) to verify the `upstash-signature` header via `session.verifyCleanup` (401 if invalid), then `session.remove` — idempotent, always 200 for a valid call. Not rate limited. Claude file deletion is not wired yet (Files API step in `REDIS_MIGRATION.md`).
-  - One route per file; each has its own schema + `validate*` function and responds through `createResponse` / `createErrorResponse` from `utils/transport.ts` (see Global utils).
+- Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
+
+See the `route-creation-server` skill for the rules on adding or changing a route (validation, thin-controller boundary, transport envelopes).
 
 ## Global utils (`utils/`)
 
 Root-level helpers not tied to the server or client layers. Shared between both — the client reaches them via the `@global-utils` alias (`@global-utils/*` → `utils/*`; see `client/tsconfig.json` and `client/vite.config.ts`).
 
-- `message.ts` — message factories: `createMessage(role, content)`, `createUserMessage`, `createAssistantMessage`. The role-specific ones reuse `createMessage`.
-- `transport.ts` — factories for the wire types in `types/transport.ts`: `createResponse`, `createErrorResponse` (takes one `ErrorDetails`), `createErrorDetails`, and one stream factory per `StreamResponse` type (`createDeltaResponse`, `createDoneResponse`, `createErrorStreamResponse`, `createBlockResponse`). Was `src/utils/transport.ts` (server-only); moved here so the client's `lib/request` and `lib/sse` can build the same error envelope.
+- Message factories — construct typed chat messages for each role.
+- Transport factories — build the success/error/stream response envelopes defined in the shared transport type, so server and client agree on one shape without duplicating it.
+
+See the `utils-creation-global` skill for the rules on what belongs in this shared folder.
 
 ## Plugins (`src/plugins/`)
 
-Thin wrappers that register Fastify plugins with project config (`cors.ts`, `rateLimit.ts`). Each exports a `register*` function called from `index.ts`.
+Thin wrappers that register Fastify plugins with project config (CORS, rate limiting). Each plugin module exposes one registration function called from `index.ts`.
 
 ## Client (`client/`)
 
 ### App structure
 
-- `main.tsx` → `App.tsx` renders the `StarField` background and `MainPage`.
-- `pages/MainPage.tsx` — maps `data/journey.json` sections to `JourneySlide`s.
-- `pages/LibraryPage.tsx` — a showcase of atoms/molecules for visual checks while developing. It isn't mounted in `App.tsx`; swap it in locally when needed.
+- Entry point composes the decorative background with the main page content.
+- Main page maps the content data (`data/journey.json`) into a sequence of slide components.
+- A library/showcase page exists for visually checking atoms and molecules while developing; it isn't mounted in the app — swap it in locally when needed.
+
+See the `page-creation` skill for the rules on adding or changing a page.
 
 ### Components (`client/src/components/`)
 
 - `atoms/` — single, smallest components (button, typography, icon, etc.). Can't reuse other atoms.
-- `molecules/` — more complex components, built by composing atoms into a ready-to-use component (e.g. `Timeline`, `Markdown`, `IconButton`).
-- `features/` — components tied to a specific feature. May include hooks and utils scoped to that feature (e.g. `features/chat/hooks`, `features/chat/utils`). Current features:
-  - `journey/` — the slides of the main page (see below).
-  - `chat/` — the AI chat window over WebSocket (`ChatWrapper` is the entry point; currently not mounted). `context/ChatWindowContext.tsx` holds `ChatWindowProvider` (wraps `useChatMessages`) and `useChatWindowContext`; `ChatWrapper` wraps only `ChatWindow` in the provider, and `ChatWindow`'s children (`ChatMessages`, `ChatInput`) read chat state from the context instead of props. A feature gets its own `context/` folder like this when a hook's state needs to reach several components in that feature's tree without prop drilling.
+- `molecules/` — more complex components, built by composing atoms into a ready-to-use component.
+- `features/` — components tied to a specific feature. May include hooks and utils scoped to that feature. A feature gets its own `context/` folder when a hook's state needs to reach several components in that feature's tree without prop drilling.
 
-Rules:
-
-- A component should have a separate type/interface for its props, if props exist.
-- Keep components clean and simple — decompose to keep each one clear and maintainable.
-- Always use the existing atoms instead of raw HTML elements — e.g. `Button` instead of `button`, `Typography` instead of `span`/`p`/`h1`/`h2`/etc.
-- Naming convention for any component's `size` prop: `sm`, `md`, `xl`, `2xl`, `3xl` (no numeric or ad hoc size names). Apply this consistently across every component that supports sizing.
-- A component that outgrows one file becomes a folder with an `index.ts` barrel exporting its public API (e.g. `atoms/Icon/`, `atoms/Badge/`, `atoms/StarField/`). Import it through the barrel (`@components/atoms/StarField`); files inside the folder import each other relatively.
+See the `component-creation` skill for the rules on choosing a layer and writing a component (props typing, sizing, styling, folder structure, a11y).
 
 ### Journey feature (`features/journey/`)
 
-Slides are rendered from `data/journey.json`:
+Renders the main page's slides from the content data:
 
-- `JourneySlide` — renders one `JourneySection` (eyebrow, headline, tagline, subtitle, blocks, links, transition quote).
-- `JourneySection` — the slide shell: header with `NN/NN` counter, landmark `aria-label`, anchor `id`, responsive background image.
-- `blocks/JourneyBlock.tsx` — switch over `block.type`, delegating to one component per block type (`TextBlock`, `CardsBlock`, …).
-- `diagram/` — building pieces for the `steps` and `branch` diagrams.
-- `backgrounds.ts` — background image registry built with `import.meta.glob` over `client/static/backgrounds/`.
+- A slide-shell component owns the per-section chrome (header, counter, landmark, anchor, background).
+- A slide component composes the shell with its copy and blocks.
+- Block rendering is a switch over block type, delegating to one component per block type.
+- A background registry maps a background name to its responsive image set.
 
 To add a new block type:
 
-1. Get approval for the new type (see Types), then add it to the `JourneyBlock` union in `types/journey.ts`.
-2. Create `blocks/<Name>Block.tsx` and add a `case` to `JourneyBlock.tsx`.
+1. Get approval for the new type (see Types), then add it to the content schema's block union.
+2. Create the new block component and wire it into the block-type switch.
 3. Use it in `data/journey.json`.
 
-### Icons (`atoms/Icon/`)
+### Icons
 
-- SVGs live in `atoms/Icon/icons/` and are imported as React components via `vite-plugin-svgr`.
-- To add an icon: drop the `.svg` in that folder and add its filename (without `.svg`) to the `IconName` union in `Icon.tsx`.
-- Icon names coming from data are strings — guard them with `isIconName` before passing to `Icon`.
+- Icon SVGs are imported as React components via an SVG-to-component build step.
+- To add an icon: drop the `.svg` in the icon source folder and add it to the set of known icon names.
+- Icon names coming from data are strings — guard them with a type-narrowing check before rendering.
 
 ### Static assets
 
 - `client/static/backgrounds/` — slide backgrounds, three sizes × two formats per image: `<name>-<mobile|tablet|laptop>.<avif|webp>`. `background` in `journey.json` holds `<name>`; a missing `-laptop.avif` file means no background is rendered.
-- The `mobile`/`tablet`/`laptop` breakpoints in `JourneySection.tsx` mirror `md`/`xl` in `index.css` — keep them in sync.
+- The responsive breakpoints used for background art must mirror the CSS breakpoints — keep them in sync.
 - Don't commit original, uncompressed source images — only the optimized variants.
 - `client/src/assets/icons/` — favicon and apple-touch icon referenced from `client/index.html`.
 
-### StarField (`atoms/StarField/`)
+### Decorative canvas background
 
-A fixed, decorative canvas background (constellations, dust, nebulas, shooting stars). It's performance-sensitive — keep these properties intact when editing:
+A fixed, performance-sensitive canvas background (constellations, dust, nebulas, shooting stars). Keep these properties intact when editing:
 
-- Split by responsibility: `scene.ts` (seeding), `render.ts` (per-frame drawing), `offscreen.ts` (cached sprites/layers), `useStarField.ts` (lifecycle/loop), `constants.ts` (all tunables), `types.ts`, `random.ts`.
-- Tunables go in `constants.ts`, not inline.
-- Static layers (nebulas) render once per resize into their own canvas; glow halos are pre-rasterized sprites stamped with `drawImage` — no per-frame `shadowBlur` or full-screen gradients.
+- Split by responsibility: seeding, per-frame drawing, cached sprites/layers, lifecycle/loop, tunables, and shared types each live in their own module.
+- Tunables belong in the constants module, not inline.
+- Static layers render once per resize into their own canvas; glow effects are pre-rasterized sprites, not per-frame shadow/gradient effects.
 - The loop is frame-capped, capped DPR, starts only after load + idle, stops when the tab is hidden, respects `prefers-reduced-motion`, and permanently falls back to a static frame on slow devices.
 
-### Styling
+### Styling and accessibility
 
-- Theme tokens (colors, fonts, sizes, breakpoints, etc.) are defined via `@theme` in `client/src/index.css`, not `tailwind.config.ts`. Components must use those tokens — don't make up ad hoc styles/values.
-- Before creating a custom class or one-off style, check whether it's worth adding to `@theme` in `index.css` instead.
-- **Every number in a class name is a px value.** Sizes are in `px`, never `rem` — that goes for the `@theme` tokens and for any raw CSS written elsewhere (keyframes included). `p-16` is 16px of padding, `gap-24` is a 24px gap, `text-44` is a 44px font.
-  - This works because `@theme` sets `--spacing: 1px`, replacing Tailwind's default `0.25rem` step. So Tailwind's own docs are off by 4× for this repo: their `p-4` (16px) is our `p-16`. Don't copy spacing numbers out of Tailwind examples or from other projects — read them as px.
-  - `--spacing` covers padding, margin, gap, `space-x/y`, `width`/`height`, `min-*`/`max-*`, `inset`/`top`/`right`/`bottom`/`left`, `translate`, `size` and `basis`. There are deliberately no `--space-*`, `--width-*` or `--height-*` tokens: a named token per step would just be a second, partial copy of the same scale, and any value missing from it would silently fall back to a different unit.
-  - Font sizes are the one namespace that still needs tokens (`--text-8` … `--text-100`), since `--spacing` doesn't feed `text-*`. Use the `text-<n>` utilities they generate (`text-12`, `xl:text-20`). Tailwind's default names (`text-sm`, `text-xl`, …) and arbitrary values (`text-[15px]`) are prohibited; if a size is genuinely missing, add a `--text-*` token for it.
-- Keep spacing numbers **even, in steps of 2 — prefer steps of 4** (`gap-4`, `p-8`, `mt-12`, `space-y-16`). Odd or fractional values (`p-3`, `gap-7.5`) are prohibited: the scale is unbounded now, so a typo no longer fails loudly, it just renders slightly wrong. Fraction utilities (`w-1/2`, `h-1/4`) are unaffected by all of this — they're percentages, not lengths.
-- Animations are defined in `index.css` as `@keyframes` plus a matching `@utility animate-*` class (e.g. `animate-badge-sheen`, `animate-timeline-*`, `animate-line-sweep`). Every new animation must be covered by the `prefers-reduced-motion: reduce` block there.
-- Color tokens are grouped by the CSS property they're meant for — use each group only for that property:
-  - `--color-text-*` — text color only (e.g. `text-text-200`).
-  - `--color-background-*` — backgrounds only (e.g. `bg-background-900`).
-  - `--color-border-*` — borders only (e.g. `border-border-subtle`).
-  - `--color-accent-*` — the exception: not tied to one property, reusable anywhere (text, background, border, shadow, etc.).
-  - Shadows use the `--shadow-*` size tokens (`shadow-sm`/`md`/`lg`) for spread, colored via an accent token, e.g. `shadow-accent-cyan`.
-- Layouts must be responsive across `sm` → `3xl` (`3xl` = 1920px, for wide desktops); follow the existing per-breakpoint spacing/type scales used by the journey slides.
-
-### Accessibility
-
-- Decorative elements (StarField, slide backgrounds) are hidden from assistive tech (`aria-hidden`, `alt=""`).
-- Each slide is a `section` landmark with a unique `aria-label` and `tabIndex={-1}` so hash navigation can move focus to it.
-- External `http` links open in a new tab with `rel="noreferrer"`; `mailto:` links don't.
+See the `component-creation` skill for the styling conventions (theme tokens, px-based spacing scale, color-token grouping, responsive breakpoints) and accessibility rules (decorative elements, landmarks, link behavior) that apply to every component.
 
 ### Imports
 
 - Use path aliases instead of relative or absolute traversal like `../../`. Before importing, check `client/tsconfig.json` and `client/vite.config.ts` for the current set of configured aliases — don't assume or hardcode a list, as it changes over time.
-- Exceptions: a component under a `features/*` folder may import other components local to that same feature folder using relative paths; files inside a component folder (e.g. `atoms/StarField/`) import each other relatively.
+- Exceptions: a component under a `features/*` folder may import other components local to that same feature folder using relative paths; files inside a component folder import each other relatively.
 
 ### Hooks (`client/src/hooks/`)
 
-Common, reusable hooks — not tied to a specific feature. Place a hook here if it might be reused later in other components (e.g. `useIntersectionObserver`). A hook tied to one feature belongs under that feature's own `hooks/` folder instead (e.g. `features/chat/hooks`). A hook owned by a single component folder lives in that folder (e.g. `atoms/StarField/useStarField.ts`).
+Common, reusable hooks — not tied to a specific feature. A hook tied to one feature belongs under that feature's own `hooks/` folder instead. A hook owned by a single component folder lives in that folder.
+
+See the `hook-creation` skill for the rules on deciding component-local vs. feature-scoped vs. global.
 
 ### Utils (`client/src/utils/`)
 
-Common, reusable utility functions (e.g. `hexToRgb`, `padNumber`, `interval`, `timeout`) not tied to React or a specific component.
+Common, reusable utility functions not tied to React or a specific component.
+
+See the `utils-creation-client` skill for the rules on what belongs here.
 
 ### Libs (`client/src/lib/`)
 
-Client-side access layers:
+Client-side access layers, each scoped to one transport concern:
 
-- `ws.ts` (`ChatWebSocket` wrapper).
-- `request/` — thin `fetch` wrapper for JSON endpoints. `request<T, B extends FetchBody>(config: FetchConfig<B>)` takes one config object (`path`, `method`, `query`, `headers`, `body`), try/catches the call, and returns `FetchResult<T>` (= `Response<T>` from `@global-types/transport`). The server always responds through `createResponse`/`createErrorResponse` (`@global-utils/transport`), so a parsed body already is a `Response<T>`; `request` only builds its own error envelope (via `createErrorResponse`) for transport-level failures (network error, bad JSON). Doesn't handle the `/chat` SSE stream.
-- `sse/` — generic SSE (`text/event-stream`) client, not tied to any one endpoint's event shape. `streamRequest<B extends StreamBody>(config: StreamConfig<B>, options: StreamOptions)` POSTs the request and, on success, hands each raw frame to `options.onFrame`; `options.onError` covers both a non-OK/bodyless response and a transport failure. `readFrames.ts` does the actual decode/buffer/split into complete `\n\n`-delimited frames — parsing a frame's `data:` line into a typed event (e.g. `StreamResponse`) is the caller's job, not this lib's. Has its own `StreamConfig`/`StreamBody` types (same shape as `request/`'s) since a lib can't depend on another lib.
+- WebSocket lib — wraps the chat WebSocket connection.
+- Request lib — thin `fetch` adapter for JSON endpoints; returns the shared response envelope type, building its own error envelope only for transport-level failures (network error, bad JSON). Doesn't handle streaming.
+- SSE lib — generic `text/event-stream` client, not tied to any one endpoint's event shape; decodes/splits frames and hands each one to the caller. Parsing a frame's payload into a typed event is the caller's job, not this lib's.
+
+See the `lib-creation-client` skill for the rules on adding or changing a client lib.
 
 ### API (`client/src/api/`)
 
-Endpoint descriptors, one file per feature (e.g. `chat.ts`). Each function represents one endpoint and returns a config object for the matching lib to execute: `FetchConfig` for `@lib/request`'s `request()` (JSON endpoints), `StreamConfig` for `@lib/sse`'s `streamRequest()` (the `/chat` SSE endpoint). The api file doesn't call `fetch` itself.
+Endpoint descriptors, one file per feature. Each function represents one endpoint and returns a config object for the matching lib to execute (the request lib for JSON endpoints, the SSE lib for streaming endpoints). The api file doesn't call `fetch` itself.
+
+See the `api-creation-client` skill for the rules on adding or changing an endpoint descriptor.
 
 ### Types
 
@@ -249,5 +211,6 @@ Single place holding all env vars (`import.meta.env.VITE_*`). Don't read `import
 
 ## Docs upkeep
 
-- Keep this file in sync when you change structure, conventions, or add a new layer/feature.
+- Never edit this file without the user's explicit approval first. Propose the change and wait for a yes before writing it.
+- Keep this file in sync when you change structure, conventions, or add a new layer/feature. Describe modules by their responsibility, not by pointing to the current function/type/component names inside them — those drift; the responsibility doesn't.
 - Record known shortcuts, gaps and follow-ups in `TECH_DEBT.md` instead of leaving TODOs in code; remove entries once resolved.

@@ -57,9 +57,9 @@ Frontline AI platform for task management, scheduling, and communication for des
 **Key Outcomes:**
 
 - **AI:** Built an AI writing assistant (Gemini) into the platform's shared rich text editor — one integration shipped AI to every documents, posts and comments surface at once; streamed via SSE with live Markdown rendering.
-- **AI:** Designed an AI-automated translations workflow (JSON keys → one command → generation for 50+ languages → PR with ticket link and description), cutting the process from ~5 hours to ~1 hour (~80% less).
-- Proposed and led a zero-downtime migration of platform-wide feature flags from LaunchDarkly/Flagr to Harness FME across all 5 apps — 3 systems ran in parallel, 1 month of production monitoring, then legacy removed. No incidents, no rollbacks.
-- Built a shared Microsoft Teams integration library used by all 5 apps (4 module + 1 unified), replacing 5 separate implementations and solving cross-app navigation with preserved context.
+- **AI:** Designed an AI-automated translations workflow, cutting the process from ~5 hours to ~1 hour (~80% less).
+- Led a zero-downtime migration of platform-wide feature flags from LaunchDarkly/Flagr to Harness FME, 1 month of production monitoring, then legacy removed. No incidents, no rollbacks.
+- Built a shared Microsoft Teams integration library used by all 5 apps (4 module + 1 unified), solving cross-app navigation with preserved context.
 - Integrated the web chat module into the native Android app via WebView under Google's 4KB page size limit — silent auth (no login screen) and a native bridge for camera, video recording and screenshots.
 - Maintained the micro-frontend architecture injecting React modules into 2 legacy Angular apps, so new features shipped without a rewrite.
 - **Design system:** Contributed to shared component libraries documented in Storybook and reused across all products in the monorepo.
@@ -93,10 +93,10 @@ Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi 
 
 **Key Outcomes:**
 
-- Owned the 3 most high-loaded, business-critical modules — Doctor Workplace, Cashier Workplace, Calendar System — used by doctors every hour of the working day.
+- Owned the 3 most high-loaded, business-critical modules — Doctor Workplace, Cashier Workplace, Calendar System.
 - Designed a per-entity modular architecture (services, components, data storage, API layers) so changes in one domain didn't ripple into others.
 - Refactored and optimized the most demanding modules, improving performance and reducing API requests.
-- Introduced Cypress E2E testing where unit/integration tests weren't practical; covered the most high-loaded pages and critical flows (e.g. booking a visit).
+- Introduced Cypress E2E testing where unit/integration tests weren't practical; covered the most high-loaded pages and critical flows.
 - Built a coordinated token-refresh mechanism across all API clients: one refresh call, queued requests, auto-logout on failure — no duplicate refreshes.
 - Migrated local dev build from Webpack to Vite, cutting build time from ~12 minutes to ~3 minutes.
 - Implemented Sentry for real-time error tracking, replacing manual user error reports.
@@ -125,8 +125,8 @@ Outsourcing company building web and ML/AI applications from MVP to enterprise s
 
 **Key Outcomes:**
 
-- Sole frontend developer on an Instagram-like social network: took it from an empty repo to MVP in 6 months — architecture, animations, multi-directional slider, efficient data fetching under heavy load.
-- Core developer on a high-load investment matching marketplace with complex data calculations.
+- Sole frontend developer on social media platform: took it from an empty repo to MVP in 6 months — architecture, animations, efficient data fetching under heavy load.
+- Core developer on a investment matching marketplace platform with complex data calculations.
 - Grew from junior to strong mid-level in ~1.5 years while working on multiple projects in parallel.
 
 **Tech Stack:** React.js, Redux, Redux-Saga, MobX, GraphQL, React Testing Library, Jest, Firebase

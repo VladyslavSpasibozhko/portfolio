@@ -84,12 +84,12 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
       return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
     }
 
-    const history = session.get(body.sessionId);
+    const history = await session.get(body.sessionId);
     if (!history) {
       return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
     }
 
-    const messages = [...history, createUserMessage(body.message)];
+    const messages = [...history.messages, createUserMessage(body.message)];
 
     reply.hijack();
     const res = reply.raw;
@@ -113,7 +113,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
         onmessage: (delta) => send(createDeltaResponse(delta)),
         onerror: (message) => send(createErrorStreamResponse(message)),
       });
-      session.set(body.sessionId, [...messages, createAssistantMessage(text)]);
+      await session.set(body.sessionId, [...messages, createAssistantMessage(text)]);
       send(createDoneResponse());
     } catch (e) {
       if (!controller.signal.aborted) {

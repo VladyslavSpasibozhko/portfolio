@@ -2,7 +2,7 @@ import { useState } from "react";
 import { getChatMessages } from "@api/chat";
 import { request } from "@lib/request";
 import type { GetChatMessagesResponse } from "@global-types/api";
-import type { Message } from "@global-types/message";
+import type { Message } from "@global-types/main/message";
 
 interface UseGetChatMessagesResult {
   getMessages: (sessionId: string) => Promise<Message[] | null>;

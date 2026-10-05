@@ -1,4 +1,4 @@
-import type { Message, MessageRole } from "../types/message.js";
+import type { Message, MessageRole } from "../types/main/message.js";
 
 type BaseMessage = Pick<Message, "role" | "content">;
 

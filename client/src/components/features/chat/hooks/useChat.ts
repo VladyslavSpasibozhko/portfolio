@@ -2,7 +2,7 @@ import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
 import type { ChatRequest } from "@global-types/api";
-import type { StreamResponse } from "@global-types/transport";
+import type { StreamResponse } from "@global-types/main/transport";
 
 interface UseChatCallbacks {
   onDelta: (text: string) => void;

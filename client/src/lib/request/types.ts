@@ -1,4 +1,4 @@
-import type { Response } from "@global-types/transport";
+import type { Response } from "@global-types/main/transport";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

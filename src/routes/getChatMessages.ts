@@ -23,10 +23,10 @@ export async function getChatMessagesRoute(app: FastifyInstance): Promise<void> 
     } catch (e) {
       return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
     }
-    const messages = session.get(params.id);
-    if (!messages) {
+    const history = await session.get(params.id);
+    if (!history) {
       return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
     }
-    return createResponse(messages);
+    return createResponse(history.messages);
   });
 }

@@ -1,11 +1,5 @@
 # Tech Debt
 
-## Chat Sessions Have No TTL, Caps, or Concurrency Guard
-
-Chat sessions are kept with no expiry and no limits: nothing sweeps old sessions, nothing caps total sessions, messages per session, or sessions per user, and nothing stops two concurrent requests against the same session from racing on its history. Memory grows without bound, and overlapping requests can corrupt a session's history.
-
-**Open questions:** confirm this is still true of whichever storage backend is live before starting a fix — a storage migration may already address part of this. Once fixed, make sure a concurrency test actually exercises the race, not just the caps.
-
 ## Full Chat History Is Sent to the Model Unbounded
 
 The entire session history is sent to the model on every turn with no trimming. A long-running conversation's token cost — and latency — grows without bound.

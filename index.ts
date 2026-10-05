@@ -5,6 +5,7 @@ import { registerCors } from "./src/plugins/cors.js";
 import { registerRateLimit } from "./src/plugins/rateLimit.js";
 import { chatRoutes } from "./src/routes/chat.js";
 import { createChatRoute } from "./src/routes/createChat.js";
+import { cleanupChatRoute } from "./src/routes/cleanupChat.js";
 import { deleteChatRoute } from "./src/routes/deleteChat.js";
 import { getChatMessagesRoute } from "./src/routes/getChatMessages.js";
 
@@ -18,6 +19,7 @@ await app.register(chatRoutes);
 await app.register(createChatRoute);
 await app.register(deleteChatRoute);
 await app.register(getChatMessagesRoute);
+await app.register(cleanupChatRoute);
 
 const port = Number(process.env.PORT);
 if (!port) {

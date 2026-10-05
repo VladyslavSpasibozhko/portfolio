@@ -3,9 +3,9 @@
  * per route (input, output).
  */
 
-import type { Message } from './message.js';
-import type { Session } from './session.js';
-import type { StreamResponse } from './transport.js';
+import type { Message } from './main/message.js';
+import type { Session } from './main/session.js';
+import type { StreamResponse } from './main/transport.js';
 
 /** POST /chat */
 export interface ChatRequest {

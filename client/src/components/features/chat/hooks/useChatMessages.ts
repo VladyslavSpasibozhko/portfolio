@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import type { Message } from "@global-types/message";
+import type { Message } from "@global-types/main/message";
 import { createUserMessage, createAssistantMessage } from "@global-utils/message";
 import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";

@@ -1,4 +1,4 @@
-import type { StreamResponse } from "@global-types/transport";
+import type { StreamResponse } from "@global-types/main/transport";
 
 export type StreamEvent = CustomEvent<StreamResponse>;
 

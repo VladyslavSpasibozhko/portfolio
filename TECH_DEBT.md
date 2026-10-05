@@ -11,6 +11,7 @@ Validation failures return AJV's technical error messages ("must be string", "mu
 Define custom error mappings in `ErrorsDictionary` for common validation failures in chat requests.
 
 **How:**
+
 1. Identify exact error paths AJV generates for missing/invalid fields
 2. Map those paths to user-friendly messages
 3. Pass `ErrorsDictionary` to `validate()` function
@@ -27,6 +28,7 @@ Define custom error mappings in `ErrorsDictionary` for common validation failure
 Narrow and type the AI response shape so the format is explicit and part of the contract (e.g. `{ format: 'markdown' | 'text'; content: string }`), threaded through the lib, service, and `Message`/`StreamResponse` types.
 
 **How:**
+
 1. Decide the response format(s) the assistant should support
 2. Update `AIAdapter` contract and `Message`/`StreamResponse` types to carry the format alongside the content
 3. Update the client to render based on the declared format
@@ -42,6 +44,7 @@ Narrow and type the AI response shape so the format is explicit and part of the 
 Decide whether the chat ships with the journey page. If so, rewrite `useChatConnection`/`ws.ts` against the SSE endpoints first, then mount it and restyle it to match.
 
 **How:**
+
 1. Rewrite the client to a fetch-stream client with session create/delete flow
 2. Mount `ChatWrapper` in `App.tsx` (or remove the feature if it's out of scope)
 3. Align its styles with the current tokens and responsive layout
@@ -58,6 +61,7 @@ Decide whether the chat ships with the journey page. If so, rewrite `useChatConn
 Replace the `/ws/chat` WS proxy entry with a plain HTTP proxy for `/chat`, once the client is migrated, and keep its target port in sync with the server's default.
 
 **How:**
+
 1. Migrate the client first (it can't use the new endpoints until then)
 2. Replace the proxy entry: `/chat` → `http://localhost:<port>`, no `ws: true`
 3. Pick one default port and either hardcode it consistently in both places or read it from env in `vite.config.ts`
@@ -67,12 +71,13 @@ Replace the `/ws/chat` WS proxy entry with a plain HTTP proxy for `/chat`, once 
 **Priority:** Medium
 
 **Reason:**  
-`src/storage/sessions.ts` is a plain in-memory `Map` with no expiry and no limits: sessions never get swept, and nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. Planned: 1h TTL swept every minute, 1,000/100/~5 caps, a 409 on concurrent streams — none of it is implemented.
+Sessions now live in Redis with an `expiresAt` field, but nothing deletes them yet (cleanup via QStash is planned in `REDIS_MIGRATION.md`), and nothing caps total sessions, messages per session, or sessions per IP. Nothing stops two concurrent `POST /chat` calls against the same session either (no busy flag), so overlapping streams can race on the same history array. `CHAT_MIGRATION.md` planned all of this (1h TTL swept every minute, 1,000/100/~5 caps, a 409 on concurrent streams) but it isn't implemented.
 
 **What to update:**
 Add TTL sweeping, size caps, and a per-session busy flag to the storage/session layer.
 
 **How:**
+
 1. Add `lastActivity` to stored sessions and sweep expired ones on an unref'd interval
 2. Add and enforce the caps (total sessions, messages/session, sessions/IP)
 3. Add a busy flag per session; `POST /chat` returns 409 if a stream is already running for that session
@@ -88,6 +93,7 @@ Add TTL sweeping, size caps, and a per-session busy flag to the storage/session 
 Trim history to a fixed window before it reaches the AI service, while still storing the full history for the session (or cap that too — needs a decision, see the caps entry above).
 
 **How:**
+
 1. Decide the message window (~20 messages proposed; confirm before implementing)
 2. Apply the trim in `services/session.ts` (its `get`) or at the call site in `chat.ts` — pick one, don't duplicate the rule
 3. Keep the untrimmed history in storage unless the caps entry above says otherwise
@@ -103,6 +109,7 @@ In `src/routes/chat.ts`, if `ai.chatStream` throws (not from client abort), the 
 Make the error path explicit: either persist the user message immediately and roll it back on failure, or confirm the current "append only on success" behavior is intentional and drop the rollback requirement.
 
 **How:**
+
 1. Decide which model to use (append-then-rollback vs. append-only-on-success)
 2. Implement it in `src/routes/chat.ts` / `services/session.ts`
 
@@ -117,6 +124,7 @@ The `--text-*` tokens and `--spacing` in `client/src/index.css` are in `px` (see
 Decide whether user font-size scaling matters for this site; if it does, restore it without giving up px-numbered class names.
 
 **How:**
+
 1. Keep the numbering as it is (`text-44` = 44px, `p-16` = 16px at the default root)
 2. Express the values as a `calc()` off the root font size — e.g. `--spacing: calc(1rem / 16)` — rather than going back to hand-written `rem` values
 3. Verify the slides at 125%/150% browser font size before and after
@@ -132,6 +140,7 @@ With `--spacing: 1px` the scale is unbounded, so `p-15` or `gap-7.5` compile hap
 Make an off-scale spacing value fail in CI rather than in review.
 
 **How:**
+
 1. Add an ESLint rule (e.g. `eslint-plugin-tailwindcss` with a custom pattern) or a small lint script that greps class strings for odd/fractional spacing numbers
 2. Wire it into the client's lint step
 
@@ -146,6 +155,7 @@ Slide backgrounds are committed as pre-generated `<name>-<mobile|tablet|laptop>.
 Make the variant generation reproducible.
 
 **How:**
+
 1. Add a script (e.g. with `sharp`) that takes an original and outputs the three sizes in AVIF and WebP with the current quality settings
 2. Document where originals are kept (outside the repo) and how to run the script
 3. Update the comment in `backgrounds.ts`
@@ -161,6 +171,7 @@ Make the variant generation reproducible.
 Decide whether the journey content should feed the AI too, and add a check that flags factual drift between the two files.
 
 **How:**
+
 1. Render `journey.json` to Markdown at runtime and include it in `systemPrompt()` in `src/services/ai/prompts.ts`, or accept the gap and document it
 2. If useful, add a check (build or pre-commit) that flags facts present in one file and missing from the other
 

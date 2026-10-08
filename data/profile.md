@@ -20,7 +20,7 @@ _This document covers background, work history, use cases, and thinking as a dev
 - **Specialist areas:** Micro-frontend architecture, monorepos (Nx, Lerna, pnpm), design systems & shared component libraries (Storybook), performance of high-load modules, real-time UIs (WebSockets)
 - **Business setup:** Operates a Polish sole proprietorship (JDG) for over two years
 - **Education:** Bachelor's Degree in Robotic Systems for Packaging Production, National University of Food Technologies (2018), GPA 4.5
-- **Languages:** Ukrainian (native), English (upper-intermediate), Polish (intermediate)
+- **Languages:** Ukrainian (native), English (advanced), Polish (intermediate)
 - **Work authorization:** Temporary residence in Poland, valid until 2028; covers roles applied for; authorization tied to Polish JDG (B2B without sponsorship). For employment-based roles, would need to confirm compatibility with the residence permit.
 - **Notice period:** None — available to start immediately
 - **Relocation/travel:** Under discussion — currently focused on remote/hybrid roles in Wrocław, open to discussing relocation or travel depending on the role
@@ -50,7 +50,7 @@ _This document covers background, work history, use cases, and thinking as a dev
 
 ### WorkJam — Senior Frontend Engineer
 
-**March 2024 – July 2026 | Kraków, Poland (Remote) | 2 years 5 months**
+**May 2024 – July 2026 | Kraków, Poland (Remote) | 2 years 3 months**
 
 Frontline AI platform for task management, scheduling, and communication for deskless workforces (retail, hospitality, manufacturing, healthcare). ~3M users, enterprise clients in 38 countries, 50+ languages. Monorepo (Nx, Lerna, pnpm) with 2 legacy Angular apps + 1 Next.js app — 4 module apps and 1 unified app — sharing reusable component libraries. ~20-person frontend team.
 
@@ -87,7 +87,7 @@ _Cross-Platform Android WebView Integration_ — Google's 4KB page size requirem
 
 ### REMED, TOV — Frontend Engineer
 
-**December 2021 – August 2024 | Kyiv, Ukraine (Remote) | 2 years 9 months**
+**December 2021 – April 2024 | Kyiv, Ukraine (Remote) | 2 years 5 months**
 
 Healthcare CRM (PWA) connecting clinics and laboratories, integrated with Helsi — Ukraine's largest medical information system, connected to the national eHealth system.
 

@@ -14,7 +14,7 @@ function buildBody<TBody>(body: TBody | undefined): string | undefined {
   return body !== undefined ? JSON.stringify(body) : undefined;
 }
 
-export async function streamRequest<B extends StreamBody = {}>(
+export async function streamRequest<B extends StreamBody = StreamBody>(
   request: StreamConfig<B>,
   options: StreamOptions
 ): Promise<void> {

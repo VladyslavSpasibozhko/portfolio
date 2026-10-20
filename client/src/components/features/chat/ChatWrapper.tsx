@@ -4,12 +4,7 @@ import { Typography } from "@components/atoms/Typography";
 import { ChatWindow } from "./ChatWindow";
 import { ChatWindowProvider } from "./context/ChatWindowContext";
 
-interface ChatWrapperProps {
-  avatarUrl?: string;
-  username?: string;
-}
-
-export function ChatWrapper({}: ChatWrapperProps) {
+export function ChatWrapper() {
   const [isOpen, setIsOpen] = useState(false);
 
   return (

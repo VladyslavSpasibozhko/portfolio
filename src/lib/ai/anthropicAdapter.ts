@@ -33,12 +33,12 @@ export class AnthropicAdapter implements AIAdapter {
     )
       .on('text', onmessage)
       .on('abort', (e) => {
-        onabort && onabort(e.message);
+        onabort?.(e.message);
       })
       .on('error', (e) => {
         onerror(e.message)
       })
-      .on('end', () => onend && onend())
+      .on('end', () => onend?.())
 
     return await stream.finalText();
   }

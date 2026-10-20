@@ -18,12 +18,14 @@ Server (repo root):
 - `npm run dev` — run the server with `tsx watch`.
 - `npm run typecheck` / `npm run build` / `npm start`.
 - `npm test` — runs `src/**/*.test.ts` with the Node test runner.
+- `npm run lint` — ESLint (flat config in `eslint.config.js`; `client/` is ignored).
 
 Client (`client/`):
 
 - `npm run dev` / `npm run build` / `npm run preview` / `npm run typecheck`.
+- `npm run lint` — ESLint with typescript-eslint, react-hooks, react-refresh (`client/eslint.config.js`).
 
-Run `typecheck` in the affected package(s) after changes.
+Run `typecheck` and `lint` in the affected package(s) after changes.
 
 ## Commits
 
@@ -31,7 +33,7 @@ Commit messages follow Conventional Commits (`type(scope): description`), matchi
 
 ## Environment
 
-- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `QSTASH_TOKEN`, `QSTASH_CURRENT_SIGNING_KEY`, `QSTASH_NEXT_SIGNING_KEY`, `APP_BASE_URL` (public base URL QStash calls back). Missing vars throw at startup. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
+- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `QSTASH_TOKEN`, `QSTASH_CURRENT_SIGNING_KEY`, `QSTASH_NEXT_SIGNING_KEY`, `APP_BASE_URL` (public base URL QStash calls back). Read them only through `config` in `src/config/index.ts` (enforced by ESLint); each getter throws when its var is missing. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/src/.env` (`envDir: './src'` in `vite.config.ts`) and is exposed only through `client/src/config.ts`.
 
 ## Types (`types/`)

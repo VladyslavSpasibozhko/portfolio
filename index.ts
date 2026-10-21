@@ -1,6 +1,7 @@
 import "dotenv/config";
 import Fastify from "fastify";
 import multipart from "@fastify/multipart";
+import { config } from "./src/config/index.js";
 import { registerCors } from "./src/plugins/cors.js";
 import { registerRateLimit } from "./src/plugins/rateLimit.js";
 import { chatRoutes } from "./src/routes/chat.js";
@@ -21,9 +22,4 @@ await app.register(deleteChatRoute);
 await app.register(getChatMessagesRoute);
 await app.register(cleanupChatRoute);
 
-const port = Number(process.env.PORT);
-if (!port) {
-  throw new Error("PORT is not set. Copy .env.example to .env and fill it in.");
-}
-
-await app.listen({ port, host: "0.0.0.0" });
+await app.listen({ port: config.port, host: "0.0.0.0" });

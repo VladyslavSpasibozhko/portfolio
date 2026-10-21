@@ -1,6 +1,6 @@
 export type StreamBody = FormData | object;
 
-export interface StreamConfig<B extends StreamBody = {}> {
+export interface StreamConfig<B extends StreamBody = StreamBody> {
   path: string;
   method: "GET" | "POST";
   headers?: Record<string, string>;

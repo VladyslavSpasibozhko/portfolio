@@ -43,3 +43,7 @@ There's no automated test coverage on the client. A malformed content entry or a
 There's no way to pass files into the assistant's context — only the static profile text and chat history are used.
 
 **Open questions:** needs a decision on transport (a chat message vs. a dedicated upload endpoint), which file types to support, and how file content should be merged into the assistant's context.
+
+## ESLint Warnings Left
+
+`npm run lint` passes in both packages, but the client still has warnings: `react-hooks/exhaustive-deps` in `useChatMessages` and `useIntersectionObserver`, and `react-refresh/only-export-components` in `Icon.tsx` and `ChatWindowContext.tsx`.

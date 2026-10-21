@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { ChatAssistantMessage } from "./ChatAssistantMessage";
 import { useChatWindowContext } from "./context/ChatWindowContext";
 
-interface ChatStreamingMessageProps {}
-
-export function ChatStreamingMessage(_: ChatStreamingMessageProps) {
+export function ChatStreamingMessage() {
   const { streamEmitter } = useChatWindowContext();
   const [content, setContent] = useState(streamEmitter.content);
 

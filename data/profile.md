@@ -25,14 +25,6 @@ _This document covers background, work history, use cases, and thinking as a dev
 - **Notice period:** None — available to start immediately
 - **Relocation/travel:** Under discussion — currently focused on remote/hybrid roles in Wrocław, open to discussing relocation or travel depending on the role
 
-### Salary Expectations
-
-- USD: 5,000 netto (6,276 USD brutto, B2B)
-- EUR: 5,000 netto (6,182 EUR brutto, B2B)
-- Exchange rates used: 1 USD = 3.7 PLN, 1 EUR = 4.3 PLN
-- Employed alternative (EUR): gross 27,609 PLN (6,735 EUR) → netto 20,510 PLN (5,000 EUR) after ZUS 13.71% + PIT 12%
-- Employed alternative (USD): gross 26,918 PLN (6,730 USD) → netto 20,000 PLN (5,000 USD) after ZUS 13.71% + PIT 12%
-
 ---
 
 ## Senior / Staff Signals (summary)

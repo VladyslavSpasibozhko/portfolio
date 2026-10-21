@@ -41,7 +41,7 @@ npm install --prefix client
 
 # configure
 cp .env.example .env            # ANTHROPIC_API_KEY, ANTHROPIC_MODEL, PORT, CLIENT_ORIGIN
-echo "VITE_WS_URL=ws://localhost:3001/ws/chat" > client/src/.env
+echo "VITE_API_URL=http://localhost:3001" > client/.env
 
 # run (two terminals)
 npm run dev                     # server

@@ -10,9 +10,12 @@ export async function createChatRoute(app: FastifyInstance): Promise<void> {
 
     try {
       await setSessionCleanup(`/internal/cleanup/${session.sessionId}`, session)
+        .catch((e: Error) => {
+          remove(session.sessionId);
+          throw Error(e.message);
+        })
       return createResponse(session);
     } catch (e) {
-      await remove(session.sessionId);
       return reply.status(500).send(createErrorResponse(createErrorDetails("server_error", (e as Error).message, 500)));
     }
   });

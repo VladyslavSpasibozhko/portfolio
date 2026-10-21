@@ -1,6 +1,7 @@
 node_modules
 dist
 .env
+.env*
 client/dist
 client/node_modules
 .DS_Store

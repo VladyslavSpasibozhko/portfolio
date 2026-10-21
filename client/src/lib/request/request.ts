@@ -25,7 +25,7 @@ function buildHeaders(headers?: FetchConfig["headers"]): HeadersInit {
   return { "Content-Type": "application/json", ...headers };
 }
 
-function buildBody<B extends FetchBody = {}>(method: Method, body: B | undefined): string | undefined {
+function buildBody<B extends FetchBody = FetchBody>(method: Method, body: B | undefined): string | undefined {
   const nonBodyMethods: Method[] = ['GET'];
   if (nonBodyMethods.includes(method)) return undefined;
 
@@ -36,7 +36,7 @@ function buildBody<B extends FetchBody = {}>(method: Method, body: B | undefined
   return JSON.stringify(body)
 }
 
-export async function request<T, B extends FetchBody = {}>(request: FetchConfig<B>): Promise<FetchResult<T>> {
+export async function request<T, B extends FetchBody = FetchBody>(request: FetchConfig<B>): Promise<FetchResult<T>> {
   try {
     const res = await fetch(buildUrl(request.path, request.query), {
       method: request.method,

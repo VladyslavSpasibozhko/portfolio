@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import type { Message } from "@global-types/main/message";
 import { createUserMessage, createAssistantMessage } from "@global-utils/message";
 import { useChatSession } from "./useChatSession";
@@ -18,8 +18,8 @@ interface UseChatMessagesResult {
 }
 
 export function useChatMessages(): UseChatMessagesResult {
-  const statusEmitterRef = useRef<StatusEmitter>(new StatusEmitter("idle"));
-  const streamEmitterRef = useRef<StreamEmitter>(new StreamEmitter());
+  const [statusEmitter] = useState(() => new StatusEmitter("idle"));
+  const [streamEmitter] = useState(() => new StreamEmitter());
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [userMessage, setUserMessage] = useState<string>('');
@@ -34,19 +34,19 @@ export function useChatMessages(): UseChatMessagesResult {
     error: chatError,
   } = useChat({
     onDelta: (text) => {
-      statusEmitterRef.current.set("generating");
-      streamEmitterRef.current.delta(text);
+      statusEmitter.set("generating");
+      streamEmitter.delta(text);
     },
     onDone: () => {
-      const content = streamEmitterRef.current!.content;
-      statusEmitterRef.current.set("generated");
+      const content = streamEmitter.content;
+      statusEmitter.set("generated");
       setMessages((messages) => messages.concat(createAssistantMessage(content)));
-      streamEmitterRef.current!.done();
+      streamEmitter.done();
       setUserMessage('');
     },
     onError: (message) => {
-      statusEmitterRef.current.set("failed");
-      streamEmitterRef.current!.error(message);
+      statusEmitter.set("failed");
+      streamEmitter.error(message);
     },
   });
 
@@ -68,7 +68,7 @@ export function useChatMessages(): UseChatMessagesResult {
   const sendMessage = async (content: string, id: string) => {
     const preparedMessage: Message = createUserMessage(content);
 
-    statusEmitterRef.current.set("waiting");
+    statusEmitter.set("waiting");
     setMessages((prev) => [...prev, preparedMessage]);
 
     await sendChatMessage({ message: content, sessionId: id })
@@ -80,7 +80,7 @@ export function useChatMessages(): UseChatMessagesResult {
       return;
     }
 
-    statusEmitterRef.current.set('idle');
+    statusEmitter.set('idle');
 
     if (createSessionError) {
       // no user message was appended when session creation failed
@@ -104,23 +104,28 @@ export function useChatMessages(): UseChatMessagesResult {
 
   // Create session or fetch message by ID.
   useEffect(() => {
-    if (!sessionId) {
-      createSession();
-      return;
-    }
+    const initSession = async () => {
+      if (!sessionId) {
+        await createSession();
+        return;
+      }
 
-    getSessionMessages(sessionId).then((result) => {
+      const loaded = await getSessionMessages(sessionId);
       // If session exist but fetch is failed, create new session.
-      if (!result) createSession();
-      else { statusEmitterRef.current.set('idle'); }
+      if (!loaded) {
+        await createSession();
+        return;
+      }
+      statusEmitter.set('idle');
+    };
 
-    })
+    initSession();
   }, [sessionId]);
 
   return {
     messages,
-    statusEmitter: statusEmitterRef.current,
-    streamEmitter: streamEmitterRef.current,
+    statusEmitter,
+    streamEmitter,
     error: createSessionError ?? chatError,
     sendMessage: prepareSending,
     retrySendMessage: retrySendMessage,

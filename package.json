@@ -9,7 +9,8 @@
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "test:ai": "tsx src/services/ai/test.ts",
-    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --import=tsx --test"
+    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --import=tsx --test",
+    "lint": "eslint ."
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.123.0",
@@ -23,8 +24,15 @@
     "fastify": "^5.1.0"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.5",
     "@types/node": "^22.9.0",
+    "eslint": "^9.39.5",
+    "eslint-import-resolver-typescript": "^4.4.5",
+    "eslint-plugin-boundaries": "^7.2.0",
+    "eslint-plugin-import-x": "^4.17.1",
+    "globals": "^17.13.0",
     "tsx": "^4.19.2",
-    "typescript": "^5.6.3"
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.72.0"
   }
 }

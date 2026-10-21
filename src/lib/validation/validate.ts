@@ -1,9 +1,9 @@
-import Ajv from "ajv";
+import { Ajv } from "ajv";
 import type { ValidateFunction } from "ajv";
 import type { Schema, ValidationResult, ErrorsDictionary } from "./types.js";
 import { getErrorMessage } from "./getErrorMessage.js";
 
-const ajv = new (Ajv as any)();
+const ajv = new Ajv();
 
 export function validate<T>(
   data: unknown,

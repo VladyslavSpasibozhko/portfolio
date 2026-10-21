@@ -1,4 +1,5 @@
 import type { FastifyInstance } from "fastify";
+import { config } from "../config/index.js";
 import type { ChatRequest, ChatResponse } from "../../types/api.js";
 import { validate, type Schema, type ErrorsDictionary } from "../lib/validation/index.js";
 import * as ai from "../services/ai/index.js";
@@ -97,7 +98,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
       "Content-Type": "text/event-stream",
       "Cache-Control": "no-cache",
       Connection: "keep-alive",
-      "Access-Control-Allow-Origin": process.env.CLIENT_ORIGIN as string,
+      "Access-Control-Allow-Origin": config.clientOrigin,
       Vary: "Origin",
     });
 

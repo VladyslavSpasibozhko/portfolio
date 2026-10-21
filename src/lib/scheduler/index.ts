@@ -9,5 +9,5 @@ const qstashReceiver = new Receiver({
   nextSigningKey: config.qstashNextSigningKey,
 });
 
-export const scheduler: Scheduler = new QstashAdapter(qstashClient, qstashReceiver, config.appBaseUrl.replace(/\/+$/, ""));
+export const scheduler: Scheduler = new QstashAdapter(qstashClient, qstashReceiver, config.serverUrl.replace(/\/+$/, ""));
 export type { Scheduler, ScheduleInput, VerifyInput } from "./types.js";

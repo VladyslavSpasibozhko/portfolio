@@ -8,7 +8,6 @@ import path from 'path';
 export default defineConfig({
   plugins: [tailwindcss(), react(), svgr()],
   publicDir: '../data',
-  envDir: './src',
   resolve: {
     alias: {
       '@global-types': path.resolve(__dirname, '../types'),

@@ -35,7 +35,7 @@ export const config = {
   get qstashNextSigningKey() {
     return requireEnv("QSTASH_NEXT_SIGNING_KEY");
   },
-  get appBaseUrl() {
-    return requireEnv("APP_BASE_URL");
+  get serverUrl() {
+    return requireEnv("SERVER_URL");
   },
 };

@@ -33,7 +33,7 @@ Plan for moving chat sessions off the in-memory `Map`, scheduling file cleanup, 
 1. Add `render.yaml` — free tier web service, Node build/start commands (`npm run build` / `npm start`), health check path.
 2. Confirm `.env.example` is current (all required vars: `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`, `QSTASH_TOKEN`, QStash signing keys) — Redis migration and QStash setup should land first so Render env vars are complete in one pass.
 3. User creates the Render service (connect repo), sets env vars in the Render dashboard (never committed).
-4. Point the QStash cleanup callback URL at the deployed Render URL (only known after first deploy) — update the adapter's target base URL via an env var (`APP_BASE_URL` or similar), not hardcoded.
+4. Point the QStash cleanup callback URL at the deployed Render URL (only known after first deploy) — update the adapter's target base URL via an env var (`SERVER_URL`), not hardcoded.
 5. Verify CORS (`CLIENT_ORIGIN`) matches the deployed frontend origin.
 6. Smoke-test end-to-end on Render: create session → chat SSE stream → confirm Redis persists across a manual restart.
 

@@ -3,6 +3,7 @@
  * per route (input, output).
  */
 
+import type { Flags } from './main/flags.js';
 import type { Message } from './main/message.js';
 import type { Session } from './main/session.js';
 import type { StreamResponse } from './main/transport.js';
@@ -31,3 +32,7 @@ export interface GetChatMessagesRequest {
 }
 
 export type GetChatMessagesResponse = Message[];
+
+
+/** GET /flags */
+export type GetFlagsResponse = Flags;

@@ -3,9 +3,19 @@ import { Icon } from "@components/atoms/Icon";
 import { Typography } from "@components/atoms/Typography";
 import { ChatWindow } from "./ChatWindow";
 import { ChatWindowProvider } from "./context/ChatWindowContext";
+import { useFlags } from "@hooks/useFlags";
 
 export function ChatWrapper() {
   const [isOpen, setIsOpen] = useState(false);
+  const { loading, error, flags } = useFlags();
+
+  if (loading || error) {
+    return null;
+  }
+
+  if (!flags?.chatEnabled) {
+    return
+  }
 
   return (
     <>
@@ -36,7 +46,7 @@ export function ChatWrapper() {
           <ChatWindowProvider>
             <ChatWindow
               closeWindow={() => setIsOpen(false)}
-              // TODO:move it as well;
+              // TODO:move it as well
               emptyMessage="Start a conversation"
             />
           </ChatWindowProvider>

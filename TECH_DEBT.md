@@ -53,3 +53,7 @@ There's no way to pass files into the assistant's context — only the static pr
 `src/services/session.ts` and `src/storage/sessions.ts` import the Redis singleton directly, so they can't be tested without module mocks. Only the Redis lib adapter (`src/lib/redis/`) has tests.
 
 **Open questions:** inject the `Storage` into the storage layer (e.g. a factory) so it can be faked in tests.
+
+## HTTP Requests Can't Be Cancelled
+
+Client HTTP requests have no way to be aborted. When a component unmounts or a newer request supersedes an older one, the stale request still runs to completion and its response is only ignored, wasting bandwidth and server work, and any code that forgets to ignore it can apply outdated data.

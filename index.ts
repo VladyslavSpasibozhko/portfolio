@@ -9,6 +9,7 @@ import { createChatRoute } from "./src/routes/createChat.js";
 import { cleanupChatRoute } from "./src/routes/cleanupChat.js";
 import { deleteChatRoute } from "./src/routes/deleteChat.js";
 import { getChatMessagesRoute } from "./src/routes/getChatMessages.js";
+import { flags } from "./src/routes/flags.js";
 
 const app = Fastify({ logger: true });
 
@@ -21,5 +22,6 @@ await app.register(createChatRoute);
 await app.register(deleteChatRoute);
 await app.register(getChatMessagesRoute);
 await app.register(cleanupChatRoute);
+await app.register(flags);
 
 await app.listen({ port: config.port, host: "0.0.0.0" });

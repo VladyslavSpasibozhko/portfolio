@@ -42,7 +42,7 @@ There's no automated test coverage on the client. A malformed content entry or a
 
 There's no way to pass files into the assistant's context — only the static profile text and chat history are used.
 
-**Open questions:** needs a decision on transport (a chat message vs. a dedicated upload endpoint), which file types to support, and how file content should be merged into the assistant's context.
+**Open questions:** needs a decision on transport (a chat message vs. a dedicated upload endpoint), which file types to support, and how file content should be merged into the assistant's context. Sessions expire through a storage TTL only, which can't run any code, so uploaded files would outlive their session unless something else deletes them — how should they be cleaned up?
 
 ## ESLint Warnings Left
 

@@ -38,4 +38,5 @@ export const config = {
   get serverUrl() {
     return requireEnv("SERVER_URL");
   },
+  sessionLifeTime: 24 * 60 * 60 * 1000,
 };

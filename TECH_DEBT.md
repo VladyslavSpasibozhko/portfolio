@@ -47,3 +47,9 @@ There's no way to pass files into the assistant's context — only the static pr
 ## ESLint Warnings Left
 
 `npm run lint` passes in both packages, but the client still has warnings: `react-hooks/exhaustive-deps` in `useChatMessages` and `useIntersectionObserver`, and `react-refresh/only-export-components` in `Icon.tsx` and `ChatWindowContext.tsx`.
+
+## No Tests for the Session Service and Storage
+
+`src/services/session.ts` and `src/storage/sessions.ts` import the Redis singleton directly, so they can't be tested without module mocks. Only the Redis lib adapter (`src/lib/redis/`) has tests.
+
+**Open questions:** inject the `Storage` into the storage layer (e.g. a factory) so it can be faked in tests.

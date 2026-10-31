@@ -28,18 +28,6 @@ export const config = {
   get redisToken() {
     return requireEnv("UPSTASH_REDIS_REST_TOKEN");
   },
-  get qstashToken() {
-    return requireEnv("QSTASH_TOKEN");
-  },
-  get qstashCurrentSigningKey() {
-    return requireEnv("QSTASH_CURRENT_SIGNING_KEY");
-  },
-  get qstashNextSigningKey() {
-    return requireEnv("QSTASH_NEXT_SIGNING_KEY");
-  },
-  get serverUrl() {
-    return requireEnv("SERVER_URL");
-  },
   sessionLifeTime: 24 * 60 * 60 * 1000,
   flags
 };

@@ -7,7 +7,7 @@ export interface Message {
 
 export interface StreamOptions {
   onmessage: (message: string) => void;
-  onerror: (message: string) => void;
+  onerror?: (message: string) => void;
   onabort?: (message: string) => void;
   onend?: () => void;
   signal?: AbortSignal;

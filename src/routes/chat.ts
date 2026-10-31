@@ -76,21 +76,37 @@ export function validateChatRequest(request: unknown): ChatRequest {
   return result.data;
 }
 
+const validateBody = (body: unknown) => {
+  try {
+    return { success: true, data: validateChatRequest(body) } as const
+  } catch (e) {
+    // TODO: type errors
+    return { success: false, error: createErrorDetails("bad_request", getErrorMessage(e), 400) } as const
+  }
+
+}
+
+const getErrorMessage = (e: unknown) => {
+  if (e instanceof Error) {
+    return e.message;
+  }
+  // TODO: type errors
+  return 'Unknown error';
+}
+
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async (request, reply) => {
-    let body: ChatRequest;
-    try {
-      body = validateChatRequest(request.body);
-    } catch (e) {
-      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
+    const body = validateBody(request.body);
+
+    if (!body.success) {
+      return reply.status(400).send(createErrorResponse(body.error));
     }
 
-    const history = await session.get(body.sessionId);
+    const history = await session.get(body.data.sessionId);
     if (!history) {
       return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
     }
 
-    const messages = [...history.messages, createUserMessage(body.message)];
 
     reply.hijack();
     const res = reply.raw;
@@ -105,23 +121,36 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     const controller = new AbortController();
     res.on("close", () => controller.abort());
 
-    const send = (event: ChatResponse) =>
+    const send = (event: ChatResponse) => {
       res.write(`data: ${JSON.stringify(validateChatResponse(event))}\n\n`);
-
-    try {
-      const text = await ai.chatStream(messages, {
-        signal: controller.signal,
-        onmessage: (delta) => send(createDeltaResponse(delta)),
-        onerror: (message) => send(createErrorStreamResponse(message)),
-      });
-      await session.set(body.sessionId, [...messages, createAssistantMessage(text)]);
-      send(createDoneResponse());
-    } catch (e) {
-      if (!controller.signal.aborted) {
-        request.log.error(e);
-      }
-    } finally {
-      res.end();
     }
+
+    const userMessage = createUserMessage(body.data.message);
+    const messages = [...history.messages, userMessage];
+
+    await ai.chatStream(messages, {
+      signal: controller.signal,
+      onmessage: (delta) => send(createDeltaResponse(delta)),
+    })
+      .then(text => {
+        const assistantMessage = createAssistantMessage(text);
+        return session.addMessages(body.data.sessionId, [userMessage, assistantMessage]);
+      })
+      .then(() => {
+        send(createDoneResponse());
+      })
+      .catch(e => {
+        if (controller.signal.aborted) {
+          request.log.warn(e);
+          return;
+        }
+
+        request.log.error(e);
+        // TODO: fix raw error.
+        send(createErrorStreamResponse(getErrorMessage(e)));
+      })
+      .finally(() => {
+        res.end();
+      })
   });
 }

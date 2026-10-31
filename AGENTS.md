@@ -88,7 +88,7 @@ Persistence, kept behind a plain function interface so the backing store can cha
 - Can use: libs, global types.
 - Can't use: services, routes.
 - Used only by the session service — routes and other services never import from `src/storage/` directly.
-- Current responsibility: session storage — holds chat messages per session in memory.
+- Current responsibility: session storage — stores each session as a Redis JSON document (`chat:<id>`) with a TTL.
 
 ## Routes (`src/routes/`)
 

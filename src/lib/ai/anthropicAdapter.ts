@@ -36,7 +36,7 @@ export class AnthropicAdapter implements AIAdapter {
         onabort?.(e.message);
       })
       .on('error', (e) => {
-        onerror(e.message)
+        onerror?.(e.message)
       })
       .on('end', () => onend?.())
 

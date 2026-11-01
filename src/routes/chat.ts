@@ -5,7 +5,7 @@ import * as session from "../services/session.js";
 import { commonSchemas, httpSchemas } from "../../shared/schemas/index.js";
 import { httpUtils, commonUtils } from "../../shared/utils/index.js";
 import { ERROR_MESSAGES } from "../../shared/errors/messages.js";
-import { badRequest, chatNotFound } from "./constant/errors.js";
+import { badRequest, chatNotFound } from "./factories/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

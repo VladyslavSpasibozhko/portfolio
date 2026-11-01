@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { create } from "../services/session.js";
 import { httpUtils } from "../../shared/utils/index.js";
-import { serverError } from "./constant/errors.js";
+import { serverError } from "./factories/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

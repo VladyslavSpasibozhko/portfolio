@@ -1,2 +1,2 @@
-export * as codes from './codes';
-export * as messages from './messages';
+export * as codes from './codes.js';
+export * as messages from './messages.js';

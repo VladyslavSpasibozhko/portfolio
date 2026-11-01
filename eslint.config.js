@@ -38,6 +38,7 @@ export default tseslint.config(
         { type: "config", pattern: "src/config", partialMatch: false },
         { type: "global-utils", pattern: "utils", partialMatch: false },
         { type: "global-types", pattern: "types", partialMatch: false },
+        { type: "shared", pattern: "shared/*", partialMatch: false },
       ],
     },
     rules: {
@@ -46,18 +47,25 @@ export default tseslint.config(
         {
           default: "disallow",
           policies: [
-            allow("routes", ["services", "lib", "config", "global-utils", "global-types"]),
-            allow("plugins", ["lib", "config", "global-types"]),
-            allow("services", ["storage", "lib", "global-utils", "global-types"]),
-            allow("storage", ["lib", "global-types"]),
-            allow("lib", ["config", "global-utils", "global-types"]),
-            allow("global-utils", ["global-types"]),
-            allow("global-types", ["global-types"]),
+            allow("routes", ["services", "lib", "config", "global-utils", "global-types", "shared"]),
+            allow("plugins", ["lib", "config", "global-types", "shared"]),
+            allow("services", ["storage", "lib", "global-utils", "global-types", "shared"]),
+            allow("storage", ["lib", "global-types", "shared"]),
+            allow("lib", ["config", "global-utils", "global-types", "shared"]),
+            allow("global-utils", ["global-types", "shared"]),
+            allow("global-types", ["global-types", "shared"]),
+            allow("shared", ["shared"]),
             {
               disallow: {
                 to: { element: { type: "lib", fileInternalPath: "!index.ts" } },
               },
               message: "Import a lib only through its index file.",
+            },
+            {
+              disallow: {
+                to: { element: { type: "shared", fileInternalPath: "!index.ts" } },
+              },
+              message: "Import from shared only through its index file.",
             },
           ],
         },

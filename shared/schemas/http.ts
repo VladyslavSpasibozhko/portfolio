@@ -34,4 +34,6 @@ export interface SuccessResponse<T> extends Omit<SuccessResponseInferred, 'data'
 }
 export type Response<T> = SuccessResponse<T> | ErrorResponse;
 export type StreamResponse = z.infer<typeof StreamResponseSchema>;
+export type StreamType = StreamResponse['type'];
+export type StreamOf<T extends StreamType> = Extract<StreamResponse, { type: T }>;
 

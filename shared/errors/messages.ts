@@ -5,7 +5,6 @@ export const ERROR_MESSAGES = {
     CHAT_ID_REQUIRED: 'chat.id_required',
     CHAT_ID_NON_EMPTY: 'chat.id_non_empty',
     INVALID_CHAT_REQUEST: 'chat.invalid_request',
-    INVALID_CHAT_RESPONSE: 'chat.invalid_response',
     INVALID_GET_CHAT_MESSAGES_PARAMS: 'chat.invalid_get_messages_params',
     INVALID_DELETE_CHAT_PARAMS: 'chat.invalid_delete_params',
     CHAT_NOT_FOUND: 'chat.not_found',

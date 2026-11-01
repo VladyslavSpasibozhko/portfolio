@@ -11,14 +11,15 @@ const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async ({ body, log }, reply) => {
-    const isValid = commonSchemas.CreateMessageSchema.validate(body);
+    const parsed = commonSchemas.CreateMessageSchema.strict().safeParse(body);
 
-    if (!isValid) {
+    if (!parsed.success) {
       const { status, details } = badRequest(ERROR_MESSAGES.VALIDATION_FAILED);
       return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
 
-    const history = await session.get(body.sessionId);
+    const { message, sessionId } = parsed.data;
+    const history = await session.get(sessionId);
     if (!history) {
       const { status, details } = chatNotFound();
       return reply.status(status).send(httpUtils.createErrorResponse(details));
@@ -41,7 +42,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
       res.write(`data: ${JSON.stringify(event)}\n\n`);
     };
 
-    const userMessage = commonUtils.createUserMessage(body.message);
+    const userMessage = commonUtils.createUserMessage(message);
     const messages = [...history.messages, userMessage];
 
     await ai.chatStream(messages, {
@@ -50,7 +51,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     })
       .then((text) => {
         const assistantMessage = commonUtils.createAssistantMessage(text);
-        return session.addMessages(body.sessionId, [userMessage, assistantMessage]);
+        return session.addMessages(sessionId, [userMessage, assistantMessage]);
       })
       .then(() => {
         send(httpUtils.createDoneResponse());

@@ -51,6 +51,7 @@ export default tseslint.config(
             allow("plugins", ["lib", "config", "global-types", "shared"]),
             allow("services", ["storage", "lib", "global-utils", "global-types", "shared"]),
             allow("storage", ["lib", "global-types", "shared"]),
+            allow("config", ["global-types"]),
             allow("lib", ["config", "global-utils", "global-types", "shared"]),
             allow("global-utils", ["global-types", "shared"]),
             allow("global-types", ["global-types", "shared"]),

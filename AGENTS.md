@@ -95,6 +95,7 @@ Persistence, kept behind a plain function interface so the backing store can cha
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
 - Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
+- Shared error responses (`badRequest`, `chatNotFound`, `serverError`) and the `ERROR_CODES`/`ERROR_MESSAGES` re-exports live in `src/routes/constant/errors.ts`. Routes import from there instead of defining their own.
 
 See the `route-creation-server` skill for the rules on adding or changing a route (validation, thin-controller boundary, transport envelopes).
 

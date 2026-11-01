@@ -3,56 +3,25 @@ import { config } from "../config/index.js";
 import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
 import { common, http } from "../../shared/schemas/index.js";
-import { codes, messages as errorMessages } from "../../shared/errors/index.js";
 import {
   http as httpUtils, common as commonUtils
 } from "../../shared/utils/index.js";
-
-const { ERROR_CODES } = codes;
-const { ERROR_MESSAGES } = errorMessages;
+import { ERROR_MESSAGES, badRequest, chatNotFound } from "./constant/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
-
-const invalidBody = () => {
-  const status = 400;
-  const details = httpUtils.createErrorDetails(
-    ERROR_CODES.BAD_REQUEST,
-    ERROR_MESSAGES.VALIDATION_FAILED,
-    status
-  );
-
-  return {
-    status,
-    details
-  }
-}
-
-const chatIsNotExisted = () => {
-  const status = 404;
-  const details = httpUtils.createErrorDetails(
-    ERROR_CODES.NOT_FOUND,
-    ERROR_MESSAGES.CHAT_NOT_FOUND,
-    404
-  );
-
-  return {
-    status,
-    details
-  }
-}
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async ({ body, log }, reply) => {
     const isValid = common.CreateChatSchema.validate(body);
 
     if (!isValid) {
-      const { status, details } = invalidBody();
+      const { status, details } = badRequest(ERROR_MESSAGES.VALIDATION_FAILED);
       return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
 
     const history = await session.get(body.sessionId);
     if (!history) {
-      const { status, details } = chatIsNotExisted();
+      const { status, details } = chatNotFound();
       return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
 

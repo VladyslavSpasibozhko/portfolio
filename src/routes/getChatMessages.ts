@@ -9,7 +9,7 @@ const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
 export async function getChatMessagesRoute(app: FastifyInstance): Promise<void> {
   app.get("/chat/:id/messages", { config: ROUTE_CONFIG }, async ({ params }, reply) => {
-    const parsed = commonSchemas.GetChatMessages.safeParse(params);
+    const parsed = commonSchemas.ChatIdSchema.safeParse(params);
 
     if (!parsed.success) {
       const { status, details } = badRequest(ERROR_MESSAGES.INVALID_GET_CHAT_MESSAGES_PARAMS);

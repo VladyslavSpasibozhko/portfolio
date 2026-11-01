@@ -1,32 +1,57 @@
 import type { FastifyInstance } from "fastify";
-import type { GetChatMessagesRequest } from "../../types/api.js";
-import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
-import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
-import { ChatIdParamsSchema, ChatIdParamsErrors } from "./schemas/chatIdParams.js";
+import { common } from "../../shared/schemas/index.js";
+import { codes, messages } from "../../shared/errors/index.js";
+import { http } from "../../shared/utils/index.js";
+
+const { ERROR_CODES } = codes;
+const { ERROR_MESSAGES } = messages;
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-export function validateGetChatMessagesParams(params: unknown): GetChatMessagesRequest {
-  const result = validate<GetChatMessagesRequest>(params, ChatIdParamsSchema, ChatIdParamsErrors);
-  if (!result.success) {
-    throw new Error("Invalid get chat messages params: " + result.error);
+const invalidParams = () => {
+  const status = 400;
+  const details = http.createErrorDetails(
+    ERROR_CODES.BAD_REQUEST,
+    ERROR_MESSAGES.INVALID_GET_CHAT_MESSAGES_PARAMS,
+    status
+  );
+
+  return {
+    status,
+    details
   }
-  return result.data;
+}
+
+const chatIsNotExisted = () => {
+  const status = 404;
+  const details = http.createErrorDetails(
+    ERROR_CODES.NOT_FOUND,
+    ERROR_MESSAGES.CHAT_NOT_FOUND,
+    status
+  );
+
+  return {
+    status,
+    details
+  }
 }
 
 export async function getChatMessagesRoute(app: FastifyInstance): Promise<void> {
-  app.get("/chat/:id/messages", { config: ROUTE_CONFIG }, async (request, reply) => {
-    let params: GetChatMessagesRequest;
-    try {
-      params = validateGetChatMessagesParams(request.params);
-    } catch (e) {
-      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
+  app.get("/chat/:id/messages", { config: ROUTE_CONFIG }, async ({ params }, reply) => {
+    const parsed = common.GetChatMessages.safeParse(params);
+
+    if (!parsed.success) {
+      const { status, details } = invalidParams();
+      return reply.status(status).send(http.createErrorResponse(details));
     }
-    const history = await session.get(params.id);
+
+    const history = await session.get(parsed.data.id);
     if (!history) {
-      return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
+      const { status, details } = chatIsNotExisted();
+      return reply.status(status).send(http.createErrorResponse(details));
     }
-    return createResponse(history.messages);
+
+    return http.createResponse(history.messages);
   });
 }

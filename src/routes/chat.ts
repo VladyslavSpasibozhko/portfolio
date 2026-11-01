@@ -1,106 +1,60 @@
 import type { FastifyInstance } from "fastify";
 import { config } from "../config/index.js";
-import type { ChatRequest, ChatResponse } from "../../types/api.js";
-import { validate, type Schema, type ErrorsDictionary } from "../lib/validation/index.js";
 import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
-import { createAssistantMessage, createUserMessage } from "../../utils/message.js";
+import { common, http } from "../../shared/schemas/index.js";
+import { codes, messages as errorMessages } from "../../shared/errors/index.js";
 import {
-  createDeltaResponse,
-  createDoneResponse,
-  createErrorDetails,
-  createErrorResponse,
-  createErrorStreamResponse,
-} from "../../utils/transport.js";
+  http as httpUtils, common as commonUtils
+} from "../../shared/utils/index.js";
+
+const { ERROR_CODES } = codes;
+const { ERROR_MESSAGES } = errorMessages;
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-const ChatRequestSchema: Schema = {
-  type: "object",
-  properties: {
-    message: { type: "string" },
-    sessionId: { type: "string" },
-  },
-  required: ["message", "sessionId"],
-  additionalProperties: false,
-};
+const invalidBody = () => {
+  const status = 400;
+  const details = httpUtils.createErrorDetails(
+    ERROR_CODES.BAD_REQUEST,
+    ERROR_MESSAGES.VALIDATION_FAILED,
+    status
+  );
 
-const ChatRequestErrors: ErrorsDictionary = {
-  root: "Request must include a message and a sessionId, with no extra fields.",
-  message: "Message must be text.",
-  sessionId: "Session ID must be text.",
-};
-
-const ChatResponseSchema: Schema = {
-  oneOf: [
-    {
-      type: "object",
-      properties: { type: { const: "delta" }, text: { type: "string" } },
-      required: ["type", "text"],
-      additionalProperties: false,
-    },
-    {
-      type: "object",
-      properties: { type: { const: "done" } },
-      required: ["type"],
-      additionalProperties: false,
-    },
-    {
-      type: "object",
-      properties: { type: { const: "error" }, message: { type: "string" } },
-      required: ["type", "message"],
-      additionalProperties: false,
-    }
-  ],
-};
-
-export function validateChatResponse(response: unknown): ChatResponse {
-  const result = validate<ChatResponse>(response, ChatResponseSchema);
-  if (!result.success) {
-    throw new Error("Invalid chat response: " + result.error);
+  return {
+    status,
+    details
   }
-  return result.data;
 }
 
-export function validateChatRequest(request: unknown): ChatRequest {
-  const result = validate<ChatRequest>(request, ChatRequestSchema, ChatRequestErrors);
-  if (!result.success) {
-    throw new Error("Invalid chat request: " + result.error);
-  }
-  return result.data;
-}
+const chatIsNotExisted = () => {
+  const status = 404;
+  const details = httpUtils.createErrorDetails(
+    ERROR_CODES.NOT_FOUND,
+    ERROR_MESSAGES.CHAT_NOT_FOUND,
+    404
+  );
 
-const validateBody = (body: unknown) => {
-  try {
-    return { success: true, data: validateChatRequest(body) } as const
-  } catch (e) {
-    // TODO: type errors
-    return { success: false, error: createErrorDetails("bad_request", getErrorMessage(e), 400) } as const
+  return {
+    status,
+    details
   }
-
-}
-
-const getErrorMessage = (e: unknown) => {
-  if (e instanceof Error) {
-    return e.message;
-  }
-  // TODO: type errors
-  return 'Unknown error';
 }
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
-  app.post("/chat", { config: ROUTE_CONFIG }, async (request, reply) => {
-    const body = validateBody(request.body);
+  app.post("/chat", { config: ROUTE_CONFIG }, async ({ body, log }, reply) => {
+    const isValid = common.CreateChatSchema.validate(body);
 
-    if (!body.success) {
-      return reply.status(400).send(createErrorResponse(body.error));
+    if (!isValid) {
+      const { status, details } = invalidBody();
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
 
-    const history = await session.get(body.data.sessionId);
+    const history = await session.get(body.sessionId);
     if (!history) {
-      return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
+      const { status, details } = chatIsNotExisted();
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
-
 
     reply.hijack();
     const res = reply.raw;
@@ -115,36 +69,35 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     const controller = new AbortController();
     res.on("close", () => controller.abort());
 
-    const send = (event: ChatResponse) => {
-      res.write(`data: ${JSON.stringify(validateChatResponse(event))}\n\n`);
-    }
+    const send = (event: http.StreamResponse) => {
+      res.write(`data: ${JSON.stringify(event)}\n\n`);
+    };
 
-    const userMessage = createUserMessage(body.data.message);
+    const userMessage = commonUtils.createUserMessage(body.message);
     const messages = [...history.messages, userMessage];
 
     await ai.chatStream(messages, {
       signal: controller.signal,
-      onmessage: (delta) => send(createDeltaResponse(delta)),
+      onmessage: (delta) => send(httpUtils.createDeltaResponse(delta)),
     })
-      .then(text => {
-        const assistantMessage = createAssistantMessage(text);
-        return session.addMessages(body.data.sessionId, [userMessage, assistantMessage]);
+      .then((text) => {
+        const assistantMessage = commonUtils.createAssistantMessage(text);
+        return session.addMessages(body.sessionId, [userMessage, assistantMessage]);
       })
       .then(() => {
-        send(createDoneResponse());
+        send(httpUtils.createDoneResponse());
       })
-      .catch(e => {
+      .catch((e) => {
         if (controller.signal.aborted) {
-          request.log.warn(e);
+          log.warn(e);
           return;
         }
 
-        request.log.error(e);
-        // TODO: fix raw error.
-        send(createErrorStreamResponse(getErrorMessage(e)));
+        log.error(e);
+        send(httpUtils.createErrorStreamResponse(ERROR_MESSAGES.UNKNOWN_ERROR));
       })
       .finally(() => {
         res.end();
-      })
+      });
   });
 }

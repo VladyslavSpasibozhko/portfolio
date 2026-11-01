@@ -1,32 +1,57 @@
 import type { FastifyInstance } from "fastify";
-import type { DeleteChatRequest, DeleteChatResponse } from "../../types/api.js";
-import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
-import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
-import { ChatIdParamsSchema, ChatIdParamsErrors } from "./schemas/chatIdParams.js";
+import { common } from "../../shared/schemas/index.js";
+import { codes, messages } from "../../shared/errors/index.js";
+import { http as httpUtils } from "../../shared/utils/index.js";
+
+const { ERROR_CODES } = codes;
+const { ERROR_MESSAGES } = messages;
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-export function validateDeleteChatParams(params: unknown): DeleteChatRequest {
-  const result = validate<DeleteChatRequest>(params, ChatIdParamsSchema, ChatIdParamsErrors);
-  if (!result.success) {
-    throw new Error("Invalid delete chat params: " + result.error);
+const invalidParams = () => {
+  const status = 400;
+  const details = httpUtils.createErrorDetails(
+    ERROR_CODES.BAD_REQUEST,
+    ERROR_MESSAGES.INVALID_DELETE_CHAT_PARAMS,
+    status
+  );
+
+  return {
+    status,
+    details
   }
-  return result.data;
+}
+
+const chatIsNotExisted = () => {
+  const status = 404;
+  const details = httpUtils.createErrorDetails(
+    ERROR_CODES.NOT_FOUND,
+    ERROR_MESSAGES.CHAT_NOT_FOUND,
+    status
+  );
+
+  return {
+    status,
+    details
+  }
 }
 
 export async function deleteChatRoute(app: FastifyInstance): Promise<void> {
-  app.delete("/chat/:id", { config: ROUTE_CONFIG }, async (request, reply) => {
-    let params: DeleteChatRequest;
-    try {
-      params = validateDeleteChatParams(request.params);
-    } catch (e) {
-      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
+  app.delete("/chat/:id", { config: ROUTE_CONFIG }, async ({ params }, reply) => {
+    const parsed = common.DeleteChatSchema.safeParse(params);
+
+    if (!parsed.success) {
+      const { status, details } = invalidParams();
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
-    const removed: DeleteChatResponse = await session.remove(params.id);
+
+    const removed = await session.remove(parsed.data.id);
     if (!removed) {
-      return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
+      const { status, details } = chatIsNotExisted();
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
-    return createResponse(removed);
+
+    return httpUtils.createResponse(removed);
   });
 }

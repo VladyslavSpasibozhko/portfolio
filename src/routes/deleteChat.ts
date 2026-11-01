@@ -2,7 +2,8 @@ import type { FastifyInstance } from "fastify";
 import * as session from "../services/session.js";
 import { commonSchemas } from "../../shared/schemas/index.js";
 import { httpUtils } from "../../shared/utils/index.js";
-import { ERROR_MESSAGES, badRequest, chatNotFound } from "./constant/errors.js";
+import { ERROR_MESSAGES } from "../../shared/errors/messages.js";
+import { badRequest, chatNotFound } from "./constant/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

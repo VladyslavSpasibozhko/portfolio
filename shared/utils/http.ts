@@ -25,6 +25,6 @@ export function createDoneResponse(): httpSchemas.StreamOf<"done"> {
     return { type: "done" };
 }
 
-export function createErrorStreamResponse(message: string): httpSchemas.StreamOf<"error"> {
+export function createErrorStreamResponse(message: messages.ErrorMessage): httpSchemas.StreamOf<"error"> {
     return { type: "error", message };
 }

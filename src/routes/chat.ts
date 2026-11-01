@@ -11,7 +11,7 @@ const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async ({ body, log }, reply) => {
-    const isValid = commonSchemas.CreateChatSchema.validate(body);
+    const isValid = commonSchemas.CreateMessageSchema.validate(body);
 
     if (!isValid) {
       const { status, details } = badRequest(ERROR_MESSAGES.VALIDATION_FAILED);

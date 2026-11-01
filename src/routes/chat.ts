@@ -2,17 +2,15 @@ import type { FastifyInstance } from "fastify";
 import { config } from "../config/index.js";
 import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
-import { common, http } from "../../shared/schemas/index.js";
-import {
-  http as httpUtils, common as commonUtils
-} from "../../shared/utils/index.js";
+import { commonSchemas, httpSchemas } from "../../shared/schemas/index.js";
+import { httpUtils, commonUtils } from "../../shared/utils/index.js";
 import { ERROR_MESSAGES, badRequest, chatNotFound } from "./constant/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
 export async function chatRoutes(app: FastifyInstance): Promise<void> {
   app.post("/chat", { config: ROUTE_CONFIG }, async ({ body, log }, reply) => {
-    const isValid = common.CreateChatSchema.validate(body);
+    const isValid = commonSchemas.CreateChatSchema.validate(body);
 
     if (!isValid) {
       const { status, details } = badRequest(ERROR_MESSAGES.VALIDATION_FAILED);
@@ -38,7 +36,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     const controller = new AbortController();
     res.on("close", () => controller.abort());
 
-    const send = (event: http.StreamResponse) => {
+    const send = (event: httpSchemas.StreamResponse) => {
       res.write(`data: ${JSON.stringify(event)}\n\n`);
     };
 

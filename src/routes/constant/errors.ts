@@ -1,5 +1,5 @@
 import { codes, messages } from "../../../shared/errors/index.js";
-import { http as httpUtils } from "../../../shared/utils/index.js";
+import { httpUtils } from "../../../shared/utils/index.js";
 
 export const { ERROR_CODES } = codes;
 export const { ERROR_MESSAGES } = messages;

@@ -1,14 +1,14 @@
 import type { FastifyInstance } from "fastify";
 import * as session from "../services/session.js";
-import { common } from "../../shared/schemas/index.js";
-import { http as httpUtils } from "../../shared/utils/index.js";
+import { commonSchemas } from "../../shared/schemas/index.js";
+import { httpUtils } from "../../shared/utils/index.js";
 import { ERROR_MESSAGES, badRequest, chatNotFound } from "./constant/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
 export async function deleteChatRoute(app: FastifyInstance): Promise<void> {
   app.delete("/chat/:id", { config: ROUTE_CONFIG }, async ({ params }, reply) => {
-    const parsed = common.DeleteChatSchema.safeParse(params);
+    const parsed = commonSchemas.DeleteChatSchema.safeParse(params);
 
     if (!parsed.success) {
       const { status, details } = badRequest(ERROR_MESSAGES.INVALID_DELETE_CHAT_PARAMS);

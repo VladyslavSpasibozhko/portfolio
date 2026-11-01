@@ -1,2 +1,2 @@
-export * as http from './http.js';
-export * as common from './common.js';
+export * as httpUtils from './http.js';
+export * as commonUtils from './common.js';

@@ -1,2 +1,2 @@
-export * as common from './common.js';
-export * as http from './http.js';
+export * as commonSchemas from './common.js';
+export * as httpSchemas from './http.js';

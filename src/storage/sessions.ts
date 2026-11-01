@@ -1,4 +1,4 @@
-import { storage } from "../lib/redis/index.js";
+import { storage } from "../lib/storage/index.js";
 import type { History } from "../../types/history.js";
 import type { Message } from "../../types/main/message.js";
 

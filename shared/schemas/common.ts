@@ -25,7 +25,9 @@ export const CreateChatSchema = z.object({
 })
 
 export const GetChatMessages = z.object({
-    id: z.string({ error: messages.ERROR_MESSAGES.CHAT_ID_NON_EMPTY }).min(1, { error: messages.ERROR_MESSAGES.CHAT_ID_NON_EMPTY }),
+    id: z
+        .string({ error: messages.ERROR_MESSAGES.CHAT_ID_TEXT_TYPE })
+        .min(1, { error: messages.ERROR_MESSAGES.CHAT_ID_NON_EMPTY }),
 })
 
 export const DeleteChatSchema = GetChatMessages;

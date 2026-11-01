@@ -2,7 +2,7 @@ export const ERROR_MESSAGES = {
     CHAT_REQUEST_INVALID: 'chat.request_invalid',
     MESSAGE_TEXT_TYPE: 'chat.message_text_type',
     SESSION_ID_TEXT_TYPE: 'chat.session_id_text_type',
-    CHAT_ID_REQUIRED: 'chat.id_required',
+    CHAT_ID_TEXT_TYPE: 'chat.id_text_type',
     CHAT_ID_NON_EMPTY: 'chat.id_non_empty',
     INVALID_CHAT_REQUEST: 'chat.invalid_request',
     INVALID_GET_CHAT_MESSAGES_PARAMS: 'chat.invalid_get_messages_params',

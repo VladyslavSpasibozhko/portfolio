@@ -32,7 +32,7 @@ export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 export interface SuccessResponse<T> extends Omit<SuccessResponseInferred, 'data'> {
     data: T
 }
-export type Response<T> = SuccessResponse<T> | ErrorResponse;
+export type ApiResponse<T> = SuccessResponse<T> | ErrorResponse;
 export type StreamResponse = z.infer<typeof StreamResponseSchema>;
 export type StreamType = StreamResponse['type'];
 export type StreamOf<T extends StreamType> = Extract<StreamResponse, { type: T }>;

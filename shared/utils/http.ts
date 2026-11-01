@@ -1,10 +1,15 @@
+import type { codes, messages } from "../errors/index.js";
 import type { httpSchemas } from "../schemas/index.js";
 
 export function createResponse<T>(data: T): httpSchemas.SuccessResponse<T> {
     return { success: true, data };
 }
 
-export function createErrorDetails(reason: string, message: string, code: number): httpSchemas.ErrorDetails {
+export function createErrorDetails(
+    reason: codes.ErrorCode,
+    message: messages.ErrorMessage,
+    code: number,
+): httpSchemas.ErrorDetails {
     return { reason, message, code };
 }
 

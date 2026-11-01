@@ -50,13 +50,7 @@ const ChatResponseSchema: Schema = {
       properties: { type: { const: "error" }, message: { type: "string" } },
       required: ["type", "message"],
       additionalProperties: false,
-    },
-    {
-      type: "object",
-      properties: { type: { const: "block" } },
-      required: ["type"],
-      additionalProperties: false,
-    },
+    }
   ],
 };
 

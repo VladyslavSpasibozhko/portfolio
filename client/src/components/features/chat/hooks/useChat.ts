@@ -58,7 +58,6 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
             setError(event.message);
             onError(event.message);
             break;
-          // "block" is reserved for future use; clients ignore unknown types (see types/transport.ts).
           default:
             break;
         }

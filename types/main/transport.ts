@@ -16,9 +16,7 @@ export interface ErrorResponse {
 
 export type Response<T> = SuccessResponse<T> | ErrorResponse;
 
-// Clients must ignore unknown `type`s.
 export type StreamResponse =
     | { type: 'delta'; text: string }
     | { type: 'done' }
-    | { type: 'error'; message: string }
-    | { type: 'block' };
+    | { type: 'error'; message: string };

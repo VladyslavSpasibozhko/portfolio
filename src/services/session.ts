@@ -1,23 +1,15 @@
+import { randomUUID } from "node:crypto";
 import type { commonSchemas } from "../../shared/schemas/index.js";
 import * as sessions from "../storage/sessions.js";
-import { config } from '../config/index.js'
-import { randomUUID } from "node:crypto";
 
-export const sessionId = () => {
-  return randomUUID();
+export interface CreateSessionInput {
+  now: number;
+  lifeTimeMs: number;
 }
 
-export const sessionExpiresAt = () => {
-  return Date.now() + config.sessionLifeTime;
-}
-
-export const sessionLifeTimeSeconds = () => {
-  return config.sessionLifeTime / 1000;
-}
-
-export async function create(sessionId: string, expiresAt: number): Promise<commonSchemas.Session> {
-  const session: commonSchemas.Session = { sessionId, expiresAt };
-  await sessions.set({ session, messages: [] }, sessionLifeTimeSeconds());
+export async function create({ now, lifeTimeMs }: CreateSessionInput): Promise<commonSchemas.Session> {
+  const session: commonSchemas.Session = { sessionId: randomUUID(), expiresAt: now + lifeTimeMs };
+  await sessions.set({ session, messages: [] }, lifeTimeMs / 1000);
 
   return session;
 }

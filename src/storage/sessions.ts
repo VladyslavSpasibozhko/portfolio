@@ -1,17 +1,17 @@
 import { storage } from "../lib/storage/index.js";
-import type { History, Message } from "../../shared/schemas/common.js";
+import type { commonSchemas } from "../../shared/schemas/index.js";
 
 const key = (id: string) => `chat:${id}`;
 
-export async function set(history: History, ttl: number): Promise<void> {
+export async function set(history: commonSchemas.History, ttl: number): Promise<void> {
   await storage.set(key(history.session.sessionId), history, { ttl });
 }
 
-export async function get(id: string): Promise<History | undefined> {
-  return (await storage.get<History>(key(id))) ?? undefined;
+export async function get(id: string): Promise<commonSchemas.History | undefined> {
+  return (await storage.get<commonSchemas.History>(key(id))) ?? undefined;
 }
 
-export async function appendMessages(id: string, messages: Message[]): Promise<void> {
+export async function appendMessages(id: string, messages: commonSchemas.Message[]): Promise<void> {
   await storage.append(key(id), "$.messages", messages);
 }
 

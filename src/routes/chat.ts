@@ -4,7 +4,7 @@ import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
 import { commonSchemas, httpSchemas } from "../../shared/schemas/index.js";
 import { httpUtils, commonUtils } from "../../shared/utils/index.js";
-import { ERROR_MESSAGES } from "../../shared/errors/messages.js";
+import { messages as errorMessages } from "../../shared/errors/index.js";
 import { badRequest, chatNotFound } from "./factories/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
@@ -14,7 +14,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
     const parsed = commonSchemas.CreateMessageSchema.strict().safeParse(body);
 
     if (!parsed.success) {
-      const { status, details } = badRequest(ERROR_MESSAGES.VALIDATION_FAILED);
+      const { status, details } = badRequest(errorMessages.ERROR_MESSAGES.VALIDATION_FAILED);
       return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
 
@@ -63,7 +63,7 @@ export async function chatRoutes(app: FastifyInstance): Promise<void> {
         }
 
         log.error(e);
-        send(httpUtils.createErrorStreamResponse(ERROR_MESSAGES.UNKNOWN_ERROR));
+        send(httpUtils.createErrorStreamResponse(errorMessages.ERROR_MESSAGES.UNKNOWN_ERROR));
       })
       .finally(() => {
         res.end();

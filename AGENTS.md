@@ -103,7 +103,7 @@ See the `route-creation-server` skill for the rules on adding or changing a rout
 
 ## Plugins (`src/plugins/`)
 
-Thin wrappers that register Fastify plugins with project config (CORS, rate limiting). Each plugin module exposes one registration function called from `index.ts`.
+Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it.
 
 ## Client (`client/`)
 

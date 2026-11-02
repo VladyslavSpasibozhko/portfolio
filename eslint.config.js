@@ -37,8 +37,6 @@ export default tseslint.config(
         { type: "storage", pattern: "src/storage", partialMatch: false },
         { type: "lib", pattern: "src/lib/*", partialMatch: false },
         { type: "config", pattern: "src/config", partialMatch: false },
-        { type: "global-utils", pattern: "utils", partialMatch: false },
-        { type: "global-types", pattern: "types", partialMatch: false },
         { type: "shared", pattern: "shared/*", partialMatch: false },
       ],
     },
@@ -48,14 +46,12 @@ export default tseslint.config(
         {
           default: "disallow",
           policies: [
-            allow("routes", ["services", "lib", "config", "global-utils", "global-types", "shared"]),
-            allow("plugins", ["lib", "config", "global-types", "shared"]),
-            allow("services", ["storage", "lib", "global-utils", "global-types", "shared"]),
-            allow("storage", ["lib", "global-types", "shared"]),
-            allow("config", ["global-types", "shared"]),
-            allow("lib", ["config", "global-utils", "global-types", "shared"]),
-            allow("global-utils", ["global-types", "shared"]),
-            allow("global-types", ["global-types", "shared"]),
+            allow("routes", ["services", "lib", "config", "shared"]),
+            allow("plugins", ["lib", "config", "shared"]),
+            allow("services", ["storage", "lib", "shared"]),
+            allow("storage", ["lib", "shared"]),
+            allow("config", ["shared"]),
+            allow("lib", ["config", "shared"]),
             allow("shared", ["shared"]),
             {
               disallow: {

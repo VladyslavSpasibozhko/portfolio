@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { Message } from "@global-types/main/message";
-import { createUserMessage, createAssistantMessage } from "@global-utils/message";
+import type { commonSchemas } from "@shared/schemas";
+import { commonUtils } from "@shared/utils";
 import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";
 import { useCreateSession } from "./useCreateSession";
@@ -9,7 +9,7 @@ import { StatusEmitter } from "../utils/statusEmitter";
 import { StreamEmitter } from "../utils/streamEmitter";
 
 interface UseChatMessagesResult {
-  messages: Message[];
+  messages: commonSchemas.Message[];
   statusEmitter: StatusEmitter;
   streamEmitter: StreamEmitter;
   error: string | null;
@@ -21,7 +21,7 @@ export function useChatMessages(): UseChatMessagesResult {
   const [statusEmitter] = useState(() => new StatusEmitter("idle"));
   const [streamEmitter] = useState(() => new StreamEmitter());
 
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<commonSchemas.Message[]>([]);
   const [userMessage, setUserMessage] = useState<string>('');
 
   const { sessionId, setSession } = useChatSession();
@@ -40,7 +40,7 @@ export function useChatMessages(): UseChatMessagesResult {
     onDone: () => {
       const content = streamEmitter.content;
       statusEmitter.set("generated");
-      setMessages((messages) => messages.concat(createAssistantMessage(content)));
+      setMessages((messages) => messages.concat(commonUtils.createAssistantMessage(content)));
       streamEmitter.done();
       setUserMessage('');
     },
@@ -66,7 +66,7 @@ export function useChatMessages(): UseChatMessagesResult {
   }
 
   const sendMessage = async (content: string, id: string) => {
-    const preparedMessage: Message = createUserMessage(content);
+    const preparedMessage: commonSchemas.Message = commonUtils.createUserMessage(content);
 
     statusEmitter.set("waiting");
     setMessages((prev) => [...prev, preparedMessage]);

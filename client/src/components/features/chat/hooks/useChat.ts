@@ -1,8 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
-import type { ChatRequest } from "@global-types/api";
-import type { StreamResponse } from "@global-types/main/transport";
+import type { commonSchemas, httpSchemas } from "@shared/schemas";
 
 interface UseChatCallbacks {
   onDelta: (text: string) => void;
@@ -11,17 +10,17 @@ interface UseChatCallbacks {
 }
 
 interface UseChatResult {
-  sendMessage: (request: ChatRequest) => Promise<void>;
+  sendMessage: (request: commonSchemas.CreateMessage) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
 
-function parseFrame(frame: string): StreamResponse | null {
+function parseFrame(frame: string): httpSchemas.StreamResponse | null {
   const dataLine = frame.split("\n").find((line) => line.startsWith("data:"));
   if (!dataLine) return null;
 
   try {
-    return JSON.parse(dataLine.slice("data:".length).trim()) as StreamResponse;
+    return JSON.parse(dataLine.slice("data:".length).trim()) as httpSchemas.StreamResponse;
   } catch {
     return null;
   }
@@ -33,7 +32,7 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
   const controllerRef = useRef<AbortController | null>(null);
 
   const sendMessage = useCallback(
-    async (request: ChatRequest) => {
+    async (request: commonSchemas.CreateMessage) => {
       controllerRef.current?.abort();
       const controller = new AbortController();
       controllerRef.current = controller;

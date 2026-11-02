@@ -1,5 +1,5 @@
 import { config } from "@config";
-import { createErrorResponse } from "@global-utils/transport";
+import { httpUtils } from "@shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {
@@ -47,7 +47,7 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
     const data = (await res.json()) as FetchResult<T>;
     return data;
   } catch (e) {
-    return createErrorResponse({
+    return httpUtils.createErrorResponse({
       code: 500,
       message: e instanceof Error ? e.message : "Unknown error",
       reason: 'network_error'

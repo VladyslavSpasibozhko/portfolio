@@ -1,6 +1,6 @@
-import type { StreamResponse } from "@global-types/main/transport";
+import type { httpSchemas } from "@shared/schemas";
 
-export type StreamEvent = CustomEvent<StreamResponse>;
+export type StreamEvent = CustomEvent<httpSchemas.StreamResponse>;
 
 export class StreamEmitter extends EventTarget {
   private buffer = "";
@@ -12,18 +12,18 @@ export class StreamEmitter extends EventTarget {
   delta(text: string): void {
     this.buffer += text;
     this.dispatchEvent(
-      new CustomEvent<StreamResponse>("delta", { detail: { type: "delta", text } }),
+      new CustomEvent<httpSchemas.StreamResponse>("delta", { detail: { type: "delta", text } }),
     );
   }
 
   done(): void {
-    this.dispatchEvent(new CustomEvent<StreamResponse>("done", { detail: { type: "done" } }));
+    this.dispatchEvent(new CustomEvent<httpSchemas.StreamResponse>("done", { detail: { type: "done" } }));
     this.buffer = "";
   }
 
   error(message: string): void {
     this.dispatchEvent(
-      new CustomEvent<StreamResponse>("error", { detail: { type: "error", message } }),
+      new CustomEvent<httpSchemas.StreamResponse>("error", { detail: { type: "error", message } }),
     );
     this.buffer = "";
   }

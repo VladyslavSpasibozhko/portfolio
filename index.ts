@@ -3,6 +3,7 @@ import Fastify from "fastify";
 import multipart from "@fastify/multipart";
 import { config } from "./src/config/index.js";
 import { registerCors } from "./src/plugins/cors.js";
+import { registerErrorHandler } from "./src/plugins/errorHandler.js";
 import { registerRateLimit } from "./src/plugins/rateLimit.js";
 import { chatRoutes } from "./src/routes/chat.js";
 import { createChatRoute } from "./src/routes/createChat.js";
@@ -12,6 +13,7 @@ import { flags } from "./src/routes/flags.js";
 
 const app = Fastify({ logger: true });
 
+registerErrorHandler(app);
 await registerCors(app);
 await registerRateLimit(app);
 await app.register(multipart);

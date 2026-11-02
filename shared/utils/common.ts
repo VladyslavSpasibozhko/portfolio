@@ -1,8 +1,8 @@
-import type { Message, MessageRole } from "../types/main/message.js";
+import { commonSchemas } from "../schemas/index.js";
 
-type BaseMessage = Pick<Message, "role" | "content">;
+type BaseMessage = Pick<commonSchemas.Message, "role" | "content">;
 
-export function createMessage(role: MessageRole, content: string): BaseMessage {
+export function createMessage(role: commonSchemas.MessageRole, content: string): BaseMessage {
   return { role, content };
 }
 

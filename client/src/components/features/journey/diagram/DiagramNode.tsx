@@ -1,17 +1,17 @@
-import type { JourneyDiagramTone } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Typography } from "@components/atoms/Typography";
 import { Icon, isIconName } from "@components/atoms/Icon";
 
 // `legacy` reads as on its way out, `accent` carries the turning point of the
 // story, `result` is where it lands.
-const toneClasses: Record<JourneyDiagramTone, string> = {
+const toneClasses: Record<journeyTypes.JourneyDiagramTone, string> = {
   default: "border-border-DEFAULT bg-background-900",
   legacy: "border-dashed border-border-highlight bg-transparent",
   accent: "border-border-focus bg-background-800 shadow-md shadow-accent-cyan",
   result: "border-accent-green bg-background-800",
 };
 
-const toneTextClasses: Record<JourneyDiagramTone, string> = {
+const toneTextClasses: Record<journeyTypes.JourneyDiagramTone, string> = {
   default: "text-text-white",
   legacy: "text-text-200",
   accent: "text-text-100",
@@ -21,7 +21,7 @@ const toneTextClasses: Record<JourneyDiagramTone, string> = {
 interface DiagramNodeProps {
   label: string;
   icon?: string;
-  tone?: JourneyDiagramTone;
+  tone?: journeyTypes.JourneyDiagramTone;
   className?: string;
 }
 

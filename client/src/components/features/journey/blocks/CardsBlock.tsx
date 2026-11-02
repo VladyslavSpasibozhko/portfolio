@@ -1,18 +1,18 @@
-import type { JourneyCardsBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Typography } from "@components/atoms/Typography";
 import { isIconName } from "@components/atoms/Icon";
 import { InfoCard } from "../InfoCard";
 import { BadgeRow } from "../BadgeRow";
 import { BlockHeading } from "../BlockHeading";
 
-const columnClasses: Record<NonNullable<JourneyCardsBlock["columns"]>, string> =
+const columnClasses: Record<NonNullable<journeyTypes.JourneyCardsBlock["columns"]>, string> =
   {
     1: "grid-cols-1",
     2: "grid-cols-1 md:grid-cols-2",
   };
 
 interface CardsBlockProps {
-  block: JourneyCardsBlock;
+  block: journeyTypes.JourneyCardsBlock;
 }
 
 export function CardsBlock({ block }: CardsBlockProps) {

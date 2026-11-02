@@ -1,10 +1,10 @@
-import type { JourneyTextBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Story } from "../Story";
 import { Quote } from "../Quote";
 import { BlockHeading } from "../BlockHeading";
 
 interface TextBlockProps {
-  block: JourneyTextBlock;
+  block: journeyTypes.JourneyTextBlock;
 }
 
 export function TextBlock({ block }: TextBlockProps) {

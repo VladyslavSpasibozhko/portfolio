@@ -6,13 +6,14 @@ import { ChatMessageLoading } from "./ChatMessageLoading";
 import { EmptyState } from "@components/molecules/EmptyState";
 import { useChatWindowContext } from "./context/ChatWindowContext";
 import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
+import { translate } from "@lib/i18n";
 
 interface ChatMessagesProps {
   emptyMessage?: ReactNode;
 }
 
 export function ChatMessages({
-  emptyMessage = "Start a conversation",
+  emptyMessage = translate("chat.empty"),
 }: ChatMessagesProps) {
   const [isLoading, setIsLoading] = useState(false);
   const { messages, statusEmitter } = useChatWindowContext();

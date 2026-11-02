@@ -1,6 +1,6 @@
-import type { StreamResponse } from "@global-types/main/transport";
+import type { httpSchemas } from "@shared/schemas";
 
-export type StreamEvent = CustomEvent<StreamResponse>;
+const CHANGE = "change";
 
 export class StreamEmitter extends EventTarget {
   private buffer = "";
@@ -9,22 +9,25 @@ export class StreamEmitter extends EventTarget {
     return this.buffer;
   }
 
-  delta(text: string): void {
-    this.buffer += text;
-    this.dispatchEvent(
-      new CustomEvent<StreamResponse>("delta", { detail: { type: "delta", text } }),
-    );
+  private append(text: string) {
+    this.buffer = this.buffer + text
   }
 
-  done(): void {
-    this.dispatchEvent(new CustomEvent<StreamResponse>("done", { detail: { type: "done" } }));
-    this.buffer = "";
+  private clear() {
+    this.buffer = '';
   }
 
-  error(message: string): void {
-    this.dispatchEvent(
-      new CustomEvent<StreamResponse>("error", { detail: { type: "error", message } }),
-    );
-    this.buffer = "";
+  emit(event: httpSchemas.StreamResponse): void {
+    if (event.type === "delta") this.append(event.text);
+    if (event.type === 'done' || event.type === 'error') {
+      this.clear();
+    };
+
+    this.dispatchEvent(new Event(CHANGE));
+  }
+
+  subscribe(listener: () => void): () => void {
+    this.addEventListener(CHANGE, listener);
+    return () => this.removeEventListener(CHANGE, listener);
   }
 }

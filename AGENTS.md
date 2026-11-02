@@ -5,10 +5,8 @@ Reference notes for agents working in this repo.
 ## Repo layout
 
 - `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
-- `src/` — server code: `lib/`, `services/`, `storage/`, `routes/`, `plugins/`, `utils/`.
-- `utils/` — global utils shared across the repo (see Global utils).
-- `types/` — shared types, used by both the server and the client. No barrel file — import each file directly (`@global-types/<file-name>` alias on the client).
-- `data/` — content: `journey.json` (rendered by the client) and `profile.md` (AI context).
+- `src/` — server code: `config/`, `lib/`, `services/`, `storage/`, `routes/`, `plugins/`.
+- `shared/` — code and content used by both the server and the client (see Shared).
 - `client/` — Vite + React + Tailwind v4 app.
 
 ## Commands
@@ -36,21 +34,22 @@ Commit messages follow Conventional Commits (`type(scope): description`), matchi
 - Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Read them only through `config` in `src/config/index.ts` (enforced by ESLint); each getter throws when its var is missing. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/.env` (Vite's default `envDir`) and is exposed only through `client/src/config.ts`.
 
-## Types (`types/`)
+## Shared (`shared/`)
 
-No barrel file — there is no `types/index.ts`. Each file is imported directly: the server uses relative paths, the client uses `@global-types/<file-name>` (see Imports).
+Code and content used by both the server and the client. Each folder has an `index.ts` barrel that re-exports its files as namespaces (e.g. `httpSchemas`, `commonUtils`). Import a folder only through its index (enforced by ESLint on the server): the server uses a relative path to `shared/<folder>/index.js`, the client uses the `@shared/<folder>` alias.
 
-Each file owns one conceptual contract:
+- `schemas/` — zod schemas and the types inferred from them: chat message, session, and the transport/wire envelope (success/error/stream responses).
+- `types/` — plain TS types with no schema: the page content (journey) types.
+- `utils/` — pure factories: chat messages per role, and the transport envelopes, so server and client build one shape without duplicating it.
+- `errors/` — error codes and user-facing error messages.
+- `config/` — feature flags.
+- `data/` — content (see below). The client imports it via the `@data` alias, and only pages may use it.
 
-- Session identity — the shape used to address a chat session.
-- Chat message — the contract between the user and the LLM.
-- Transport/wire envelope — success/error/stream response shapes shared by every route.
-- Page content — the schema the main page's content data must conform to.
-- API request/response — one pair of contracts per route; a route with no meaningful input has no request type.
+Code here is pure: no framework, no vendor SDK besides the schema library, no I/O, no hidden env/time/random reads. Add something only when both the server and the client need it.
 
-See the `types-creation` skill for the rules on adding, approving, and scoping new types.
+See the `types-creation` and `utils-creation-global` skills for the rules on adding shared types and helpers.
 
-## Data (`data/`)
+### Data (`shared/data/`)
 
 Two files, each with one consumer:
 
@@ -61,7 +60,8 @@ Rules:
 
 - Keep the split: rendered content goes in `journey.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
 - A factual change (a new role, a corrected date) starts in `profile.md`, then must be carried into `journey.json`'s derived content — the two can differ in wording and structure, but never in meaning.
-- `data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build — `profile.md` included. Never put secrets or private info there.
+- `shared/data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build — `profile.md` included. Never put secrets or private info there.
+- The server build copies it to `dist/shared/data/` so the compiled server finds `profile.md` at the same relative path.
 
 ## Libs (`src/lib/`)
 
@@ -79,13 +79,15 @@ An additional layer built on top of libs. Services act as a facade, hiding busin
 - `ai` service — orchestrates response generation using the `ai` lib; stateless with respect to sessions.
 - `session` service — owns chat session lifecycle (create, read, update, remove), delegating persistence to the storage layer.
 
+A service is either a single file (`services/session.ts`) or a folder (`services/ai/`). Import a folder service only through its `index.ts` (enforced by ESLint).
+
 See the `service-creation-server` skill for the rules on adding or changing a service (what it may depend on, naming, typing).
 
 ## Storage (`src/storage/`)
 
 Persistence, kept behind a plain function interface so the backing store can change without touching callers.
 
-- Can use: libs, global types.
+- Can use: libs, `shared/`.
 - Can't use: services, routes.
 - Used only by the session service — routes and other services never import from `src/storage/` directly.
 - Current responsibility: session storage — stores each session as a Redis JSON document (`chat:<id>`) with a TTL.
@@ -95,28 +97,20 @@ Persistence, kept behind a plain function interface so the backing store can cha
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
 - Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
+- Shared error response factories (`badRequest`, `chatNotFound`, `serverError`) live in `src/routes/factories/errors.ts`. Routes import from there instead of defining their own.
 
 See the `route-creation-server` skill for the rules on adding or changing a route (validation, thin-controller boundary, transport envelopes).
 
-## Global utils (`utils/`)
-
-Root-level helpers not tied to the server or client layers. Shared between both — the client reaches them via the `@global-utils` alias (`@global-utils/*` → `utils/*`; see `client/tsconfig.json` and `client/vite.config.ts`).
-
-- Message factories — construct typed chat messages for each role.
-- Transport factories — build the success/error/stream response envelopes defined in the shared transport type, so server and client agree on one shape without duplicating it.
-
-See the `utils-creation-global` skill for the rules on what belongs in this shared folder.
-
 ## Plugins (`src/plugins/`)
 
-Thin wrappers that register Fastify plugins with project config (CORS, rate limiting). Each plugin module exposes one registration function called from `index.ts`.
+Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it.
 
 ## Client (`client/`)
 
 ### App structure
 
 - Entry point composes the decorative background with the main page content.
-- Main page maps the content data (`data/journey.json`) into a sequence of slide components.
+- Main page maps the content data (`shared/data/journey.json`) into a sequence of slide components.
 - A library/showcase page exists for visually checking atoms and molecules while developing; it isn't mounted in the app — swap it in locally when needed.
 
 See the `page-creation` skill for the rules on adding or changing a page.
@@ -140,9 +134,9 @@ Renders the main page's slides from the content data:
 
 To add a new block type:
 
-1. Get approval for the new type (see Types), then add it to the content schema's block union.
+1. Get approval for the new type (see Shared), then add it to the content schema's block union.
 2. Create the new block component and wire it into the block-type switch.
-3. Use it in `data/journey.json`.
+3. Use it in `shared/data/journey.json`.
 
 ### Icons
 
@@ -189,11 +183,12 @@ See the `utils-creation-client` skill for the rules on what belongs here.
 
 ### Libs (`client/src/lib/`)
 
-Client-side access layers, each scoped to one transport concern:
+Reusable client-side functionality, each lib scoped to one concern (e.g. a transport, translations):
 
 - WebSocket lib — wraps the chat WebSocket connection.
 - Request lib — thin `fetch` adapter for JSON endpoints; returns the shared response envelope type, building its own error envelope only for transport-level failures (network error, bad JSON). Doesn't handle streaming.
 - SSE lib — generic `text/event-stream` client, not tied to any one endpoint's event shape; decodes/splits frames and hands each one to the caller. Parsing a frame's payload into a typed event is the caller's job, not this lib's.
+- i18n lib — UI translations. One JSON file per language in `languages/` (only `en` for now), registered in `languages/index.ts`. `loadTranslations(language)` returns a language's translations (default `en`); `translate(key, { params, language })` returns the text for a key (or the key itself when it's missing), with `{name}` placeholders replaced by `params` via `interpolate(template, params)`; placeholders without a matching param are left as-is. To add a language: add `<lang>.json` and register it in the `LANGUAGES` map.
 
 See the `lib-creation-client` skill for the rules on adding or changing a client lib.
 

@@ -1,4 +1,4 @@
-import type { JourneySection as JourneySectionData } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Typography } from "@components/atoms/Typography";
 import { Link } from "@components/atoms/Link";
 import { Icon, isIconName } from "@components/atoms/Icon";
@@ -11,7 +11,7 @@ import { JourneyBlock } from "./blocks/JourneyBlock";
 import { getBackground } from "./backgrounds";
 
 interface JourneySlideProps {
-  section: JourneySectionData;
+  section: journeyTypes.JourneySection;
   current: number;
   max: number;
 }

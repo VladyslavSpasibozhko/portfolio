@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { deleteSession } from "@api/chat";
 import { request } from "@lib/request";
-import type { DeleteChatResponse } from "@global-types/api";
 
 interface UseDeleteSessionResult {
   deleteSession: (sessionId: string) => Promise<boolean>;
@@ -17,7 +16,7 @@ export function useDeleteSession(): UseDeleteSessionResult {
     setLoading(true);
     setError(null);
 
-    const result = await request<DeleteChatResponse>(deleteSession(sessionId));
+    const result = await request<boolean>(deleteSession(sessionId));
 
     setLoading(false);
 

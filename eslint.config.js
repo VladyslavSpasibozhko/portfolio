@@ -32,12 +32,12 @@ export default tseslint.config(
       "boundaries/elements": [
         { type: "routes", pattern: "src/routes", partialMatch: false },
         { type: "plugins", pattern: "src/plugins", partialMatch: false },
-        { type: "services", pattern: "src/services/*", partialMatch: false },
+        { type: "services", pattern: "src/services/*", partialMatch: false, capture: ["folder"] },
+        { type: "services", pattern: "src/services", partialMatch: false },
         { type: "storage", pattern: "src/storage", partialMatch: false },
         { type: "lib", pattern: "src/lib/*", partialMatch: false },
         { type: "config", pattern: "src/config", partialMatch: false },
-        { type: "global-utils", pattern: "utils", partialMatch: false },
-        { type: "global-types", pattern: "types", partialMatch: false },
+        { type: "shared", pattern: "shared/*", partialMatch: false },
       ],
     },
     rules: {
@@ -46,18 +46,30 @@ export default tseslint.config(
         {
           default: "disallow",
           policies: [
-            allow("routes", ["services", "lib", "config", "global-utils", "global-types"]),
-            allow("plugins", ["lib", "config", "global-types"]),
-            allow("services", ["storage", "lib", "global-utils", "global-types"]),
-            allow("storage", ["lib", "global-types"]),
-            allow("lib", ["config", "global-utils", "global-types"]),
-            allow("global-utils", ["global-types"]),
-            allow("global-types", ["global-types"]),
+            allow("routes", ["services", "lib", "config", "shared"]),
+            allow("plugins", ["lib", "config", "shared"]),
+            allow("services", ["storage", "lib", "shared"]),
+            allow("storage", ["lib", "shared"]),
+            allow("config", ["shared"]),
+            allow("lib", ["config", "shared"]),
+            allow("shared", ["shared"]),
             {
               disallow: {
                 to: { element: { type: "lib", fileInternalPath: "!index.ts" } },
               },
               message: "Import a lib only through its index file.",
+            },
+            {
+              disallow: {
+                to: { element: { type: "services", captured: { folder: "*" }, fileInternalPath: "!index.ts" } },
+              },
+              message: "Import a folder service only through its index file.",
+            },
+            {
+              disallow: {
+                to: { element: { type: "shared", fileInternalPath: "!index.ts" } },
+              },
+              message: "Import from shared only through its index file.",
             },
           ],
         },

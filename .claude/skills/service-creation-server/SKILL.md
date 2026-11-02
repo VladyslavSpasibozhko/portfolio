@@ -20,8 +20,8 @@ Name a service after the **capability it owns** (`session`, `ai`), not an implem
 ## Rules
 
 - **A service can't use another service.** If two services seem to need each other, either the shared logic belongs in a lib/pure function both can call, or the orchestration belongs one level up (the route calling both).
-- **A service can use:** libs, global `types/`, and the storage layer.
-- **A service must not use:** a route's request/response schema — those are the route's own contract, not the service's. The service's input/output types are its own, defined by the service (or in `types/` if shared — see `types-creation`).
+- **A service can use:** libs, `shared/`, and the storage layer.
+- **A service must not use:** a route's request/response schema — those are the route's own contract, not the service's. The service's input/output types are its own, defined by the service (or in `shared/` if shared — see `types-creation`).
 - **Strictly typed input/output.** Every service exposes a clear contract to call it with — no loosely-typed `any` params.
 - **No `req`/`res`.** A service never touches the HTTP layer; it has no knowledge it's being called from a route, a job, or a test.
 - **No hidden env/time/random reads.** Pass `now`, config values, etc. in as arguments (CLAUDE.md Rule 8); env itself is only read in `config/`.

@@ -1,11 +1,11 @@
-import type { JourneyBadgesBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Badge } from "@components/atoms/Badge";
 import { Icon, isIconName } from "@components/atoms/Icon";
 import { Typography } from "@components/atoms/Typography";
 import { BlockHeading } from "../BlockHeading";
 
 const layoutClasses: Record<
-  NonNullable<JourneyBadgesBlock["layout"]>,
+  NonNullable<journeyTypes.JourneyBadgesBlock["layout"]>,
   string
 > = {
   row: "flex flex-wrap items-center gap-8 md:gap-14 xl:gap-16",
@@ -14,7 +14,7 @@ const layoutClasses: Record<
 };
 
 interface BadgesBlockProps {
-  block: JourneyBadgesBlock;
+  block: journeyTypes.JourneyBadgesBlock;
 }
 
 export function BadgesBlock({ block }: BadgesBlockProps) {

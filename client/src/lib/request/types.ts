@@ -1,4 +1,4 @@
-import type { Response } from "@global-types/main/transport";
+import type { httpSchemas } from "@shared/schemas";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 
@@ -14,4 +14,4 @@ export interface FetchConfig<T extends FetchBody = FetchBody> {
 }
 
 
-export type FetchResult<T> = Response<T>;
+export type FetchResult<T> = httpSchemas.ApiResponse<T>;

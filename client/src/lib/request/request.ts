@@ -1,5 +1,7 @@
 import { config } from "@config";
-import { createErrorResponse } from "@global-utils/transport";
+import { codes, messages } from "@shared/errors";
+import { httpSchemas } from "@shared/schemas";
+import { httpUtils } from "@shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {
@@ -44,13 +46,18 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
       body: buildBody(request.method, request.body),
     });
 
-    const data = (await res.json()) as FetchResult<T>;
-    return data;
-  } catch (e) {
-    return createErrorResponse({
-      code: 500,
-      message: e instanceof Error ? e.message : "Unknown error",
-      reason: 'network_error'
-    });
+    const data = await res.json();
+    const isValid = httpSchemas.ResponseSchema.validate(data);
+
+    if(isValid) return data as FetchResult<T>;
+    throw Error();
+  } catch {
+    return httpUtils.createErrorResponse(
+      httpUtils.createErrorDetails(
+        codes.ERROR_CODES.NETWORK_ERROR,
+        messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL,
+        500,
+      ),
+    );
   }
 }

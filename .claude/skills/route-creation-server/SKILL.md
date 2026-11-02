@@ -15,9 +15,9 @@ Code belongs in `src/routes/` only for the framework-facing glue: reading `req`,
 
 - **One route per file.**
 - **Thin controller, no business logic.** A route parses the request, calls a service, and returns the response — it doesn't implement logic itself (CLAUDE.md Rule 5).
-- **Validate at the boundary.** A route that takes input (body/params/query) has its own request schema and validation. A route with no meaningful input skips validation entirely — don't invent an empty schema for consistency's sake.
+- **Validate at the boundary.** A route that takes input (body/params/query) has a request schema (in `shared/schemas/`, see `types-creation`) and validates with it. A route with no meaningful input skips validation entirely — don't invent an empty schema for consistency's sake.
 - **Can use:** services, libs. **Can't use:** `storage/` directly — persistence is reached only through the service that owns it.
-- **Respond through the shared transport factories** (see the `utils-creation-global` skill / `utils/` root folder) so every success/error/stream envelope is shaped the same way across routes.
+- **Respond through the shared transport factories** (`httpUtils` from `shared/utils/`, see the `utils-creation-global` skill) so every success/error/stream envelope is shaped the same way across routes.
 - **Rate limiting** is configured per route via config, not hardcoded inline.
 - **Idempotency keys** are accepted as input and passed through for any operation that's payment-like or safely retried.
 

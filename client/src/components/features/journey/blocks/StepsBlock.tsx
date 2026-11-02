@@ -1,9 +1,9 @@
-import type { JourneyStepsBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { StepsDiagram } from "../diagram/StepsDiagram";
 import { BlockHeading } from "../BlockHeading";
 
 interface StepsBlockProps {
-  block: JourneyStepsBlock;
+  block: journeyTypes.JourneyStepsBlock;
 }
 
 export function StepsBlock({ block }: StepsBlockProps) {

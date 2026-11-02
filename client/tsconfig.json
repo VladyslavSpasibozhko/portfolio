@@ -17,17 +17,15 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@global-types/*": ["../types/*"],
+      "@shared/*": ["../shared/*"],
       "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@config": ["./src/config.ts"],
-      "@data/*": ["../data/*"],
-      "@icons/*": ["./src/icons/*"],
-      "@static/*": ["./static/*"],
-      "@global-utils/*": ["../utils/*"]
+      "@data/*": ["../shared/data/*"],
+      "@static/*": ["./static/*"]
     }
   },
   "include": ["src"],

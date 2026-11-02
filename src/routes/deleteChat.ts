@@ -1,32 +1,27 @@
 import type { FastifyInstance } from "fastify";
-import type { DeleteChatRequest, DeleteChatResponse } from "../../types/api.js";
-import { validate } from "../lib/validation/index.js";
 import * as session from "../services/session.js";
-import { createErrorDetails, createErrorResponse, createResponse } from "../../utils/transport.js";
-import { ChatIdParamsSchema, ChatIdParamsErrors } from "./schemas/chatIdParams.js";
+import { commonSchemas } from "../../shared/schemas/index.js";
+import { httpUtils } from "../../shared/utils/index.js";
+import { messages } from "../../shared/errors/index.js";
+import { badRequest, chatNotFound } from "./factories/errors.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 
-export function validateDeleteChatParams(params: unknown): DeleteChatRequest {
-  const result = validate<DeleteChatRequest>(params, ChatIdParamsSchema, ChatIdParamsErrors);
-  if (!result.success) {
-    throw new Error("Invalid delete chat params: " + result.error);
-  }
-  return result.data;
-}
-
 export async function deleteChatRoute(app: FastifyInstance): Promise<void> {
-  app.delete("/chat/:id", { config: ROUTE_CONFIG }, async (request, reply) => {
-    let params: DeleteChatRequest;
-    try {
-      params = validateDeleteChatParams(request.params);
-    } catch (e) {
-      return reply.status(400).send(createErrorResponse(createErrorDetails("bad_request", (e as Error).message, 400)));
+  app.delete("/chat/:id", { config: ROUTE_CONFIG }, async ({ params }, reply) => {
+    const parsed = commonSchemas.ChatIdSchema.safeParse(params);
+
+    if (!parsed.success) {
+      const { status, details } = badRequest(messages.ERROR_MESSAGES.INVALID_DELETE_CHAT_PARAMS);
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
-    const removed: DeleteChatResponse = await session.remove(params.id);
+
+    const removed = await session.remove(parsed.data.id);
     if (!removed) {
-      return reply.status(404).send(createErrorResponse(createErrorDetails("not_found", "Chat not found", 404)));
+      const { status, details } = chatNotFound();
+      return reply.status(status).send(httpUtils.createErrorResponse(details));
     }
-    return createResponse(removed);
+
+    return httpUtils.createResponse(removed);
   });
 }

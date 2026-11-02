@@ -7,7 +7,7 @@ description: Use when adding or changing a page in client/src/pages/ (e.g. the m
 
 A page composes features (and molecules/atoms directly, when something is simple enough not to need a feature wrapper) into a full screen. Pages sit at the top of the client's component hierarchy: `atoms → molecules → features → pages`. Nothing imports a page.
 
-Existing examples: `MainPage.tsx` (maps the content data in `data/journey.json` into the sequence of feature slide components), `LibraryPage.tsx` (a dev-only showcase for visually checking atoms and molecules — not mounted in the app; swapped in locally when needed).
+Existing examples: `MainPage.tsx` (maps the content data in `shared/data/journey.json` into the sequence of feature slide components), `LibraryPage.tsx` (a dev-only showcase for visually checking atoms and molecules — not mounted in the app; swapped in locally when needed).
 
 ## When code belongs here
 

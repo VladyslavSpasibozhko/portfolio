@@ -5,6 +5,7 @@ import { Typography } from "@components/atoms/Typography";
 import { ChatMessages } from "./ChatMessages";
 import { ChatInput } from "./ChatInput";
 import { useChatWindowContext } from "./context/ChatWindowContext";
+import { translate } from "@lib/i18n";
 
 interface ChatWindowProps {
   closeWindow: () => void;
@@ -19,14 +20,14 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
       {/* Header */}
       <div className="flex items-center justify-between px-16 py-12 bg-background-850 border-b border-border-focus">
         <Typography tag="h3" className="font-semibold text-18 text-text-sky">
-          AI Assistance
+          {translate("chat.title")}
         </Typography>
         <IconButton
           icon="close"
           variant="ghost"
           size="md"
           onClick={closeWindow}
-          aria-label="Close chat"
+          aria-label={translate("chat.close")}
         />
       </div>
 
@@ -38,13 +39,13 @@ export function ChatWindow({ closeWindow, emptyMessage }: ChatWindowProps) {
       {/* Error */}
       {error && (
         <div className="flex items-center justify-between gap-16 px-16 py-8 bg-background-error text-text-danger border-t border-red-700/60">
-          <Typography tag="small">{error}</Typography>
+          <Typography tag="small">{translate(error)}</Typography>
           <Button
             variant="secondary"
             size="sm"
             onClick={retrySendMessage}
           >
-            Retry
+            {translate("chat.retry")}
           </Button>
         </div>
       )}

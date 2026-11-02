@@ -1,39 +1,38 @@
 import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
-import type { ChatRequest } from "@global-types/api";
-import type { StreamResponse } from "@global-types/main/transport";
+import { httpSchemas, type commonSchemas } from "@shared/schemas";
 
 interface UseChatCallbacks {
-  onDelta: (text: string) => void;
-  onDone: () => void;
-  onError: (message: string) => void;
+  onMessage: (event: httpSchemas.StreamResponse) => void;
 }
 
 interface UseChatResult {
-  sendMessage: (request: ChatRequest) => Promise<void>;
+  sendMessage: (request: commonSchemas.CreateMessage) => Promise<void>;
   loading: boolean;
   error: string | null;
 }
 
-function parseFrame(frame: string): StreamResponse | null {
+function parseFrame(frame: string): httpSchemas.StreamResponse | null {
   const dataLine = frame.split("\n").find((line) => line.startsWith("data:"));
   if (!dataLine) return null;
 
   try {
-    return JSON.parse(dataLine.slice("data:".length).trim()) as StreamResponse;
+    const data = JSON.parse(dataLine.slice("data:".length).trim());
+    const result = httpSchemas.StreamResponseSchema.safeParse(data);
+    return result.success ? result.data : null;
   } catch {
     return null;
   }
 }
 
-export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChatResult {
+export function useChat({ onMessage }: UseChatCallbacks): UseChatResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
 
   const sendMessage = useCallback(
-    async (request: ChatRequest) => {
+    async (request: commonSchemas.CreateMessage) => {
       controllerRef.current?.abort();
       const controller = new AbortController();
       controllerRef.current = controller;
@@ -41,34 +40,19 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
       setLoading(true);
       setError(null);
 
+      const handleEvent = (event: httpSchemas.StreamResponse) => {
+        if (event.type !== "delta") setLoading(false);
+        if (event.type === "error") setError(event.message);
+        onMessage(event);
+      };
+
       const handleFrame = (frame: string) => {
         const event = parseFrame(frame);
-        if (!event) return;
-
-        switch (event.type) {
-          case "delta":
-            onDelta(event.text);
-            break;
-          case "done":
-            setLoading(false);
-            onDone();
-            break;
-          case "error":
-            setLoading(false);
-            setError(event.message);
-            onError(event.message);
-            break;
-          // "block" is reserved for future use; clients ignore unknown types (see types/transport.ts).
-          default:
-            break;
-        }
+        if (event) handleEvent(event)
+        else console.warn('Innapropriate format of data');
       };
 
-      const handleError = (message: string) => {
-        setLoading(false);
-        setError(message);
-        onError(message);
-      };
+      const handleError = (message: string) => handleEvent({ type: "error", message });
 
       await streamRequest(sendMessageConfig(request), {
         signal: controller.signal,
@@ -76,7 +60,7 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
         onError: handleError,
       });
     },
-    [onDelta, onDone, onError],
+    [onMessage],
   );
 
   return { sendMessage, loading, error };

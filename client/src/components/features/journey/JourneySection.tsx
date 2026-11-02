@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Typography } from "@components/atoms/Typography";
 import { padNumber } from "@utils/padNumber";
 import type { BackgroundImage } from "./backgrounds";
+import { translate } from "@lib/i18n";
 
 interface JourneySectionHeaderProps {
   max: number;
@@ -90,7 +91,7 @@ export function JourneySection({
       id={id}
       // Several slides share a company title, so the position keeps each
       // landmark's name unique.
-      aria-label={`${title}, slide ${current} of ${max}`}
+      aria-label={translate("journey.slide_label", { params: { title, current, max } })}
       // Lets hash navigation move focus onto the slide without adding it to
       // the tab order.
       tabIndex={-1}

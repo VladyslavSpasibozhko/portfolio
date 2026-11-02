@@ -1,5 +1,5 @@
 /**
- * Structure of `data/journey.json` — the single source of truth for the
+ * Structure of `shared/data/journey.json` — the single source of truth for the
  * journey slides. It carries both the copy and the presentation intent
  * (which blocks a slide is made of), so slides stay data-driven.
  *

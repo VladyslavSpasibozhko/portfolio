@@ -4,6 +4,7 @@ import { Typography } from "@components/atoms/Typography";
 import { ChatWindow } from "./ChatWindow";
 import { ChatWindowProvider } from "./context/ChatWindowContext";
 import { useFlags } from "@hooks/useFlags";
+import { translate } from "@lib/i18n";
 
 export function ChatWrapper() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +24,7 @@ export function ChatWrapper() {
         <button
           type="button"
           onClick={() => setIsOpen(true)}
-          aria-label="Open chat"
+          aria-label={translate("chat.open")}
           className="fixed z-30 bottom-16 right-16 md:bottom-24 md:right-24 xl:bottom-32 xl:right-32 isolate overflow-hidden flex items-center gap-6 md:gap-8 px-12 py-8 md:px-16 md:py-12 xl:px-20 xl:py-16 rounded-full cursor-pointer bg-background-850 border border-border-focus text-text-blue shadow-md shadow-accent-sky hover:text-accent-sky hover:-translate-y-2 transition-all"
         >
           <span
@@ -36,7 +37,7 @@ export function ChatWrapper() {
             tag="span"
             className="text-14 md:text-16 xl:text-20 2xl:text-24 font-medium"
           >
-            Ask AI
+            {translate("chat.ask_ai")}
           </Typography>
         </button>
       )}
@@ -46,8 +47,6 @@ export function ChatWrapper() {
           <ChatWindowProvider>
             <ChatWindow
               closeWindow={() => setIsOpen(false)}
-              // TODO:move it as well
-              emptyMessage="Start a conversation"
             />
           </ChatWindowProvider>
         </div>

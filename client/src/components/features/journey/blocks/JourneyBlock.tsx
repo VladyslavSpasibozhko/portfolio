@@ -1,4 +1,4 @@
-import type { JourneyBlock as JourneyBlockData } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { TextBlock } from "./TextBlock";
 import { ListBlock } from "./ListBlock";
 import { BadgesBlock } from "./BadgesBlock";
@@ -11,7 +11,7 @@ import { StepsBlock } from "./StepsBlock";
 import { BranchBlock } from "./BranchBlock";
 
 interface JourneyBlockProps {
-  block: JourneyBlockData;
+  block: journeyTypes.JourneyBlock;
 }
 
 export function JourneyBlock({ block }: JourneyBlockProps) {

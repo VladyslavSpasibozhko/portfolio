@@ -1,5 +1,6 @@
 import { Icon } from "@components/atoms/Icon";
 import { Typography } from "@components/atoms/Typography";
+import { translate } from "@lib/i18n";
 
 export type DiagramRailOrientation = "vertical" | "horizontal";
 
@@ -74,7 +75,7 @@ export function DiagramRail({
       ) : (
         <>
           {/* The chevrons are hidden icons, so the two-way link is spelled out. */}
-          {bidirectional && <span className="sr-only">Two-way link</span>}
+          {bidirectional && <span className="sr-only">{translate("journey.diagram.two_way_link")}</span>}
           {bidirectional && (
             <Icon
               name="chevron-down"

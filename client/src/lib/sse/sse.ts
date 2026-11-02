@@ -1,4 +1,6 @@
 import { config } from "@config";
+import { messages } from "@shared/errors";
+import { httpSchemas } from "@shared/schemas";
 import { readFrames } from "./readFrames";
 import type { StreamConfig, StreamBody, StreamOptions } from "./types";
 
@@ -12,6 +14,10 @@ function buildHeaders(headers?: StreamConfig["headers"]): HeadersInit {
 
 function buildBody<TBody>(body: TBody | undefined): string | undefined {
   return body !== undefined ? JSON.stringify(body) : undefined;
+}
+
+function isErrorResponse(data: unknown): data is httpSchemas.ErrorResponse {
+  return httpSchemas.ErrorResponseSchema.validate(data);
 }
 
 export async function streamRequest<B extends StreamBody = StreamBody>(
@@ -28,14 +34,31 @@ export async function streamRequest<B extends StreamBody = StreamBody>(
       signal,
     });
 
-    if (!res.ok || !res.body) {
-      throw Error('Request unsuccessful');
+
+    if (!res.ok) {
+      try {
+        const data: unknown = await res.json();
+        if (isErrorResponse(data)) {
+          onError(data.error.message);
+          return;
+        }
+
+        throw Error(messages.ERROR_MESSAGES.UNKNOWN_ERROR);
+      } catch {
+        onError(messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL);
+      }
+
+      return;
     }
 
+    if (!res.body) {
+      onError(messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL);
+      return;
+    }
 
     await readFrames(res.body, onFrame);
-  } catch (e) {
+  } catch {
     if (signal?.aborted) return;
-    onError(e instanceof Error ? e.message : 'Unknown error!')
+    onError(messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL);
   }
 }

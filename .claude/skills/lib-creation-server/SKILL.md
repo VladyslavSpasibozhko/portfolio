@@ -9,7 +9,7 @@ A lib is an adapter: one folder per external SDK/library, exposing the project's
 
 ## When code belongs here
 
-Code belongs in `src/lib/<name>/` when it wraps exactly one external SDK/library/service (e.g. `ai` lib wraps the AI provider SDK, `validation` lib wraps the schema library) — not when it's pure logic with no vendor dependency (that's `utils/`, see `utils-creation-global`) and not when it's business logic/orchestration (that's `src/services/`).
+Code belongs in `src/lib/<name>/` when it wraps exactly one external SDK/library/service (e.g. `ai` lib wraps the AI provider SDK, `validation` lib wraps the schema library) — not when it's pure logic with no vendor dependency (that's `shared/utils/`, see `utils-creation-global`) and not when it's business logic/orchestration (that's `src/services/`).
 
 ## Rules
 

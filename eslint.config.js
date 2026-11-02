@@ -32,7 +32,8 @@ export default tseslint.config(
       "boundaries/elements": [
         { type: "routes", pattern: "src/routes", partialMatch: false },
         { type: "plugins", pattern: "src/plugins", partialMatch: false },
-        { type: "services", pattern: "src/services/*", partialMatch: false },
+        { type: "services", pattern: "src/services/*", partialMatch: false, capture: ["folder"] },
+        { type: "services", pattern: "src/services", partialMatch: false },
         { type: "storage", pattern: "src/storage", partialMatch: false },
         { type: "lib", pattern: "src/lib/*", partialMatch: false },
         { type: "config", pattern: "src/config", partialMatch: false },
@@ -61,6 +62,12 @@ export default tseslint.config(
                 to: { element: { type: "lib", fileInternalPath: "!index.ts" } },
               },
               message: "Import a lib only through its index file.",
+            },
+            {
+              disallow: {
+                to: { element: { type: "services", captured: { folder: "*" }, fileInternalPath: "!index.ts" } },
+              },
+              message: "Import a folder service only through its index file.",
             },
             {
               disallow: {

@@ -79,6 +79,8 @@ An additional layer built on top of libs. Services act as a facade, hiding busin
 - `ai` service — orchestrates response generation using the `ai` lib; stateless with respect to sessions.
 - `session` service — owns chat session lifecycle (create, read, update, remove), delegating persistence to the storage layer.
 
+A service is either a single file (`services/session.ts`) or a folder (`services/ai/`). Import a folder service only through its `index.ts` (enforced by ESLint).
+
 See the `service-creation-server` skill for the rules on adding or changing a service (what it may depend on, naming, typing).
 
 ## Storage (`src/storage/`)

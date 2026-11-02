@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { commonSchemas } from "@shared/schemas";
+import type { commonSchemas, httpSchemas } from "@shared/schemas";
 import { commonUtils } from "@shared/utils";
 import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";
@@ -29,32 +29,33 @@ export function useChatMessages(): UseChatMessagesResult {
     useCreateSession();
   const { getMessages } = useGetChatMessages();
 
+
+
   const {
     sendMessage: sendChatMessage,
     error: chatError,
   } = useChat({
-    onDelta: (text) => {
-      statusEmitter.set("generating");
-      streamEmitter.delta(text);
-    },
-    onDone: () => {
-      const content = streamEmitter.content;
-      statusEmitter.set("generated");
-      setMessages((messages) => messages.concat(commonUtils.createAssistantMessage(content)));
-      streamEmitter.done();
-      setUserMessage('');
-    },
-    onError: (message) => {
-      statusEmitter.set("failed");
-      streamEmitter.error(message);
+    onMessage: (event) => {
+
+      const streamHandlers: Record<httpSchemas.StreamType, () => void> = {
+        delta: () => statusEmitter.set("generating"),
+        done: () => {
+          const content = streamEmitter.content;
+          statusEmitter.set("generated");
+          setMessages((messages) => messages.concat(commonUtils.createAssistantMessage(content)));
+          setUserMessage('');
+        },
+        error: () => statusEmitter.set("failed"),
+      };
+
+      streamHandlers[event.type]();
+      streamEmitter.emit(event);
     },
   });
 
   const createSession = async () => {
     const id = await createSessionReq();
-    if (id) {
-      setSession(id);
-    }
+    if (id) setSession(id);
     return id;
   }
 
@@ -81,10 +82,6 @@ export function useChatMessages(): UseChatMessagesResult {
     }
 
     statusEmitter.set('idle');
-
-    if (createSessionError) {
-      // no user message was appended when session creation failed
-    }
 
     if (chatError) {
       setMessages((messages) => messages.slice(0, -1));

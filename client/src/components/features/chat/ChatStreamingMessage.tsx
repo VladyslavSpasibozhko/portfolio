@@ -6,20 +6,10 @@ export function ChatStreamingMessage() {
   const { streamEmitter } = useChatWindowContext();
   const [content, setContent] = useState(streamEmitter.content);
 
-  useEffect(() => {
-    const handleDelta = () => setContent(streamEmitter.content);
-    const reset = () => setContent("");
-
-    streamEmitter.addEventListener("delta", handleDelta);
-    streamEmitter.addEventListener("done", reset);
-    streamEmitter.addEventListener("error", reset);
-
-    return () => {
-      streamEmitter.removeEventListener("delta", handleDelta);
-      streamEmitter.removeEventListener("done", reset);
-      streamEmitter.removeEventListener("error", reset);
-    };
-  }, [streamEmitter]);
+  useEffect(
+    () => streamEmitter.subscribe(() => setContent(streamEmitter.content)),
+    [streamEmitter],
+  );
 
   if (!content) return null;
 

@@ -4,9 +4,7 @@ import { streamRequest } from "@lib/sse";
 import type { commonSchemas, httpSchemas } from "@shared/schemas";
 
 interface UseChatCallbacks {
-  onDelta: (text: string) => void;
-  onDone: () => void;
-  onError: (message: string) => void;
+  onMessage: (event: httpSchemas.StreamResponse) => void;
 }
 
 interface UseChatResult {
@@ -26,7 +24,7 @@ function parseFrame(frame: string): httpSchemas.StreamResponse | null {
   }
 }
 
-export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChatResult {
+export function useChat({ onMessage }: UseChatCallbacks): UseChatResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const controllerRef = useRef<AbortController | null>(null);
@@ -40,33 +38,18 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
       setLoading(true);
       setError(null);
 
+      const handleEvent = (event: httpSchemas.StreamResponse) => {
+        if (event.type !== "delta") setLoading(false);
+        if (event.type === "error") setError(event.message);
+        onMessage(event);
+      };
+
       const handleFrame = (frame: string) => {
         const event = parseFrame(frame);
-        if (!event) return;
-
-        switch (event.type) {
-          case "delta":
-            onDelta(event.text);
-            break;
-          case "done":
-            setLoading(false);
-            onDone();
-            break;
-          case "error":
-            setLoading(false);
-            setError(event.message);
-            onError(event.message);
-            break;
-          default:
-            break;
-        }
+        if (event) handleEvent(event);
       };
 
-      const handleError = (message: string) => {
-        setLoading(false);
-        setError(message);
-        onError(message);
-      };
+      const handleError = (message: string) => handleEvent({ type: "error", message });
 
       await streamRequest(sendMessageConfig(request), {
         signal: controller.signal,
@@ -74,7 +57,7 @@ export function useChat({ onDelta, onDone, onError }: UseChatCallbacks): UseChat
         onError: handleError,
       });
     },
-    [onDelta, onDone, onError],
+    [onMessage],
   );
 
   return { sendMessage, loading, error };

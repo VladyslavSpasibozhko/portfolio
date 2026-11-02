@@ -17,7 +17,6 @@
     "jsx": "react-jsx",
     "baseUrl": ".",
     "paths": {
-      "@global-types/*": ["../types/*"],
       "@shared/*": ["../shared/*"],
       "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
@@ -26,9 +25,7 @@
       "@utils/*": ["./src/utils/*"],
       "@config": ["./src/config.ts"],
       "@data/*": ["../shared/data/*"],
-      "@icons/*": ["./src/icons/*"],
-      "@static/*": ["./static/*"],
-      "@global-utils/*": ["../utils/*"]
+      "@static/*": ["./static/*"]
     }
   },
   "include": ["src"],

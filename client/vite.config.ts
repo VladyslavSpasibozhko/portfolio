@@ -10,7 +10,6 @@ export default defineConfig({
   publicDir: '../shared/data',
   resolve: {
     alias: {
-      '@global-types': path.resolve(__dirname, '../types'),
       '@shared': path.resolve(__dirname, '../shared'),
       '@api': path.resolve(__dirname, './src/api'),
       '@lib': path.resolve(__dirname, './src/lib'),
@@ -19,9 +18,7 @@ export default defineConfig({
       '@utils': path.resolve(__dirname, './src/utils'),
       '@config': path.resolve(__dirname, './src/config.ts'),
       '@data': path.resolve(__dirname, '../shared/data'),
-      '@icons': path.resolve(__dirname, './src/icons'),
       '@static': path.resolve(__dirname, './static'),
-      '@global-utils': path.resolve(__dirname, '../utils'),
     },
   },
   server: {

@@ -3,6 +3,7 @@ import { IconButton } from "@components/molecules/IconButton";
 import { Textarea } from "@components/atoms/Textarea";
 import { useChatWindowContext } from "./context/ChatWindowContext";
 import type { StatusChangeEvent, StreamStatus } from "./utils/statusEmitter";
+import { translate } from "@lib/i18n";
 
 export function ChatInput() {
   const [input, setInput] = useState("");
@@ -50,7 +51,7 @@ export function ChatInput() {
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={handleEnterKeyDown}
         disabled={isDisabled}
-        placeholder="Type a message..."
+        placeholder={translate("chat.input.placeholder")}
         className="flex-1 min-w-0"
         autoResize
         autoFocus
@@ -63,7 +64,7 @@ export function ChatInput() {
         type="submit"
         className="shrink-0 !p-0 h-50 w-50"
         disabled={isDisabled || !input.trim()}
-        aria-label="Send message"
+        aria-label={translate("chat.input.send")}
       />
     </form>
   );

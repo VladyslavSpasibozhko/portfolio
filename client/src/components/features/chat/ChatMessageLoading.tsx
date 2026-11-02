@@ -2,14 +2,17 @@ import { useEffect, useState } from "react";
 import { interval } from "@utils/interval";
 import { timeout } from "@utils/timeout";
 import { Typography } from "@components/atoms/Typography";
+import { translate } from "@lib/i18n";
 
-const ACTIONS = [
-  "Typing...",
-  "Thinking...",
-  "Syncing...",
-  "Searching...",
-  "Fetching...",
+const ACTION_KEYS = [
+  "chat.loading.typing",
+  "chat.loading.thinking",
+  "chat.loading.syncing",
+  "chat.loading.searching",
+  "chat.loading.fetching",
 ];
+
+const ACTIONS = ACTION_KEYS.map((key) => translate(key));
 
 const TYPING_SPEED = 80;
 const HOLD_DURATION = 300;

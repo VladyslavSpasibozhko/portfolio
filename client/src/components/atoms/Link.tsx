@@ -11,10 +11,6 @@ export function Link({ children, className = "", ...props }: LinkProps) {
       {...props}
     >
       {children}
-      {/* Warn before switching context, otherwise it happens unannounced. */}
-      {props.target === "_blank" && (
-        <span className="sr-only"> (opens in a new tab)</span>
-      )}
     </a>
   );
 }

@@ -1,4 +1,5 @@
 import { config } from "@config";
+import { messages } from "@shared/errors";
 import { readFrames } from "./readFrames";
 import type { StreamConfig, StreamBody, StreamOptions } from "./types";
 
@@ -29,13 +30,13 @@ export async function streamRequest<B extends StreamBody = StreamBody>(
     });
 
     if (!res.ok || !res.body) {
-      throw Error('Request unsuccessful');
+      onError(messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL);
+      return;
     }
 
-
     await readFrames(res.body, onFrame);
-  } catch (e) {
+  } catch {
     if (signal?.aborted) return;
-    onError(e instanceof Error ? e.message : 'Unknown error!')
+    onError(messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL);
   }
 }

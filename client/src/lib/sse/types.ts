@@ -1,3 +1,5 @@
+import type { messages } from "@shared/errors";
+
 export type StreamBody = FormData | object;
 
 export interface StreamConfig<B extends StreamBody = StreamBody> {
@@ -10,6 +12,6 @@ export interface StreamConfig<B extends StreamBody = StreamBody> {
 
 export interface StreamOptions {
   signal?: AbortSignal;
-  onError(message: string): void;
+  onError(message: messages.ErrorMessage): void;
   onFrame(frame: string): void;
 }

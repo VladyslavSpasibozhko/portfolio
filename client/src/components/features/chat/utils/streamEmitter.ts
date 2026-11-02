@@ -9,8 +9,20 @@ export class StreamEmitter extends EventTarget {
     return this.buffer;
   }
 
+  private append(text: string) {
+    this.buffer = this.buffer + text
+  }
+
+  private clear() {
+    this.buffer = '';
+  }
+
   emit(event: httpSchemas.StreamResponse): void {
-    this.buffer = event.type === "delta" ? this.buffer + event.text : "";
+    if (event.type === "delta") this.append(event.text);
+    if (event.type === 'done' || event.type === 'error') {
+      this.clear();
+    };
+
     this.dispatchEvent(new Event(CHANGE));
   }
 

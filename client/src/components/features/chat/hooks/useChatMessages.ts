@@ -29,14 +29,11 @@ export function useChatMessages(): UseChatMessagesResult {
     useCreateSession();
   const { getMessages } = useGetChatMessages();
 
-
-
   const {
     sendMessage: sendChatMessage,
     error: chatError,
   } = useChat({
     onMessage: (event) => {
-
       const streamHandlers: Record<httpSchemas.StreamType, () => void> = {
         delta: () => statusEmitter.set("generating"),
         done: () => {

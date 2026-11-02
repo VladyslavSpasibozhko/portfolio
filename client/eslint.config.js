@@ -70,7 +70,7 @@ export default tseslint.config(
         { type: "utils", pattern: "client/src/utils", partialMatch: false },
         { type: "global-utils", pattern: "utils", partialMatch: false },
         { type: "global-types", pattern: "types", partialMatch: false },
-        { type: "data", pattern: "data", partialMatch: false },
+        { type: "data", pattern: "shared/data", partialMatch: false },
       ],
       "boundaries/files": [
         { category: "config", pattern: "client/src/config.ts" },

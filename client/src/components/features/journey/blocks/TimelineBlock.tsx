@@ -1,9 +1,9 @@
-import type { JourneyTimelineBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Timeline } from "@components/molecules/Timeline";
 import { BlockHeading } from "../BlockHeading";
 
 interface TimelineBlockProps {
-  block: JourneyTimelineBlock;
+  block: journeyTypes.JourneyTimelineBlock;
 }
 
 export function TimelineBlock({ block }: TimelineBlockProps) {

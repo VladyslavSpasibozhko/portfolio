@@ -1,12 +1,12 @@
 import { Fragment } from "react";
-import type { JourneyDiagramStep } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { DiagramNode } from "./DiagramNode";
 import { DiagramRail } from "./DiagramRail";
 
 export type StepsOrientation = "vertical" | "horizontal";
 
 interface StepsDiagramProps {
-  steps: JourneyDiagramStep[];
+  steps: journeyTypes.JourneyDiagramStep[];
   orientation?: StepsOrientation;
   className?: string;
 }

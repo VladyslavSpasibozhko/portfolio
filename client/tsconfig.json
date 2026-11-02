@@ -25,7 +25,7 @@
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
       "@config": ["./src/config.ts"],
-      "@data/*": ["../data/*"],
+      "@data/*": ["../shared/data/*"],
       "@icons/*": ["./src/icons/*"],
       "@static/*": ["./static/*"],
       "@global-utils/*": ["../utils/*"]

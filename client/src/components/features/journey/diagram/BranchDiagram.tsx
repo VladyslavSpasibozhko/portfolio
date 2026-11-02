@@ -1,4 +1,4 @@
-import type { JourneyDiagramNode } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { DiagramNode } from "./DiagramNode";
 import { DiagramRail } from "./DiagramRail";
 
@@ -16,10 +16,10 @@ function bracketClasses(index: number, total: number): string {
 }
 
 interface BranchDiagramProps {
-  source: JourneyDiagramNode;
+  source: journeyTypes.JourneyDiagramNode;
   connector?: string;
-  branches: JourneyDiagramNode[];
-  sink?: JourneyDiagramNode;
+  branches: journeyTypes.JourneyDiagramNode[];
+  sink?: journeyTypes.JourneyDiagramNode;
   className?: string;
 }
 

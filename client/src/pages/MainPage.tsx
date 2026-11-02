@@ -1,8 +1,8 @@
-import type { JourneyData } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { JourneySlide } from "@components/features/journey/JourneySlide";
 import journeyData from "@data/journey.json";
 
-const sections = journeyData as JourneyData;
+const sections = journeyData as journeyTypes.JourneyData;
 
 export function MainPage() {
   return (

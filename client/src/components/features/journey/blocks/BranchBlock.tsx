@@ -1,9 +1,9 @@
-import type { JourneyBranchBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { BranchDiagram } from "../diagram/BranchDiagram";
 import { BlockHeading } from "../BlockHeading";
 
 interface BranchBlockProps {
-  block: JourneyBranchBlock;
+  block: journeyTypes.JourneyBranchBlock;
 }
 
 export function BranchBlock({ block }: BranchBlockProps) {

@@ -1,5 +1,5 @@
 import { useRef, useState, type CSSProperties } from "react";
-import type { JourneyListBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { Typography } from "@components/atoms/Typography";
 import { Icon } from "@components/atoms/Icon";
 import { useIntersectionObserver } from "@hooks/useIntersectionObserver";
@@ -9,7 +9,7 @@ import { BlockHeading } from "../BlockHeading";
 const STEP_MS = 120;
 
 interface ListBlockProps {
-  block: JourneyListBlock;
+  block: journeyTypes.JourneyListBlock;
 }
 
 export function ListBlock({ block }: ListBlockProps) {

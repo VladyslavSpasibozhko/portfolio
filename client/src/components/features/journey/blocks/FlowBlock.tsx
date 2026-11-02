@@ -1,10 +1,10 @@
-import type { JourneyFlowBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { isIconName } from "@components/atoms/Icon";
 import { FlowDiagram, type FlowStep } from "../FlowDiagram";
 import { BlockHeading } from "../BlockHeading";
 
 interface FlowBlockProps {
-  block: JourneyFlowBlock;
+  block: journeyTypes.JourneyFlowBlock;
 }
 
 export function FlowBlock({ block }: FlowBlockProps) {

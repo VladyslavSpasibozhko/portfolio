@@ -30,7 +30,7 @@ Slide background images exist only as manually produced variants, with no docume
 
 A path alias configured for icons points at a folder that no longer exists — icons moved elsewhere after it was set up. Anything still written against that alias leads nowhere.
 
-## `data/` Is Served as the Client's Public Directory
+## `shared/data/` Is Served as the Client's Public Directory
 
 Every file in the content data folder is copied into the client build and becomes publicly downloadable, including files only meant to be read server-side. Anything added to that folder is exposed by default, whether or not that's intended.
 

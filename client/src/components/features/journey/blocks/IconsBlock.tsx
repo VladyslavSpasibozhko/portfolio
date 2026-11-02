@@ -1,11 +1,11 @@
-import type { JourneyIconsBlock } from "@global-types/journey";
+import type { journeyTypes } from "@shared/types";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
 import { Icon, isIconName } from "@components/atoms/Icon";
 import { BlockHeading } from "../BlockHeading";
 
 interface IconsBlockProps {
-  block: JourneyIconsBlock;
+  block: journeyTypes.JourneyIconsBlock;
 }
 
 export function IconsBlock({ block }: IconsBlockProps) {

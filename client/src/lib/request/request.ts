@@ -1,4 +1,5 @@
 import { config } from "@config";
+import { codes, messages } from "@shared/errors";
 import { httpUtils } from "@shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
@@ -46,11 +47,13 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
 
     const data = (await res.json()) as FetchResult<T>;
     return data;
-  } catch (e) {
-    return httpUtils.createErrorResponse({
-      code: 500,
-      message: e instanceof Error ? e.message : "Unknown error",
-      reason: 'network_error'
-    });
+  } catch {
+    return httpUtils.createErrorResponse(
+      httpUtils.createErrorDetails(
+        codes.ERROR_CODES.NETWORK_ERROR,
+        messages.ERROR_MESSAGES.REQUEST_UNSUCCESSFUL,
+        500,
+      ),
+    );
   }
 }

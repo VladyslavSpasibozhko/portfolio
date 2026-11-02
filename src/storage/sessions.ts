@@ -1,6 +1,5 @@
 import { storage } from "../lib/storage/index.js";
-import type { History } from "../../types/history.js";
-import type { Message } from "../../types/main/message.js";
+import type { History, Message } from "../../shared/schemas/common.js";
 
 const key = (id: string) => `chat:${id}`;
 

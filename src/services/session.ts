@@ -1,7 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { Session } from "../../types/main/session.js";
-import type { Message } from "../../types/main/message.js";
-import type { History } from "../../types/history.js";
+import type { Session, Message, History } from "../../shared/schemas/common.js";
 import * as sessions from "../storage/sessions.js";
 import { config } from "../config/index.js";
 

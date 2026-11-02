@@ -183,11 +183,12 @@ See the `utils-creation-client` skill for the rules on what belongs here.
 
 ### Libs (`client/src/lib/`)
 
-Client-side access layers, each scoped to one transport concern:
+Reusable client-side functionality, each lib scoped to one concern (e.g. a transport, translations):
 
 - WebSocket lib — wraps the chat WebSocket connection.
 - Request lib — thin `fetch` adapter for JSON endpoints; returns the shared response envelope type, building its own error envelope only for transport-level failures (network error, bad JSON). Doesn't handle streaming.
 - SSE lib — generic `text/event-stream` client, not tied to any one endpoint's event shape; decodes/splits frames and hands each one to the caller. Parsing a frame's payload into a typed event is the caller's job, not this lib's.
+- i18n lib — UI translations. One JSON file per language in `languages/` (only `en` for now), registered in `languages/index.ts`. `loadTranslations(language)` returns a language's translations (default `en`); `translate(key, { params, language })` returns the text for a key (or the key itself when it's missing), with `{name}` placeholders replaced by `params` via `interpolate(template, params)`; placeholders without a matching param are left as-is. To add a language: add `<lang>.json` and register it in the `LANGUAGES` map.
 
 See the `lib-creation-client` skill for the rules on adding or changing a client lib.
 

@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch index.ts",
-    "build": "tsc -p tsconfig.json && cp -r data dist/",
+    "build": "tsc -p tsconfig.json && mkdir -p dist/shared && cp -r shared/data dist/shared/",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
     "test:ai": "tsx src/services/ai/test.ts",

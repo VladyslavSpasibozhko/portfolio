@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
-import type { commonSchemas, httpSchemas } from "@shared/schemas";
+import { httpSchemas, type commonSchemas } from "@shared/schemas";
 
 interface UseChatCallbacks {
   onMessage: (event: httpSchemas.StreamResponse) => void;
@@ -18,7 +18,9 @@ function parseFrame(frame: string): httpSchemas.StreamResponse | null {
   if (!dataLine) return null;
 
   try {
-    return JSON.parse(dataLine.slice("data:".length).trim()) as httpSchemas.StreamResponse;
+    const data = JSON.parse(dataLine.slice("data:".length).trim());
+    const result = httpSchemas.StreamResponseSchema.safeParse(data);
+    return result.success ? result.data : null;
   } catch {
     return null;
   }
@@ -46,7 +48,8 @@ export function useChat({ onMessage }: UseChatCallbacks): UseChatResult {
 
       const handleFrame = (frame: string) => {
         const event = parseFrame(frame);
-        if (event) handleEvent(event);
+        if (event) handleEvent(event)
+        else console.warn('Innapropriate format of data');
       };
 
       const handleError = (message: string) => handleEvent({ type: "error", message });

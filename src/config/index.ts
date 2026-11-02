@@ -1,4 +1,4 @@
-import { flags } from './flags.js'
+import { flagsConfig } from '../../shared/config/index.js';
 
 function requireEnv(name: string): string {
   const value = process.env[name];
@@ -29,5 +29,5 @@ export const config = {
     return requireEnv("UPSTASH_REDIS_REST_TOKEN");
   },
   sessionLifeTime: 24 * 60 * 60 * 1000,
-  flags
+  flags: flagsConfig.flags,
 };

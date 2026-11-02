@@ -11,6 +11,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@global-types': path.resolve(__dirname, '../types'),
+      '@shared': path.resolve(__dirname, '../shared'),
       '@api': path.resolve(__dirname, './src/api'),
       '@lib': path.resolve(__dirname, './src/lib'),
       '@components': path.resolve(__dirname, './src/components'),

@@ -18,6 +18,7 @@
     "baseUrl": ".",
     "paths": {
       "@global-types/*": ["../types/*"],
+      "@shared/*": ["../shared/*"],
       "@api/*": ["./src/api/*"],
       "@components/*": ["./src/components/*"],
       "@lib/*": ["./src/lib/*"],

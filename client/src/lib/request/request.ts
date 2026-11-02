@@ -1,5 +1,6 @@
 import { config } from "@config";
 import { codes, messages } from "@shared/errors";
+import { httpSchemas } from "@shared/schemas";
 import { httpUtils } from "@shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
@@ -45,8 +46,11 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
       body: buildBody(request.method, request.body),
     });
 
-    const data = (await res.json()) as FetchResult<T>;
-    return data;
+    const data = await res.json();
+    const isValid = httpSchemas.ResponseSchema.validate(data);
+
+    if(isValid) return data as FetchResult<T>;
+    throw Error();
   } catch {
     return httpUtils.createErrorResponse(
       httpUtils.createErrorDetails(

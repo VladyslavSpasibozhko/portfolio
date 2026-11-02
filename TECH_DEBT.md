@@ -26,9 +26,9 @@ Spacing values are effectively unbounded, so an odd or fractional value compiles
 
 Slide background images exist only as manually produced variants, with no documented or repeatable process for generating them. Adding or re-cropping a background is a manual, unrepeatable task today.
 
-## Stale `@icons` Alias
+## Single-File Atoms Can Import Each Other Unchecked
 
-A path alias configured for icons points at a folder that no longer exists — icons moved elsewhere after it was set up. Anything still written against that alias leads nowhere.
+Atoms written as one file directly in the atoms folder (not in their own subfolder) are treated by the boundary lint as one shared element. Their imports to other layers are checked, but one such atom importing another passes silently, so the "atoms can't reuse other atoms" rule isn't enforced for them. Atoms in their own folder are checked fully.
 
 ## `shared/data/` Is Served as the Client's Public Directory
 

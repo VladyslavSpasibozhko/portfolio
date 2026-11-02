@@ -10,7 +10,7 @@ Common, reusable utility functions that are specific to the client but not tied 
 ## When code belongs here
 
 - Pure function, no React (no hooks, no JSX), no network call, no vendor SDK.
-- Only makes sense in a browser/client context (otherwise it belongs in the shared root `utils/` — see `utils-creation-global`) — or it's simply not yet proven to be needed server-side; don't promote it to the global folder preemptively.
+- Only makes sense in a browser/client context (otherwise it belongs in `shared/utils/` — see `utils-creation-global`) — or it's simply not yet proven to be needed server-side; don't promote it to the global folder preemptively.
 - Used by more than one place in the client, or clearly general-purpose (per CLAUDE.md Rule 7, extract on second use — a helper used by exactly one file can stay inline until a second caller appears).
 
 ## Rules

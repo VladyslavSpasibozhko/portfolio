@@ -39,7 +39,7 @@ Scope is the directory/area the change lives in, matching how this repo's histor
 - `client` — anything under `client/`.
 - `server` — server-only code under `src/` (routes, services, lib, storage, plugins).
 - `data` — `shared/data/journey.json`, `shared/data/profile.md`.
-- `types` — `types/`.
+- `shared` — `shared/` code (schemas, types, utils, errors, config).
 
 For a change confined to one layer inside client or server, a more specific scope is fine if the history already uses one (e.g. `client` is preferred over inventing `client-hooks`) — check `git log --oneline` for precedent before introducing a new scope.
 

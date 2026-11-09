@@ -69,6 +69,7 @@ A layer of adapters and utility sets, each scoped to one specific area. Responsi
 
 - `ai` lib — adapter for the AI provider's SDK, used to generate responses.
 - `validation` lib — adapter for the schema-validation library, used to validate input against a schema.
+- `http` lib — HTTP error response factories and `ERROR_STATUSES`, shared by routes and the error handler plugin. It wraps no vendor; it's a utility set.
 
 See the `lib-creation-server` skill for the rules on adding or changing a lib (contract boundaries, typing, testing).
 
@@ -97,13 +98,14 @@ Persistence, kept behind a plain function interface so the backing store can cha
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
 - Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
-- Shared error response factories (`badRequest`, `chatNotFound`, `serverError`) live in `src/routes/factories/errors.ts`. Routes import from there instead of defining their own.
+- Shared error response factories (`badRequest`, `chatNotFound`, `payloadTooLarge`, `tooManyRequests`, `serverError`) and `ERROR_STATUSES` live in the `http` lib (`src/lib/http/`). Routes and the error handler plugin import from there instead of defining their own; routes send them with `return reply.status(status).send(...)`.
+- Routes don't catch unexpected errors. They let them propagate to the global error handler (`src/plugins/errorHandler.ts`), which logs the error and sends the 5xx response. On success, a route just returns the data.
 
 See the `route-creation-server` skill for the rules on adding or changing a route (validation, thin-controller boundary, transport envelopes).
 
 ## Plugins (`src/plugins/`)
 
-Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it.
+Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it. It maps the error's status code to an error code and message (`ERRORS_BY_STATUS`). Any status not in the map becomes a 500.
 
 ## Client (`client/`)
 

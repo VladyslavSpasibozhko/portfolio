@@ -1,6 +1,6 @@
 import type { FetchConfig } from "@lib/request";
 import type { StreamConfig } from "@lib/sse";
-import type { commonSchemas } from "@shared/schemas";
+import type { commonSchemas } from "@portfolio/shared/schemas";
 
 export function createSession(): FetchConfig {
   return { path: "/chat/create", method: "POST" };

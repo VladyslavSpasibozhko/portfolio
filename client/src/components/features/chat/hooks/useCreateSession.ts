@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createSession } from "@api/chat";
 import { request } from "@lib/request";
-import type { commonSchemas } from "@shared/schemas";
+import type { commonSchemas } from "@portfolio/shared/schemas";
 
 interface UseCreateSessionResult {
   createSession: () => Promise<string | null>;

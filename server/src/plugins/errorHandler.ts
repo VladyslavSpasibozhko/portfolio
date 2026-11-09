@@ -1,6 +1,6 @@
 import type { FastifyError, FastifyInstance } from "fastify";
-import { httpUtils } from "../../shared/utils/index.js";
-import { messages } from "../../shared/errors/index.js";
+import { httpUtils } from "@portfolio/shared/utils";
+import { messages } from "@portfolio/shared/errors";
 import { ERROR_STATUSES, serverError, payloadTooLarge, tooManyRequests, badRequest } from "../lib/http/index.js";
 
 const ERRORS_BY_STATUS = {

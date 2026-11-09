@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { Typography } from "@components/atoms/Typography";
 import { isIconName } from "@components/atoms/Icon";
 import { InfoCard } from "../InfoCard";

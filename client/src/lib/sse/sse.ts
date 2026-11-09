@@ -1,6 +1,6 @@
 import { config } from "@config";
-import { messages } from "@shared/errors";
-import { httpSchemas } from "@shared/schemas";
+import { messages } from "@portfolio/shared/errors";
+import { httpSchemas } from "@portfolio/shared/schemas";
 import { readFrames } from "./readFrames";
 import type { StreamConfig, StreamBody, StreamOptions } from "./types";
 

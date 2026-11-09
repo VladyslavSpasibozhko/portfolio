@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { Timeline } from "@components/molecules/Timeline";
 import { BlockHeading } from "../BlockHeading";
 

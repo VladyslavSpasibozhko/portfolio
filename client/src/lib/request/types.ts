@@ -1,4 +1,4 @@
-import type { httpSchemas } from "@shared/schemas";
+import type { httpSchemas } from "@portfolio/shared/schemas";
 
 export type Method = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 

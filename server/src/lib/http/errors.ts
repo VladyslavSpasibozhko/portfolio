@@ -1,5 +1,5 @@
-import { codes, messages } from "../../../shared/errors/index.js";
-import { httpUtils } from "../../../shared/utils/index.js";
+import { codes, messages } from "@portfolio/shared/errors";
+import { httpUtils } from "@portfolio/shared/utils";
 
 const { ERROR_CODES } = codes;
 const { ERROR_MESSAGES } = messages;

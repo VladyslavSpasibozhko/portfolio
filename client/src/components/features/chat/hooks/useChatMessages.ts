@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import type { commonSchemas, httpSchemas } from "@shared/schemas";
-import { commonUtils } from "@shared/utils";
+import type { commonSchemas, httpSchemas } from "@portfolio/shared/schemas";
+import { commonUtils } from "@portfolio/shared/utils";
 import { useChatSession } from "./useChatSession";
 import { useChat } from "./useChat";
 import { useCreateSession } from "./useCreateSession";

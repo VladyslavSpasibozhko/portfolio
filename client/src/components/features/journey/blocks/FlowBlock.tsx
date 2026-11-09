@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { isIconName } from "@components/atoms/Icon";
 import { FlowDiagram, type FlowStep } from "../FlowDiagram";
 import { BlockHeading } from "../BlockHeading";

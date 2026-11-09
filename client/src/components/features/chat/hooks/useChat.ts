@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import { sendMessage as sendMessageConfig } from "@api/chat";
 import { streamRequest } from "@lib/sse";
-import { httpSchemas, type commonSchemas } from "@shared/schemas";
+import { httpSchemas, type commonSchemas } from "@portfolio/shared/schemas";
 
 interface UseChatCallbacks {
   onMessage: (event: httpSchemas.StreamResponse) => void;

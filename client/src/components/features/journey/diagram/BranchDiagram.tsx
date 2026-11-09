@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { DiagramNode } from "./DiagramNode";
 import { DiagramRail } from "./DiagramRail";
 

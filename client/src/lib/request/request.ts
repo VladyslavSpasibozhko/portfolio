@@ -1,7 +1,7 @@
 import { config } from "@config";
-import { codes, messages } from "@shared/errors";
-import { httpSchemas } from "@shared/schemas";
-import { httpUtils } from "@shared/utils";
+import { codes, messages } from "@portfolio/shared/errors";
+import { httpSchemas } from "@portfolio/shared/schemas";
+import { httpUtils } from "@portfolio/shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {

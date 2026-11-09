@@ -1,6 +1,6 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { JourneySlide } from "@components/features/journey/JourneySlide";
-import journeyData from "@data/journey.json";
+import journeyData from "@portfolio/shared/data/journey.json";
 
 const sections = journeyData as journeyTypes.JourneyData;
 

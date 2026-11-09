@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { TextBlock } from "./TextBlock";
 import { ListBlock } from "./ListBlock";
 import { BadgesBlock } from "./BadgesBlock";

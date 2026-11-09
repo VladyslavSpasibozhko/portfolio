@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { StepsDiagram } from "../diagram/StepsDiagram";
 import { BlockHeading } from "../BlockHeading";
 

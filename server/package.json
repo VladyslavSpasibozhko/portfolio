@@ -1,0 +1,29 @@
+{
+  "name": "@portfolio/server",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "NODE_OPTIONS=--conditions=source tsx watch index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "test:ai": "NODE_OPTIONS=--conditions=source tsx src/services/ai/test.ts",
+    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --conditions=source --import=tsx --test",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.123.0",
+    "@fastify/cors": "^10.0.1",
+    "@fastify/multipart": "^9.0.1",
+    "@fastify/rate-limit": "^10.1.1",
+    "@portfolio/shared": "*",
+    "@upstash/redis": "^1.39.0",
+    "dotenv": "^16.4.5",
+    "fastify": "^5.1.0",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "tsx": "^4.19.2"
+  }
+}

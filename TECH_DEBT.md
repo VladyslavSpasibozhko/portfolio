@@ -30,10 +30,6 @@ Slide background images exist only as manually produced variants, with no docume
 
 Atoms written as one file directly in the atoms folder (not in their own subfolder) are treated by the boundary lint as one shared element. Their imports to other layers are checked, but one such atom importing another passes silently, so the "atoms can't reuse other atoms" rule isn't enforced for them. Atoms in their own folder are checked fully.
 
-## `shared/data/` Is Served as the Client's Public Directory
-
-Every file in the content data folder is copied into the client build and becomes publicly downloadable, including files only meant to be read server-side. Anything added to that folder is exposed by default, whether or not that's intended.
-
 ## No Client Tests
 
 There's no automated test coverage on the client. A malformed content entry or a regression in data-driven rendering is only caught by looking at the page.

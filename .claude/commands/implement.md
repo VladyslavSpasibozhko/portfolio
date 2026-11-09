@@ -27,7 +27,7 @@ Before anything else, read `CLAUDE.md` and `AGENTS.md` at the repo root — they
    Write the tests called for in the approved test plan. Run the test suite.
 
 6. **Lint + typecheck**
-   Run lint and `npm run typecheck` (root for the server, `client/` for the client — per `CLAUDE.md`). Fix failures and re-run. Stop and report if two consecutive fix rounds make no progress.
+   Run `npm run lint` and `npm run typecheck` at the repo root (they run in every workspace package). Fix failures and re-run. Stop and report if two consecutive fix rounds make no progress.
 
 7. **Browser verification (conditional)**
    If step 1 decided this needs browser verification: start the app, follow the browser test plan, and report what was observed (pass/fail per step, screenshots/notes as relevant). Skip entirely otherwise.

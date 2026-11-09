@@ -26,7 +26,7 @@ the user can make, something to verify first.>
 Rules, and the reasoning behind each:
 
 - **No implementation plan.** Don't write "What to update" / "How" / numbered fix steps. A plan written today describes code that may not exist by the time anyone acts on it, and a stale plan is worse than no plan — it actively misleads whoever picks this up. State the problem and its impact; let whoever fixes it figure out the how, with the codebase as it is *then*.
-- **No links to current modules, files, functions, or types.** Describe the gap in terms of behavior and impact ("sessions never expire, so memory grows without bound") rather than pointers into today's code ("`src/storage/sessions.ts`'s `Map` never evicts"). File paths and function names drift; the problem description shouldn't have to.
+- **No links to current modules, files, functions, or types.** Describe the gap in terms of behavior and impact ("sessions never expire, so memory grows without bound") rather than pointers into today's code ("`server/src/storage/sessions.ts`'s `Map` never evicts"). File paths and function names drift; the problem description shouldn't have to.
 - **Open questions belong in the entry, not in your head.** If writing the entry surfaces something that needs a decision or research before any fix makes sense, write it down as a question. Don't silently pick an answer and don't start implementing — an entry with an unresolved open question is a signal to whoever reads it (including future-you) that discussion comes before code.
 - **No priority/severity scale.** If urgency matters, say so in plain language in the description itself ("this will silently corrupt data under concurrent requests") rather than a label that needs its own calibration.
 

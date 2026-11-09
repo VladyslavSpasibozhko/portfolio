@@ -1,9 +1,9 @@
 ---
 name: service-creation-server
-description: Use when adding or changing a server-side service in src/services/ (business logic/orchestration, e.g. the ai service, the session service). Trigger on "create a service", "add business logic on the server", "where does this orchestration go", "new service on the backend".
+description: Use when adding or changing a server-side service in server/src/services/ (business logic/orchestration, e.g. the ai service, the session service). Trigger on "create a service", "add business logic on the server", "where does this orchestration go", "new service on the backend".
 ---
 
-# Server services (`src/services/`)
+# Server services (`server/src/services/`)
 
 A service is a facade: it hides business logic behind a simple, typed interface. Built on top of libs and storage — never a layer that talks to HTTP or SQL/vendor APIs directly.
 
@@ -11,7 +11,7 @@ Existing examples: the `ai` service (orchestrates response generation using the 
 
 ## When code belongs here
 
-Code belongs in `src/services/<capability>/` when it's business logic or orchestration — coordinating one or more libs and/or the storage layer to fulfill one capability. It doesn't belong here if it only wraps an external SDK with no business logic (that's a `lib/`, see `lib-creation-server`) or if it only persists/reads data with no logic beyond that (that's `storage/`).
+Code belongs in `server/src/services/<capability>/` when it's business logic or orchestration — coordinating one or more libs and/or the storage layer to fulfill one capability. It doesn't belong here if it only wraps an external SDK with no business logic (that's a `lib/`, see `lib-creation-server`) or if it only persists/reads data with no logic beyond that (that's `storage/`).
 
 ## Naming
 
@@ -34,4 +34,4 @@ Name a service after the **capability it owns** (`session`, `ai`), not an implem
 3. Does it avoid importing another service, and avoid using a route's schema types?
 4. Typed input/output contract defined?
 5. No `req`/`res`, no hidden env/time/random reads?
-6. Run `npm run typecheck` at the repo root.
+6. Run `npm run typecheck` in `server/`.

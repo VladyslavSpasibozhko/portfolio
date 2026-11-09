@@ -14,8 +14,7 @@ Everything typed and shared between the server and the client lives in `shared/`
 
 Each folder has an `index.ts` barrel that re-exports every file as a namespace (`export * as httpSchemas from './http.js'`). Always import through the index:
 
-- Server: relative path to `shared/<folder>/index.js` (deep imports are an ESLint error).
-- Client: `@shared/<folder>` alias.
+- Server and client: `@portfolio/shared/<folder>` (the package only exports folder indexes; deep imports don't resolve).
 
 A new file must be added to its folder's `index.ts` under a `<name><Folder>` namespace (e.g. `sessionSchemas`, `journeyTypes`).
 
@@ -40,4 +39,4 @@ A type that's purely internal to one component/service and never crosses the bou
 2. Did you get approval before adding a brand-new type (not just extending an existing, approved one)?
 3. Is a runtime-validated shape a schema with an inferred type, not a hand-written duplicate?
 4. Is the new file exported from its folder's `index.ts`, and imported only through it?
-5. Run `npm run typecheck` at the root **and** in `client/`, since both consume this folder.
+5. Run `npm run typecheck` at the repo root (checks shared, server and client, since server and client both consume this folder).

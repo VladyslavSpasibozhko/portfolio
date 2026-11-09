@@ -1,15 +1,15 @@
 ---
 name: route-creation-server
-description: Use when adding or changing a server-side route in src/routes/ (Fastify HTTP/WS endpoint). Trigger on "create a route", "add an endpoint on the server", "new Fastify route", "where does this HTTP handler go".
+description: Use when adding or changing a server-side route in server/src/routes/ (Fastify HTTP/WS endpoint). Trigger on "create a route", "add an endpoint on the server", "new Fastify route", "where does this HTTP handler go".
 ---
 
-# Server routes (`src/routes/`)
+# Server routes (`server/src/routes/`)
 
 A route is the thin HTTP/WS entry point, tied to the framework (Fastify). It accepts the incoming param, prepares it for a service, receives the service's output, and sends it to the client — nothing more.
 
 ## When code belongs here
 
-Code belongs in `src/routes/` only for the framework-facing glue: reading `req`, calling exactly one service, writing `res`. Anything beyond that — validation logic beyond schema declaration, business rules, data access — belongs in a service (`service-creation-server`), a lib (`lib-creation-server`), or storage, not the route.
+Code belongs in `server/src/routes/` only for the framework-facing glue: reading `req`, calling exactly one service, writing `res`. Anything beyond that — validation logic beyond schema declaration, business rules, data access — belongs in a service (`service-creation-server`), a lib (`lib-creation-server`), or storage, not the route.
 
 ## Rules
 
@@ -35,4 +35,4 @@ router.post("/orders", validate(createOrderSchema), async (req, res) => {
 2. Does it have a request schema + validation (or correctly skip one because it takes no meaningful input)?
 3. Does it avoid importing `storage/` directly?
 4. Does the response go through the shared transport factories?
-5. Run `npm run typecheck` at the repo root.
+5. Run `npm run typecheck` in `server/`.

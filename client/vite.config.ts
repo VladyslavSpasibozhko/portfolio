@@ -17,12 +17,5 @@ export default defineConfig({
       '@config': path.resolve(__dirname, './src/config.ts'),
       '@static': path.resolve(__dirname, './static'),
     },
-  },
-  server: {
-    proxy: {
-      '/chat': {
-        target: 'http://localhost:3001',
-      },
-    },
-  },
+  }
 });

@@ -8,8 +8,6 @@ import path from 'path';
 export default defineConfig({
   plugins: [tailwindcss(), react(), svgr()],
   resolve: {
-    // Read @portfolio/shared from its TS source instead of its build output.
-    conditions: ['source'],
     alias: {
       '@api': path.resolve(__dirname, './src/api'),
       '@lib': path.resolve(__dirname, './src/lib'),

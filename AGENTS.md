@@ -48,7 +48,7 @@ Commit messages follow Conventional Commits (`type(scope): description`), matchi
 
 Code and content used by both the server and the client. Each folder has an `index.ts` barrel that re-exports its files as namespaces (e.g. `httpSchemas`, `commonUtils`). Server and client import a folder as `@portfolio/shared/<folder>`. The package `exports` map lists only the folder indexes (plus `data/*`), so deep imports don't resolve. Inside `shared/`, folders import each other only through their index (enforced by ESLint). A new folder needs a new entry in `shared/package.json` `exports`.
 
-Each `exports` entry has a `source` condition pointing at the TS file and a `default` pointing at `dist/`. Typecheck, Vite (`resolve.conditions`) and tsx (`--conditions=source`) read the source, so no build is needed in development. The compiled server reads `dist/`, so build shared before building or starting the server.
+Each `exports` entry has a `types` condition pointing at the TS file (used by typecheck) and a `default` pointing at `dist/`. At runtime the server, its tests and Vite all read `dist/`, so build shared first (`npm run build -w @portfolio/shared`), and rebuild it after changes or keep `npm run dev -w @portfolio/shared` (`tsc --watch`) running alongside.
 
 - `schemas/` — zod schemas and the types inferred from them: chat message, session, and the transport/wire envelope (success/error/stream responses).
 - `types/` — plain TS types with no schema: the page content (journey) types.

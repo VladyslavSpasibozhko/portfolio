@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "NODE_OPTIONS=--conditions=source tsx watch index.ts",
+    "dev": "tsx watch index.ts",
     "build": "tsc -p tsconfig.json",
     "start": "node dist/index.js",
     "typecheck": "tsc --noEmit",
-    "test:ai": "NODE_OPTIONS=--conditions=source tsx src/services/ai/test.ts",
-    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --conditions=source --import=tsx --test",
+    "test:ai": "tsx src/services/ai/test.ts",
+    "test": "find src -name '*.test.ts' | xargs env ANTHROPIC_API_KEY=test-key ANTHROPIC_MODEL=test-model node --import=tsx --test",
     "lint": "eslint ."
   },
   "dependencies": {

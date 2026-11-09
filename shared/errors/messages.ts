@@ -12,6 +12,8 @@ export const ERROR_MESSAGES = {
     VALIDATION_FAILED: 'validation.failed',
 
     REQUEST_UNSUCCESSFUL: 'http.request_unsuccessful',
+    PAYLOAD_TOO_LARGE: 'http.payload_too_large',
+    TOO_MANY_REQUESTS: 'http.too_many_requests',
 
     UNKNOWN_ERROR: 'common.unknown_error',
 } as const;

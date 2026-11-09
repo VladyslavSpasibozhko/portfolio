@@ -49,9 +49,11 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
     const data = await res.json();
     const isValid = httpSchemas.ResponseSchema.validate(data);
 
-    if(isValid) return data as FetchResult<T>;
+    if (isValid) return data as FetchResult<T>;
     throw Error();
-  } catch {
+  } catch (e) {
+    console.error(e);
+
     return httpUtils.createErrorResponse(
       httpUtils.createErrorDetails(
         codes.ERROR_CODES.NETWORK_ERROR,

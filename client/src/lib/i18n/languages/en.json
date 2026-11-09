@@ -10,6 +10,8 @@
   "chat.not_found": "Chat not found.",
   "validation.failed": "Validation failed.",
   "http.request_unsuccessful": "Request was unsuccessful. Please try again.",
+  "http.payload_too_large": "The request is too large.",
+  "http.too_many_requests": "Too many requests. Please wait a moment and try again.",
   "common.unknown_error": "Something went wrong.",
   "chat.empty": "Start a conversation",
   "chat.open": "Open chat",

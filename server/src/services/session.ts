@@ -1,5 +1,5 @@
 import { randomUUID } from "node:crypto";
-import type { commonSchemas } from "../../shared/schemas/index.js";
+import type { commonSchemas } from "@portfolio/shared/schemas";
 import * as sessions from "../storage/sessions.js";
 
 export interface CreateSessionInput {

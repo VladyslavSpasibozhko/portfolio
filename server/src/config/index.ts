@@ -1,4 +1,4 @@
-import { flagsConfig } from '../../shared/config/index.js';
+import { flagsConfig } from '@portfolio/shared/config';
 
 function requireEnv(name: string): string {
   const value = process.env[name];

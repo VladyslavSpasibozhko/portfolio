@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
 const PROFILE_MD_PATH = fileURLToPath(
-  new URL("../../../shared/data/profile.md", import.meta.url)
+  import.meta.resolve("@portfolio/shared/data/profile.md")
 );
 
 function profileBlock(): string {

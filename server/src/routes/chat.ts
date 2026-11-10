@@ -2,10 +2,10 @@ import type { FastifyInstance } from "fastify";
 import { config } from "../config/index.js";
 import * as ai from "../services/ai/index.js";
 import * as session from "../services/session.js";
-import { commonSchemas, httpSchemas } from "../../shared/schemas/index.js";
-import { httpUtils, commonUtils } from "../../shared/utils/index.js";
-import { messages as errorMessages } from "../../shared/errors/index.js";
-import { badRequest, chatNotFound } from "./factories/errors.js";
+import { commonSchemas, httpSchemas } from "@portfolio/shared/schemas";
+import { httpUtils, commonUtils } from "@portfolio/shared/utils";
+import { messages as errorMessages } from "@portfolio/shared/errors";
+import { badRequest, chatNotFound } from "../lib/http/index.js";
 
 const ROUTE_CONFIG = { rateLimit: { max: 20, timeWindow: "1 minute" } };
 

@@ -37,9 +37,9 @@ If a change doesn't fit one type, split it into separate commits rather than pic
 Scope is the directory/area the change lives in, matching how this repo's history already scopes commits:
 
 - `client` — anything under `client/`.
-- `server` — server-only code under `src/` (routes, services, lib, storage, plugins).
+- `server` — anything under `server/` (routes, services, lib, storage, plugins, configs).
 - `data` — `shared/data/journey.json`, `shared/data/profile.md`.
-- `shared` — `shared/` code (schemas, types, utils, errors, config).
+- `shared` — `shared/` code (schemas, types, utils, errors, config) and its package configs.
 
 For a change confined to one layer inside client or server, a more specific scope is fine if the history already uses one (e.g. `client` is preferred over inventing `client-hooks`) — check `git log --oneline` for precedent before introducing a new scope.
 

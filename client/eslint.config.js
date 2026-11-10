@@ -11,16 +11,35 @@ import { createTypeScriptImportResolver } from "eslint-import-resolver-typescrip
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const tsconfig = path.resolve(import.meta.dirname, "tsconfig.json");
 
+// Boundaries policy: elements of type `from` may import elements of the `to` types.
 const allow = (from, to) => ({
   from: { element: { type: from } },
   allow: { to: { element: { types: { anyOf: to } } } },
 });
 
+// Workspace package rules: blocked packages can't be imported by name or by a relative
+// path that climbs into their folder; allowed packages are imported only by name.
+const PACKAGE_IMPORT_PATTERNS = [
+  {
+    regex: "^(@portfolio/server(/|$)|(\\.\\./)+server(/|$))",
+    message: "This package can't import from the server package.",
+  },
+  {
+    regex: "^(\\.\\./)+shared(/|$)",
+    message: "Import the shared package by name (@portfolio/shared/...), not by a relative path.",
+  },
+];
+
+const FILES = ["**/*.{ts,tsx}"];
+
 export default tseslint.config(
   { ignores: ["dist", "node_modules"] },
   {
-    files: ["**/*.{ts,tsx}"],
+    files: FILES,
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
+  },
+  {
+    files: FILES,
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -41,11 +60,11 @@ export default tseslint.config(
     files: ["**/*.{ts,tsx}"],
     plugins: { boundaries, "import-x": importX },
     settings: {
+      // Both resolvers are needed: boundaries reads `import/resolver`, import-x reads
+      // `import-x/resolver-next`. Without `import/resolver` the boundaries rules silently pass.
       "import/resolver": { typescript: { project: tsconfig } },
       "import-x/extensions": [".ts", ".tsx"],
-      "import-x/resolver-next": [
-        createTypeScriptImportResolver({ project: tsconfig }),
-      ],
+      "import-x/resolver-next": [createTypeScriptImportResolver({ project: tsconfig })],
       "boundaries/root-path": repoRoot,
       "boundaries/elements": [
         { type: "pages", pattern: "client/src/pages", partialMatch: false },
@@ -109,7 +128,6 @@ export default tseslint.config(
             allow("api", ["lib", "shared"]),
             allow("lib", ["utils", "shared"]),
             allow("utils", ["shared"]),
-            allow("shared", ["shared"]),
             {
               from: { element: { type: "lib" } },
               allow: { to: { file: { categories: "config" } } },
@@ -152,11 +170,22 @@ export default tseslint.config(
     },
   },
   {
+    files: FILES,
+    rules: {
+      "no-restricted-imports": ["error", { patterns: PACKAGE_IMPORT_PATTERNS }],
+    },
+  },
+  {
     files: ["src/api/**", "src/lib/**", "src/utils/**"],
     rules: {
       "no-restricted-imports": [
         "error",
-        { patterns: [{ group: ["react", "react-dom", "react/*"], message: "No React outside components, hooks and pages." }] },
+        {
+          patterns: [
+            ...PACKAGE_IMPORT_PATTERNS,
+            { group: ["react", "react-dom", "react/*"], message: "No React outside components, hooks and pages." },
+          ],
+        },
       ],
     },
   },

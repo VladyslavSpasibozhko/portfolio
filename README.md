@@ -10,23 +10,23 @@ Personal portfolio of Vladyslav Spasibozhko, Frontend Engineer — a single-page
 
 ## Project structure
 
+An npm workspace with three packages. Server and client may import `shared`; `shared` imports neither, and server and client never import each other (enforced by ESLint).
+
 ```
 .
-├── index.ts            # Fastify server entry
-├── src/
-│   ├── lib/            # adapters: ai (Anthropic), validation (AJV)
-│   ├── services/       # business logic facades (ai chat)
-│   ├── routes/         # Fastify routes (/ws/chat)
-│   └── plugins/        # CORS, rate limit
-├── shared/
-│   ├── types/          # journey content schema
+├── package.json        # workspace root: scripts that run in every package
+├── shared/             # @portfolio/shared
+│   ├── schemas/ types/ utils/ errors/ config/
 │   └── data/           # journey.json (page content), profile.md (AI context)
-└── client/
+├── server/             # @portfolio/server
+│   ├── index.ts        # Fastify server entry
+│   └── src/            # config, lib, services, storage, routes, plugins
+└── client/             # @portfolio/client
     ├── static/backgrounds/   # optimized slide backgrounds (avif/webp × 3 sizes)
     └── src/
         ├── components/       # atoms, molecules, features (journey, chat)
         ├── pages/            # MainPage, LibraryPage
-        ├── hooks/ utils/ lib/
+        ├── hooks/ utils/ lib/ api/
         ├── config.ts         # client env vars
         └── index.css         # Tailwind @theme tokens and animations
 ```
@@ -36,39 +36,40 @@ Personal portfolio of Vladyslav Spasibozhko, Frontend Engineer — a single-page
 Requirements: Node.js 22+ and an Anthropic API key (only needed for the chat server).
 
 ```bash
-# install
+# install (all packages, from the root)
 npm install
-npm install --prefix client
 
 # configure
-cp .env.example .env            # ANTHROPIC_API_KEY, ANTHROPIC_MODEL, PORT, CLIENT_ORIGIN
+cp server/.env.example server/.env   # ANTHROPIC_API_KEY, ANTHROPIC_MODEL, PORT, CLIENT_ORIGIN, UPSTASH_*
 echo "VITE_API_URL=http://localhost:3001" > client/.env
 
 # run (two terminals)
-npm run dev                     # server
-npm run dev --prefix client     # client on http://localhost:5173
+npm run dev:server
+npm run dev:client              # client on http://localhost:5173
 ```
 
 ## Scripts
 
-| Where    | Command             | What it does                        |
-| -------- | ------------------- | ----------------------------------- |
-| root     | `npm run dev`       | Server in watch mode                |
-| root     | `npm run build`     | Compile server to `dist/`           |
-| root     | `npm start`         | Run compiled server                 |
-| root     | `npm test`          | Server unit tests (Node test runner)|
-| root     | `npm run typecheck` | Type-check server                   |
-| `client` | `npm run dev`       | Vite dev server                     |
-| `client` | `npm run build`     | Type-check and build to `client/dist` |
-| `client` | `npm run preview`   | Preview the production build        |
-| `client` | `npm run typecheck` | Type-check client                   |
+Run from the root.
+
+| Command              | What it does                                         |
+| -------------------- | ---------------------------------------------------- |
+| `npm run dev:server` | Server in watch mode                                 |
+| `npm run dev:client` | Vite dev server                                      |
+| `npm run build`      | Build shared, server (`server/dist`), client (`client/dist`) |
+| `npm start`          | Run the compiled server                              |
+| `npm test`           | Tests in every package                               |
+| `npm run typecheck`  | Type-check every package                             |
+| `npm run lint`       | Lint every package                                   |
+
+To run one package's script: `npm run <script> -w @portfolio/<shared|server|client>`.
 
 ## Editing content
 
 There are two content files, one per consumer:
 
 - [shared/data/journey.json](shared/data/journey.json) renders the main page. Each section is a slide made of typed blocks (`text`, `cards`, `timeline`, `steps`, `branch`, …) described in [shared/types/journey.ts](shared/types/journey.ts).
-- [shared/data/profile.md](shared/data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [src/services/ai/prompts.ts](src/services/ai/prompts.ts).
+- [shared/data/profile.md](shared/data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [server/src/services/ai/prompts.ts](server/src/services/ai/prompts.ts).
 
 Neither file is a copy of the other, so there's nothing to keep in sync mechanically — but a factual change usually belongs in both.
 

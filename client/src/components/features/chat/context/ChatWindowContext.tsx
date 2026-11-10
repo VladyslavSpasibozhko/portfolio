@@ -2,7 +2,7 @@ import { createContext, useContext, type ReactNode } from "react";
 import { useChatMessages } from "../hooks/useChatMessages";
 import type { StatusEmitter } from "../utils/statusEmitter";
 import type { StreamEmitter } from "../utils/streamEmitter";
-import type { commonSchemas } from "@shared/schemas";
+import type { commonSchemas } from "@portfolio/shared/schemas";
 
 interface ChatWindowContextValue {
   messages: commonSchemas.Message[];

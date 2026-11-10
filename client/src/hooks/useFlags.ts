@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getFlags } from "@api/flags";
 import { request } from "@lib/request";
-import type { flagsConfig } from "@shared/config";
+import type { flagsConfig } from "@portfolio/shared/config";
 
 interface UseFlagsResult {
   flags: flagsConfig.Flags | null;

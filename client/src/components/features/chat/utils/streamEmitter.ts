@@ -1,4 +1,4 @@
-import type { httpSchemas } from "@shared/schemas";
+import type { httpSchemas } from "@portfolio/shared/schemas";
 
 const CHANGE = "change";
 

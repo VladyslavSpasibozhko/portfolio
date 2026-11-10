@@ -1,0 +1,38 @@
+{
+  "name": "@portfolio/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./config": {
+      "types": "./config/index.ts",
+      "default": "./dist/config/index.js"
+    },
+    "./errors": {
+      "types": "./errors/index.ts",
+      "default": "./dist/errors/index.js"
+    },
+    "./schemas": {
+      "types": "./schemas/index.ts",
+      "default": "./dist/schemas/index.js"
+    },
+    "./types": {
+      "types": "./types/index.ts",
+      "default": "./dist/types/index.js"
+    },
+    "./utils": {
+      "types": "./utils/index.ts",
+      "default": "./dist/utils/index.js"
+    },
+    "./data/*": "./data/*"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc -w -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "zod": "^4.6.7"
+  }
+}

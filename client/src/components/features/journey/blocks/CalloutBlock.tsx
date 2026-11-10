@@ -1,4 +1,4 @@
-import type { journeyTypes } from "@shared/types";
+import type { journeyTypes } from "@portfolio/shared/types";
 import { BorderedContainer } from "@components/atoms/BorderedContainer";
 import { Typography } from "@components/atoms/Typography";
 import { Link } from "@components/atoms/Link";

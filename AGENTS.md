@@ -4,24 +4,34 @@ Reference notes for agents working in this repo.
 
 ## Repo layout
 
-- `index.ts` — Fastify server entry: registers plugins (CORS, rate limit, multipart) and routes.
-- `src/` — server code: `config/`, `lib/`, `services/`, `storage/`, `routes/`, `plugins/`.
-- `shared/` — code and content used by both the server and the client (see Shared).
-- `client/` — Vite + React + Tailwind v4 app.
+An npm workspace with three packages:
+
+- `shared/` (`@portfolio/shared`) — code and content used by both the server and the client (see Shared).
+- `server/` (`@portfolio/server`) — Fastify server. `index.ts` is the entry: registers plugins (CORS, rate limit, multipart) and routes. `src/` holds `config/`, `lib/`, `services/`, `storage/`, `routes/`, `plugins/`.
+- `client/` (`@portfolio/client`) — Vite + React + Tailwind v4 app.
+
+Package dependencies go one way: server and client may import shared; shared imports neither; server and client never import each other. ESLint enforces this in every package, both for the package name and for relative paths that climb into another package.
+
+### Configs
+
+- Each package (`shared/`, `server/`, `client/`) has its own standalone `tsconfig.json` with the full set of compiler options; there is no root tsconfig.
+- Each package has its own self-contained `eslint.config.js` (no shared ESLint base): base rules, its layer rules (boundaries), and the rules that block imports of other workspace packages.
+- Tools common to all packages (TypeScript, ESLint and its plugins, `@types/node`) are root dev dependencies. A package lists only what it uses alone.
+- One lockfile, at the root. Always run `npm install` from the root; use `-w <package>` to add a dependency to one package.
 
 ## Commands
 
-Server (repo root):
+Root (runs in every package):
 
-- `npm run dev` — run the server with `tsx watch`.
-- `npm run typecheck` / `npm run build` / `npm start`.
-- `npm test` — runs `src/**/*.test.ts` with the Node test runner.
-- `npm run lint` — ESLint (flat config in `eslint.config.js`; `client/` is ignored).
+- `npm run typecheck` / `npm run lint` / `npm test`.
+- `npm run build` — builds shared, then server, then client.
+- `npm run dev:server` / `npm run dev:client` / `npm start`.
 
-Client (`client/`):
+Inside a package (or from the root with `-w @portfolio/<name>`):
 
-- `npm run dev` / `npm run build` / `npm run preview` / `npm run typecheck`.
-- `npm run lint` — ESLint with typescript-eslint, react-hooks, react-refresh (`client/eslint.config.js`).
+- shared: `build` (emits `dist/` for the compiled server), `typecheck`, `lint`.
+- server: `dev` (`tsx watch`), `build`, `start`, `test` (`src/**/*.test.ts` with the Node test runner), `typecheck`, `lint`.
+- client: `dev`, `build`, `preview`, `typecheck`, `lint` (adds react-hooks and react-refresh rules).
 
 Run `typecheck` and `lint` in the affected package(s) after changes.
 
@@ -31,19 +41,21 @@ Commit messages follow Conventional Commits (`type(scope): description`), matchi
 
 ## Environment
 
-- Server env lives in `.env` at the root (see `.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Read them only through `config` in `src/config/index.ts` (enforced by ESLint); each getter throws when its var is missing. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
+- Server env lives in `server/.env` (see `server/.env.example`): `ANTHROPIC_API_KEY`, `ANTHROPIC_MODEL`, `PORT`, `CLIENT_ORIGIN`, `UPSTASH_REDIS_REST_URL`, `UPSTASH_REDIS_REST_TOKEN`. Read them only through `config` in `server/src/config/index.ts` (enforced by ESLint); each getter throws when its var is missing. Dev and prod use separate Upstash databases: dev values in local `.env`, prod values in the host's env settings (never committed).
 - Client env lives in `client/.env` (Vite's default `envDir`) and is exposed only through `client/src/config.ts`.
 
 ## Shared (`shared/`)
 
-Code and content used by both the server and the client. Each folder has an `index.ts` barrel that re-exports its files as namespaces (e.g. `httpSchemas`, `commonUtils`). Import a folder only through its index (enforced by ESLint on the server): the server uses a relative path to `shared/<folder>/index.js`, the client uses the `@shared/<folder>` alias.
+Code and content used by both the server and the client. Each folder has an `index.ts` barrel that re-exports its files as namespaces (e.g. `httpSchemas`, `commonUtils`). Server and client import a folder as `@portfolio/shared/<folder>`. The package `exports` map lists only the folder indexes (plus `data/*`), so deep imports don't resolve. Inside `shared/`, folders import each other only through their index (enforced by ESLint). A new folder needs a new entry in `shared/package.json` `exports`.
+
+Each `exports` entry has a `types` condition pointing at the TS file (used by typecheck) and a `default` pointing at `dist/`. At runtime the server, its tests and Vite all read `dist/`, so build shared first (`npm run build -w @portfolio/shared`), and rebuild it after changes or keep `npm run dev -w @portfolio/shared` (`tsc --watch`) running alongside.
 
 - `schemas/` — zod schemas and the types inferred from them: chat message, session, and the transport/wire envelope (success/error/stream responses).
 - `types/` — plain TS types with no schema: the page content (journey) types.
 - `utils/` — pure factories: chat messages per role, and the transport envelopes, so server and client build one shape without duplicating it.
 - `errors/` — error codes and user-facing error messages.
 - `config/` — feature flags.
-- `data/` — content (see below). The client imports it via the `@data` alias, and only pages may use it.
+- `data/` — content (see below), exported as `@portfolio/shared/data/*`. On the client only pages may use it.
 
 Code here is pure: no framework, no vendor SDK besides the schema library, no I/O, no hidden env/time/random reads. Add something only when both the server and the client need it.
 
@@ -60,19 +72,20 @@ Rules:
 
 - Keep the split: rendered content goes in `journey.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
 - A factual change (a new role, a corrected date) starts in `profile.md`, then must be carried into `journey.json`'s derived content — the two can differ in wording and structure, but never in meaning.
-- `shared/data/` is also Vite's `publicDir`, so everything in it is shipped publicly with the client build — `profile.md` included. Never put secrets or private info there.
-- The server build copies it to `dist/shared/data/` so the compiled server finds `profile.md` at the same relative path.
+- The client bundles `journey.json` through its import; nothing in `shared/data/` is served as a public file.
+- The server finds `profile.md` by resolving it through the shared package (not a relative path), so the same lookup works in dev and in the compiled server.
 
-## Libs (`src/lib/`)
+## Libs (`server/src/lib/`)
 
 A layer of adapters and utility sets, each scoped to one specific area. Responsibility of each lib is one line — the adapter wraps one external SDK/library and exposes its own contract:
 
 - `ai` lib — adapter for the AI provider's SDK, used to generate responses.
 - `validation` lib — adapter for the schema-validation library, used to validate input against a schema.
+- `http` lib — HTTP error response factories and `ERROR_STATUSES`, shared by routes and the error handler plugin. It wraps no vendor; it's a utility set.
 
 See the `lib-creation-server` skill for the rules on adding or changing a lib (contract boundaries, typing, testing).
 
-## Services (`src/services/`)
+## Services (`server/src/services/`)
 
 An additional layer built on top of libs. Services act as a facade, hiding business logic behind a simple interface. Each service is named after the capability it owns, not an implementation detail:
 
@@ -83,27 +96,28 @@ A service is either a single file (`services/session.ts`) or a folder (`services
 
 See the `service-creation-server` skill for the rules on adding or changing a service (what it may depend on, naming, typing).
 
-## Storage (`src/storage/`)
+## Storage (`server/src/storage/`)
 
 Persistence, kept behind a plain function interface so the backing store can change without touching callers.
 
 - Can use: libs, `shared/`.
 - Can't use: services, routes.
-- Used only by the session service — routes and other services never import from `src/storage/` directly.
+- Used only by the session service — routes and other services never import from `server/src/storage/` directly.
 - Current responsibility: session storage — stores each session as a Redis JSON document (`chat:<id>`) with a TTL.
 
-## Routes (`src/routes/`)
+## Routes (`server/src/routes/`)
 
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
 - Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
-- Shared error response factories (`badRequest`, `chatNotFound`, `serverError`) live in `src/routes/factories/errors.ts`. Routes import from there instead of defining their own.
+- Shared error response factories (`badRequest`, `chatNotFound`, `payloadTooLarge`, `tooManyRequests`, `serverError`) and `ERROR_STATUSES` live in the `http` lib (`server/src/lib/http/`). Routes and the error handler plugin import from there instead of defining their own; routes send them with `return reply.status(status).send(...)`.
+- Routes don't catch unexpected errors. They let them propagate to the global error handler (`server/src/plugins/errorHandler.ts`), which logs the error and sends the 5xx response. On success, a route just returns the data.
 
 See the `route-creation-server` skill for the rules on adding or changing a route (validation, thin-controller boundary, transport envelopes).
 
-## Plugins (`src/plugins/`)
+## Plugins (`server/src/plugins/`)
 
-Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it.
+Thin wrappers that register Fastify plugins with project config (CORS, rate limiting, global error handler). Each plugin module exposes one registration function called from `index.ts`. The error handler is registered first, so every route inherits it. It maps the error's status code to an error code and message (`ERRORS_BY_STATUS`). Any status not in the map becomes a 500.
 
 ## Client (`client/`)
 

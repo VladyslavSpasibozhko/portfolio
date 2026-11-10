@@ -1,5 +1,5 @@
 import { storage } from "../lib/storage/index.js";
-import type { commonSchemas } from "../../shared/schemas/index.js";
+import type { commonSchemas } from "@portfolio/shared/schemas";
 
 const key = (id: string) => `chat:${id}`;
 

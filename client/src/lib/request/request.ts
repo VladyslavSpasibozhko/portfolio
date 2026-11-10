@@ -1,7 +1,7 @@
 import { config } from "@config";
-import { codes, messages } from "@shared/errors";
-import { httpSchemas } from "@shared/schemas";
-import { httpUtils } from "@shared/utils";
+import { codes, messages } from "@portfolio/shared/errors";
+import { httpSchemas } from "@portfolio/shared/schemas";
+import { httpUtils } from "@portfolio/shared/utils";
 import type { FetchConfig, FetchResult, FetchBody, Method } from "./types";
 
 function buildQuery(query: FetchConfig["query"] | null) {
@@ -49,9 +49,11 @@ export async function request<T, B extends FetchBody = FetchBody>(request: Fetch
     const data = await res.json();
     const isValid = httpSchemas.ResponseSchema.validate(data);
 
-    if(isValid) return data as FetchResult<T>;
+    if (isValid) return data as FetchResult<T>;
     throw Error();
-  } catch {
+  } catch (e) {
+    console.error(e);
+
     return httpUtils.createErrorResponse(
       httpUtils.createErrorDetails(
         codes.ERROR_CODES.NETWORK_ERROR,

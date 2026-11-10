@@ -1,3 +1,4 @@
+import path from "node:path";
 import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
@@ -5,38 +6,54 @@ import boundaries from "eslint-plugin-boundaries";
 import importX from "eslint-plugin-import-x";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 
+const FILES = ["**/*.ts"];
+const repoRoot = path.resolve(import.meta.dirname, "..");
+const tsconfig = path.resolve(import.meta.dirname, "tsconfig.json");
+
+// Boundaries policy: elements of type `from` may import elements of the `to` types.
 const allow = (from, to) => ({
   from: { element: { type: from } },
   allow: { to: { element: { types: { anyOf: to } } } },
 });
 
-export default tseslint.config(
-  { ignores: ["dist", "node_modules", "client"] },
+// Workspace package rules: blocked packages can't be imported by name or by a relative
+// path that climbs into their folder; allowed packages are imported only by name.
+const PACKAGE_IMPORT_PATTERNS = [
   {
-    files: ["**/*.ts"],
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
-    languageOptions: {
-      ecmaVersion: 2022,
-      globals: globals.node,
-    },
+    regex: "^(@portfolio/client(/|$)|(\\.\\./)+client(/|$))",
+    message: "This package can't import from the client package.",
   },
   {
-    files: ["**/*.ts"],
+    regex: "^(\\.\\./)+shared(/|$)",
+    message: "Import the shared package by name (@portfolio/shared/...), not by a relative path.",
+  },
+];
+
+export default tseslint.config(
+  { ignores: ["dist", "node_modules"] },
+  {
+    files: FILES,
+    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+  },
+  {
+    files: FILES,
+    languageOptions: { ecmaVersion: 2022, globals: globals.node },
     plugins: { boundaries, "import-x": importX },
     settings: {
-      "import/resolver": { typescript: { project: "./tsconfig.json" } },
+      // Both resolvers are needed: boundaries reads `import/resolver`, import-x reads
+      // `import-x/resolver-next`. Without `import/resolver` the boundaries rules silently pass.
+      "import/resolver": { typescript: { project: tsconfig } },
       "import-x/extensions": [".ts"],
-      "import-x/resolver-next": [
-        createTypeScriptImportResolver({ project: "./tsconfig.json" }),
-      ],
+      "import-x/resolver-next": [createTypeScriptImportResolver({ project: tsconfig })],
+      "boundaries/root-path": repoRoot,
       "boundaries/elements": [
-        { type: "routes", pattern: "src/routes", partialMatch: false },
-        { type: "plugins", pattern: "src/plugins", partialMatch: false },
-        { type: "services", pattern: "src/services/*", partialMatch: false, capture: ["folder"] },
-        { type: "services", pattern: "src/services", partialMatch: false },
-        { type: "storage", pattern: "src/storage", partialMatch: false },
-        { type: "lib", pattern: "src/lib/*", partialMatch: false },
-        { type: "config", pattern: "src/config", partialMatch: false },
+        { type: "routes", pattern: "server/src/routes", partialMatch: false },
+        { type: "plugins", pattern: "server/src/plugins", partialMatch: false },
+        { type: "services", pattern: "server/src/services/*", partialMatch: false, capture: ["folder"] },
+        { type: "services", pattern: "server/src/services", partialMatch: false },
+        { type: "storage", pattern: "server/src/storage", partialMatch: false },
+        { type: "lib", pattern: "server/src/lib/*", partialMatch: false },
+        { type: "config", pattern: "server/src/config", partialMatch: false },
         { type: "shared", pattern: "shared/*", partialMatch: false },
       ],
     },
@@ -52,7 +69,6 @@ export default tseslint.config(
             allow("storage", ["lib", "shared"]),
             allow("config", ["shared"]),
             allow("lib", ["config", "shared"]),
-            allow("shared", ["shared"]),
             {
               disallow: {
                 to: { element: { type: "lib", fileInternalPath: "!index.ts" } },
@@ -65,12 +81,6 @@ export default tseslint.config(
               },
               message: "Import a folder service only through its index file.",
             },
-            {
-              disallow: {
-                to: { element: { type: "shared", fileInternalPath: "!index.ts" } },
-              },
-              message: "Import from shared only through its index file.",
-            },
           ],
         },
       ],
@@ -78,7 +88,7 @@ export default tseslint.config(
     },
   },
   {
-    files: ["**/*.ts"],
+    files: FILES,
     ignores: ["src/config/**"],
     rules: {
       "no-restricted-properties": [
@@ -89,6 +99,12 @@ export default tseslint.config(
           message: "Read process.env only in src/config/.",
         },
       ],
+    },
+  },
+  {
+    files: FILES,
+    rules: {
+      "no-restricted-imports": ["error", { patterns: PACKAGE_IMPORT_PATTERNS }],
     },
   },
 );

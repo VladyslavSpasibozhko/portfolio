@@ -13,6 +13,8 @@
     "dev:server": "npm run dev -w @portfolio/server",
     "dev:client": "npm run dev -w @portfolio/client",
     "build": "npm run build -w @portfolio/shared && npm run build -w @portfolio/server && npm run build -w @portfolio/client",
+    "build:server": "npm run build -w @portfolio/shared && npm run build -w @portfolio/server",
+    "build:client": "npm run build -w @portfolio/shared && npm run build -w @portfolio/client",
     "start": "npm start -w @portfolio/server",
     "test": "npm test --workspaces --if-present",
     "typecheck": "npm run typecheck --workspaces",

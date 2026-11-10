@@ -14,7 +14,7 @@ Package dependencies go one way: server and client may import shared; shared imp
 
 ### Configs
 
-- `tsconfig.base.json` (root) — compiler options common to all packages. Each package's `tsconfig.json` extends it and adds only what differs (output dir, client's DOM libs/JSX/bundler resolution and path aliases).
+- Each package (`shared/`, `server/`, `client/`) has its own standalone `tsconfig.json` with the full set of compiler options; there is no root tsconfig.
 - Each package has its own self-contained `eslint.config.js` (no shared ESLint base): base rules, its layer rules (boundaries), and the rules that block imports of other workspace packages.
 - Tools common to all packages (TypeScript, ESLint and its plugins, `@types/node`) are root dev dependencies. A package lists only what it uses alone.
 - One lockfile, at the root. Always run `npm install` from the root; use `-w <package>` to add a dependency to one package.

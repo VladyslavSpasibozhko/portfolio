@@ -15,7 +15,6 @@ An npm workspace with three packages. Server and client may import `shared`; `sh
 ```
 .
 ├── package.json        # workspace root: scripts that run in every package
-├── tsconfig.base.json  # compiler options shared by all packages
 ├── shared/             # @portfolio/shared
 │   ├── schemas/ types/ utils/ errors/ config/
 │   └── data/           # journey.json (page content), profile.md (AI context)

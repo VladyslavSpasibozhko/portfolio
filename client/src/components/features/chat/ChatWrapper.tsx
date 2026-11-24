@@ -10,12 +10,8 @@ export function ChatWrapper() {
   const [isOpen, setIsOpen] = useState(false);
   const { loading, error, flags } = useFlags();
 
-  if (loading || error) {
+  if (loading || error || !flags || !flags.chatEnabled) {
     return null;
-  }
-
-  if (!flags?.chatEnabled) {
-    return
   }
 
   return (
@@ -31,7 +27,11 @@ export function ChatWrapper() {
             aria-hidden="true"
             className="absolute inset-y-0 -left-1/2 -z-10 w-1/2 -skew-x-12 bg-linear-to-r from-transparent via-accent-cyan/25 to-transparent animate-badge-sheen"
           />
-          <Icon name="ai-chat" size="3xl" className="animate-pulse w-24! h-24! md:w-32! md:h-32! xl:w-44! xl:h-44!" />
+          <Icon
+            name="ai-chat"
+            size="3xl"
+            className="animate-pulse w-24! h-24! md:w-32! md:h-32! xl:w-44! xl:h-44!"
+          />
 
           <Typography
             tag="span"
@@ -45,9 +45,7 @@ export function ChatWrapper() {
       {isOpen && (
         <div className="fixed z-50 inset-0 sm:inset-auto sm:bottom-24 sm:right-24 w-full h-dvh sm:w-[420px] md:w-[440px] sm:h-[min(700px,calc(100dvh-48px))]">
           <ChatWindowProvider>
-            <ChatWindow
-              closeWindow={() => setIsOpen(false)}
-            />
+            <ChatWindow closeWindow={() => setIsOpen(false)} />
           </ChatWindowProvider>
         </div>
       )}

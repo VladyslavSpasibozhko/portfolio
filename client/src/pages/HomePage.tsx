@@ -1,13 +1,13 @@
 import type { homeTypes } from "@portfolio/shared/types";
 import homeData from "@portfolio/shared/data/home.json";
-import { Typography } from "@components-redesign/atoms/Typography";
-import { Link } from "@components-redesign/atoms/Link";
+import { Typography } from "@components/atoms/Typography";
+import { Link } from "@components/atoms/Link";
 import {
   ExperienceSection,
   Section,
   StackSection,
-} from "@components-redesign/features/sections";
-import { Chat } from "@components-redesign/features/chat";
+} from "@components/features/sections";
+import { Chat } from "@components/features/chat";
 import { useFlags } from "@hooks/useFlags";
 
 const content = homeData as homeTypes.HomeData;

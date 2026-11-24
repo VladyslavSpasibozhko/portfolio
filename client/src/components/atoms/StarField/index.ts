@@ -1,1 +1,0 @@
-export { StarField } from './StarField';

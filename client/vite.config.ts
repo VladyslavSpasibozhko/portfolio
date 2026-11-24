@@ -12,6 +12,7 @@ export default defineConfig({
       '@api': path.resolve(__dirname, './src/api'),
       '@lib': path.resolve(__dirname, './src/lib'),
       '@components': path.resolve(__dirname, './src/components'),
+      '@components-redesign': path.resolve(__dirname, './src/components-redesign'),
       '@hooks': path.resolve(__dirname, './src/hooks'),
       '@utils': path.resolve(__dirname, './src/utils'),
       '@config': path.resolve(__dirname, './src/config.ts'),

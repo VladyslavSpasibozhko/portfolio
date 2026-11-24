@@ -74,6 +74,16 @@ export default tseslint.config(
           partialMatch: false,
         },
         {
+          type: "features",
+          pattern: "client/src/components-redesign/features/*",
+          partialMatch: false,
+        },
+        {
+          type: "atoms",
+          pattern: "client/src/components-redesign/atoms",
+          partialMatch: false,
+        },
+        {
           type: "molecules",
           pattern: "client/src/components/molecules",
           partialMatch: false,

@@ -1,0 +1,62 @@
+{
+  "hero": {
+    "eyebrow": "Senior Frontend Engineer · Poland · Remote",
+    "name": "Vlad Spasibozhko",
+    "tagline": "7+ years building production frontends, from fintech and healthcare to large workforce platforms."
+  },
+  "experience": {
+    "id": "experience",
+    "title": "Experience",
+    "items": [
+      {
+        "period": "2024 – 2026",
+        "role": "Senior Frontend Engineer",
+        "company": "WorkJam",
+        "description": "Frontline workforce platform for about 3 million users: scheduling, tasks, communication and compliance."
+      },
+      {
+        "period": "2021 – 2024",
+        "role": "Frontend Engineer",
+        "company": "REMED",
+        "description": "Healthcare CRM for doctors and clinics, integrated with Ukraine's national eHealth system."
+      },
+      {
+        "period": "2020 – 2021",
+        "role": "Frontend Engineer",
+        "company": "DataMix",
+        "description": "Software outsourcing company. Worked on TeQatlas, an investment platform, and Lightmap, a social network."
+      },
+      {
+        "period": "2019 – 2020",
+        "role": "Frontend Developer",
+        "company": "Capital Holding",
+        "description": "Live sports betting platform, where I learned how a real application is built."
+      }
+    ]
+  },
+  "stack": {
+    "id": "stack",
+    "title": "Stack",
+    "groups": [
+      { "label": "Languages", "items": ["JavaScript", "TypeScript"] },
+      { "label": "UI", "items": ["React", "Next.js", "Angular"] },
+      { "label": "State & data", "items": ["Redux", "Redux Saga", "MobX", "Zustand"] },
+      { "label": "APIs & real-time", "items": ["GraphQL", "REST", "WebSockets", "SSE"] },
+      { "label": "Architecture & tooling", "items": ["Micro-frontends (Module Federation)", "Monorepos (Nx, Lerna)"] },
+      { "label": "Backend", "items": ["Node.js (Nest.js, Fastify)"] },
+      { "label": "Databases", "items": ["PostgreSQL", "MongoDB", "Firebase", "Redis"] },
+      { "label": "AI", "items": ["Claude SDK", "Gemini", "AI streaming"] },
+      { "label": "Testing", "items": ["Jest", "Cypress", "Playwright", "React Testing Library"] },
+      { "label": "Monitoring", "items": ["Sentry"] }
+    ]
+  },
+  "chat": {
+    "id": "ask",
+    "title": "Ask me anything"
+  },
+  "contacts": [
+    { "label": "Email", "href": "mailto:vladspasibozhko@gmail.com" },
+    { "label": "LinkedIn", "href": "https://linkedin.com/in/vladspasibozhko" },
+    { "label": "GitHub", "href": "https://github.com/VladyslavSpasibozhko" }
+  ]
+}

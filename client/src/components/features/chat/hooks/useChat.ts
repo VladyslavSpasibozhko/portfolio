@@ -26,6 +26,7 @@ function parseFrame(frame: string): httpSchemas.StreamResponse | null {
   }
 }
 
+// TODO: if the stream closes early (for example, the server crashes or a proxy times out) and no done or error event arrives
 export function useChat({ onMessage }: UseChatCallbacks): UseChatResult {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

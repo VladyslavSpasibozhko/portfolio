@@ -29,8 +29,6 @@
   "chat.loading.searching": "Searching...",
   "chat.loading.fetching": "Fetching...",
   "link.opens_new_tab": "(opens in a new tab)",
-  "journey.slide_label": "{title}, slide {current} of {max}",
-  "journey.diagram.two_way_link": "Two-way link",
   "chat.title": "AI Assistance",
   "chat.ask_ai": "Ask AI"
 }

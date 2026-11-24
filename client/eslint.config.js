@@ -1,4 +1,5 @@
 import path from "node:path";
+import { defineConfig } from "eslint/config";
 import js from "@eslint/js";
 import globals from "globals";
 import reactHooks from "eslint-plugin-react-hooks";
@@ -8,8 +9,9 @@ import boundaries from "eslint-plugin-boundaries";
 import importX from "eslint-plugin-import-x";
 import { createTypeScriptImportResolver } from "eslint-import-resolver-typescript";
 
-const repoRoot = path.resolve(import.meta.dirname, "..");
-const tsconfig = path.resolve(import.meta.dirname, "tsconfig.json");
+const packageRoot = import.meta.dirname;
+const repoRoot = path.resolve(packageRoot, "..");
+const tsconfig = path.resolve(packageRoot, "tsconfig.json");
 
 // Boundaries policy: elements of type `from` may import elements of the `to` types.
 const allow = (from, to) => ({
@@ -32,11 +34,12 @@ const PACKAGE_IMPORT_PATTERNS = [
 
 const FILES = ["**/*.{ts,tsx}"];
 
-export default tseslint.config(
+export default defineConfig(
   { ignores: ["dist", "node_modules"] },
   {
     files: FILES,
-    extends: [js.configs.recommended, ...tseslint.configs.recommended],
+    extends: [js.configs.recommended, tseslint.configs.recommended],
+    languageOptions: { parserOptions: { tsconfigRootDir: packageRoot } },
   },
   {
     files: FILES,

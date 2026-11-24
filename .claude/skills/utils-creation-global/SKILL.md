@@ -7,11 +7,11 @@ description: Use when adding or changing a helper in shared/utils/, shared betwe
 
 Helpers not tied to the server or the client specifically — shared by both.
 
-Existing examples: `commonUtils` (construct typed chat messages per role), `httpUtils` (build the success/error/stream response envelopes from the shared transport schemas, so server and client agree on one shape without duplicating it).
+Examples: `dateUtils` (format and compare ISO dates the same way on both sides), `moneyUtils` (convert between minor units and display amounts).
 
 ## Imports
 
-`shared/utils/index.ts` re-exports each file as a namespace (`export * as httpUtils from './http.js'`). Server and client import it as `@portfolio/shared/utils` (the package only exports folder indexes). Inside `shared/`, other folders import it through `../utils/index.js`. A new file must be added to the index under a `<name>Utils` namespace.
+`shared/utils/index.ts` re-exports each file as a namespace (`export * as dateUtils from './date.js'`). Server and client import it as `@portfolio/shared/utils` (the package only exports folder indexes). Inside `shared/`, other folders import it through `../utils/index.js`. A new file must be added to the index under a `<name>Utils` namespace.
 
 ## When code belongs here
 

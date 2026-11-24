@@ -17,6 +17,8 @@ interface UseChatMessagesResult {
   retrySendMessage: () => Promise<void>;
 }
 
+// TODO: split into two hooks for creating session and for sending messages. 
+// Handle a case when creating is failed and user try "Retry".
 export function useChatMessages(): UseChatMessagesResult {
   const [statusEmitter] = useState(() => new StatusEmitter("idle"));
   const [streamEmitter] = useState(() => new StreamEmitter());

@@ -7,16 +7,16 @@ description: Use when adding or changing a shared type, interface, or schema in 
 
 Everything typed and shared between the server and the client lives in `shared/`. There's no separate server-only or client-only shared types folder.
 
-- `shared/schemas/` — zod schemas plus the types inferred from them (`z.infer`). Use this for any shape that is validated at runtime: API request/response pairs, chat messages, sessions, the transport/wire envelope.
-- `shared/types/` — plain TS types with no runtime validation (e.g. the page content/journey types).
+- `shared/schemas/` — zod schemas plus the types inferred from them (`z.infer`). Use this for any shape that is validated at runtime: API request/response pairs, domain entities, the transport/wire envelope.
+- `shared/types/` — plain TS types with no runtime validation (e.g. static page content types).
 
 ## Imports
 
-Each folder has an `index.ts` barrel that re-exports every file as a namespace (`export * as httpSchemas from './http.js'`). Always import through the index:
+Each folder has an `index.ts` barrel that re-exports every file as a namespace (`export * as orderSchemas from './order.js'`). Always import through the index:
 
 - Server and client: `@portfolio/shared/<folder>` (the package only exports folder indexes; deep imports don't resolve).
 
-A new file must be added to its folder's `index.ts` under a `<name><Folder>` namespace (e.g. `sessionSchemas`, `journeyTypes`).
+A new file must be added to its folder's `index.ts` under a `<name><Folder>` namespace (e.g. `orderSchemas`, `productTypes`).
 
 ## When code belongs here
 
@@ -30,7 +30,7 @@ A type that's purely internal to one component/service and never crosses the bou
 - **Validated shape → schema first.** Write the zod schema in `shared/schemas/` and infer the type from it; don't hand-write a TS type that duplicates a schema.
 - **A route with no meaningful input skips a request schema entirely** — don't invent an empty one for consistency's sake.
 - **DRY — don't create new types/interfaces unilaterally.** Ask for approval first. Once approved, it's fine to add the new type.
-- **Presentation-only fields stay primitive.** A field like an icon name is kept as a plain string, not a union/enum, when the concrete set of allowed values is a concern of a different layer (e.g. the icon registry) rather than this type's own contract.
+- **Presentation-only fields stay primitive.** A field like an icon name is kept as a plain string, not a union/enum, when the concrete set of allowed values is a concern of a different layer (e.g. a UI icon registry) rather than this type's own contract.
 - **No framework or I/O** — `shared/` must run in both Node and the browser.
 
 ## Checklist

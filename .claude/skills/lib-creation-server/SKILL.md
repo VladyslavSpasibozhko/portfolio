@@ -1,6 +1,6 @@
 ---
 name: lib-creation-server
-description: Use when adding or changing a server-side lib adapter in server/src/lib/ (e.g. wrapping the AI provider SDK, a validation library, or any other external library/service). Trigger on "create a server lib", "add an adapter in server/src/lib", "wrap this SDK on the server", "where does this external library wrapper go on the backend".
+description: Use when adding or changing a server-side lib adapter in server/src/lib/ (e.g. wrapping a payment provider SDK, a mail service, or any other external library/service). Trigger on "create a server lib", "add an adapter in server/src/lib", "wrap this SDK on the server", "where does this external library wrapper go on the backend".
 ---
 
 # Server libs (`server/src/lib/`)
@@ -9,7 +9,7 @@ A lib is an adapter: one folder per external SDK/library, exposing the project's
 
 ## When code belongs here
 
-Code belongs in `server/src/lib/<name>/` when it wraps exactly one external SDK/library/service (e.g. `ai` lib wraps the AI provider SDK, `validation` lib wraps the schema library) — not when it's pure logic with no vendor dependency (that's `shared/utils/`, see `utils-creation-global`) and not when it's business logic/orchestration (that's `server/src/services/`).
+Code belongs in `server/src/lib/<name>/` when it wraps exactly one external SDK/library/service (e.g. a `payments` lib wraps a payment provider SDK, a `mail` lib wraps an email service) — not when it's pure logic with no vendor dependency (that's `shared/utils/`, see `utils-creation-global`) and not when it's business logic/orchestration (that's `server/src/services/`).
 
 ## Rules
 
@@ -18,12 +18,12 @@ Code belongs in `server/src/lib/<name>/` when it wraps exactly one external SDK/
 - **Strict typing at the boundary.** Inputs and outputs use the lib's own types. Never return a raw vendor instance:
   ```ts
   // prohibited
-  const zod = createZod();
-  return zod;
+  const client = new MailVendorClient(apiKey);
+  return client;
 
   // correct
-  const zod = createZod();
-  return { validate: zod.validate };
+  const client = new MailVendorClient(apiKey);
+  return { send: (to: string, text: string) => client.messages.create({ to, text }) };
   ```
 - **No cross-lib imports.** A lib can't use another lib. It depends only on the platform and the one external thing it wraps. If two libs need the same shape, duplicate it rather than importing across.
 - **No upward imports.** A lib never imports from `services/`, `storage/`, `routes/`, or `plugins/`.

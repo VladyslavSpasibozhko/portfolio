@@ -1,44 +1,15 @@
 @import "tailwindcss";
 
+/* Tokens come from redesign/design.tokens.json. Every Tailwind default is
+   reset first, so only these values generate utilities. */
 @theme {
-  --color-text-white: #f8fafc;
-  --color-text-danger: #ff5256;
-  --color-text-100: #f8fafc;
-  --color-text-200: #e2e8f0;
-  --color-text-300: #cbd5e1;
-  --color-text-400: #64748b;
-  --color-text-500: #475569;
-  --color-text-600: #334155;
-  --color-text-blue: #7ab6ff;
-  --color-text-sky: #a7e4ff;
+  --*: initial;
 
-  --color-background-white: #f8fafc;
-  --color-background-950: #040b1c;
-  --color-background-900: #0b152b;
-  --color-background-850: #0e1a31;
-  --color-background-800: #111e37;
-  --color-background-700: #172542;
-  --color-background-glass: rgba(8, 13, 22, 0.72);
-  --color-background-glassStrong: rgba(5, 8, 16, 0.88);
-  --color-background-error: #82181a;
+  --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
-  --color-border-white: #f8fafc;
-  --color-border-subtle: #172033;
-  --color-border-DEFAULT: #263247;
-  --color-border-strong: #3a4963;
-  --color-border-focus: #017db4;
-  --color-border-highlight: #015e87;
-
-  --color-accent-cyan: #22d3ee;
-  --color-accent-blue: #60a5fa;
-  --color-accent-violet: #8b5cf6;
-  --color-accent-green: #34d399;
-  --color-accent-sky: #0d95d1;
-
-  --font-sans: system-ui, sans-serif;
-
-  --spacing: 1px;
-
+  --text-2: 2px;
+  --text-4: 4px;
+  --text-6: 6px;
   --text-8: 8px;
   --text-10: 10px;
   --text-12: 12px;
@@ -66,59 +37,78 @@
   --text-56: 56px;
   --text-58: 58px;
   --text-60: 60px;
-  --text-62: 62px;
-  --text-64: 64px;
-  --text-66: 66px;
-  --text-68: 68px;
-  --text-70: 70px;
-  --text-72: 72px;
-  --text-74: 74px;
-  --text-76: 76px;
-  --text-78: 78px;
-  --text-80: 80px;
-  --text-82: 82px;
-  --text-84: 84px;
-  --text-86: 86px;
-  --text-88: 88px;
-  --text-90: 90px;
-  --text-92: 92px;
-  --text-94: 94px;
-  --text-96: 96px;
-  --text-98: 98px;
-  --text-100: 100px;
 
-  --breakpoint-sm: 640px;
-  --breakpoint-md: 768px;
-  --breakpoint-lg: 1024px;
-  --breakpoint-xl: 1280px;
-  --breakpoint-2xl: 1536px;
-  --breakpoint-3xl: 1920px;
+  --font-weight-light: 300;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
 
-  --font-weight-0: 0;
-  --font-weight-100: 100;
-  --font-weight-200: 200;
-  --font-weight-300: 300;
-  --font-weight-400: 400;
-  --font-weight-500: 500;
-  --font-weight-600: 600;
-  --font-weight-700: 700;
-  --font-weight-800: 800;
-  --font-weight-900: 900;
+  --breakpoint-phone: 480px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-laptop: 1024px;
+  --breakpoint-desktop: 1280px;
+
+  --spacing-4: 4px;
+  --spacing-8: 8px;
+  --spacing-12: 12px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-28: 28px;
+  --spacing-32: 32px;
+  --spacing-36: 36px;
+  --spacing-40: 40px;
+  --spacing-44: 44px;
+  --spacing-48: 48px;
+  --spacing-52: 52px;
+  --spacing-56: 56px;
+  --spacing-60: 60px;
+  --spacing-64: 64px;
+  --spacing-68: 68px;
+  --spacing-72: 72px;
+  --spacing-76: 76px;
+  --spacing-80: 80px;
+  --spacing-84: 84px;
+  --spacing-88: 88px;
+  --spacing-92: 92px;
+  --spacing-96: 96px;
 
   --border-width-1: 1px;
   --border-width-2: 2px;
   --border-width-3: 3px;
   --border-width-4: 4px;
   --border-width-5: 5px;
-  --border-width-6: 6px;
 
-  --shadow-sm: 0 0 2px;
-  --shadow-md: 0 0 4px;
-  --shadow-lg: 0 0 6px;
-  --shadow-xl: 0 0 24px;
+  --radius-2: 2px;
+  --radius-4: 4px;
+  --radius-6: 6px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-pill: 999px;
 
-  /* A 1px light edge along the top, like light catching a raised surface. */
-  --inset-shadow-highlight: inset 0 1px 0 rgb(255 255 255 / 0.06);
+  --color-border-default: #1e2633;
+  --color-border-strong: #2a3444;
+  --color-border-accent: #ffb547;
+
+  --color-text-primary: #e8ecf2;
+  --color-text-body: #c3cbd6;
+  --color-text-secondary: #aeb7c4;
+  --color-text-muted: #8c96a5;
+  --color-text-accent: #ffb547;
+  --color-text-onAccent: #0b0f17;
+  --color-text-error: #ffb4a8;
+
+  --color-bg-page: #0b0f17;
+  --color-bg-surface: #111724;
+  --color-bg-surfaceAlt: #0e1420;
+  --color-bg-input: #0b0f17;
+  --color-bg-userBubble: #23304a;
+  --color-bg-assistantBubble: #1a2230;
+  --color-bg-errorBubble: #2a1a1a;
+  --color-bg-accent: #ffb547;
 }
 
 *,
@@ -141,11 +131,8 @@ html {
 
 body {
   margin: 0;
-  background-color: var(--color-background-950);
-  font-family:
-    system-ui,
-    -apple-system,
-    sans-serif;
+  background-color: var(--color-bg-page);
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -342,4 +329,22 @@ body {
 
 @utility animate-line-sweep-y {
   animation: line-sweep-y 2s linear infinite;
+}
+
+/* Chat loading: three dots rise in turn. `--chat-dot-delay` staggers them. */
+@keyframes chat-dot {
+  0%,
+  60%,
+  100% {
+    opacity: 0.3;
+    translate: 0 0;
+  }
+  30% {
+    opacity: 1;
+    translate: 0 -4px;
+  }
+}
+
+@utility animate-chat-dot {
+  animation: chat-dot 1.2s ease-in-out var(--chat-dot-delay, 0ms) infinite;
 }

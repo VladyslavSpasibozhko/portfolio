@@ -1,11 +1,11 @@
 # portfolio
 
-Personal portfolio of Vladyslav Spasibozhko, Frontend Engineer — a single-page "journey" through the problems solved, systems built, and lessons learned, told as a sequence of data-driven slides over an animated star field. It also includes an AI assistant (Claude) that answers questions about the profile over WebSocket.
+Personal portfolio of Vladyslav Spasibozhko, Frontend Engineer — a single page with experience, stack and contacts. It also includes an AI assistant (Claude) that answers questions about the profile.
 
 ## Tech stack
 
-- **Client:** React 18, TypeScript, Vite 5, Tailwind CSS v4, `vite-plugin-svgr`, `react-markdown`
-- **Server:** Node.js, Fastify 5 (`@fastify/websocket`, `@fastify/cors`, `@fastify/rate-limit`), AJV, Anthropic SDK
+- **Client:** React 18, TypeScript, Vite 5, Tailwind CSS v4, `react-markdown`
+- **Server:** Node.js, Fastify 5 (`@fastify/cors`, `@fastify/rate-limit`, `@fastify/multipart`), zod, Upstash Redis, Anthropic SDK
 - **Shared:** TypeScript types and content in `shared/`
 
 ## Project structure
@@ -17,15 +17,14 @@ An npm workspace with three packages. Server and client may import `shared`; `sh
 ├── package.json        # workspace root: scripts that run in every package
 ├── shared/             # @portfolio/shared
 │   ├── schemas/ types/ utils/ errors/ config/
-│   └── data/           # journey.json (page content), profile.md (AI context)
+│   └── data/           # home.json (page content), profile.md (AI context)
 ├── server/             # @portfolio/server
 │   ├── index.ts        # Fastify server entry
 │   └── src/            # config, lib, services, storage, routes, plugins
 └── client/             # @portfolio/client
-    ├── static/backgrounds/   # optimized slide backgrounds (avif/webp × 3 sizes)
     └── src/
-        ├── components/       # atoms, molecules, features (journey, chat)
-        ├── pages/            # MainPage, LibraryPage
+        ├── components/       # atoms, features (chat, sections)
+        ├── pages/            # HomePage
         ├── hooks/ utils/ lib/ api/
         ├── config.ts         # client env vars
         └── index.css         # Tailwind @theme tokens and animations
@@ -63,15 +62,6 @@ Run from the root.
 | `npm run lint`       | Lint every package                                   |
 
 To run one package's script: `npm run <script> -w @portfolio/<shared|server|client>`.
-
-## Editing content
-
-There are two content files, one per consumer:
-
-- [shared/data/journey.json](shared/data/journey.json) renders the main page. Each section is a slide made of typed blocks (`text`, `cards`, `timeline`, `steps`, `branch`, …) described in [shared/types/journey.ts](shared/types/journey.ts).
-- [shared/data/profile.md](shared/data/profile.md) is prose read only by the AI assistant — it's loaded into the system prompt in [server/src/services/ai/prompts.ts](server/src/services/ai/prompts.ts).
-
-Neither file is a copy of the other, so there's nothing to keep in sync mechanically — but a factual change usually belongs in both.
 
 ## Docs
 

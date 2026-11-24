@@ -23,8 +23,7 @@
       "@lib/*": ["./src/lib/*"],
       "@hooks/*": ["./src/hooks/*"],
       "@utils/*": ["./src/utils/*"],
-      "@config": ["./src/config.ts"],
-      "@static/*": ["./static/*"]
+      "@config": ["./src/config.ts"]
     }
   },
   "include": ["src"],

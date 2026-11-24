@@ -51,7 +51,7 @@ Code and content used by both the server and the client. Each folder has an `ind
 Each `exports` entry has a `types` condition pointing at the TS file (used by typecheck) and a `default` pointing at `dist/`. At runtime the server, its tests and Vite all read `dist/`, so build shared first (`npm run build -w @portfolio/shared`), and rebuild it after changes or keep `npm run dev -w @portfolio/shared` (`tsc --watch`) running alongside.
 
 - `schemas/` — zod schemas and the types inferred from them: chat message, session, and the transport/wire envelope (success/error/stream responses).
-- `types/` — plain TS types with no schema: the page content (journey) types.
+- `types/` — plain TS types with no schema: the page content (home) types.
 - `utils/` — pure factories: chat messages per role, and the transport envelopes, so server and client build one shape without duplicating it.
 - `errors/` — error codes and user-facing error messages.
 - `config/` — feature flags.
@@ -66,13 +66,13 @@ See the `types-creation` and `utils-creation-global` skills for the rules on add
 Two files, each with one consumer:
 
 - `profile.md` — the source of truth: profile prose (background, work history, use cases, interview answer bank) loaded into the AI system prompt so the LLM has clear, readable context. Only the server reads it.
-- `journey.json` — the main page's slide content, derived from `profile.md` but reshaped for presentation (structured into slides/blocks, trimmed, reworded for a reader instead of an LLM). Only the client reads it.
+- `home.json` — the home page content (hero, experience, stack, chat section, contacts), derived from `profile.md` but reshaped for presentation (structured into sections, trimmed, reworded for a reader instead of an LLM). Only the client reads it.
 
 Rules:
 
-- Keep the split: rendered content goes in `journey.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
-- A factual change (a new role, a corrected date) starts in `profile.md`, then must be carried into `journey.json`'s derived content — the two can differ in wording and structure, but never in meaning.
-- The client bundles `journey.json` through its import; nothing in `shared/data/` is served as a public file.
+- Keep the split: rendered content goes in `home.json`, AI context goes in `profile.md`. There are no Markdown/JSON copies of either — don't reintroduce a mirror file that has to be synced by hand.
+- A factual change (a new role, a corrected date) starts in `profile.md`, then must be carried into `home.json`'s derived content — the two can differ in wording and structure, but never in meaning.
+- The client bundles `home.json` through its import; nothing in `shared/data/` is served as a public file.
 - The server finds `profile.md` by resolving it through the shared package (not a relative path), so the same lookup works in dev and in the compiled server.
 
 ## Libs (`server/src/lib/`)
@@ -80,7 +80,7 @@ Rules:
 A layer of adapters and utility sets, each scoped to one specific area. Responsibility of each lib is one line — the adapter wraps one external SDK/library and exposes its own contract:
 
 - `ai` lib — adapter for the AI provider's SDK, used to generate responses.
-- `validation` lib — adapter for the schema-validation library, used to validate input against a schema.
+- `storage` lib — adapter for the key-value store client, used to read, write and append to JSON documents with a TTL.
 - `http` lib — HTTP error response factories and `ERROR_STATUSES`, shared by routes and the error handler plugin. It wraps no vendor; it's a utility set.
 
 See the `lib-creation-server` skill for the rules on adding or changing a lib (contract boundaries, typing, testing).
@@ -103,13 +103,13 @@ Persistence, kept behind a plain function interface so the backing store can cha
 - Can use: libs, `shared/`.
 - Can't use: services, routes.
 - Used only by the session service — routes and other services never import from `server/src/storage/` directly.
-- Current responsibility: session storage — stores each session as a Redis JSON document (`chat:<id>`) with a TTL.
+- Current responsibility: session storage — stores each session as a JSON document (`chat:<id>`) with a TTL.
 
 ## Routes (`server/src/routes/`)
 
 Tied to the HTTP/WS framework being used (Fastify). A route accepts the incoming param, prepares it for a service, receives the output from the service, and sends it to the client.
 
-- Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE.
+- Current responsibilities: create a chat session, delete a chat session, fetch a session's messages, stream a chat reply over SSE, return the feature flags.
 - Shared error response factories (`badRequest`, `chatNotFound`, `payloadTooLarge`, `tooManyRequests`, `serverError`) and `ERROR_STATUSES` live in the `http` lib (`server/src/lib/http/`). Routes and the error handler plugin import from there instead of defining their own; routes send them with `return reply.status(status).send(...)`.
 - Routes don't catch unexpected errors. They let them propagate to the global error handler (`server/src/plugins/errorHandler.ts`), which logs the error and sends the 5xx response. On success, a route just returns the data.
 
@@ -123,56 +123,17 @@ Thin wrappers that register Fastify plugins with project config (CORS, rate limi
 
 ### App structure
 
-- Entry point composes the decorative background with the main page content.
-- Main page maps the content data (`shared/data/journey.json`) into a sequence of slide components.
-- A library/showcase page exists for visually checking atoms and molecules while developing; it isn't mounted in the app — swap it in locally when needed.
-
-See the `page-creation` skill for the rules on adding or changing a page.
+- Entry point renders the home page.
+- Home page composes the chat and the content sections (`features/chat/`, `features/sections/`).
 
 ### Components (`client/src/components/`)
 
+Two layers, imported one way only: atoms → features → pages (enforced by ESLint). There is no molecules layer.
+
 - `atoms/` — single, smallest components (button, typography, icon, etc.). Can't reuse other atoms.
-- `molecules/` — more complex components, built by composing atoms into a ready-to-use component.
 - `features/` — components tied to a specific feature. May include hooks and utils scoped to that feature. A feature gets its own `context/` folder when a hook's state needs to reach several components in that feature's tree without prop drilling.
 
 See the `component-creation` skill for the rules on choosing a layer and writing a component (props typing, sizing, styling, folder structure, a11y).
-
-### Journey feature (`features/journey/`)
-
-Renders the main page's slides from the content data:
-
-- A slide-shell component owns the per-section chrome (header, counter, landmark, anchor, background).
-- A slide component composes the shell with its copy and blocks.
-- Block rendering is a switch over block type, delegating to one component per block type.
-- A background registry maps a background name to its responsive image set.
-
-To add a new block type:
-
-1. Get approval for the new type (see Shared), then add it to the content schema's block union.
-2. Create the new block component and wire it into the block-type switch.
-3. Use it in `shared/data/journey.json`.
-
-### Icons
-
-- Icon SVGs are imported as React components via an SVG-to-component build step.
-- To add an icon: drop the `.svg` in the icon source folder and add it to the set of known icon names.
-- Icon names coming from data are strings — guard them with a type-narrowing check before rendering.
-
-### Static assets
-
-- `client/static/backgrounds/` — slide backgrounds, three sizes × two formats per image: `<name>-<mobile|tablet|laptop>.<avif|webp>`. `background` in `journey.json` holds `<name>`; a missing `-laptop.avif` file means no background is rendered.
-- The responsive breakpoints used for background art must mirror the CSS breakpoints — keep them in sync.
-- Don't commit original, uncompressed source images — only the optimized variants.
-- `client/src/assets/icons/` — favicon and apple-touch icon referenced from `client/index.html`.
-
-### Decorative canvas background
-
-A fixed, performance-sensitive canvas background (constellations, dust, nebulas, shooting stars). Keep these properties intact when editing:
-
-- Split by responsibility: seeding, per-frame drawing, cached sprites/layers, lifecycle/loop, tunables, and shared types each live in their own module.
-- Tunables belong in the constants module, not inline.
-- Static layers render once per resize into their own canvas; glow effects are pre-rasterized sprites, not per-frame shadow/gradient effects.
-- The loop is frame-capped, capped DPR, starts only after load + idle, stops when the tab is hidden, respects `prefers-reduced-motion`, and permanently falls back to a static frame on slow devices.
 
 ### Styling and accessibility
 
@@ -199,7 +160,6 @@ See the `utils-creation-client` skill for the rules on what belongs here.
 
 Reusable client-side functionality, each lib scoped to one concern (e.g. a transport, translations):
 
-- WebSocket lib — wraps the chat WebSocket connection.
 - Request lib — thin `fetch` adapter for JSON endpoints; returns the shared response envelope type, building its own error envelope only for transport-level failures (network error, bad JSON). Doesn't handle streaming.
 - SSE lib — generic `text/event-stream` client, not tied to any one endpoint's event shape; decodes/splits frames and hands each one to the caller. Parsing a frame's payload into a typed event is the caller's job, not this lib's.
 - i18n lib — UI translations. One JSON file per language in `languages/` (only `en` for now), registered in `languages/index.ts`. `loadTranslations(language)` returns a language's translations (default `en`); `translate(key, { params, language })` returns the text for a key (or the key itself when it's missing), with `{name}` placeholders replaced by `params` via `interpolate(template, params)`; placeholders without a matching param are left as-is. To add a language: add `<lang>.json` and register it in the `LANGUAGES` map.

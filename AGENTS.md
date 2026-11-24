@@ -123,34 +123,17 @@ Thin wrappers that register Fastify plugins with project config (CORS, rate limi
 
 ### App structure
 
-- Entry point composes the decorative background with the main page content.
-- Main page maps the content data (`shared/data/journey.json`) into a sequence of slide components.
-- A library/showcase page exists for visually checking atoms and molecules while developing; it isn't mounted in the app — swap it in locally when needed.
+- Entry point renders the home page.
+- Home page composes the chat and the content sections (`features/chat/`, `features/sections/`).
 
 See the `page-creation` skill for the rules on adding or changing a page.
 
 ### Components (`client/src/components/`)
 
 - `atoms/` — single, smallest components (button, typography, icon, etc.). Can't reuse other atoms.
-- `molecules/` — more complex components, built by composing atoms into a ready-to-use component.
 - `features/` — components tied to a specific feature. May include hooks and utils scoped to that feature. A feature gets its own `context/` folder when a hook's state needs to reach several components in that feature's tree without prop drilling.
 
 See the `component-creation` skill for the rules on choosing a layer and writing a component (props typing, sizing, styling, folder structure, a11y).
-
-### Journey feature (`features/journey/`)
-
-Renders the main page's slides from the content data:
-
-- A slide-shell component owns the per-section chrome (header, counter, landmark, anchor, background).
-- A slide component composes the shell with its copy and blocks.
-- Block rendering is a switch over block type, delegating to one component per block type.
-- A background registry maps a background name to its responsive image set.
-
-To add a new block type:
-
-1. Get approval for the new type (see Shared), then add it to the content schema's block union.
-2. Create the new block component and wire it into the block-type switch.
-3. Use it in `shared/data/journey.json`.
 
 ### Icons
 

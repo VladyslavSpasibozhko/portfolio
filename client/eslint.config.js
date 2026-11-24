@@ -77,11 +77,6 @@ export default defineConfig(
           partialMatch: false,
         },
         {
-          type: "molecules",
-          pattern: "client/src/components/molecules",
-          partialMatch: false,
-        },
-        {
           type: "atoms",
           pattern: "client/src/components/atoms/*",
           partialMatch: false,
@@ -110,14 +105,12 @@ export default defineConfig(
           policies: [
             allow("pages", [
               "features",
-              "molecules",
               "atoms",
               "hooks",
               "shared",
               "data",
             ]),
             allow("features", [
-              "molecules",
               "atoms",
               "hooks",
               "api",
@@ -125,7 +118,6 @@ export default defineConfig(
               "utils",
               "shared",
             ]),
-            allow("molecules", ["atoms", "hooks", "utils", "shared"]),
             allow("atoms", ["utils", "shared"]),
             allow("hooks", ["api", "lib", "utils", "shared"]),
             allow("api", ["lib", "shared"]),

@@ -1,13 +1,13 @@
 ---
 name: service-creation-server
-description: Use when adding or changing a server-side service in server/src/services/ (business logic/orchestration, e.g. the ai service, the session service). Trigger on "create a service", "add business logic on the server", "where does this orchestration go", "new service on the backend".
+description: Use when adding or changing a server-side service in server/src/services/ (business logic/orchestration, e.g. an orders service, a notifications service). Trigger on "create a service", "add business logic on the server", "where does this orchestration go", "new service on the backend".
 ---
 
 # Server services (`server/src/services/`)
 
 A service is a facade: it hides business logic behind a simple, typed interface. Built on top of libs and storage — never a layer that talks to HTTP or SQL/vendor APIs directly.
 
-Existing examples: the `ai` service (orchestrates response generation using the `ai` lib; stateless with respect to sessions), the `session` service (owns chat session lifecycle — create, read, update, remove — delegating persistence to the storage layer).
+Examples: an `orders` service (owns the order lifecycle — create, read, cancel — delegating persistence to the storage layer), a `notifications` service (sends a message through the `mail` lib).
 
 ## When code belongs here
 
@@ -15,7 +15,7 @@ Code belongs in `server/src/services/<capability>/` when it's business logic or 
 
 ## Naming
 
-Name a service after the **capability it owns** (`session`, `ai`), not an implementation detail (not `sessionMapService` or `inMemoryStore`).
+Name a service after the **capability it owns** (`orders`, `notifications`), not an implementation detail (not `orderMapService` or `inMemoryStore`).
 
 ## Rules
 

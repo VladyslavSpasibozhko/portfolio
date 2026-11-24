@@ -22,10 +22,6 @@ Text and spacing sizes are fixed in pixels, so neither scales when a user raises
 
 Spacing values are effectively unbounded, so an odd or fractional value compiles and renders without any warning. The "even numbers, steps of 2–4" convention exists only as a written rule — nothing catches a violation before review.
 
-## No Pipeline for Background Image Variants
-
-Slide background images exist only as manually produced variants, with no documented or repeatable process for generating them. Adding or re-cropping a background is a manual, unrepeatable task today.
-
 ## Single-File Atoms Can Import Each Other Unchecked
 
 Atoms written as one file directly in the atoms folder (not in their own subfolder) are treated by the boundary lint as one shared element. Their imports to other layers are checked, but one such atom importing another passes silently, so the "atoms can't reuse other atoms" rule isn't enforced for them. Atoms in their own folder are checked fully.
@@ -42,13 +38,11 @@ There's no way to pass files into the assistant's context — only the static pr
 
 ## ESLint Warnings Left
 
-`npm run lint` passes in both packages, but the client still has warnings: `react-hooks/exhaustive-deps` in `useChatMessages` and `useIntersectionObserver`, and `react-refresh/only-export-components` in `Icon.tsx` and `ChatWindowContext.tsx`.
+`npm run lint` passes with no errors, but the client still has `react-hooks/exhaustive-deps` warnings: effects that leave out some of their dependencies can run with stale values.
 
-## No Tests for the Session Service and Storage
+## No Tests for the Session Service, Storage and Storage Lib
 
-`src/services/session.ts` and `src/storage/sessions.ts` import the Redis singleton directly, so they can't be tested without module mocks. Only the Redis lib adapter (`src/lib/redis/`) has tests.
-
-**Open questions:** inject the `Storage` into the storage layer (e.g. a factory) so it can be faked in tests.
+The session service and the storage layer use a module-level store instance instead of an injected one, so they can't be tested without module mocks. The storage lib adapter has no tests either.
 
 ## HTTP Requests Can't Be Cancelled
 

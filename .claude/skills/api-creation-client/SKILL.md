@@ -7,7 +7,7 @@ description: Use when adding or changing an endpoint descriptor in client/src/ap
 
 Endpoint descriptors, one file per feature. Each function represents one endpoint and returns a config object for the matching lib to execute — it does not call `fetch`/`WebSocket` itself.
 
-Existing example: `client/src/api/chat.ts`.
+Example: an `orders.ts` file with `getOrder(id)` and `cancelOrder(id)`, each returning a request config.
 
 ## When code belongs here
 
@@ -17,10 +17,10 @@ Any time the client needs to call a new server route or WS/SSE stream, describe 
 
 - **One file per feature** — group related endpoints by the feature they serve, not by HTTP verb or by resource name alone.
 - **The api file never calls `fetch` itself.** It builds and returns a config object (URL, method, body, headers, etc. — whatever shape the target lib expects) and hands it to the matching `lib/`:
-  - JSON request/response endpoint → config consumed by the request lib.
-  - Streaming endpoint → config consumed by the SSE lib.
+  - JSON request/response endpoint → config consumed by a JSON request lib.
+  - Streaming endpoint → config consumed by a streaming lib.
 - Add a new lib (see `lib-creation-client`) only if the endpoint needs a transport mechanism that doesn't exist yet — don't duplicate transport logic inside the api file.
-- The response type returned to callers should be the shared transport envelope type (see `utils-creation-global`'s transport factories) so server and client agree on shape.
+- The response type returned to callers should be the shared transport envelope type (defined in `shared/schemas/`) so server and client agree on shape.
 
 ## Checklist
 

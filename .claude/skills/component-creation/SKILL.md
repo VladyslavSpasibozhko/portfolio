@@ -1,13 +1,13 @@
 ---
 name: component-creation
-description: Use when creating a new React component, or deciding whether something is an atom, molecule, or feature component. Covers where the file goes, what it may import, when to split into a folder, and the project's styling/sizing/accessibility conventions. Trigger on "create a component", "add a button/card/etc", "where does this component belong", "atom or molecule", "new feature component".
+description: Use when creating a new React component, or deciding whether something is an atom or a feature component. Covers where the file goes, what it may import, when to split into a folder, and the project's styling/sizing/accessibility conventions. Trigger on "create a component", "add a button/card/etc", "where does this component belong", "atom or feature", "new feature component".
 ---
 
 # Creating a component
 
-The client has three component layers (`client/src/components/`): `atoms/`, `molecules/`, `features/`. There is no generic `organisms/` folder in this repo — a feature's top-level components fill that role, scoped under `features/<feature>/`. Pages (if/when added) compose features.
+The client has two component layers (`client/src/components/`): `atoms/` and `features/`. There is no `molecules/` or `organisms/` folder — a feature's components fill that role, scoped under `features/<feature>/`. Pages (`client/src/pages/`) compose features.
 
-Import direction is one-way and must never be skipped or reversed: `atoms → molecules → features → pages`. An atom never imports a molecule; a molecule never imports a feature. Don't put business logic in an atom/molecule to dodge this — fix the direction instead.
+Import direction is one-way and must never be skipped or reversed: `atoms → features → pages`. An atom never imports a feature. Don't put business logic in an atom to dodge this — fix the direction instead.
 
 ## 1. Decide the layer
 
@@ -16,20 +16,17 @@ Ask in this order:
 1. **Is it the smallest indivisible UI piece** (button, typography, icon, input)? → `atoms/`.
    - Atoms can't reuse other atoms.
    - Atoms are purely presentational: data and callbacks arrive via props only. No hooks that fetch data, no services.
-2. **Is it a small, reusable composition of atoms with one clear purpose** (a labeled input, a search field)? → `molecules/`.
-   - May import atoms only. May not import features or call services directly.
-   - Still presentational: props in, render out.
-3. **Is it tied to one specific feature/section of the app**? → `features/<feature>/components/`.
-   - May use atoms, molecules, and hooks (including feature-scoped hooks — see the `hook-creation` skill).
+2. **Anything bigger** (a composition of atoms, or something tied to one feature/section of the app)? → `features/<feature>/`.
+   - May use atoms and hooks (including feature-scoped hooks — see the `hook-creation` skill).
    - May include its own `utils/` and `hooks/` scoped to that feature.
    - Needs a `context/` subfolder only when a hook's state must reach several components in that feature's tree without prop drilling — don't add context preemptively.
 
-If a component doesn't fit any of these (truly generic, feature-independent, but too complex for an atom) it's a molecule — don't invent a new top-level layer.
+If a component is generic but too complex for an atom, keep it in the feature that uses it — don't invent a new top-level layer.
 
 ## 2. Rules that apply at every layer
 
 - Give the component a separate named `Props` interface if it takes props — never an inline object type (CLAUDE.md Rule 11: small, consumer-specific interfaces; AGENTS.md Types rule).
-- Always use existing atoms instead of raw HTML elements: a `Button` atom instead of `<button>`, a `Typography` atom instead of `<span>/<p>/<h1>` etc.
+- Always use existing atoms instead of raw HTML elements (e.g. a button atom instead of `<button>`, a text atom instead of `<span>/<p>/<h1>`).
 - Keep components small and single-purpose (CLAUDE.md Rule 1/2). If you're reaching for a comment to explain a branch, decompose instead.
 - `size` props use the fixed scale `sm`, `md`, `xl`, `2xl`, `3xl` — never numeric or ad hoc names. Apply consistently.
 - A component that outgrows one file becomes a folder with an `index.ts` barrel exporting its public API. Files inside the folder import each other relatively; outside consumers import only through the barrel.
@@ -50,11 +47,11 @@ If a component doesn't fit any of these (truly generic, feature-independent, but
   - Border tokens — borders only.
   - Accent tokens — the exception: not tied to one property, reusable anywhere (text, background, border, shadow, etc.).
   - Shadows use size tokens for spread, colored via an accent token.
-- Layouts must be responsive across `sm` → `3xl` (`3xl` = 1920px, for wide desktops); follow the existing per-breakpoint spacing/type scales used by the journey slides.
+- Layouts must be responsive across `sm` → `3xl` (`3xl` = 1920px, for wide desktops).
 
 ## 4. Accessibility
 
-- Decorative elements (canvas background, slide backgrounds) are hidden from assistive tech (`aria-hidden`, `alt=""`).
+- Decorative elements (background images, purely visual effects) are hidden from assistive tech (`aria-hidden`, `alt=""`).
 - Each landmark section gets a unique `aria-label` and a focus target so hash navigation can move focus to it.
 - External `http` links open in a new tab with `rel="noreferrer"`; `mailto:` links don't.
 
